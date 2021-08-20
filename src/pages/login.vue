@@ -58,6 +58,7 @@
                 class="mr-4 submit"
                 v-bind="attrs"
                 v-on="on"
+                @click="gotohomepage()"
               >
                 <!-- :class="{'is-loading': isLoading}" -->
                 <!-- @click="loginSubmit" -->
@@ -115,6 +116,9 @@
       },
     },
     methods: {
+      gotohomepage () {
+        window.location.href = '/'
+      },
       // ...mapActions([
       //   'doLogin',
       // ]),

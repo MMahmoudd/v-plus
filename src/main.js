@@ -8,7 +8,6 @@ import './plugins/chartist'
 import './plugins/vee-validate'
 import vuetify from './plugins/vuetify'
 import mixins from './mixins/mixins'
-import VueTelInput from 'vue-tel-input'
 // import axios from 'axios'
 // Language Plugin
 import VueI18n from 'vue-i18n'
@@ -54,8 +53,6 @@ const i18n = new VueI18n({
 })
 Vue.use(require('vue-moment'))
 Vue.use(VueResource)
-Vue.use(VueTelInput)
-
 // Vue Mixins
 Vue.mixin({
   mixins: [mixins],
