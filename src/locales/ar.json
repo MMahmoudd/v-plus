@@ -1,0 +1,74 @@
+{
+  "login" : {
+    "userName": "أسم المستخدم",
+    "password": "كلمة المرور",
+    "login": "تسجيل دخول"
+  },
+  "sidbar": {
+    "statistics": "الإحصائيات",
+    "companies": "الشركات",
+    "CompaniesBranches": "فروع الشركات",
+    "CompaniesGroup": "مجموعة الشركات",
+    "CompaniesArea": "منطقة الشركات",
+    "CompaniesFloor": "طوابق الشركات",
+    "CompaniesRoom": "غرف الشركات"
+  },
+  "navbar": {
+    "welcome": "أهلا بك",
+    "selectLang": "اختر لغة",
+    "logout": "تسجيل خروج"
+  },
+  "actions": {
+    "actions": "الإجراءات",
+    "edit": "تعديل",
+    "noData": "لا يوجد بيانات",
+    "Add": "أضافة جديد",
+    "save": "حفظ التغييرات",
+    "add": "اضافة"
+  },
+  "companies": {
+    "companies&branches": "الشركات والفروع",
+    "companies": "الشركات",
+    "id": "رقم",
+    "arName": "الاسم العربى",
+    "enName": "الاسم الانجليزي",
+    "groupName": "أسم المجموعة",
+    "addCompanies": "اضافة شركة",
+    "editCompanies": "تعديل الشركة",
+    "chooseGroup": "اختر مجموعة"
+  },
+  "branches": {
+    "CompaniesBranches": "فروع الشركات",
+    "branchName": "اسم الفرع",
+    "branchAddress": "عنوان الفرع",
+    "areaName": "اسم المنطقة",
+    "addBranch": "اضافة فرع",
+    "editBranch": "تعديل الفرع"
+  },
+  "groups": {
+    "groupName": "اسم المجموعة",
+    "groupLogo": "شعار المجموعة",
+    "addGroup": "اضافة مجموعة",
+    "editGroup": "تعديل المجموعة"
+  },
+  "area": {
+    "areaName": "اسم المنطقة",
+    "companyName": "اسم الشركة",
+    "addArea": "اضافة منطقة",
+    "editArea": "تعديل المنطقة"
+  },
+  "floor": {
+    "floorName": "اسم الطابق",
+    "branchName": "اسم الفرع",
+    "addFloor": "اضافة طابق",
+    "editFloor": "تعديل الطابق"
+  },
+  "room": {
+    "roomName": "اسم الطابق",
+    "roomNumber": "رقم الغرفة",
+    "branchName": "اسم الفرع",
+    "floorName": "اسم الطابق",
+    "addRoom": "اضافة غرفة",
+    "editRoom": "تعديل الغرفة"
+  }
+}

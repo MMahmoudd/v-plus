@@ -1,0 +1,74 @@
+{
+  "login" : {
+    "userName": "User Name",
+    "password": "Password",
+    "login": "Login"
+  },
+  "sidbar": {
+    "statistics": "Statistics",
+    "companies": "Companies",
+    "CompaniesBranches": "Companies Branches",
+    "CompaniesGroup": "Companies Group",
+    "CompaniesArea": "Companies Area",
+    "CompaniesFloor": "Companies Floor",
+    "CompaniesRoom": "Companies Rooms"
+  },
+  "navbar": {
+    "welcome": "Welcome",
+    "selectLang": "Select Language",
+    "logout": "Logout"
+  },
+  "actions": {
+    "actions": "Actions",
+    "edit": "Edit",
+    "noData": "No Data",
+    "Add": "Add New",
+    "save": "Save Changs",
+    "add": "Add"
+  },
+  "companies": {
+    "companies&branches": "Companies and Branches",
+    "companies": "Companies",
+    "id": "ID",
+    "arName": "Arabic Name",
+    "enName": "English Name",
+    "groupName": "Group Name",
+    "addCompanies": "Add Company",
+    "editCompanies": "Edit Company",
+    "chooseGroup": "Choose Group"
+  },
+  "branches": {
+    "CompaniesBranches": "Companies Branches",
+    "branchName": "Branch Name",
+    "branchAddress": "Branch Address",
+    "areaName": "Area Name",
+    "addBranch": "Add Branch",
+    "editBranch": "Edit Branch"
+  },
+  "groups": {
+    "groupName": "Group Name",
+    "groupLogo": "Group Logo",
+    "addGroup": "add Group",
+    "editGroup": "edit Group"
+  },
+  "area": {
+    "areaName": "Area Name",
+    "companyName": "Company Name",
+    "addArea": "Add Area",
+    "editArea": "Edit Area"
+  },
+  "floor": {
+    "floorName": "Floor Name",
+    "branchName": "Branch Name",
+    "addFloor": "Add Floor",
+    "editFloor": "Edit Floor"
+  },
+  "room": {
+    "roomName": "Room Name",
+    "roomNumber": "Room Number",
+    "branchName": "Branch Name",
+    "floorName": "Floor Name",
+    "addRoom": "Add Room",
+    "editRoom": "Edit Room"
+  }
+}
