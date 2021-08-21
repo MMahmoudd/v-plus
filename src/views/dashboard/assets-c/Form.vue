@@ -137,7 +137,7 @@
         } else {
           this.newItem(
             {
-              groupId: this.data.groupId.id,
+              groupId: this.data.groupId,
               companyLogo: this.data.companyLogo,
               companyNameArabic: this.data.companyNameArabic,
               companyNameEnglish: this.data.companyNameEnglish,
@@ -146,8 +146,8 @@
         }
       },
       async newItem (data) {
-        // const item = await CompaniesService.updateAddCompany(data)
-        console.log('new Item item', data)
+        const item = await CompaniesService.updateAddCompany(data)
+        console.log('new Item item', item)
         // if (item.status === 200) {
         // this.successMessage = 'Successful'
         // this.successSnackbar = true
@@ -162,8 +162,8 @@
         this.loading = false
       },
       async updateContent (data) {
-        // const item = await CompaniesService.updateAddCompany(data)
-        console.log('update Content item', data)
+        const item = await CompaniesService.updateAddCompany(data)
+        console.log('update Content item', item)
         // if (item.status === 200) {
         //   this.successMessage = 'Successful'
         //   this.successSnackbar = true

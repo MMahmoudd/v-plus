@@ -161,6 +161,81 @@ const router = new Router({
           meta: { requiresAuth: true },
           beforeEnter: routerGuard,
         },
+        // Assets
+        {
+          name: 'Assets',
+          path: '/Assets',
+          component: () => import('@/views/dashboard/assets-c/Assets.vue'),
+          meta: { requiresAuth: true },
+          beforeEnter: routerGuard,
+        },
+        {
+          name: 'Assets Form',
+          path: '/assetsForm/:id?',
+          component: () => import('@/views/dashboard/assets-c/Form.vue'),
+          meta: { requiresAuth: true },
+          beforeEnter: routerGuard,
+        },
+        // Assets Type
+        {
+          name: 'Assets Type',
+          path: '/Assets-type',
+          component: () => import('@/views/dashboard/assets-type/AssetsType.vue'),
+          meta: { requiresAuth: true },
+          beforeEnter: routerGuard,
+        },
+        {
+          name: 'Assets Type Form',
+          path: '/assetsTypeForm/:id?',
+          component: () => import('@/views/dashboard/assets-type/Form.vue'),
+          meta: { requiresAuth: true },
+          beforeEnter: routerGuard,
+        },
+        // Assets Brand
+        {
+          name: 'Assets Brand',
+          path: '/Assets-brand',
+          component: () => import('@/views/dashboard/assets-brand/AssetsBrand.vue'),
+          meta: { requiresAuth: true },
+          beforeEnter: routerGuard,
+        },
+        {
+          name: 'Assets Brand Form',
+          path: '/assetsBrandForm/:id?',
+          component: () => import('@/views/dashboard/assets-brand/Form.vue'),
+          meta: { requiresAuth: true },
+          beforeEnter: routerGuard,
+        },
+        // Assets Category
+        {
+          name: 'Assets Category',
+          path: '/Assets-category',
+          component: () => import('@/views/dashboard/assets-category/AssetsCategory.vue'),
+          meta: { requiresAuth: true },
+          beforeEnter: routerGuard,
+        },
+        {
+          name: 'Assets Category Form',
+          path: '/assetsCategoryForm/:id?',
+          component: () => import('@/views/dashboard/assets-category/Form.vue'),
+          meta: { requiresAuth: true },
+          beforeEnter: routerGuard,
+        },
+        // Assets Model
+        {
+          name: 'Assets Model',
+          path: '/Assets-model',
+          component: () => import('@/views/dashboard/assets-model/AssetsModel.vue'),
+          meta: { requiresAuth: true },
+          beforeEnter: routerGuard,
+        },
+        {
+          name: 'Assets Model Form',
+          path: '/assetsModelForm/:id?',
+          component: () => import('@/views/dashboard/assets-model/Form.vue'),
+          meta: { requiresAuth: true },
+          beforeEnter: routerGuard,
+        },
 
       { path: '*', redirect: '/login' },
       ],

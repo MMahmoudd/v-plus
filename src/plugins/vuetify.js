@@ -1,4 +1,5 @@
 import Vue from 'vue'
+// import 'font-awesome/css/font-awesome.min.css'
 import Vuetify from 'vuetify/lib'
 import i18n from '@/i18n'
 import '@/sass/overrides.sass'
@@ -12,6 +13,9 @@ const theme = {
   info: '#00CAE3',
 }
 export default new Vuetify({
+  // icons: {
+  //   iconfont: 'fa4',
+  // },
   rtl: true,
   lang: {
     t: (key, ...params) => i18n.t(key, params),

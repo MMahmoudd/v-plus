@@ -1,7 +1,8 @@
 // import axios from 'axios'
 import Service from './Service'
 import { API_URL } from '../config'
-const resource = `${API_URL}/CompanyArea`
+
+const resource = `${API_URL}/Assets`
 // const token = localStorage.getItem('token')
 
 export default {
@@ -15,31 +16,32 @@ export default {
         })
     },
     fetchOneItem (id) {
-      return Service.get(`${resource}/GetById?AreaId=${id}`)
+      return Service.get(`${resource}/GetById?AssetId=${id}`)
       .then((response) => {
         if (response.status === 200) {
             return response.data
         }
     })
     },
-    getAreaByCompany (id) {
-      return Service.get(`${resource}/GetAreaByCompany?CompanyId=${id}`)
+    getLKPType () {
+      return Service.get(`${resource}/LKPType`)
       .then((response) => {
         if (response.status === 200) {
             return response.data
         }
     })
     },
-    getLKPArea () {
-      return Service.get(`${resource}/LKPArea`)
+    updateAssets (data) {
+      return Service.post(`${resource}/Update`, data)
       .then((response) => {
-        if (response.status === 200) {
-            return response.data
-        }
+          console.log(response)
+        // if (response.status === 200) {
+        //     return response.data
+        // }
     })
     },
-    updateAddArea (data) {
-      return Service.post(`${resource}/AddOrUpdate`, data)
+    addAssets (data) {
+      return Service.post(`${resource}/Add`, data)
       .then((response) => {
           console.log(response)
         // if (response.status === 200) {

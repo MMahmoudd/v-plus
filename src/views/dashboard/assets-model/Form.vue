@@ -6,7 +6,7 @@
   >
     <v-card class="py-5">
       <v-card-title>
-        {{ this.$route.params.id ? $t('companies.editCompanies') : $t('companies.addCompanies') }}
+        {{ this.$route.params.id ? $t('assetModel.editModel') : $t('assetModel.addModel') }}
       </v-card-title>
       <template>
         <v-form
@@ -20,20 +20,8 @@
                 md="6"
               >
                 <v-text-field
-                  v-model="data.companyNameArabic"
-                  :label="$t('companies.arName')"
-                  outlined
-                  required
-                />
-              </v-col>
-
-              <v-col
-                cols="12"
-                md="6"
-              >
-                <v-text-field
-                  v-model="data.companyNameEnglish"
-                  :label="$t('companies.enName')"
+                  v-model="data.assetModelName"
+                  :label="$t('assetModel.assetModelName')"
                   outlined
                   required
                 />
@@ -43,12 +31,12 @@
                 md="6"
               >
                 <v-select
-                  v-model="data.groupId"
-                  :items="LKPGroup"
+                  v-model="data.assetBrandId"
+                  :items="LKPBrand"
                   item-text="name"
                   item-value="id"
                   return-object
-                  :label="$t('companies.chooseGroup')"
+                  :label="$t('assetModel.chooseBrand')"
                   outlined
                 />
               </v-col>
@@ -92,22 +80,19 @@
 </template>
 <script>
   import { ServiceFactory } from '../../../services/ServiceFactory'
-  const CompaniesService = ServiceFactory.get('companies')
-  const CompanyGroupService = ServiceFactory.get('companyGroup')
+  const AssetsModelService = ServiceFactory.get('AssetsModel')
+  const AssetsBrandService = ServiceFactory.get('AssetsBrand')
   export default {
     name: 'Companies',
     data: (vm) => ({
       dataLoading: false,
       valid: false,
       data: {
-        companyId: 0,
-        groupId: 0,
-        groupName: '',
-        companyNameArabic: '',
-        companyNameEnglish: '',
-        companyLogo: '',
+        assetModelId: null,
+        assetBrandId: null,
+        assetModelName: '',
       },
-      LKPGroup: [],
+      LKPBrand: [],
       successSnackbar: false,
       errorSnackbar: false,
       timeout: 3000,
@@ -120,7 +105,7 @@
       if (this.$route.params.id) {
         this.fetchOneItem(this.$route.params.id)
       }
-      this.getLKPGroup()
+      this.getLKPBrand()
     },
     methods: {
       async  submitForm () {
@@ -128,25 +113,21 @@
         this.disabled = true
         if (this.$route.params.id) {
           this.updateContent({
-            companyId: this.data.companyId,
-            groupId: this.data.groupId,
-            companyLogo: this.data.companyLogo,
-            companyNameArabic: this.data.companyNameArabic,
-            companyNameEnglish: this.data.companyNameEnglish,
+            assetModelId: this.data.assetModelId,
+            assetModelName: this.data.assetModelName,
+            assetBrandId: this.data.assetBrandId,
           })
         } else {
           this.newItem(
             {
-              groupId: this.data.groupId.id,
-              companyLogo: this.data.companyLogo,
-              companyNameArabic: this.data.companyNameArabic,
-              companyNameEnglish: this.data.companyNameEnglish,
+              assetModelName: this.data.assetModelName,
+              assetBrandId: this.data.assetBrandId.id,
             },
           )
         }
       },
       async newItem (data) {
-        // const item = await CompaniesService.updateAddCompany(data)
+        // const item = await AssetsModelService.updateAddAssetsModel(data)
         console.log('new Item item', data)
         // if (item.status === 200) {
         // this.successMessage = 'Successful'
@@ -162,7 +143,7 @@
         this.loading = false
       },
       async updateContent (data) {
-        // const item = await CompaniesService.updateAddCompany(data)
+        // const item = await AssetsModelService.updateAddAssetsModel(data)
         console.log('update Content item', data)
         // if (item.status === 200) {
         //   this.successMessage = 'Successful'
@@ -179,14 +160,14 @@
       },
       async fetchOneItem (id) {
         this.dataLoading = true
-        const company = await CompaniesService.fetchOneItem(id)
+        const company = await AssetsModelService.fetchOneItem(id)
         this.data = company.object
         this.dataLoading = false
       },
-      async getLKPGroup () {
+      async getLKPBrand () {
         this.dataLoading = true
-        const LKPGroup = await CompanyGroupService.getLKPGroup()
-        this.LKPGroup = LKPGroup.list
+        const LKPBrand = await AssetsBrandService.getLKPBrand()
+        this.LKPBrand = LKPBrand.list
         this.dataLoading = false
       },
     },

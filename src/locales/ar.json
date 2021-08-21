@@ -11,7 +11,12 @@
     "CompaniesGroup": "مجموعة الشركات",
     "CompaniesArea": "منطقة الشركات",
     "CompaniesFloor": "طوابق الشركات",
-    "CompaniesRoom": "غرف الشركات"
+    "CompaniesRoom": "غرف الشركات",
+    "assets": "ادارة الاصول",
+    "assetsType": "نوع الأصول",
+    "assetsBrand": "العلامة التجارية للأصول",
+    "assetsCategory": "فئة الأصول",
+    "assetsModel": "نموذج الأصول"
   },
   "navbar": {
     "welcome": "أهلا بك",
@@ -70,5 +75,42 @@
     "floorName": "اسم الطابق",
     "addRoom": "اضافة غرفة",
     "editRoom": "تعديل الغرفة"
+  },
+  "assets": {
+    "assets": "الاصول",
+    "assetName": "الاسم",
+    "assetBrandName": "العلامة التجارية",
+    "assetDescription": "الوصف",
+    "assetCategoryName": "الفئة",
+    "assetModelName": "الموديل",
+    "assetTypeName": "النوع",
+    "assetSerialNumber": "الرقم التسلسلي",
+    "branchName":"الفرع",
+    "floorName":"الطابق",
+    "roomName":"الطابق"
+  },
+  "assetsType": {
+    "assetTypeDesc": "وصف نوع الاصل",
+    "editType": "تعديل النوع",
+    "addType": "اضافة نوع",
+    "chooseCategory": "اختر فئة"
+  },
+  "assetsBrand": {
+    "brandName": "الاسم",
+    "editBrand": "تعديل العلامة التجارية",
+    "addBrand": "اضافة علامة تجارية",
+    "chooseType": "اختر نوع"
+  },
+  "assetCategory": {
+    "assetCategoryName": "الاسم",
+    "editCategory": "تعديل الفئة",
+    "addCategory": "اضافة فئة"
+  },
+  "assetModel": {
+    "assetModelName": "اسم الموديل",
+    "assetBrandName":"العلامة التجارية",
+    "editModel": "تعديل الموديل",
+    "addModel": "اضافة موديل",
+    "chooseBrand": "اختر علامة تجارية"
   }
 }

@@ -21,7 +21,7 @@
               >
                 <v-text-field
                   v-model="data.branchName"
-                  :label="$t('companies.arName')"
+                  :label="$t('branches.branchName')"
                   outlined
                   required
                 />
@@ -33,7 +33,7 @@
               >
                 <v-text-field
                   v-model="data.branchAddress"
-                  :label="$t('companies.enName')"
+                  :label="$t('branches.branchAddress')"
                   outlined
                   required
                 />
@@ -48,8 +48,7 @@
                   item-text="name"
                   item-value="id"
                   return-object
-                  single-line
-                  :label="$t('companies.chooseGroup')"
+                  :label="$t('branches.areaName')"
                   outlined
                 />
               </v-col>
@@ -138,14 +137,14 @@
             {
               branchName: this.data.branchName,
               branchAddress: this.data.branchAddress,
-              areaId: this.data.areaId,
+              areaId: this.data.areaId.id,
             },
           )
         }
       },
       async newItem (data) {
-        const item = await CompanyBranchesService.updateAddBrnch(data)
-        console.log('new Item item', item)
+        // const item = await CompanyBranchesService.updateAddBrnch(data)
+        console.log('new Item item', data)
         // if (item.status === 200) {
         // this.successMessage = 'Successful'
         // this.successSnackbar = true
@@ -160,8 +159,8 @@
         this.disabled = false
       },
       async updateContent (data) {
-        const item = await CompanyBranchesService.updateAddBrnch(data)
-        console.log('update Content item', item)
+        // const item = await CompanyBranchesService.updateAddBrnch(data)
+        console.log('update Content item', data)
         // if (item.status === 200) {
         //   this.successMessage = 'Successful'
         //   this.successSnackbar = true

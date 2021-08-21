@@ -48,7 +48,6 @@
                   item-text="name"
                   item-value="id"
                   return-object
-                  single-line
                   :label="$t('room.branchName')"
                   outlined
                 />
@@ -63,7 +62,6 @@
                   item-text="name"
                   item-value="id"
                   return-object
-                  single-line
                   :label="$t('room.floorName')"
                   outlined
                 />
@@ -157,8 +155,8 @@
             {
               roomNumber: this.data.roomNumber,
               roomName: this.data.roomName,
-              floorId: this.data.floorId,
-              branchId: this.data.branchId,
+              floorId: this.data.floorId.id,
+              branchId: this.data.branchId.id,
             },
           )
         }

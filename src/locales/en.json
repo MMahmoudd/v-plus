@@ -11,7 +11,12 @@
     "CompaniesGroup": "Companies Group",
     "CompaniesArea": "Companies Area",
     "CompaniesFloor": "Companies Floor",
-    "CompaniesRoom": "Companies Rooms"
+    "CompaniesRoom": "Companies Rooms",
+    "assets": "Assets Management",
+    "assetsType": "Assets Type",
+    "assetsBrand": "Assets Brand",
+    "assetsCategory": "Assets Category",
+    "assetsModel": "Assets Model"
   },
   "navbar": {
     "welcome": "Welcome",
@@ -70,5 +75,42 @@
     "floorName": "Floor Name",
     "addRoom": "Add Room",
     "editRoom": "Edit Room"
+  },
+  "assets": {
+    "assets": "Assets",
+    "assetName": "Name",
+    "assetBrandName": "Brand",
+    "assetDescription": "Description",
+    "assetCategoryName": "Category",
+    "assetModelName": "Model",
+    "assetTypeName": "Type",
+    "assetSerialNumber": "Serial Number",
+    "branchName":"Branch",
+    "floorName":"Floor",
+    "roomName":"Room"
+  },
+  "assetsType": {
+    "assetTypeDesc": "Type Description",
+    "editType": "Edit Type",
+    "addType": "Add Type",
+    "chooseCategory": "Choose Category"
+  },
+  "assetsBrand": {
+    "brandName": "Name",
+    "editBrand": "Edit Brand",
+    "addBrand": "Add Brand",
+    "chooseType": "Choose Type"
+  },
+  "assetCategory": {
+    "assetCategoryName": "Name",
+    "editCategory": "Edit Category",
+    "addCategory": "Add Category"
+  },
+  "assetModel": {
+    "assetModelName": "Model Name",
+    "assetBrandName":"Brand Name",
+    "editModel": "Edit Model",
+    "addModel": "Add Model",
+    "chooseBrand": "Choose Brand"
   }
 }

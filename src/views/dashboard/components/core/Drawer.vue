@@ -63,7 +63,7 @@
           :item="item"
         />
       </template>
-      <!--All Captiens -->
+      <!--Companies Management -->
       <v-list-group
         no-action
         sub-group
@@ -74,7 +74,7 @@
           v-slot:activator
         >
           <v-list-item-icon>
-            <v-icon>mdi-domain</v-icon>
+            <v-icon>fa-city</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>{{ $t('companies.companies&branches') }}</v-list-item-title>
@@ -82,6 +82,41 @@
         </template>
         <v-list-item
           v-for="(item, i) in companies"
+          :key="i"
+          link
+        >
+          <base-item-group
+            v-if="item.children"
+            :key="`group-${i}`"
+            :item="item"
+          />
+          <base-item
+            v-else
+            :key="`item-${i}`"
+            :item="item"
+            color="#ff9800"
+          />
+        </v-list-item>
+      </v-list-group>
+      <!--Assets Management -->
+      <v-list-group
+        no-action
+        sub-group
+        color="#ff9800"
+        :expand="expand"
+      >
+        <template
+          v-slot:activator
+        >
+          <v-list-item-icon>
+            <v-icon>mdi-safe</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>{{ $t('sidbar.assets') }}</v-list-item-title>
+          </v-list-item-content>
+        </template>
+        <v-list-item
+          v-for="(item, i) in assets"
           :key="i"
           link
         >
@@ -140,12 +175,12 @@
         },
         {
           title: vm.$t('sidbar.CompaniesGroup'),
-          icon: 'mdi-group',
+          icon: 'fa-layer-group',
           to: '/Companies-groups',
         },
         {
           title: vm.$t('sidbar.CompaniesArea'),
-          icon: 'mdi-map-marker',
+          icon: 'fa-location-arrow',
           to: '/Companies-area',
         },
         {
@@ -157,6 +192,33 @@
           title: vm.$t('sidbar.CompaniesRoom'),
           icon: 'mdi-select-place',
           to: '/Companies-room',
+        },
+      ],
+      assets: [
+        {
+          title: vm.$t('assets.assets'),
+          icon: 'mdi-safe',
+          to: '/Assets',
+        },
+        {
+          title: vm.$t('sidbar.assetsType'),
+          icon: 'fa-file-contract',
+          to: '/Assets-type',
+        },
+        {
+          title: vm.$t('sidbar.assetsBrand'),
+          icon: 'fa-copyright',
+          to: '/Assets-brand',
+        },
+        {
+          title: vm.$t('sidbar.assetsCategory'),
+          icon: 'fa-object-group',
+          to: '/Assets-category',
+        },
+        {
+          title: vm.$t('sidbar.assetsModel'),
+          icon: 'fa-shapes',
+          to: '/Assets-model',
         },
       ],
     }),

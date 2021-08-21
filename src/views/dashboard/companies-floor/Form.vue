@@ -37,7 +37,6 @@
                   item-text="name"
                   item-value="id"
                   return-object
-                  single-line
                   :label="$t('floor.branchName')"
                   outlined
                 />
@@ -123,7 +122,7 @@
           this.newItem(
             {
               areaName: this.data.areaName,
-              companyId: this.data.companyId,
+              companyId: this.data.companyId.id,
             },
           )
         }

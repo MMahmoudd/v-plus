@@ -37,7 +37,6 @@
                   item-text="name"
                   item-value="id"
                   return-object
-                  single-line
                   :label="$t('area.companyName')"
                   outlined
                 />
@@ -123,14 +122,14 @@
           this.newItem(
             {
               areaName: this.data.areaName,
-              companyId: this.data.companyId,
+              companyId: this.data.companyId.id,
             },
           )
         }
       },
       async newItem (data) {
-        const item = await CompanyAreaService.updateAddArea(data)
-        console.log('new Item item', item)
+        // const item = await CompanyAreaService.updateAddArea(data)
+        console.log('new Item item', data)
         // if (item.status === 200) {
         // this.successMessage = 'Successful'
         // this.successSnackbar = true
@@ -145,8 +144,8 @@
         this.disabled = false
       },
       async updateContent (data) {
-        const item = await CompanyAreaService.updateAddArea(data)
-        console.log('update Content item', item)
+        // const item = await CompanyAreaService.updateAddArea(data)
+        console.log('update Content item', data)
         // if (item.status === 200) {
         //   this.successMessage = 'Successful'
         //   this.successSnackbar = true
