@@ -148,32 +148,32 @@
       async newItem (data) {
         const item = await CompaniesService.updateAddCompany(data)
         console.log('new Item item', item)
-        // if (item.status === 200) {
-        // this.successMessage = 'Successful'
-        // this.successSnackbar = true
-        // setTimeout(() => {
-        //   this.$router.push('/Companies')
-        // }, 1500)
-        // } else {
-        //   this.errorMessage('something Error')
-        //   this.errorSnackbar = true
-        // }
+        if (item.success === true) {
+          this.successMessage = 'Successful'
+          this.successSnackbar = true
+          setTimeout(() => {
+            this.$router.push('/Assets')
+          }, 1500)
+        } else {
+          this.errorMessage('something Error')
+          this.errorSnackbar = true
+        }
         this.disabled = false
         this.loading = false
       },
       async updateContent (data) {
         const item = await CompaniesService.updateAddCompany(data)
         console.log('update Content item', item)
-        // if (item.status === 200) {
-        //   this.successMessage = 'Successful'
-        //   this.successSnackbar = true
-        //   setTimeout(() => {
-        //     this.$router.push('/Companies')
-        //   }, 1500)
-        // } else {
-        //   this.errorMessage('something Error')
-        //   this.errorSnackbar = true
-        // }
+        if (item.success === true) {
+          this.successMessage = 'Successful'
+          this.successSnackbar = true
+          setTimeout(() => {
+            this.$router.push('/Assets')
+          }, 1500)
+        } else {
+          this.errorMessage('something Error')
+          this.errorSnackbar = true
+        }
         this.disabled = false
         this.loading = false
       },

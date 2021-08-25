@@ -44,9 +44,9 @@ export default {
       return Service.post(`${resource}/Add`, data)
       .then((response) => {
           console.log(response)
-        // if (response.status === 200) {
-        //     return response.data
-        // }
+        if (response.status === 200) {
+            return response.data
+        }
     })
     },
 }

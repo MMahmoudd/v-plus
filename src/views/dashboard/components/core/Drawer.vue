@@ -157,7 +157,7 @@
       expand: false,
       statictics: [
         {
-          icon: 'mdi-view-dashboard',
+          icon: 'mdi-chart-bar',
           title: vm.$t('sidbar.statistics'),
           to: '/',
         },

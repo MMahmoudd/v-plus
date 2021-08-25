@@ -29,7 +29,13 @@
     "noData": "No Data",
     "Add": "Add New",
     "save": "Save Changs",
-    "add": "Add"
+    "add": "Add",
+    "moreDetails": "More Details",
+    "close": "Close"
+  },
+  "statistics": {
+    "assetsStatistics": "Assets Statistics",
+    "companiesStatistics": "Companies Statistics"
   },
   "companies": {
     "companies&branches": "Companies and Branches",
@@ -87,7 +93,12 @@
     "assetSerialNumber": "Serial Number",
     "branchName":"Branch",
     "floorName":"Floor",
-    "roomName":"Room"
+    "roomName":"Room",
+    "moreDetails": "More Details About ",
+    "poName": "purchase order name",
+    "assetExpiryDate": "Expiry Date",
+    "assetMaintinanceDate": "Maintinance Date",
+    "assetProductionDate": "Production Date"
   },
   "assetsType": {
     "assetTypeDesc": "Type Description",

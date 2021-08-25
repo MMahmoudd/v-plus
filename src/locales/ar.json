@@ -29,7 +29,13 @@
     "noData": "لا يوجد بيانات",
     "Add": "أضافة جديد",
     "save": "حفظ التغييرات",
-    "add": "اضافة"
+    "add": "اضافة",
+    "moreDetails": "المزيد من التفاصيل",
+    "close": "اغلاق"
+  },
+  "statistics": {
+    "assetsStatistics": "إحصائيات الأصول",
+    "companiesStatistics": "إحصائيات الشركات"
   },
   "companies": {
     "companies&branches": "الشركات والفروع",
@@ -87,7 +93,12 @@
     "assetSerialNumber": "الرقم التسلسلي",
     "branchName":"الفرع",
     "floorName":"الطابق",
-    "roomName":"الطابق"
+    "roomName":"الطابق",
+    "moreDetails": " المزيد من التفاصيل عن ",
+    "poName": "اسم أمر الشراء",
+    "assetExpiryDate": "تاريخ انتهاء الصلاحية",
+    "assetMaintinanceDate": "تاريخ الصيانة",
+    "assetProductionDate": "تاريخ الإنتاج"
   },
   "assetsType": {
     "assetTypeDesc": "وصف نوع الاصل",

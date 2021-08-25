@@ -17,11 +17,13 @@
   "dependencies": {
     "@nestjsx/crud-request": "^4.6.2",
     "axios": "^0.19.2",
+    "chart.js": "2.8.0",
     "core-js": "^3.13.0",
     "mixins": "0.0.1",
     "serve": "^11.3.2",
     "store": "^2.0.12",
     "vue": "^2.6.12",
+    "vue-chartjs": "3.4.2",
     "vue-i18n": "^8.24.4",
     "vue-moment": "^4.1.0",
     "vue-resource": "^1.5.2",
