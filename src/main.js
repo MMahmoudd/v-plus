@@ -8,12 +8,14 @@ import './plugins/chartist'
 import './plugins/vee-validate'
 import vuetify from './plugins/vuetify'
 import mixins from './mixins/mixins'
+import DatetimePicker from 'vuetify-datetime-picker'
 // import axios from 'axios'
 // Language Plugin
 import VueI18n from 'vue-i18n'
 import en from './locales/en.json'
 import ar from './locales/ar.json'
 
+Vue.use(DatetimePicker)
 Vue.use(VueI18n)
 
 // Ready translated locale messages

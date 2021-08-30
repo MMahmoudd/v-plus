@@ -8,7 +8,7 @@ const resource = `${API_URL}/Company`
 export default {
 
   getAllItems (itemsPerPage, page, pageNumber) {
-        return Service.get(`${resource}/GetAll?page=${page}&limit=${itemsPerPage}`)
+        return Service.get(`${resource}/GetAll`)
         .then((response) => {
             if (response.status === 200) {
                 return response.data

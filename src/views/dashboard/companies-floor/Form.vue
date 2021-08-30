@@ -114,15 +114,15 @@
         this.disabled = true
         if (this.$route.params.id) {
           this.updateContent({
-            areaId: this.data.areaId,
-            areaName: this.data.areaName,
-            companyId: this.data.companyId,
+            floorId: this.data.floorId,
+            floorName: this.data.floorName,
+            branchId: this.data.branchId,
           })
         } else {
           this.newItem(
             {
-              areaName: this.data.areaName,
-              companyId: this.data.companyId.id,
+              floorName: this.data.floorName,
+              branchId: this.data.branchId.id,
             },
           )
         }

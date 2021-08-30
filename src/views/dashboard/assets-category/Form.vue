@@ -65,7 +65,7 @@
 </template>
 <script>
   import { ServiceFactory } from '../../../services/ServiceFactory'
-  const AssetsBrandService = ServiceFactory.get('AssetsBrand')
+  const AssetsCategoryService = ServiceFactory.get('AssetsCategory')
   export default {
     name: 'Companies',
     data: (vm) => ({
@@ -87,7 +87,6 @@
       if (this.$route.params.id) {
         this.fetchOneItem(this.$route.params.id)
       }
-      this.getLKPType()
     },
     methods: {
       async  submitForm () {
@@ -107,7 +106,7 @@
         }
       },
       async newItem (data) {
-        const item = await AssetsBrandService.updateAddAssetsCategory(data)
+        const item = await AssetsCategoryService.updateAddAssetsCategory(data)
         if (item.success === true) {
           this.successMessage = 'Successful'
           this.successSnackbar = true
@@ -122,7 +121,7 @@
         this.loading = false
       },
       async updateContent (data) {
-        const item = await AssetsBrandService.updateAddAssetsCategory(data)
+        const item = await AssetsCategoryService.updateAddAssetsCategory(data)
         console.log('update Content item', data)
         if (item.success === true) {
           this.successMessage = 'Successful'
@@ -139,7 +138,7 @@
       },
       async fetchOneItem (id) {
         this.dataLoading = true
-        const company = await AssetsBrandService.fetchOneItem(id)
+        const company = await AssetsCategoryService.fetchOneItem(id)
         this.data = company.object
         this.dataLoading = false
       },
