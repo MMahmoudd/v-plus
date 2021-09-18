@@ -57,12 +57,11 @@
               <v-btn
                 class="mr-4 submit"
                 v-bind="attrs"
+                :class="{'is-loading': isLoading}"
+                :disabled="formValid"
                 v-on="on"
-                @click="gotohomepage()"
+                @click="loginSubmit"
               >
-                <!-- :class="{'is-loading': isLoading}" -->
-                <!-- @click="loginSubmit" -->
-                <!-- :disabled="formValid" -->
                 {{ $t('login.login') }}
               </v-btn>
             </template>
@@ -74,7 +73,7 @@
   </v-container>
 </template>
 <script>
-  // import { mapState, mapActions } from 'vuex'
+  import { mapState, mapActions } from 'vuex'
   import { required, email, password } from 'vuelidate/lib/validators'
   export default {
     validations: {
@@ -97,11 +96,11 @@
       }
     },
     computed: {
-      // ...mapState({
-      //   isLoading: state => state.login.isLoading,
-      //   loginErrorMessage: state => state.login.loginErrorMessage,
-      //   loginSuccessful: state => state.login.loggingIn,
-      // }),
+      ...mapState({
+        isLoading: state => state.login.isLoading,
+        loginErrorMessage: state => state.login.loginErrorMessage,
+        loginSuccessful: state => state.login.loggingIn,
+      }),
     },
     watch: {
       userLogin: {
@@ -119,17 +118,17 @@
       gotohomepage () {
         window.location.href = '/'
       },
-      // ...mapActions([
-      //   'doLogin',
-      // ]),
-      // loginSubmit () {
-      //   if (!this.formValid) {
-      //     this.doLogin({
-      //       email: this.userLogin.email,
-      //       password: this.userLogin.password,
-      //     })
-      //   }
-      // },
+      ...mapActions([
+        'doLogin',
+      ]),
+      loginSubmit () {
+        if (!this.formValid) {
+          this.doLogin({
+            email: this.userLogin.email,
+            password: this.userLogin.password,
+          })
+        }
+      },
     },
   }
 </script>

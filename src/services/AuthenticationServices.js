@@ -2,12 +2,11 @@
 import Service from './Service'
 import { API_URL } from '../config'
 
-const resource = `${API_URL}/Company`
+const resource = `${API_URL}/Authentication`
 
 export default {
-
   getAllItems (itemsPerPage, page, pageNumber) {
-        return Service.get(`${resource}/GetAll`)
+        return Service.get(`${resource}/GetAllUser?page=${page}&limit=${itemsPerPage}`)
         .then((response) => {
             if (response.status === 200) {
                 return response.data
@@ -15,36 +14,27 @@ export default {
         })
     },
     fetchOneItem (id) {
-      return Service.get(`${resource}/GetById?CompanyId=${id}`)
+      return Service.get(`${resource}/GetUserById?UserId=${id}`)
       .then((response) => {
         if (response.status === 200) {
             return response.data
         }
     })
     },
-    getCompanyByGroup (id) {
-      return Service.get(`${resource}/GetCompanyByGroup?GroupId=${id}`)
+    updateUserData (data) {
+      return Service.post(`${resource}/UpdateUser`, data)
       .then((response) => {
         if (response.status === 200) {
             return response.data
         }
     })
     },
-    getLKPCompany () {
-      return Service.get(`${resource}/LKPCompany`)
+    addUserData (data) {
+      return Service.post(`${resource}/Register`, data)
       .then((response) => {
         if (response.status === 200) {
             return response.data
         }
-    })
-    },
-    updateAddCompany (data) {
-      return Service.post(`${resource}/AddOrUpdate`, data)
-      .then((response) => {
-          console.log(response)
-        if (response.status === 200) {
-            return response.data
-        }
-    })
+      })
     },
 }

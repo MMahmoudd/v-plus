@@ -9,6 +9,8 @@ import AssetsTypeServices from './AssetsTypeServices'
 import AssetsModelServices from './AssetsModelServices'
 import AssetsCategoryServices from './AssetsCategoryServices'
 import AssetsBrandServices from './AssetsBrandServices'
+import AuthenticationServices from './AuthenticationServices'
+import roleServices from './roleServices'
 
 const services = {
   companies: companiesService,
@@ -22,6 +24,8 @@ const services = {
   AssetsModel: AssetsModelServices,
   AssetsCategory: AssetsCategoryServices,
   AssetsBrand: AssetsBrandServices,
+  Authentication: AuthenticationServices,
+  Role: roleServices,
 }
 
 export const ServiceFactory = {

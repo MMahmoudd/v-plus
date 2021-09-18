@@ -3,7 +3,7 @@ import { API_URL } from '../../config'
 import router from '../../router/router'
 const Login = {
   state: {
-    isLoading: false,
+    // isLoading: false,
     loginErrorMessage: null,
     loginSuccessful: false,
     token: localStorage.getItem('token'),
@@ -44,15 +44,16 @@ const Login = {
     doLogin ({ commit, state, dispatch }, loginData) {
       commit('resetState')
       const userData = {
-        mobile: loginData.email.replace(/\s+/g, ''),
-        password: loginData.password,
+        key: loginData.email.replace(/\s+/g, ''),
+        value: loginData.password,
       }
-      axios.post(`${API_URL}/auth/login-local`, userData)
+      axios.post(`${API_URL}/Authentication/LogIn`, userData)
         .then((response) => {
           state.isLoading = true
-          if (response.data.statusCode === 201) {
-            localStorage.setItem('token', response.data.data.token)
-            localStorage.setItem('user', response.data.data.userData)
+          console.log(response)
+          if (response.status === 200) {
+            localStorage.setItem('token', response.data.token)
+            localStorage.setItem('userDataPermission', response.data.userPolicy)
             dispatch('checkUserData')
             window.location.href = process.env.BASE_URL
           } else {

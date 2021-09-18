@@ -4,6 +4,36 @@
     "password": "كلمة المرور",
     "login": "تسجيل دخول"
   },
+  "auth": {
+    "NotAuthorized": "قف هنا",
+    "YouAreNotAuthorizedToViewThisPage": "لا تملك الصلاحيات لتصفح هذه الصفحة!",
+    "auth&users": "الصلاحيات & المستخدمين",
+    "users": "المستخدمين",
+    "role": "المناصب",
+    "Permissions": "التصاريح"
+  },
+  "users": {
+    "users": "المستخدمين",
+    "editUser": "تعديل المستخدم",
+    "addUser": "اضافة مستخدم",
+    "username": "اسم المستخدم",
+    "userfullname": "الاسم بالكامل",
+    "mobile": "الهاتف",
+    "email": "البريد الاليكتروني",
+    "companyName":"الشركة",
+    "branchName":"الفرع",
+    "password": "كلمة السر",
+    "role": "منصب"
+  },
+  "role": {
+    "roles": "المناصب",
+    "roleName": "الاسم",
+    "roleGroup": "المجموعة"
+  },
+  "permission": {
+    "permissions": "التصاريح",
+    "name": "الاسم"
+  },
   "sidbar": {
     "statistics": "الإحصائيات",
     "companies": "الشركات",

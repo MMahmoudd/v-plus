@@ -5,7 +5,6 @@
     :dark="barColor !== 'rgba(228, 226, 226, 1), rgba(255, 255, 255, 0.7)'"
     :expand-on-hover="expandOnHover"
     :right="$vuetify.rtl"
-    :src="barImage"
     mobile-breakpoint="960"
     app
     width="260"
@@ -133,6 +132,41 @@
           />
         </v-list-item>
       </v-list-group>
+      <!--Assets Management -->
+      <v-list-group
+        no-action
+        sub-group
+        color="#ff9800"
+        :expand="expand"
+      >
+        <template
+          v-slot:activator
+        >
+          <v-list-item-icon>
+            <v-icon>fa-users-cog</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>{{ $t('auth.auth&users') }}</v-list-item-title>
+          </v-list-item-content>
+        </template>
+        <v-list-item
+          v-for="(item, i) in auth"
+          :key="i"
+          link
+        >
+          <base-item-group
+            v-if="item.children"
+            :key="`group-${i}`"
+            :item="item"
+          />
+          <base-item
+            v-else
+            :key="`item-${i}`"
+            :item="item"
+            color="#ff9800"
+          />
+        </v-list-item>
+      </v-list-group>
     </v-list>
   </v-navigation-drawer>
 </template>
@@ -160,6 +194,7 @@
           icon: 'mdi-chart-bar',
           title: vm.$t('sidbar.statistics'),
           to: '/',
+          role: true,
         },
       ],
       companies: [
@@ -167,31 +202,37 @@
           title: vm.$t('sidbar.companies'),
           icon: 'mdi-domain',
           to: '/Companies',
+          role: true,
         },
         {
           title: vm.$t('sidbar.CompaniesBranches'),
           icon: 'mdi-source-branch',
           to: '/Companies-branches',
+          role: true,
         },
         {
           title: vm.$t('sidbar.CompaniesGroup'),
           icon: 'fa-layer-group',
           to: '/Companies-groups',
+          role: true,
         },
         {
           title: vm.$t('sidbar.CompaniesArea'),
           icon: 'fa-location-arrow',
           to: '/Companies-area',
+          role: true,
         },
         {
           title: vm.$t('sidbar.CompaniesFloor'),
           icon: 'mdi-floor-plan',
           to: '/Companies-floor',
+          role: true,
         },
         {
           title: vm.$t('sidbar.CompaniesRoom'),
           icon: 'mdi-select-place',
           to: '/Companies-room',
+          role: true,
         },
       ],
       assets: [
@@ -199,32 +240,63 @@
           title: vm.$t('assets.assets'),
           icon: 'mdi-safe',
           to: '/Assets',
+          role: true,
         },
         {
           title: vm.$t('sidbar.assetsType'),
           icon: 'fa-file-contract',
           to: '/Assets-type',
+          role: true,
         },
         {
           title: vm.$t('sidbar.assetsBrand'),
           icon: 'fa-copyright',
           to: '/Assets-brand',
+          role: true,
         },
         {
           title: vm.$t('sidbar.assetsCategory'),
           icon: 'fa-object-group',
           to: '/Assets-category',
+          role: true,
         },
         {
           title: vm.$t('sidbar.assetsModel'),
           icon: 'fa-shapes',
           to: '/Assets-model',
+          role: true,
         },
+      ],
+      auth: [
+        {
+          title: vm.$t('auth.users'),
+          icon: 'fa-users',
+          to: '/Users',
+          role: true,
+        },
+        {
+          title: vm.$t('auth.role'),
+          icon: 'fa-user-tag',
+          to: '/Roles',
+          role: true,
+        },
+        // {
+        //   title: vm.$t('auth.Permissions'),
+        //   icon: 'fa-shield-alt',
+        //   to: '/Permissions',
+        //   role: true,
+        // },
       ],
     }),
 
     computed: {
-      ...mapState(['barColor', 'barImage']),
+      ...mapState(['barColor'],
+                  { role: state => state.login.userDataPermission },
+      ),
+      created () {
+        console.log(this.$store.state.login.userDataPermission)
+        return null
+      },
       drawer: {
         get () {
           return this.$store.state.drawer
@@ -251,6 +323,18 @@
           children: item.children ? item.children.map(this.mapItem) : undefined,
           title: this.$t(item.title),
         }
+      },
+      checkLinksRole () {
+        this.links = []
+        const userPermission = localStorage.getItem('userDataPermission')
+        this.AsideLinks.map(item => {
+          if (
+            userPermission.permissions.indexOf(item.role) > -1 ||
+            item.role === true
+          ) {
+            this.links.push(item)
+          }
+        })
       },
     },
   }

@@ -9,7 +9,7 @@ import './plugins/vee-validate'
 import vuetify from './plugins/vuetify'
 import mixins from './mixins/mixins'
 import DatetimePicker from 'vuetify-datetime-picker'
-// import axios from 'axios'
+import axios from 'axios'
 // Language Plugin
 import VueI18n from 'vue-i18n'
 import en from './locales/en.json'
@@ -29,24 +29,25 @@ if (localStorage.getItem('userLang')) {
 }
 
 // config file with base endpoint url
-// axios.defaults.baseURL = process.env.APP_URL + '/api/v1'
+// axios.defaults.baseURL = process.env.APP_URL
 
 // Check User Is Authorized
-// axios.interceptors.response.use((response) => {
-//     return response
-// }, function (error) {
-//     if (error.response.status === 401) {
-//         localStorage.removeItem('token')
-//         return router.push('/login')
-//     }
-//     return Promise.reject(error.response)
-// })
-// const userData = JSON.parse(localStorage.getItem('userData'))
-// if (userData) {
-//   // axios.defaults.headers.common['Authorization'] = "Bearer " + userData.accessToken
-//   axios.defaults.headers['x-access-token'] = userData.accessToken
-//   axios.defaults.headers['Content-type'] = 'application/json'
-// }
+axios.interceptors.response.use((response) => {
+    return response
+}, function (error) {
+    if (error.response.status === 401) {
+        localStorage.removeItem('token')
+        return router.push('/login')
+    }
+    return Promise.reject(error.response)
+})
+const userData = localStorage.getItem('token')
+if (userData) {
+  // axios.defaults.headers.common['x-access-token'] = 'Bearer ' + userData.token
+  axios.defaults.headers.common.Authorization = 'Bearer ' + userData
+  axios.defaults.headers['Content-type'] = 'application/json'
+  axios.defaults.headers.accept = '*/*'
+}
 
 // Create VueI18n instance with options
 const i18n = new VueI18n({

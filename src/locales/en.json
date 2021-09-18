@@ -4,6 +4,39 @@
     "password": "Password",
     "login": "Login"
   },
+  "auth": {
+    "NotAuthorized": "STOP HERE",
+    "YouAreNotAuthorizedToViewThisPage": "You Are Not Authorized To View This Page!",
+    "auth&users": " Users & Auth",
+    "users": "Users",
+    "role": "Roles",
+    "Permissions": "Permissions"
+  },
+  "users": {
+    "users": "Users",
+    "editUser": "Edit User",
+    "addUser": "Add User",
+    "username": "User Name",
+    "userfullname": "Full Name",
+    "mobile": "Mobile",
+    "email": "Email",
+    "companyName":"Company Name",
+    "branchName":"Branch Name",
+    "password": "Password",
+    "role": "Role"
+  },
+  "role": {
+    "roles": "Roles",
+    "roleName": "Name",
+    "roleGroup": "Group",
+    "addRole": "Add Role",
+    "editRole": "Edit Role"
+
+  },
+  "permission": {
+    "permissions": "Permissions",
+    "name": "Name"
+  },
   "sidbar": {
     "statistics": "Statistics",
     "companies": "Companies",
