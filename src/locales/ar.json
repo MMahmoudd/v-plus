@@ -28,7 +28,9 @@
   "role": {
     "roles": "المناصب",
     "roleName": "الاسم",
-    "roleGroup": "المجموعة"
+    "roleGroup": "المجموعة",
+    "addRole": "إضافة دور",
+    "editRole": "تعديل الدور"
   },
   "permission": {
     "permissions": "التصاريح",
@@ -46,7 +48,10 @@
     "assetsType": "نوع الأصول",
     "assetsBrand": "العلامة التجارية للأصول",
     "assetsCategory": "فئة الأصول",
-    "assetsModel": "نموذج الأصول"
+    "assetsModel": "نموذج الأصول",
+    "assetsStatus": "حالة الأصول",
+    "moveAssets": "نقل الأصول",
+    "pendingAssets": "الأصول المعلقة"
   },
   "navbar": {
     "welcome": "أهلا بك",
@@ -61,7 +66,8 @@
     "save": "حفظ التغييرات",
     "add": "اضافة",
     "moreDetails": "المزيد من التفاصيل",
-    "close": "اغلاق"
+    "close": "اغلاق",
+    "accept": "قبول"
   },
   "statistics": {
     "assetsStatistics": "إحصائيات الأصول",
@@ -129,6 +135,10 @@
     "assetExpiryDate": "تاريخ انتهاء الصلاحية",
     "assetMaintinanceDate": "تاريخ الصيانة",
     "assetProductionDate": "تاريخ الإنتاج",
+    "assetsType": "نوع الأصول",
+    "assetsBrand": "العلامة التجارية",
+    "assetsCategory": "فئة الأصول",
+    "assetsModel": "نموذج الأصول",
     "editAssets": "تعديل الاصل",
     "addAssets": "إضافة الاصل",
     "chooseCtegory": "اختر الفئة",
@@ -147,7 +157,15 @@
     "companiesInfo": "معلومات الشركات",
     "datesInfo": "التواريخ",
     "serialsInfo": "معلومات الارقام التسلسلي",
-    "printDate": "تاريخ الطباعة"
+    "printDate": "تاريخ الطباعة",
+    "moveAssets": "نقل الأصول من فرع إلى فرع",
+    "currentBranch": "الفرع الحالي",
+    "chooseNewBranch": "اختر فرع جديد",
+    "description": "الوصف",
+    "actionUserDate": "تاريخ التحويل",
+    "transActionDesc": "سبب التحويل",
+    "confirmAccept": " تأكيد قبول التحويل",
+    "areYouSure": "هل أنت متأكد من تأكيد هذا التحويل؟"
   },
   "assetsType": {
     "assetTypeDesc": "وصف نوع الاصل",
@@ -172,5 +190,11 @@
     "editModel": "تعديل الموديل",
     "addModel": "اضافة موديل",
     "chooseBrand": "اختر علامة تجارية"
+  },
+  "assetsStatus": {
+    "assetsStatus": "حالة الأصول",
+    "editStatus": "تعديل الحالة",
+    "addStatus": "اضافة حالة",
+    "assetStatusDesc": "وصف الحالة"
   }
 }

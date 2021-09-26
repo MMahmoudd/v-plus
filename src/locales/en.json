@@ -31,7 +31,6 @@
     "roleGroup": "Group",
     "addRole": "Add Role",
     "editRole": "Edit Role"
-
   },
   "permission": {
     "permissions": "Permissions",
@@ -49,7 +48,10 @@
     "assetsType": "Assets Type",
     "assetsBrand": "Assets Brand",
     "assetsCategory": "Assets Category",
-    "assetsModel": "Assets Model"
+    "assetsModel": "Assets Model",
+    "assetsStatus": "Assets Status",
+    "moveAssets": "Move Assets",
+    "pendingAssets": "Pending Assets"
   },
   "navbar": {
     "welcome": "Welcome",
@@ -64,7 +66,8 @@
     "save": "Save Changs",
     "add": "Add",
     "moreDetails": "More Details",
-    "close": "Close"
+    "close": "Close",
+    "accept": "Accept"
   },
   "statistics": {
     "assetsStatistics": "Assets Statistics",
@@ -154,7 +157,15 @@
     "companiesInfo": "Companies Information",
     "datesInfo": "Dates Information",
     "serialsInfo": "serial number Information",
-    "printDate": "Print Date"
+    "printDate": "Print Date",
+    "moveAssets": "Move Assets From Branch To Branch",
+    "currentBranch": "Current Branch",
+    "chooseNewBranch": "Choose New Branch",
+    "description": "Description",
+    "actionUserDate": "Transfer Date",
+    "transActionDesc": "Reason for transfer",
+    "confirmAccept": "Confirm Accept Transfer ",
+    "areYouSure": "Are You Sure To Confirm This Transfer ?"
   },
   "assetsType": {
     "assetTypeDesc": "Type Description",
@@ -179,5 +190,11 @@
     "editModel": "Edit Model",
     "addModel": "Add Model",
     "chooseBrand": "Choose Brand"
+  },
+  "assetsStatus": {
+    "assetsStatus":"Assets Status",
+    "editStatus": "Edit Status",
+    "addStatus": "Add Status",
+    "assetStatusDesc": "Asset Status Description"
   }
 }

@@ -6,7 +6,7 @@
   >
     <v-card>
       <v-card-title>
-        {{ $t('assets.assets') }}
+        {{ $t('assets.moveAssets') }}
         <v-spacer />
         <!-- <v-text-field
           v-model="search"
@@ -16,27 +16,12 @@
           hide-details
         /> -->
         <v-spacer />
-        <router-link
-          v-for="role in Roles"
-          :key="role"
-          :to="{ path: '/assetsForm'}"
-          color="primary"
-        >
-          <v-btn
-            v-if="role === 'Asset.Add'"
-            outlined
-            class="mx-2"
-            color="primary"
-          >
-            {{ $t('actions.Add') }}
-          </v-btn>
-        </router-link>
       </v-card-title>
       <v-data-table
         :loading="dataLoading"
         :headers="headers"
         :search="search"
-        :items="assets"
+        :items="status"
         :items-per-page="20"
         :footer-props="{
           'items-per-page-options': [10, 20, 30, 40, 50]
@@ -47,23 +32,18 @@
         @fetchAllItems="fetchAllItems"
       >
         <template v-slot:[`item.actions`]="{ item }">
-          <v-tooltip
-            v-for="role in Roles"
-            :key="role"
-            bottom
-          >
+          <v-tooltip bottom>
             <template
-              v-if="role === 'Asset.GetById'"
               v-slot:activator="{ on, attrs }"
             >
               <router-link
-                :to="'/assetsForm/' + item.assetId"
+                :to="'/moveAssetsForm/' + item.assetId"
               >
                 <v-btn
                   small
                   fab
                   outlined
-                  class="mx-1 my-1"
+                  class="mx-2"
                   color="blue"
                   v-bind="attrs"
                   v-on="on"
@@ -180,7 +160,7 @@
   import moment from 'moment'
   const AssetsService = ServiceFactory.get('Assets')
   export default {
-    name: 'Companies',
+    name: 'Status',
     data: (vm) => ({
       search: '',
       dataLoading: false,
@@ -188,7 +168,7 @@
       total: 0,
       numberOfPages: 0,
       options: {},
-      assets: [],
+      status: [],
       Roles: [],
       loading: false,
       moreDetails: false,
@@ -217,9 +197,6 @@
         },
       },
     },
-    created () {
-      this.checkLinksRole()
-    },
     methods: {
       moreDetailsD (item) {
         this.moreDetails = true
@@ -233,18 +210,12 @@
         this.dataLoading = true
         const { page, itemsPerPage } = this.options
         const pageNumber = page - 1
-        const assets = await AssetsService.getAllItems(itemsPerPage, page, pageNumber)
-        console.log('assets', assets)
-        this.assets = assets.list
-        this.total = assets.resultPaging.total
-        this.numberOfPages = assets.resultPaging.page
+        const status = await AssetsService.getAllItems(itemsPerPage, page, pageNumber)
+        console.log('status', status)
+        this.status = status.list
+        this.total = status.resultPaging.total
+        this.numberOfPages = status.resultPaging.page
         this.dataLoading = false
-      },
-      checkLinksRole () {
-        const userDataPermission = localStorage.getItem('userDataPermission')
-        const permissions = userDataPermission.split(',')
-        this.Roles = permissions
-        console.log('this.Roles', this.Roles)
       },
     },
   }

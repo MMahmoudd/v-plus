@@ -17,7 +17,7 @@ function isIModuleHasPermissions (userPermissions, role) {
 function routerGuard (to, from, next) {
   const userData = localStorage.getItem('userDataPermission')
   const permations = userData.split(',')
-  console.log('permations', permations)
+  // console.log('permations', permations)
   if (permations) {
       if (permations.length < 1) {
           return next('/login')
@@ -78,14 +78,14 @@ const router = new Router({
           name: 'Companies',
           path: '/Companies',
           component: () => import('@/views/dashboard/companies/Compaines.vue'),
-          meta: { role: 'Company.GetAll' },
+          meta: { role: 'Page.Company' },
           beforeEnter: routerGuard,
         },
         {
           name: 'Companies Form',
           path: '/CompaniesForm/:id?',
           component: () => import('@/views/dashboard/companies/Form.vue'),
-          meta: { role: 'Company.GetById' },
+          meta: { role: 'Company.GetById' || 'Company.AddOrUpdate' },
           beforeEnter: routerGuard,
         },
         // Companies Branches
@@ -93,14 +93,14 @@ const router = new Router({
           name: 'Companies Branches',
           path: '/Companies-branches',
           component: () => import('@/views/dashboard/companies-branches/CompainesBranches.vue'),
-          meta: { role: 'CompanyBranch.GetAll' },
+          meta: { role: 'Page.CompanyBranch' },
           beforeEnter: routerGuard,
         },
         {
           name: 'Branch Form',
           path: '/branchForm/:id?',
           component: () => import('@/views/dashboard/companies-branches/Form.vue'),
-          meta: { role: 'CompanyBranch.GetById' },
+          meta: { role: 'CompanyBranch.GetById' || 'CompanyBranch.AddOrUpdate' },
           beforeEnter: routerGuard,
         },
         // Companies Groups
@@ -108,14 +108,14 @@ const router = new Router({
           name: 'Companies Groups',
           path: '/Companies-groups',
           component: () => import('@/views/dashboard/companies-group/CompainesGroup.vue'),
-          meta: { role: 'CompanyGroup.GetAll' },
+          meta: { role: 'Page.CompanyGroup' },
           beforeEnter: routerGuard,
         },
         {
           name: 'Groups Form',
           path: '/groupForm/:id?',
           component: () => import('@/views/dashboard/companies-group/Form.vue'),
-          meta: { role: 'CompanyGroup.GetById' },
+          meta: { role: 'CompanyGroup.GetById' || 'CompanyGroup.AddOrUpdate' },
           beforeEnter: routerGuard,
         },
         // Companies Area
@@ -123,14 +123,14 @@ const router = new Router({
           name: 'Companies Area',
           path: '/Companies-area',
           component: () => import('@/views/dashboard/companies-area/CompainesArea.vue'),
-          meta: { role: 'CompanyArea.GetAll' },
+          meta: { role: 'Page.CompanyArea' },
           beforeEnter: routerGuard,
         },
         {
           name: 'Area Form',
           path: '/areaForm/:id?',
           component: () => import('@/views/dashboard/companies-area/Form.vue'),
-          meta: { role: 'CompanyArea.GetById' },
+          meta: { role: 'CompanyArea.GetById' || 'CompanyArea.AddOrUpdate' },
           beforeEnter: routerGuard,
         },
         // Companies Floor
@@ -138,14 +138,14 @@ const router = new Router({
           name: 'Companies Floor',
           path: '/Companies-floor',
           component: () => import('@/views/dashboard/companies-floor/CompainesFloor.vue'),
-          meta: { role: 'CompanyFloor.GetAll' },
+          meta: { role: 'Page.CompanyFloor' },
           beforeEnter: routerGuard,
         },
         {
           name: 'floor Form',
           path: '/floorForm/:id?',
           component: () => import('@/views/dashboard/companies-floor/Form.vue'),
-          meta: { role: 'CompanyFloor.GetById' },
+          meta: { role: 'CompanyFloor.GetById' || 'CompanyFloor.AddOrUpdate' },
           beforeEnter: routerGuard,
         },
         // Companies Room
@@ -153,14 +153,14 @@ const router = new Router({
           name: 'Companies Room',
           path: '/Companies-room',
           component: () => import('@/views/dashboard/companies-room/CompainesRoom.vue'),
-          meta: { role: 'CompanyRoom.GetAll' },
+          meta: { role: 'Page.CompanyRoom' },
           beforeEnter: routerGuard,
         },
         {
           name: 'Room Form',
           path: '/roomForm/:id?',
           component: () => import('@/views/dashboard/companies-room/Form.vue'),
-          meta: { role: 'CompanyRoom.GetById' },
+          meta: { role: 'CompanyRoom.GetById' || 'CompanyRoom.AddOrUpdate' },
           beforeEnter: routerGuard,
         },
         // Assets
@@ -168,14 +168,14 @@ const router = new Router({
           name: 'Assets',
           path: '/Assets',
           component: () => import('@/views/dashboard/assets-c/Assets.vue'),
-          meta: { role: 'Asset.GetAll' },
+          meta: { role: 'Page.Asset' },
           beforeEnter: routerGuard,
         },
         {
           name: 'Assets Form',
           path: '/assetsForm/:id?',
           component: () => import('@/views/dashboard/assets-c/Form.vue'),
-          meta: { role: 'Asset.GetById' },
+          meta: { role: 'Asset.GetById' || 'Asset.AddOrUpdate' || 'Asset.Add' },
           beforeEnter: routerGuard,
         },
         // Assets Type
@@ -183,14 +183,14 @@ const router = new Router({
           name: 'Assets Type',
           path: '/Assets-type',
           component: () => import('@/views/dashboard/assets-type/AssetsType.vue'),
-          meta: { role: 'AssetType.GetAll' },
+          meta: { role: 'Page.AssetType' },
           beforeEnter: routerGuard,
         },
         {
           name: 'Assets Type Form',
           path: '/assetsTypeForm/:id?',
           component: () => import('@/views/dashboard/assets-type/Form.vue'),
-          meta: { role: 'AssetType.GetById' },
+          meta: { role: 'AssetType.GetById' || 'AssetType.AddOrUpdate' },
           beforeEnter: routerGuard,
         },
         // Assets Brand
@@ -198,14 +198,14 @@ const router = new Router({
           name: 'Assets Brand',
           path: '/Assets-brand',
           component: () => import('@/views/dashboard/assets-brand/AssetsBrand.vue'),
-          meta: { role: 'AssetBrand.GetAll' },
+          meta: { role: 'Page.AssetBrand' },
           beforeEnter: routerGuard,
         },
         {
           name: 'Assets Brand Form',
           path: '/assetsBrandForm/:id?',
           component: () => import('@/views/dashboard/assets-brand/Form.vue'),
-          meta: { role: 'AssetBrand.GetById' },
+          meta: { role: 'AssetBrand.GetById' || 'AssetBrand.AddOrUpdate' },
           beforeEnter: routerGuard,
         },
         // Assets Category
@@ -213,14 +213,14 @@ const router = new Router({
           name: 'Assets Category',
           path: '/Assets-category',
           component: () => import('@/views/dashboard/assets-category/AssetsCategory.vue'),
-          meta: { role: 'AssetCategory.GetAll' },
+          meta: { role: 'Page.AssetCategory' },
           beforeEnter: routerGuard,
         },
         {
           name: 'Assets Category Form',
           path: '/assetsCategoryForm/:id?',
           component: () => import('@/views/dashboard/assets-category/Form.vue'),
-          meta: { role: 'AssetCtegory.GetById' },
+          meta: { role: 'AssetCtegory.GetById' || 'AssetCtegory.AddOrUpdate' },
           beforeEnter: routerGuard,
         },
         // Assets Model
@@ -228,14 +228,53 @@ const router = new Router({
           name: 'Assets Model',
           path: '/Assets-model',
           component: () => import('@/views/dashboard/assets-model/AssetsModel.vue'),
-          meta: { role: 'AssetModel.GetAll' },
+          meta: { role: 'Page.AssetModel' },
           beforeEnter: routerGuard,
         },
         {
           name: 'Assets Model Form',
           path: '/assetsModelForm/:id?',
           component: () => import('@/views/dashboard/assets-model/Form.vue'),
-          meta: { role: 'AssetModel.GetById' },
+          meta: { role: 'AssetModel.GetById' || 'AssetModel.AddOrUpdate' },
+          beforeEnter: routerGuard,
+        },
+        // Assets Status
+        {
+          name: 'Assets Status',
+          path: '/Assets-status',
+          component: () => import('@/views/dashboard/assets-status/AssetsStatus.vue'),
+          meta: { },
+          // role: 'Page.AssetStatus'
+          beforeEnter: routerGuard,
+        },
+        {
+          name: 'Assets Status Form',
+          path: '/assetsStatusForm/:id?',
+          component: () => import('@/views/dashboard/assets-status/Form.vue'),
+          meta: { role: 'AssetStatus.GetById' || 'AssetStatus.AddOrUpdate' },
+          beforeEnter: routerGuard,
+        },
+        // Move Assets
+        {
+          name: 'Move Assets',
+          path: '/Move-Assets',
+          component: () => import('@/views/dashboard/move-assets/MoveAssets.vue'),
+          meta: { role: 'Asset.MoveAssetfromBranchToBranch' },
+          beforeEnter: routerGuard,
+        },
+        {
+          name: 'Move Assets Form',
+          path: '/moveAssetsForm/:id?',
+          component: () => import('@/views/dashboard/move-assets/Form.vue'),
+          meta: { role: 'Asset.MoveAssetfromBranchToBranch' },
+          beforeEnter: routerGuard,
+        },
+        // Pending Assets
+        {
+          name: 'Pending Assets',
+          path: '/Pending-Assets',
+          component: () => import('@/views/dashboard/pending-assets/PendingAssets.vue'),
+          meta: { role: 'Asset.GetAllPendingAssets' },
           beforeEnter: routerGuard,
         },
         // Users

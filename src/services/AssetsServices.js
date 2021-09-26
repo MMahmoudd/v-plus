@@ -31,6 +31,14 @@ export default {
         }
     })
     },
+    getLKPAsset () {
+      return Service.get(`${resource}/LKPAsset`)
+      .then((response) => {
+        if (response.status === 200) {
+            return response.data
+        }
+    })
+    },
     updateAssets (data) {
       return Service.post(`${resource}/Update`, data)
       .then((response) => {
@@ -49,4 +57,28 @@ export default {
         }
     })
     },
+    MoveAssetfromBranchToBranch (data) {
+      return Service.get(`${resource}/MoveAssetfromBranchToBranch?AssetId=${data.assetId}&NewBranchId=${data.NewBranchId}&Description=${data.description}`)
+        .then((response) => {
+            if (response.status === 200) {
+                return response.data
+            }
+        })
+    },
+    getPendingItems () {
+      return Service.get(`${resource}/GetAllPendingAssets`)
+      .then((response) => {
+          if (response.status === 200) {
+              return response.data
+          }
+      })
+  },
+  acceptTransfer (data) {
+    return Service.get(`${resource}/ApprovedAssetfromBranchToBranch?AssetId=${data}`)
+      .then((response) => {
+          if (response.status === 200) {
+              return response.data
+          }
+      })
+  },
 }

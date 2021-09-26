@@ -17,10 +17,13 @@
         /> -->
         <v-spacer />
         <router-link
+          v-for="role in Roles"
+          :key="role"
           :to="{ path: '/assetsTypeForm'}"
           color="primary"
         >
           <v-btn
+            v-if="role === 'AssetType.AddOrUpdate'"
             outlined
             class="mx-2"
             color="primary"
@@ -44,8 +47,15 @@
         @fetchAllItems="fetchAllItems"
       >
         <template v-slot:[`item.actions`]="{ item }">
-          <v-tooltip bottom>
-            <template v-slot:activator="{ on, attrs }">
+          <v-tooltip
+            v-for="role in Roles"
+            :key="role"
+            bottom
+          >
+            <template
+              v-if="role === 'AssetType.GetById'"
+              v-slot:activator="{ on, attrs }"
+            >
               <router-link
                 :to="'/assetsTypeForm/' + item.assetTypeId"
               >
@@ -91,6 +101,7 @@
       numberOfPages: 0,
       options: {},
       types: [],
+      Roles: [],
       loading: false,
       headers: [
         {
@@ -111,6 +122,9 @@
         },
       },
     },
+    created () {
+      this.checkLinksRole()
+    },
     methods: {
       async fetchAllItems () {
         this.dataLoading = true
@@ -122,6 +136,12 @@
         this.total = types.count
         // this.numberOfPages = companies.data.pageCount
         this.dataLoading = false
+      },
+      checkLinksRole () {
+        const userDataPermission = localStorage.getItem('userDataPermission')
+        const permissions = userDataPermission.split(',')
+        this.Roles = permissions
+        console.log('this.Roles', this.Roles)
       },
     },
   }

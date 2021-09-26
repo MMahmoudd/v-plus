@@ -1,3 +1,4 @@
+
 <template>
   <v-navigation-drawer
     id="core-navigation-drawer"
@@ -64,6 +65,7 @@
       </template>
       <!--Companies Management -->
       <v-list-group
+        v-if="companies.length > 0"
         no-action
         sub-group
         color="#ff9800"
@@ -99,6 +101,7 @@
       </v-list-group>
       <!--Assets Management -->
       <v-list-group
+        v-if="assets.length > 0"
         no-action
         sub-group
         color="#ff9800"
@@ -189,6 +192,7 @@
 
     data: (vm) => ({
       expand: false,
+      permissions: [],
       statictics: [
         {
           icon: 'mdi-chart-bar',
@@ -202,37 +206,37 @@
           title: vm.$t('sidbar.companies'),
           icon: 'mdi-domain',
           to: '/Companies',
-          role: true,
+          role: ['Page.Company'],
         },
         {
           title: vm.$t('sidbar.CompaniesBranches'),
           icon: 'mdi-source-branch',
           to: '/Companies-branches',
-          role: true,
+          role: ['Page.CompanyBranch'],
         },
         {
           title: vm.$t('sidbar.CompaniesGroup'),
           icon: 'fa-layer-group',
           to: '/Companies-groups',
-          role: true,
+          role: ['Page.CompanyGroup'],
         },
         {
           title: vm.$t('sidbar.CompaniesArea'),
           icon: 'fa-location-arrow',
           to: '/Companies-area',
-          role: true,
+          role: ['Page.CompanyArea'],
         },
         {
           title: vm.$t('sidbar.CompaniesFloor'),
           icon: 'mdi-floor-plan',
           to: '/Companies-floor',
-          role: true,
+          role: ['Page.CompanyFloor'],
         },
         {
           title: vm.$t('sidbar.CompaniesRoom'),
           icon: 'mdi-select-place',
           to: '/Companies-room',
-          role: true,
+          role: ['Page.CompanyRoom'],
         },
       ],
       assets: [
@@ -240,31 +244,50 @@
           title: vm.$t('assets.assets'),
           icon: 'mdi-safe',
           to: '/Assets',
-          role: true,
+          role: ['Page.Asset'],
         },
         {
           title: vm.$t('sidbar.assetsType'),
           icon: 'fa-file-contract',
           to: '/Assets-type',
-          role: true,
+          role: ['Page.AssetType'],
         },
         {
           title: vm.$t('sidbar.assetsBrand'),
           icon: 'fa-copyright',
           to: '/Assets-brand',
-          role: true,
+          role: ['Page.AssetBrand'],
         },
         {
           title: vm.$t('sidbar.assetsCategory'),
           icon: 'fa-object-group',
           to: '/Assets-category',
-          role: true,
+          role: ['Page.AssetCategory'],
         },
         {
           title: vm.$t('sidbar.assetsModel'),
           icon: 'fa-shapes',
           to: '/Assets-model',
-          role: true,
+          role: ['Page.AssetModel'],
+        },
+        {
+          title: vm.$t('sidbar.assetsStatus'),
+          icon: 'fa-info',
+          to: '/Assets-status',
+          role: [],
+          // 'Page.AssetStatus'
+        },
+        {
+          title: vm.$t('sidbar.moveAssets'),
+          icon: 'fa-people-carry',
+          to: '/Move-Assets',
+          role: ['Asset.MoveAssetfromBranchToBranch'],
+        },
+        {
+          title: vm.$t('sidbar.pendingAssets'),
+          icon: 'fa-clock',
+          to: '/Pending-Assets',
+          role: ['Asset.GetAllPendingAssets'],
         },
       ],
       auth: [
@@ -288,15 +311,10 @@
         // },
       ],
     }),
-
     computed: {
       ...mapState(['barColor'],
                   { role: state => state.login.userDataPermission },
       ),
-      created () {
-        console.log(this.$store.state.login.userDataPermission)
-        return null
-      },
       drawer: {
         get () {
           return this.$store.state.drawer
@@ -315,7 +333,13 @@
         }
       },
     },
-
+    created () {
+      // console.log('userDataPermission', localStorage.getItem('userDataPermission'))
+      // const userDataPermission = localStorage.getItem('userDataPermission')
+      // const permissions = userDataPermission.split(',')
+      // this.permissions = permissions
+      this.checkLinksRole()
+    },
     methods: {
       mapItem (item) {
         return {
@@ -325,14 +349,23 @@
         }
       },
       checkLinksRole () {
-        this.links = []
-        const userPermission = localStorage.getItem('userDataPermission')
-        this.AsideLinks.map(item => {
-          if (
-            userPermission.permissions.indexOf(item.role) > -1 ||
-            item.role === true
-          ) {
-            this.links.push(item)
+        const userDataPermission = localStorage.getItem('userDataPermission')
+        const permissions = userDataPermission.split(',')
+        this.permissions = permissions
+        // console.log(this.permissions)
+
+        this.companies = this.companies.filter(item => {
+          for (let i = 0; i < item.role.length; i++) {
+            if (this.permissions.includes(item.role[i])) {
+              return true
+            }
+          }
+        })
+        this.assets = this.assets.filter(item => {
+          for (let i = 0; i < item.role.length; i++) {
+            if (this.permissions.includes(item.role[i])) {
+              return true
+            }
           }
         })
       },

@@ -17,10 +17,13 @@
         /> -->
         <v-spacer />
         <router-link
+          v-for="role in Roles"
+          :key="role"
           :to="{ path: '/branchForm'}"
           color="primary"
         >
           <v-btn
+            v-if="role === 'CompanyBranch.AddOrUpdate'"
             outlined
             class="mx-2"
             color="primary"
@@ -44,8 +47,15 @@
         @fetchAllItems="fetchAllItems"
       >
         <template v-slot:[`item.actions`]="{ item }">
-          <v-tooltip bottom>
-            <template v-slot:activator="{ on, attrs }">
+          <v-tooltip
+            v-for="role in Roles"
+            :key="role"
+            bottom
+          >
+            <template
+              v-if="role === 'CompanyBranch.GetById'"
+              v-slot:activator="{ on, attrs }"
+            >
               <router-link
                 :to="'/branchForm/' + item.branchId"
               >
@@ -91,6 +101,7 @@
       numberOfPages: 0,
       options: {},
       branches: [],
+      Roles: [],
       loading: false,
       headers: [
         {
@@ -113,6 +124,9 @@
         },
       },
     },
+    created () {
+      this.checkLinksRole()
+    },
     methods: {
       async fetchAllItems () {
         this.dataLoading = true
@@ -124,6 +138,12 @@
         this.total = branches.count
         // this.numberOfPages = companies.data.pageCount
         this.dataLoading = false
+      },
+      checkLinksRole () {
+        const userDataPermission = localStorage.getItem('userDataPermission')
+        const permissions = userDataPermission.split(',')
+        this.Roles = permissions
+        console.log('this.Roles', this.Roles)
       },
     },
   }

@@ -6,7 +6,7 @@
   >
     <v-card>
       <v-card-title>
-        {{ $t('assets.assets') }}
+        {{ $t('sidbar.pendingAssets') }}
         <v-spacer />
         <!-- <v-text-field
           v-model="search"
@@ -16,21 +16,6 @@
           hide-details
         /> -->
         <v-spacer />
-        <router-link
-          v-for="role in Roles"
-          :key="role"
-          :to="{ path: '/assetsForm'}"
-          color="primary"
-        >
-          <v-btn
-            v-if="role === 'Asset.Add'"
-            outlined
-            class="mx-2"
-            color="primary"
-          >
-            {{ $t('actions.Add') }}
-          </v-btn>
-        </router-link>
       </v-card-title>
       <v-data-table
         :loading="dataLoading"
@@ -47,34 +32,26 @@
         @fetchAllItems="fetchAllItems"
       >
         <template v-slot:[`item.actions`]="{ item }">
-          <v-tooltip
-            v-for="role in Roles"
-            :key="role"
-            bottom
-          >
+          <v-tooltip bottom>
             <template
-              v-if="role === 'Asset.GetById'"
               v-slot:activator="{ on, attrs }"
             >
-              <router-link
-                :to="'/assetsForm/' + item.assetId"
+              <v-btn
+                small
+                fab
+                outlined
+                class="mx-2"
+                color="green"
+                v-bind="attrs"
+                v-on="on"
+                @click="acceptTransfer(item)"
               >
-                <v-btn
-                  small
-                  fab
-                  outlined
-                  class="mx-1 my-1"
-                  color="blue"
-                  v-bind="attrs"
-                  v-on="on"
-                >
-                  <v-icon>
-                    mdi-pencil
-                  </v-icon>
-                </v-btn>
-              </router-link>
+                <v-icon>
+                  fa-check
+                </v-icon>
+              </v-btn>
             </template>
-            {{ $t('actions.edit') }}
+            {{ $t('actions.accept') }}
           </v-tooltip>
           <v-tooltip bottom>
             <template v-slot:activator="{ on, attrs }">
@@ -131,16 +108,10 @@
                         {{ $t('assets.roomName') }}
                       </th>
                       <th class="text-center">
-                        {{ $t('assets.poName') }}
+                        {{ $t('assets.transActionDesc') }}
                       </th>
                       <th class="text-center">
-                        {{ $t('assets.assetExpiryDate') }}
-                      </th>
-                      <th class="text-center">
-                        {{ $t('assets.assetMaintinanceDate') }}
-                      </th>
-                      <th class="text-center">
-                        {{ $t('assets.assetProductionDate') }}
+                        {{ $t('assets.actionUserDate') }}
                       </th>
                     </tr>
                   </thead>
@@ -149,10 +120,8 @@
                       <td>{{ assetsDetails.branchName }}</td>
                       <td>{{ assetsDetails.floorName }}</td>
                       <td>{{ assetsDetails.roomName }}</td>
-                      <td>{{ assetsDetails.poName }}</td>
-                      <td>{{ assetsDetails.assetExpiryDate }}</td>
-                      <td>{{ assetsDetails.assetMaintinanceDate }}</td>
-                      <td>{{ assetsDetails.assetProductionDate }}</td>
+                      <td>{{ assetsDetails.transActionDesc }}</td>
+                      <td>{{ assetsDetails.actionUserDate }}</td>
                     </tr>
                   </tbody>
                 </template>
@@ -172,7 +141,67 @@
           </base-material-card>
         </v-card>
       </v-dialog>
+      <v-dialog
+        v-model="acceptTransferDailog"
+        max-width="500"
+      >
+        <v-card
+          class="text-center"
+        >
+          <base-material-card
+            :title="$t('assets.confirmAccept') + assetsDetails.assetName"
+            color="green"
+            class="pt-12"
+          >
+            <v-card-text class="mt-2">
+              {{ $t('assets.areYouSure') }}
+            </v-card-text>
+
+            <v-card-actions>
+              <v-spacer />
+              <v-btn
+                color="green"
+                outlined
+                :loading="loading"
+                :disabled="disabled"
+                @click="acceptTransfers(assetsDetails)"
+              >
+                {{ $t('actions.accept') }}
+              </v-btn>
+              <v-btn
+                color="error"
+                outlined
+                @click="acceptTransferDailog = false"
+              >
+                {{ $t('actions.close') }}
+              </v-btn>
+            </v-card-actions>
+          </base-material-card>
+        </v-card>
+      </v-dialog>
     </v-card>
+    <v-snackbar
+      v-model="successSnackbar"
+      color="success"
+      shaped
+      absolute
+      bottom
+      right
+      :timeout="timeout"
+    >
+      {{ successMessage }}
+    </v-snackbar>
+    <v-snackbar
+      v-model="errorSnackbar"
+      color="red"
+      shaped
+      absolute
+      bottom
+      right
+      :timeout="timeout"
+    >
+      {{ errorSnackbar }}
+    </v-snackbar>
   </v-container>
 </template>
 <script>
@@ -180,7 +209,7 @@
   import moment from 'moment'
   const AssetsService = ServiceFactory.get('Assets')
   export default {
-    name: 'Companies',
+    name: 'PendingAssets',
     data: (vm) => ({
       search: '',
       dataLoading: false,
@@ -190,9 +219,16 @@
       options: {},
       assets: [],
       Roles: [],
-      loading: false,
       moreDetails: false,
+      acceptTransferDailog: false,
       assetsDetails: {},
+      timeout: 3000,
+      successSnackbar: false,
+      errorSnackbar: false,
+      successMessage: '',
+      errorMessage: '',
+      loading: false,
+      disabled: false,
       headers: [
         {
           text: vm.$t('companies.id'),
@@ -201,12 +237,11 @@
           value: 'assetId',
         },
         { text: vm.$t('assets.assetName'), sortable: false, value: 'assetName' },
-        { text: vm.$t('assets.assetDescription'), sortable: false, value: 'assetDescription' },
-        { text: vm.$t('assets.assetBrandName'), sortable: false, value: 'assetBrandName' },
-        { text: vm.$t('assets.assetCategoryName'), sortable: false, value: 'assetCategoryName' },
-        { text: vm.$t('assets.assetModelName'), sortable: false, value: 'assetModelName' },
-        { text: vm.$t('assets.assetTypeName'), sortable: false, value: 'assetTypeName' },
-        { text: vm.$t('assets.assetSerialNumber'), sortable: false, value: 'assetSerialNumber' },
+        { text: vm.$t('assets.assetBrandName'), sortable: false, value: 'brandName' },
+        { text: vm.$t('assets.assetCategoryName'), sortable: false, value: 'categoryName' },
+        { text: vm.$t('assets.assetModelName'), sortable: false, value: 'modelName' },
+        { text: vm.$t('assets.assetTypeName'), sortable: false, value: 'typeName' },
+        { text: vm.$t('assets.assetSerialNumber'), sortable: false, value: 'serialNumber' },
         { text: vm.$t('actions.actions'), value: 'actions', sortable: false },
       ],
     }),
@@ -217,15 +252,14 @@
         },
       },
     },
-    created () {
-      this.checkLinksRole()
-    },
     methods: {
+      acceptTransfer (item) {
+        this.acceptTransferDailog = true
+        this.assetsDetails = item
+      },
       moreDetailsD (item) {
         this.moreDetails = true
-        item.assetExpiryDate = moment(item.assetExpiryDate).format('YYYY-MM-DD hh:mm a')
-        item.assetProductionDate = moment(item.assetProductionDate).format('YYYY-MM-DD hh:mm a')
-        item.assetMaintinanceDate = moment(item.assetMaintinanceDate).format('YYYY-MM-DD hh:mm a')
+        item.actionUserDate = moment(item.actionUserDate).format('YYYY-MM-DD hh:mm a')
         this.assetsDetails = item
         console.log('assetsDetails', this.assetsDetails)
       },
@@ -233,18 +267,30 @@
         this.dataLoading = true
         const { page, itemsPerPage } = this.options
         const pageNumber = page - 1
-        const assets = await AssetsService.getAllItems(itemsPerPage, page, pageNumber)
-        console.log('assets', assets)
+        const assets = await AssetsService.getPendingItems(itemsPerPage, page, pageNumber)
+        console.log('Assets', assets)
         this.assets = assets.list
-        this.total = assets.resultPaging.total
-        this.numberOfPages = assets.resultPaging.page
+        this.total = assets.count
+        // this.numberOfPages = companies.data.pageCount
         this.dataLoading = false
       },
-      checkLinksRole () {
-        const userDataPermission = localStorage.getItem('userDataPermission')
-        const permissions = userDataPermission.split(',')
-        this.Roles = permissions
-        console.log('this.Roles', this.Roles)
+      async acceptTransfers (item) {
+        this.loading = true
+        this.disabled = true
+        const apperove = await AssetsService.acceptTransfer(item.assetId)
+        if (apperove.success === true) {
+          this.acceptTransferDailog = false
+          this.successMessage = 'Successful'
+          this.successSnackbar = true
+          setTimeout(() => {
+            this.$router.go('/Pending-Assets')
+          }, 1000)
+        } else {
+          this.errorMessage('something Error')
+          this.errorSnackbar = true
+        }
+        this.disabled = false
+        this.loading = false
       },
     },
   }

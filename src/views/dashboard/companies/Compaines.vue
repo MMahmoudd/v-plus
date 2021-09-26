@@ -17,10 +17,13 @@
         /> -->
         <v-spacer />
         <router-link
+          v-for="role in Roles"
+          :key="role"
           :to="{ path: '/CompaniesForm'}"
           color="primary"
         >
           <v-btn
+            v-if="role === 'Company.AddOrUpdate'"
             outlined
             class="mx-2"
             color="primary"
@@ -43,9 +46,18 @@
         :page-count="numberOfPages"
         @fetchAllItems="fetchAllItems"
       >
-        <template v-slot:[`item.actions`]="{ item }">
-          <v-tooltip bottom>
-            <template v-slot:activator="{ on, attrs }">
+        <template
+          v-slot:[`item.actions`]="{ item }"
+        >
+          <v-tooltip
+            v-for="role in Roles"
+            :key="role"
+            bottom
+          >
+            <template
+              v-if="role === 'Company.GetById'"
+              v-slot:activator="{ on, attrs }"
+            >
               <router-link
                 :to="'/CompaniesForm/' + item.companyId"
               >
@@ -79,6 +91,9 @@
   </v-container>
 </template>
 <script>
+  // import {
+  //   mapState,
+  // } from 'vuex'
   import { ServiceFactory } from '../../../services/ServiceFactory'
   const CompaniesService = ServiceFactory.get('companies')
   export default {
@@ -91,6 +106,7 @@
       numberOfPages: 0,
       options: {},
       companies: [],
+      Roles: [],
       loading: false,
       headers: [
         {
@@ -112,6 +128,9 @@
         },
       },
     },
+    created () {
+      this.checkLinksRole()
+    },
     methods: {
       async fetchAllItems () {
         this.dataLoading = true
@@ -123,6 +142,12 @@
         this.total = companies.count
         // this.numberOfPages = companies.data.pageCount
         this.dataLoading = false
+      },
+      checkLinksRole () {
+        const userDataPermission = localStorage.getItem('userDataPermission')
+        const permissions = userDataPermission.split(',')
+        this.Roles = permissions
+        console.log('this.Roles', this.Roles)
       },
     },
   }

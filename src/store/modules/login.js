@@ -7,7 +7,7 @@ const Login = {
     loginErrorMessage: null,
     loginSuccessful: false,
     token: localStorage.getItem('token'),
-    userDataPermission: [],
+    userDataPermission: null,
     userAuth: '',
     userToken: '',
     userData: JSON.parse(localStorage.getItem('userData')),
@@ -54,10 +54,12 @@ const Login = {
           if (response.status === 200) {
             localStorage.setItem('token', response.data.token)
             localStorage.setItem('userDataPermission', response.data.userPolicy)
+            state.userToken = response.data.token
+            state.userDataPermission = response.data.userPolicy
             dispatch('checkUserData')
             window.location.href = process.env.BASE_URL
           } else {
-            state.loginErrorMessage = response.data.error[0]
+            // state.loginErrorMessage = response.data.error[0]
             state.isLoading = true
           }
         })

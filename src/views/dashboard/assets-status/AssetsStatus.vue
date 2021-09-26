@@ -6,7 +6,7 @@
   >
     <v-card>
       <v-card-title>
-        {{ $t('sidbar.CompaniesArea') }}
+        {{ $t('sidbar.assetsStatus') }}
         <v-spacer />
         <!-- <v-text-field
           v-model="search"
@@ -19,11 +19,11 @@
         <router-link
           v-for="role in Roles"
           :key="role"
-          :to="{ path: '/areaForm'}"
+          :to="{ path: '/assetsStatusForm'}"
           color="primary"
         >
           <v-btn
-            v-if="role === 'CompanyArea.AddOrUpdate'"
+            v-if="role === 'AssetStatus.AddOrUpdate'"
             outlined
             class="mx-2"
             color="primary"
@@ -36,7 +36,7 @@
         :loading="dataLoading"
         :headers="headers"
         :search="search"
-        :items="area"
+        :items="status"
         :items-per-page="20"
         :footer-props="{
           'items-per-page-options': [10, 20, 30, 40, 50]
@@ -53,11 +53,11 @@
             bottom
           >
             <template
-              v-if="role === 'CompanyArea.GetById'"
+              v-if="role === 'AssetStatus.GetById'"
               v-slot:activator="{ on, attrs }"
             >
               <router-link
-                :to="'/areaForm/' + item.areaId"
+                :to="'/assetsStatusForm/' + item.assetStatusId"
               >
                 <v-btn
                   small
@@ -90,9 +90,9 @@
 </template>
 <script>
   import { ServiceFactory } from '../../../services/ServiceFactory'
-  const CompanyAreaService = ServiceFactory.get('CompanyArea')
+  const AssetsStatusService = ServiceFactory.get('AssetsStatus')
   export default {
-    name: 'CompanyBranches',
+    name: 'Status',
     data: (vm) => ({
       search: '',
       dataLoading: false,
@@ -100,7 +100,7 @@
       total: 0,
       numberOfPages: 0,
       options: {},
-      area: [],
+      status: [],
       Roles: [],
       loading: false,
       headers: [
@@ -108,14 +108,12 @@
           text: vm.$t('companies.id'),
           align: 'start',
           sortable: false,
-          value: 'areaId',
+          value: 'assetStatusId',
         },
-        { text: vm.$t('area.areaName'), sortable: false, value: 'areaName' },
-        { text: vm.$t('area.companyName'), sortable: false, value: 'companyName' },
+        { text: vm.$t('assetsStatus.assetStatusDesc'), sortable: false, value: 'assetStatusDesc' },
         { text: vm.$t('actions.actions'), value: 'actions', sortable: false },
       ],
     }),
-
     watch: {
       options: {
         handler () {
@@ -131,10 +129,10 @@
         this.dataLoading = true
         const { page, itemsPerPage } = this.options
         const pageNumber = page - 1
-        const area = await CompanyAreaService.getAllItems(itemsPerPage, page, pageNumber)
-        console.log('area', area)
-        this.area = area.list
-        this.total = area.count
+        const status = await AssetsStatusService.getAllItems(itemsPerPage, page, pageNumber)
+        console.log('status', status)
+        this.status = status.list
+        this.total = status.count
         // this.numberOfPages = companies.data.pageCount
         this.dataLoading = false
       },

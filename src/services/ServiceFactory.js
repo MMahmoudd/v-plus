@@ -11,6 +11,7 @@ import AssetsCategoryServices from './AssetsCategoryServices'
 import AssetsBrandServices from './AssetsBrandServices'
 import AuthenticationServices from './AuthenticationServices'
 import roleServices from './roleServices'
+import AssetsStatusServices from './AssetsStatusServices'
 
 const services = {
   companies: companiesService,
@@ -26,6 +27,7 @@ const services = {
   AssetsBrand: AssetsBrandServices,
   Authentication: AuthenticationServices,
   Role: roleServices,
+  AssetsStatus: AssetsStatusServices,
 }
 
 export const ServiceFactory = {
