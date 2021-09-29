@@ -220,7 +220,7 @@ const router = new Router({
           name: 'Assets Category Form',
           path: '/assetsCategoryForm/:id?',
           component: () => import('@/views/dashboard/assets-category/Form.vue'),
-          meta: { role: 'AssetCtegory.GetById' || 'AssetCtegory.AddOrUpdate' },
+          meta: { role: 'AssetCategory.GetById' || 'AssetCategory.AddOrUpdate' },
           beforeEnter: routerGuard,
         },
         // Assets Model
@@ -243,8 +243,7 @@ const router = new Router({
           name: 'Assets Status',
           path: '/Assets-status',
           component: () => import('@/views/dashboard/assets-status/AssetsStatus.vue'),
-          meta: { },
-          // role: 'Page.AssetStatus'
+          meta: { role: 'Page.AssetStatus' },
           beforeEnter: routerGuard,
         },
         {
@@ -263,10 +262,17 @@ const router = new Router({
           beforeEnter: routerGuard,
         },
         {
-          name: 'Move Assets Form',
-          path: '/moveAssetsForm/:id?',
+          name: 'Move Assets Branch',
+          path: '/moveAssetsBranch/:id?',
           component: () => import('@/views/dashboard/move-assets/Form.vue'),
-          meta: { role: 'Asset.MoveAssetfromBranchToBranch' },
+          meta: { role: 'Asset.MoveAssetfromBranchToBranch' || 'Asset.MoveAssetInsideBranch' },
+          beforeEnter: routerGuard,
+        },
+        {
+          name: 'Move Assets To Floor And Room',
+          path: '/moveAssetsFloorAndRoom/:id?',
+          component: () => import('@/views/dashboard/move-assets/Form.vue'),
+          meta: { role: 'Asset.MoveAssetfromBranchToBranch' || 'Asset.MoveAssetInsideBranch' },
           beforeEnter: routerGuard,
         },
         // Pending Assets
@@ -307,21 +313,21 @@ const router = new Router({
           meta: { requiresAuth: true },
           beforeEnter: routerGuard,
         },
-        // Permissions
-        // {
-        //   name: 'Permissions',
-        //   path: '/Permissions',
-        //   component: () => import('@/views/dashboard/permissions/Permissions.vue'),
-        //   meta: { requiresAuth: true },
-        //   beforeEnter: routerGuard,
-        // },
-        // {
-        //   name: 'Permissions Form',
-        //   path: '/PermissionForm/:id?',
-        //   component: () => import('@/views/dashboard/permissions/Form.vue'),
-        //   meta: { requiresAuth: true },
-        //   beforeEnter: routerGuard,
-        // },
+        // Reports
+        {
+          name: 'Reports',
+          path: '/Reports',
+          component: () => import('@/views/dashboard/reports/Reports.vue'),
+          meta: { role: 'Report.GetProcedures' },
+          beforeEnter: routerGuard,
+        },
+        {
+          name: 'Report Form',
+          path: '/reportForm/:id?',
+          component: () => import('@/views/dashboard/reports/Form.vue'),
+          meta: { role: 'Report.ExcuteProcedure' },
+          beforeEnter: routerGuard,
+        },
         {
           path: '/notAuthorized',
           name: 'notAuthorized',

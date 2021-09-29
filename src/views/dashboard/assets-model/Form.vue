@@ -60,7 +60,7 @@
       shaped
       absolute
       bottom
-      right
+      center
       :timeout="timeout"
     >
       {{ successMessage }}
@@ -71,7 +71,7 @@
       shaped
       absolute
       bottom
-      right
+      center
       :timeout="timeout"
     >
       {{ errorSnackbar }}
@@ -105,6 +105,7 @@
       if (this.$route.params.id) {
         this.fetchOneItem(this.$route.params.id)
       }
+      console.log(this.$route)
       this.getLKPBrand()
     },
     methods: {
@@ -115,7 +116,7 @@
           this.updateContent({
             assetModelId: this.data.assetModelId,
             assetModelName: this.data.assetModelName,
-            assetBrandId: this.data.assetBrandId,
+            assetBrandId: this.data.assetBrandId.id,
           })
         } else {
           this.newItem(
@@ -132,7 +133,12 @@
           this.successMessage = 'Successful'
           this.successSnackbar = true
           setTimeout(() => {
-            this.$router.push('/Assets-model')
+            if (this.$route.name === 'Assets Model Form') {
+              this.$router.push('/Assets-model')
+            } else {
+              this.data.assetBrandId = null
+              this.data.assetModelName = ''
+            }
           }, 1500)
         } else {
           this.errorMessage('something Error')

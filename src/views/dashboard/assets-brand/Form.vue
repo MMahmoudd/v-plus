@@ -60,7 +60,7 @@
       shaped
       absolute
       bottom
-      right
+      center
       :timeout="timeout"
     >
       {{ successMessage }}
@@ -71,7 +71,7 @@
       shaped
       absolute
       bottom
-      right
+      center
       :timeout="timeout"
     >
       {{ errorSnackbar }}
@@ -115,7 +115,7 @@
           this.updateContent({
             assetBrandId: this.data.assetBrandId,
             brandName: this.data.brandName,
-            assetTypeId: this.data.assetTypeId,
+            assetTypeId: this.data.assetTypeId.id,
           })
         } else {
           this.newItem(
@@ -132,7 +132,12 @@
           this.successMessage = 'Successful'
           this.successSnackbar = true
           setTimeout(() => {
-            this.$router.push('/Assets-brand')
+            if (this.$route.name === 'Assets Brand Form') {
+              this.$router.push('/Assets-brand')
+            } else {
+              this.data.brandName = ''
+              this.data.assetTypeId = ''
+            }
           }, 1500)
         } else {
           this.errorMessage('something Error')

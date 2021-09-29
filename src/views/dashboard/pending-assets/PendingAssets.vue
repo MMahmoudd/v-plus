@@ -229,6 +229,7 @@
       errorMessage: '',
       loading: false,
       disabled: false,
+      editedIndex: -1,
       headers: [
         {
           text: vm.$t('companies.id'),
@@ -283,8 +284,9 @@
           this.successMessage = 'Successful'
           this.successSnackbar = true
           setTimeout(() => {
-            this.$router.go('/Pending-Assets')
-          }, 1000)
+            this.editedIndex = this.assets.indexOf(item)
+            this.assets.splice(this.editedIndex, 1)
+          }, 500)
         } else {
           this.errorMessage('something Error')
           this.errorSnackbar = true

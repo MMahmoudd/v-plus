@@ -60,7 +60,7 @@
       shaped
       absolute
       bottom
-      right
+      center
       :timeout="timeout"
     >
       {{ successMessage }}
@@ -71,7 +71,7 @@
       shaped
       absolute
       bottom
-      right
+      center
       :timeout="timeout"
     >
       {{ errorSnackbar }}
@@ -105,6 +105,7 @@
       if (this.$route.params.id) {
         this.fetchOneItem(this.$route.params.id)
       }
+      console.log(this.$route)
       this.getLKPCategory()
     },
     methods: {
@@ -115,7 +116,7 @@
           this.updateContent({
             assetTypeId: this.data.assetTypeId,
             assetTypeDesc: this.data.assetTypeDesc,
-            assetCategoryId: this.data.assetCategoryId,
+            assetCategoryId: this.data.assetCategoryId.id,
           })
         } else {
           this.newItem(
@@ -132,7 +133,12 @@
           this.successMessage = 'Successful'
           this.successSnackbar = true
           setTimeout(() => {
-            this.$router.push('/Assets-type')
+            if (this.$route.name === 'Assets Type Form') {
+              this.$router.push('/Assets-type')
+            } else {
+              this.data.assetTypeDesc = ''
+              this.data.assetCategoryId = null
+            }
           }, 1500)
         } else {
           this.errorMessage('something Error')

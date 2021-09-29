@@ -116,7 +116,7 @@
           this.updateContent({
             floorId: this.data.floorId,
             floorName: this.data.floorName,
-            branchId: this.data.branchId,
+            branchId: this.data.branchId.id,
           })
         } else {
           this.newItem(

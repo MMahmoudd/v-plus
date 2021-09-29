@@ -116,7 +116,7 @@
           this.updateContent({
             areaId: this.data.areaId,
             areaName: this.data.areaName,
-            companyId: this.data.companyId,
+            companyId: this.data.companyId.id,
           })
         } else {
           this.newItem(

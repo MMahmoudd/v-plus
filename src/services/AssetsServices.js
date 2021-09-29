@@ -7,8 +7,10 @@ const resource = `${API_URL}/Assets`
 
 export default {
 
-  getAllItems (itemsPerPage, page, pageNumber) {
-        return Service.get(`${resource}/GetAll?page=${page}&limit=${itemsPerPage}`)
+  getAllItems (itemsPerPage, page, pageNumber, filters) {
+        const searchQuery = (filters && filters !== '') ? '&filter=' + filters : ''
+        const filterQuery = searchQuery
+        return Service.get(`${resource}/GetAll?page=${page}&limit=${itemsPerPage}${filterQuery}`)
         .then((response) => {
             if (response.status === 200) {
                 return response.data
@@ -64,6 +66,15 @@ export default {
                 return response.data
             }
         })
+    },
+    MoveAssetInsideBranch (data) {
+      return Service.post(`${resource}/MoveAssetInsideBranch`, data)
+      .then((response) => {
+          console.log(response)
+        if (response.status === 200) {
+            return response.data
+        }
+    })
     },
     getPendingItems () {
       return Service.get(`${resource}/GetAllPendingAssets`)

@@ -130,7 +130,7 @@
             branchId: this.data.branchId,
             branchName: this.data.branchName,
             branchAddress: this.data.branchAddress,
-            areaId: this.data.areaId,
+            areaId: this.data.areaId.id,
           })
         } else {
           this.newItem(

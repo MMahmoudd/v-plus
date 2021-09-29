@@ -14,7 +14,7 @@
           @submit.prevent="submitForm()"
         >
           <v-container fluid>
-            <v-row class="mx-md-16 px-md-16">
+            <v-row class="mx-md-8 px-md-8">
               <h3>{{ $t('assets.basicInfo') }}</h3>
               <v-col cols="12">
                 <div class="border py-5">
@@ -52,6 +52,7 @@
                     <v-col
                       cols="12"
                       md="6"
+                      class="d-flex"
                     >
                       <v-select
                         v-model="data.assetCategoryId"
@@ -64,10 +65,35 @@
                         dense
                         @input="getLKPType(data.assetCategoryId.id)"
                       />
+                      <span v-if="!this.$route.params.id">
+                        <div
+                          v-for="role in Roles"
+                          :key="role"
+                        >
+                          <v-tooltip bottom>
+                            <template v-slot:activator="{ on, attrs }">
+                              <v-btn
+                                v-if="role === 'AssetCategory.AddOrUpdate'"
+                                color="green"
+                                outlined
+                                v-bind="attrs"
+                                v-on="on"
+                                @click="addAssetCategory = true"
+                              >
+                                <v-icon>
+                                  fa-plus
+                                </v-icon>
+                              </v-btn>
+                            </template>
+                            {{ $t('actions.addCategory') }}
+                          </v-tooltip>
+                        </div>
+                      </span>
                     </v-col>
                     <v-col
                       cols="12"
                       md="6"
+                      class="d-flex"
                     >
                       <v-select
                         v-model="data.assetTypeId"
@@ -80,10 +106,35 @@
                         dense
                         @input="getLKPBrand(data.assetTypeId.id)"
                       />
+                      <span v-if="!this.$route.params.id">
+                        <div
+                          v-for="role in Roles"
+                          :key="role"
+                        >
+                          <v-tooltip bottom>
+                            <template v-slot:activator="{ on, attrs }">
+                              <v-btn
+                                v-if="role === 'AssetType.AddOrUpdate'"
+                                color="green"
+                                outlined
+                                v-bind="attrs"
+                                v-on="on"
+                                @click="addAssetType = true"
+                              >
+                                <v-icon>
+                                  fa-plus
+                                </v-icon>
+                              </v-btn>
+                            </template>
+                            {{ $t('actions.addType') }}
+                          </v-tooltip>
+                        </div>
+                      </span>
                     </v-col>
                     <v-col
                       cols="12"
                       md="6"
+                      class="d-flex"
                     >
                       <v-select
                         v-model="data.assetBrandId"
@@ -96,10 +147,35 @@
                         dense
                         @input="getLKPModel(data.assetBrandId.id)"
                       />
+                      <span v-if="!this.$route.params.id">
+                        <div
+                          v-for="role in Roles"
+                          :key="role"
+                        >
+                          <v-tooltip bottom>
+                            <template v-slot:activator="{ on, attrs }">
+                              <v-btn
+                                v-if="role === 'AssetBrand.AddOrUpdate'"
+                                color="green"
+                                outlined
+                                v-bind="attrs"
+                                v-on="on"
+                                @click="addAssetBrand = true"
+                              >
+                                <v-icon>
+                                  fa-plus
+                                </v-icon>
+                              </v-btn>
+                            </template>
+                            {{ $t('actions.addBrand') }}
+                          </v-tooltip>
+                        </div>
+                      </span>
                     </v-col>
                     <v-col
                       cols="12"
                       md="6"
+                      class="d-flex"
                     >
                       <v-select
                         v-model="data.assetModelId"
@@ -111,6 +187,30 @@
                         outlined
                         dense
                       />
+                      <span v-if="!this.$route.params.id">
+                        <div
+                          v-for="role in Roles"
+                          :key="role"
+                        >
+                          <v-tooltip bottom>
+                            <template v-slot:activator="{ on, attrs }">
+                              <v-btn
+                                v-if="role === 'AssetModel.AddOrUpdate'"
+                                color="green"
+                                outlined
+                                v-bind="attrs"
+                                v-on="on"
+                                @click="addAssetModel = true"
+                              >
+                                <v-icon>
+                                  fa-plus
+                                </v-icon>
+                              </v-btn>
+                            </template>
+                            {{ $t('actions.addModel') }}
+                          </v-tooltip>
+                        </div>
+                      </span>
                     </v-col>
                     <v-col
                       v-if="this.$route.params.id"
@@ -408,6 +508,126 @@
           </v-container>
         </v-form>
       </template>
+      <v-dialog
+        v-model="addAssetCategory"
+        persistent
+        max-width="1200"
+      >
+        <v-card
+          class="text-center"
+        >
+          <base-material-card
+            :title="$t('assetCategory.addCategory')"
+            color="green"
+            class="pt-12"
+          >
+            <v-card-text class="mt-2">
+              <assetCategoryForm />
+            </v-card-text>
+
+            <v-card-actions>
+              <v-spacer />
+              <v-btn
+                color="error"
+                outlined
+                @click="closeAddCategory()"
+              >
+                {{ $t('actions.close') }}
+              </v-btn>
+            </v-card-actions>
+          </base-material-card>
+        </v-card>
+      </v-dialog>
+      <v-dialog
+        v-model="addAssetType"
+        persistent
+        max-width="1200"
+      >
+        <v-card
+          class="text-center"
+        >
+          <base-material-card
+            :title="$t('assetsType.addType')"
+            color="green"
+            class="pt-12"
+          >
+            <v-card-text class="mt-2">
+              <assetTypeForm />
+            </v-card-text>
+
+            <v-card-actions>
+              <v-spacer />
+              <v-btn
+                color="error"
+                outlined
+                @click="closeAddType()"
+              >
+                {{ $t('actions.close') }}
+              </v-btn>
+            </v-card-actions>
+          </base-material-card>
+        </v-card>
+      </v-dialog>
+      <v-dialog
+        v-model="addAssetBrand"
+        persistent
+        max-width="1200"
+      >
+        <v-card
+          class="text-center"
+        >
+          <base-material-card
+            :title="$t('assetsBrand.addBrand')"
+            color="green"
+            class="pt-12"
+          >
+            <v-card-text class="mt-2">
+              <assetBrandForm />
+            </v-card-text>
+
+            <v-card-actions>
+              <v-spacer />
+              <v-btn
+                color="error"
+                outlined
+                @click="closeAddBrand()"
+              >
+                {{ $t('actions.close') }}
+              </v-btn>
+            </v-card-actions>
+          </base-material-card>
+        </v-card>
+      </v-dialog>
+      <v-dialog
+        v-model="addAssetModel"
+        persistent
+        max-width="1200"
+      >
+        <v-card
+          class="text-center"
+        >
+          <base-material-card
+            :title="$t('assetModel.addModel')"
+            color="green"
+            class="pt-12"
+          >
+            <v-card-text class="mt-2">
+              <assetModelForm />
+            </v-card-text>
+
+            <v-card-actions>
+              <v-spacer />
+              <v-btn
+                color="error"
+                outlined
+                @click="closeAddModel()"
+              >
+                {{ $t('actions.close') }}
+              </v-btn>
+            </v-card-actions>
+          </base-material-card>
+        </v-card>
+      </v-dialog>
     </v-card>
     <v-snackbar
       v-model="successSnackbar"
@@ -436,6 +656,10 @@
 <script>
   import { ServiceFactory } from '../../../services/ServiceFactory'
   import moment from 'moment'
+  import assetCategoryForm from '../assets-category/Form.vue'
+  import assetTypeForm from '../assets-type/Form.vue'
+  import assetBrandForm from '../assets-brand/Form.vue'
+  import assetModelForm from '../assets-model/Form.vue'
   const AssetsService = ServiceFactory.get('Assets')
   const AssetsTypeService = ServiceFactory.get('AssetsType')
   const AssetsCategoryService = ServiceFactory.get('AssetsCategory')
@@ -446,6 +670,12 @@
   const CompanyRoomService = ServiceFactory.get('CompanyRoom')
   export default {
     name: 'Companies',
+    components: {
+      assetCategoryForm,
+      assetTypeForm,
+      assetBrandForm,
+      assetModelForm,
+    },
     data: (vm) => ({
       dataLoading: false,
       valid: false,
@@ -453,6 +683,10 @@
       assetExpiryDate: false,
       assetProductionDate: false,
       printDate: false,
+      addAssetCategory: false,
+      addAssetType: false,
+      addAssetBrand: false,
+      addAssetModel: false,
       data: {
         assetId: null,
         assetName: '',
@@ -481,6 +715,7 @@
       LKPFloor: [],
       LKPRoom: [],
       formSerial: [],
+      Roles: [],
       successSnackbar: false,
       errorSnackbar: false,
       timeout: 3000,
@@ -493,10 +728,36 @@
       if (this.$route.params.id) {
         this.fetchOneItem(this.$route.params.id)
       }
+      this.checkLinksRole()
       this.getLKPCategory()
       this.getLKPBrnch()
     },
     methods: {
+      addAssetCategory () {
+        this.addAssetCategoryv = true
+      },
+      closeAddCategory () {
+        this.getLKPCategory()
+        this.addAssetCategory = false
+      },
+      closeAddType () {
+        if (this.data.assetCategoryId) {
+          this.getLKPType(this.data.assetCategoryId.id)
+        }
+        this.addAssetType = false
+      },
+      closeAddBrand () {
+        if (this.data.assetTypeId) {
+          this.getLKPBrand(this.data.assetTypeId.id)
+        }
+        this.addAssetBrand = false
+      },
+      closeAddModel () {
+        if (this.data.assetBrandId) {
+          this.getLKPModel(this.data.assetBrandId.id)
+        }
+        this.addAssetModel = false
+      },
       async  submitForm () {
         this.loading = true
         this.disabled = true
@@ -576,9 +837,11 @@
       },
       addNewSerial () {
         this.data.arrayOfAssetSerialNumber = this.formSerial
-        this.data.arrayOfAssetSerialNumber.push({
-          assetSerialNumber: null,
-        })
+        if (this.data.arrayOfAssetSerialNumber.length < this.data.assetCount) {
+          this.data.arrayOfAssetSerialNumber.push({
+            assetSerialNumber: null,
+          })
+        }
       },
       deleteSerial (id) {
         this.data.arrayOfAssetSerialNumber.splice(id, 1)
@@ -608,6 +871,7 @@
       },
       async getLKPType (item) {
         this.dataLoading = true
+        console.log('category Id', item)
         const LKPType = await AssetsTypeService.getTypeByCategory(item)
         this.LKPType = LKPType.list
         this.dataLoading = false
@@ -641,6 +905,12 @@
         const LKPRoom = await CompanyRoomService.getRoomByFloor(item)
         this.LKPRoom = LKPRoom.list
         this.dataLoading = false
+      },
+      checkLinksRole () {
+        const userDataPermission = localStorage.getItem('userDataPermission')
+        const permissions = userDataPermission.split(',')
+        this.Roles = permissions
+        console.log('this.Roles', this.Roles)
       },
     },
   }

@@ -129,7 +129,7 @@
         if (this.$route.params.id) {
           this.updateContent({
             companyId: this.data.companyId,
-            groupId: this.data.groupId,
+            groupId: this.data.groupId.id,
             companyLogo: this.data.companyLogo,
             companyNameArabic: this.data.companyNameArabic,
             companyNameEnglish: this.data.companyNameEnglish,

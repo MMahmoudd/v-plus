@@ -135,7 +135,7 @@
           />
         </v-list-item>
       </v-list-group>
-      <!--Assets Management -->
+      <!-- Auth -->
       <v-list-group
         no-action
         sub-group
@@ -154,6 +154,41 @@
         </template>
         <v-list-item
           v-for="(item, i) in auth"
+          :key="i"
+          link
+        >
+          <base-item-group
+            v-if="item.children"
+            :key="`group-${i}`"
+            :item="item"
+          />
+          <base-item
+            v-else
+            :key="`item-${i}`"
+            :item="item"
+            color="#ff9800"
+          />
+        </v-list-item>
+      </v-list-group>
+      <!-- Reports-->
+      <v-list-group
+        no-action
+        sub-group
+        color="#ff9800"
+        :expand="expand"
+      >
+        <template
+          v-slot:activator
+        >
+          <v-list-item-icon>
+            <v-icon>fa-paste</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>{{ $t('sidbar.reports') }}</v-list-item-title>
+          </v-list-item-content>
+        </template>
+        <v-list-item
+          v-for="(item, i) in Reports"
           :key="i"
           link
         >
@@ -274,14 +309,13 @@
           title: vm.$t('sidbar.assetsStatus'),
           icon: 'fa-info',
           to: '/Assets-status',
-          role: [],
-          // 'Page.AssetStatus'
+          role: ['Page.AssetStatus'],
         },
         {
           title: vm.$t('sidbar.moveAssets'),
           icon: 'fa-people-carry',
           to: '/Move-Assets',
-          role: ['Asset.MoveAssetfromBranchToBranch'],
+          role: ['Asset.MoveAssetfromBranchToBranch' || 'Asset.MoveAssetInsideBranch'],
         },
         {
           title: vm.$t('sidbar.pendingAssets'),
@@ -303,12 +337,14 @@
           to: '/Roles',
           role: true,
         },
-        // {
-        //   title: vm.$t('auth.Permissions'),
-        //   icon: 'fa-shield-alt',
-        //   to: '/Permissions',
-        //   role: true,
-        // },
+      ],
+      Reports: [
+        {
+          title: vm.$t('sidbar.reports'),
+          icon: 'fa-paste',
+          to: '/Reports',
+          role: ['Report.GetProcedures' || 'Report.ExcuteProcedure'],
+        },
       ],
     }),
     computed: {

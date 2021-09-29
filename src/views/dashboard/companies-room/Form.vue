@@ -147,8 +147,8 @@
             roomId: this.data.roomId,
             roomNumber: this.data.roomNumber,
             roomName: this.data.roomName,
-            floorId: this.data.floorId,
-            branchId: this.data.branchId,
+            floorId: this.data.floorId.id,
+            branchId: this.data.branchId.id,
           })
         } else {
           this.newItem(

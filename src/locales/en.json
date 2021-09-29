@@ -51,7 +51,8 @@
     "assetsModel": "Assets Model",
     "assetsStatus": "Assets Status",
     "moveAssets": "Move Assets",
-    "pendingAssets": "Pending Assets"
+    "pendingAssets": "Pending Assets",
+    "reports": "Reports"
   },
   "navbar": {
     "welcome": "Welcome",
@@ -67,7 +68,16 @@
     "add": "Add",
     "moreDetails": "More Details",
     "close": "Close",
-    "accept": "Accept"
+    "accept": "Accept",
+    "addCategory":"Add Category",
+    "moveAssetsToBranch": "Move Assets From Branch To Branch",
+    "moveAssetsToFloor": "Move Assets From Floor To Floor",
+    "moveAssetsToRoom": "Move Assets From Room To Room",
+    "viewReport": "View Report",
+    "addType":"Add Type",
+    "addBrand":"Add Brand",
+    "addModel":"Add Model",
+    "search": "Search"
   },
   "statistics": {
     "assetsStatistics": "Assets Statistics",
@@ -165,7 +175,11 @@
     "actionUserDate": "Transfer Date",
     "transActionDesc": "Reason for transfer",
     "confirmAccept": "Confirm Accept Transfer ",
-    "areYouSure": "Are You Sure To Confirm This Transfer ?"
+    "areYouSure": "Are You Sure To Confirm This Transfer ?",
+    "currentFloor": "Current Floor",
+    "chooseNewFloor": "choose New Floor",
+    "currentRoom": "Current Room",
+    "chooseNewRoom": "choose New Room"
   },
   "assetsType": {
     "assetTypeDesc": "Type Description",
@@ -196,5 +210,9 @@
     "editStatus": "Edit Status",
     "addStatus": "Add Status",
     "assetStatusDesc": "Asset Status Description"
+  },
+  "reports": {
+    "reports": "Reports",
+    "reportDetails": "Report Details"
   }
 }

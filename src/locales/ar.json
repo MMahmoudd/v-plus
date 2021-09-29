@@ -51,7 +51,8 @@
     "assetsModel": "نموذج الأصول",
     "assetsStatus": "حالة الأصول",
     "moveAssets": "نقل الأصول",
-    "pendingAssets": "الأصول المعلقة"
+    "pendingAssets": "الأصول المعلقة",
+    "reports": "التقارير"
   },
   "navbar": {
     "welcome": "أهلا بك",
@@ -67,7 +68,16 @@
     "add": "اضافة",
     "moreDetails": "المزيد من التفاصيل",
     "close": "اغلاق",
-    "accept": "قبول"
+    "accept": "قبول",
+    "addCategory": "اضافة فئة",
+    "moveAssetsToBranch": "نقل الأصول من فرع إلى فرع",
+    "moveAssetsToFloor": "نقل الأصول من طابق إلى آخر",
+    "moveAssetsToRoom": "نقل الأصول من غرفة إلى غرفة",
+    "viewReport": "عرض التقرير",
+    "addType": "اضافة نوع",
+    "addBrand": "اضافة علامة تجارية",
+    "addModel": "اضافة موديل",
+    "search": "بحث"
   },
   "statistics": {
     "assetsStatistics": "إحصائيات الأصول",
@@ -165,7 +175,11 @@
     "actionUserDate": "تاريخ التحويل",
     "transActionDesc": "سبب التحويل",
     "confirmAccept": " تأكيد قبول التحويل",
-    "areYouSure": "هل أنت متأكد من تأكيد هذا التحويل؟"
+    "areYouSure": "هل أنت متأكد من تأكيد هذا التحويل؟",
+    "currentFloor": "الطابق الحالي",
+    "chooseNewFloor": "اختر طابق جديد",
+    "currentRoom": "الغرفة الحالية",
+    "chooseNewRoom": "اختر غرفة جديدة"
   },
   "assetsType": {
     "assetTypeDesc": "وصف نوع الاصل",
@@ -196,5 +210,9 @@
     "editStatus": "تعديل الحالة",
     "addStatus": "اضافة حالة",
     "assetStatusDesc": "وصف الحالة"
+  },
+  "reports": {
+    "reports" :"التقارير",
+    "reportDetails": "تفاصيل التقرير"
   }
 }

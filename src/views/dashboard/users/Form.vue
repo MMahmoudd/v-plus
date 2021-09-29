@@ -206,8 +206,8 @@
             username: this.data.username,
             userfullname: this.data.userfullname,
             arrRoleId: this.data.roleIds,
-            branchId: this.data.branchId,
-            companyId: this.data.companyId,
+            branchId: this.data.branchId.id,
+            companyId: this.data.companyId.id,
           })
         } else {
           this.newItem(

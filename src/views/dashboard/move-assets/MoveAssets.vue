@@ -6,7 +6,7 @@
   >
     <v-card>
       <v-card-title>
-        {{ $t('assets.moveAssets') }}
+        {{ $t('sidbar.moveAssets') }}
         <v-spacer />
         <!-- <v-text-field
           v-model="search"
@@ -31,32 +31,71 @@
         :page-count="numberOfPages"
         @fetchAllItems="fetchAllItems"
       >
-        <template v-slot:[`item.actions`]="{ item }">
-          <v-tooltip bottom>
-            <template
-              v-slot:activator="{ on, attrs }"
+        <template
+          v-slot:[`item.actions`]="{ item }"
+        >
+          <span
+            v-for="role in Roles"
+            :key="role"
+          >
+            <v-tooltip
+              v-if="role === 'Asset.MoveAssetfromBranchToBranch'"
+              bottom
             >
-              <router-link
-                :to="'/moveAssetsForm/' + item.assetId"
+              <template
+                v-slot:activator="{ on, attrs }"
               >
-                <v-btn
-                  small
-                  fab
-                  outlined
-                  class="mx-2"
-                  color="blue"
-                  v-bind="attrs"
-                  v-on="on"
+                <router-link
+                  :to="'/moveAssetsBranch/' + item.assetId"
                 >
-                  <v-icon>
-                    mdi-pencil
-                  </v-icon>
-                </v-btn>
-              </router-link>
-            </template>
-            {{ $t('actions.edit') }}
-          </v-tooltip>
-          <v-tooltip bottom>
+                  <v-btn
+                    small
+                    fab
+                    outlined
+                    class="mx-2"
+                    color="blue"
+                    v-bind="attrs"
+                    v-on="on"
+                  >
+                    <v-icon>
+                      fa-code-branch
+                    </v-icon>
+                  </v-btn>
+                </router-link>
+              </template>
+              {{ $t('actions.moveAssetsToBranch') }}
+            </v-tooltip>
+            <v-tooltip
+              v-if="role === 'Asset.MoveAssetInsideBranch'"
+              bottom
+            >
+              <template
+                v-slot:activator="{ on, attrs }"
+              >
+                <router-link
+                  :to="'/moveAssetsFloorAndRoom/' + item.assetId"
+                >
+                  <v-btn
+                    small
+                    fab
+                    outlined
+                    class="mx-2"
+                    color="blue"
+                    v-bind="attrs"
+                    v-on="on"
+                  >
+                    <v-icon>
+                      mdi-floor-plan
+                    </v-icon>
+                  </v-btn>
+                </router-link>
+              </template>
+              {{ $t('actions.moveAssetsToFloor') }}
+            </v-tooltip>
+          </span>
+          <v-tooltip
+            bottom
+          >
             <template v-slot:activator="{ on, attrs }">
               <v-btn
                 small
@@ -197,6 +236,9 @@
         },
       },
     },
+    created () {
+      this.checkLinksRole()
+    },
     methods: {
       moreDetailsD (item) {
         this.moreDetails = true
@@ -216,6 +258,12 @@
         this.total = status.resultPaging.total
         this.numberOfPages = status.resultPaging.page
         this.dataLoading = false
+      },
+      checkLinksRole () {
+        const userDataPermission = localStorage.getItem('userDataPermission')
+        const permissions = userDataPermission.split(',')
+        this.Roles = permissions
+        console.log('this.Roles', this.Roles)
       },
     },
   }

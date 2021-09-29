@@ -45,7 +45,7 @@
       shaped
       absolute
       bottom
-      right
+      center
       :timeout="timeout"
     >
       {{ successMessage }}
@@ -56,7 +56,7 @@
       shaped
       absolute
       bottom
-      right
+      center
       :timeout="timeout"
     >
       {{ errorSnackbar }}
@@ -87,6 +87,7 @@
       if (this.$route.params.id) {
         this.fetchOneItem(this.$route.params.id)
       }
+      console.log(this.$route)
     },
     methods: {
       async  submitForm () {
@@ -111,8 +112,12 @@
           this.successMessage = 'Successful'
           this.successSnackbar = true
           setTimeout(() => {
-            this.$router.push('/Assets-category')
-          }, 1500)
+            if (this.$route.name === 'Assets Category Form') {
+              this.$router.push('/Assets-category')
+            } else {
+              this.data.assetCategoryName = ''
+            }
+          }, 1000)
         } else {
           this.errorMessage('something Error')
           this.errorSnackbar = true

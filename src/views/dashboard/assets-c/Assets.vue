@@ -8,13 +8,14 @@
       <v-card-title>
         {{ $t('assets.assets') }}
         <v-spacer />
-        <!-- <v-text-field
+        <v-text-field
           v-model="search"
           append-icon="mdi-magnify"
-          :label="$t('search')"
+          :label="$t('actions.search')"
           single-line
           hide-details
-        /> -->
+          @keyup="fetchAllItems"
+        />
         <v-spacer />
         <router-link
           v-for="role in Roles"
@@ -233,7 +234,7 @@
         this.dataLoading = true
         const { page, itemsPerPage } = this.options
         const pageNumber = page - 1
-        const assets = await AssetsService.getAllItems(itemsPerPage, page, pageNumber)
+        const assets = await AssetsService.getAllItems(itemsPerPage, page, pageNumber, this.search)
         console.log('assets', assets)
         this.assets = assets.list
         this.total = assets.resultPaging.total
