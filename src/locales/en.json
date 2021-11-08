@@ -52,7 +52,8 @@
     "assetsStatus": "Assets Status",
     "moveAssets": "Move Assets",
     "pendingAssets": "Pending Assets",
-    "reports": "Reports"
+    "reports": "Reports",
+    "printAssets": "print Assets"
   },
   "navbar": {
     "welcome": "Welcome",
@@ -77,7 +78,10 @@
     "addType":"Add Type",
     "addBrand":"Add Brand",
     "addModel":"Add Model",
-    "search": "Search"
+    "search": "Search",
+    "getAssets": "Get Assets",
+    "print": "Print",
+    "export": "Export"
   },
   "statistics": {
     "assetsStatistics": "Assets Statistics",
@@ -179,7 +183,9 @@
     "currentFloor": "Current Floor",
     "chooseNewFloor": "choose New Floor",
     "currentRoom": "Current Room",
-    "chooseNewRoom": "choose New Room"
+    "chooseNewRoom": "choose New Room",
+    "filterAsset": "filter Assets",
+    "printerIPAddress": "Enter printer IP Address"
   },
   "assetsType": {
     "assetTypeDesc": "Type Description",

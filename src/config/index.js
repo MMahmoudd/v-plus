@@ -1,1 +1,1 @@
-export const API_URL = 'https://81.29.108.94/Assets_API/api'
+export const API_URL = 'https://taqeeem.millennium.sa/api/v1'

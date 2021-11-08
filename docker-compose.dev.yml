@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.dev
-    container_name: Assets-Managment_dev
+    container_name: V+_dev
     restart: always
     ports:
       - "3011:80"

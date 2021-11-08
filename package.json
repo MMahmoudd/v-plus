@@ -1,5 +1,5 @@
 {
-  "name": "assets-managment",
+  "name": "v-plus",
   "version": "2.1.0",
   "private": true,
   "scripts": {
@@ -15,7 +15,6 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.4",
-    "@nestjsx/crud-request": "^4.6.2",
     "axios": "^0.19.2",
     "chart.js": "2.8.0",
     "core-js": "^3.13.0",
