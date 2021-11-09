@@ -8,16 +8,9 @@
     :right="$vuetify.rtl"
     mobile-breakpoint="960"
     app
-    width="260"
     class="pt-16"
     v-bind="$attrs"
   >
-    <template v-slot:img="props">
-      <v-img
-        :gradient="`to bottom`"
-        v-bind="props"
-      />
-    </template>
     <!--<v-list
       dense
       nav
@@ -42,16 +35,15 @@
       </v-list-item>
     </v-list> -->
     <v-list>
-      <!--Home page-->
       <template
-        v-for="(item, i) in statictics"
+        v-for="(item, i) in sidebarList"
       >
         <base-item-group
           v-if="item.children"
           :key="`group-${i}`"
+          :class="item.icon"
           :item="item"
         />
-
         <base-item
           v-else
           :key="`item-${i}`"
@@ -81,12 +73,25 @@
     data: (vm) => ({
       expand: false,
       permissions: [],
-      statictics: [
+      sidebarList: [
         {
-          icon: 'fa-home',
           title: 'الرئيسية',
-          to: '/',
+          icon: 'fa-home',
           role: true,
+          children: [
+            {
+              icon: 'fa-home',
+              title: 'الفرعية',
+              to: '/',
+              role: true,
+            },
+            {
+              icon: 'fa-home',
+              title: 'الفرعية',
+              to: '/',
+              role: true,
+            },
+          ],
         },
       ],
     }),
@@ -103,7 +108,8 @@
         },
       },
       computedItems () {
-        return this.items.map(this.mapItem)
+        console.log(this.$route)
+        return this.sidebarList.map(this.mapItem)
       },
       profile () {
         return {
@@ -158,18 +164,23 @@
   .theme--dark.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled)
     color: #000 !important
     font-weight: bold
+    margin-right: 15px
 
   #core-navigation-drawer
 
     .v-list-group__header.v-list-item--active:before
-      opacity: .2
+      opacity: 0
+      margin-right: 15px
+
     .v-list-group__items
           .v-list-item
             margin-bottom: 0 !important
+            margin-right: 15px
     .v-list-group--sub-group
       .v-list-item
         padding: 0
         padding-left: 0 !important
+        margin-right: 15px
     .v-list-item--active
       background-color: #FDCA40 !important
       border-radius: 15px

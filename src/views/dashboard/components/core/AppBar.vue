@@ -43,17 +43,6 @@
       </template>
       <span>{{ $t('navbar.logout') }}</span>
     </v-tooltip>
-    <v-select
-      v-model="selected"
-      :items="Languages"
-      menu-props="auto"
-      :label="$t('navbar.selectLang')"
-      prepend-icon="mdi-web"
-      single-line
-      class="mt-4 ml-2"
-      color="#E9BB70"
-      @input="selectedLang()"
-    />
   </v-app-bar>
 </template>
 
@@ -93,23 +82,6 @@
     },
 
     methods: {
-      selectedLang () {
-        if (this.selected === 'EN') {
-          this.changeLang('en')
-        } else if (this.selected === 'AR') {
-          this.changeLang('ar')
-        }
-      },
-      changeLang (value) {
-        localStorage.setItem('userLang', value)
-        window.location.reload()
-      },
-      changeLTR () {
-        this.$vuetify.rtl = false
-      },
-      changeRTL () {
-        this.$vuetify.rtl = true
-      },
       ...mapMutations({
         setDrawer: 'SET_DRAWER',
       }),

@@ -1,73 +1,66 @@
 <template>
   <v-container
     id="regular-tables"
-    class="login"
-    fluid
     tag="section"
   >
     <v-row>
-      <div class="col-md-7 d-none d-lg-flex d-xl-none align-content-center">
+      <v-card
+        class="col-12"
+        raised
+      >
+        <div class="form-content">
+          <div class="header">
+            <img
+              src="../assets/logos.png"
+              alt="logo"
+              class="logo"
+            >
+            <span>Valuation Plus</span>
+          </div>
+          <v-form @submit.prevent="loginSubmit()">
+            <v-text-field
+              v-model="userLogin.email"
+              type="email"
+              outlined
+              :rules="[rules.required]"
+              :placeholder="$t('login.userName')"
+            />
+            <v-text-field
+              v-model="userLogin.password"
+              :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+              :rules="[rules.required, rules.min]"
+              :type="show1 ? 'text' : 'password'"
+              counter
+              outlined
+              minlength="8"
+              :placeholder="$t('login.password')"
+              @click:append="show1 = !show1"
+            />
+          </v-form>
+          <v-card-actions>
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  class="mr-4 submit"
+                  v-bind="attrs"
+                  :class="{'is-loading': isLoading}"
+                  :disabled="formValid"
+                  v-on="on"
+                  @click="loginSubmit"
+                >
+                  {{ $t('login.login') }}
+                </v-btn>
+              </template>
+              <span>{{ $t('login.login') }}</span>
+            </v-tooltip>
+          </v-card-actions>
+        </div>
         <div class="image">
           <img
             src="../assets/login.png"
             alt="background"
           >
         </div>
-      </div>
-      <v-card
-        class="col-md-5 col-12 align-content-center"
-        raised
-      >
-        <div class="header">
-          <img
-            src="../assets/logos.svg"
-            alt="logo"
-          >
-        </div>
-        <!-- <template v-if="loginErrorMessage">
-          <v-alert
-            type="error"
-            color="#ff5252"
-          >
-            {{ loginErrorMessage }}
-            The username or password is wrong
-          </v-alert>
-        </template> -->
-        <v-form @submit.prevent="loginSubmit()">
-          <v-text-field
-            v-model="userLogin.email"
-            type="email"
-            :rules="[rules.required]"
-            :placeholder="$t('login.userName')"
-          />
-          <v-text-field
-            v-model="userLogin.password"
-            :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-            :rules="[rules.required, rules.min]"
-            :type="show1 ? 'text' : 'password'"
-            counter
-            minlength="8"
-            :placeholder="$t('login.password')"
-            @click:append="show1 = !show1"
-          />
-        </v-form>
-        <v-card-actions>
-          <v-tooltip bottom>
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn
-                class="mr-4 submit"
-                v-bind="attrs"
-                :class="{'is-loading': isLoading}"
-                :disabled="formValid"
-                v-on="on"
-                @click="loginSubmit"
-              >
-                {{ $t('login.login') }}
-              </v-btn>
-            </template>
-            <span>{{ $t('login.login') }}</span>
-          </v-tooltip>
-        </v-card-actions>
       </v-card>
     </v-row>
   </v-container>
@@ -133,34 +126,25 @@
   }
 </script>
 <style lang="scss">
-.login{
-  height: 100vh;
-}
-.container{
-  padding: 0 !important;
-  margin: 0 !important;
-  .padding-0{
-    padding: 0 !important;
-  }
-  .padding-30{
-    padding: 30px;
-  }
-}
-.image{
-  width: 100%;
-  height: 100vh;
-  background-color: #fff;
-  img{
-      height: -webkit-fill-available;
-  }
-}
   .v-card{
+    max-width: 70% ;
+    max-height: fit-content;
     margin: auto;
-    padding: 15px;
-    height: -webkit-fill-available;
-    background-color: #F5F5F5 !important;
-    left: 15%;
-    transform: translate(-51%, 0%);
+    display: flex;
+    align-items: center;
+    padding: 0;
+    border-radius: 15px !important;
+    background-color: #fff !important;
+    transform: translate(0%, 25%);
+    .image{
+      width: 50%;
+      img{
+      width: 100%;
+      }
+    }
+    .form-content{
+      width: 50%;
+    }
     .submit{
       left: 50%;
       transform: translate(-50%, 0%);
@@ -169,7 +153,20 @@
     }
     .header{
     width: 100%;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .logo{
+      background-color: #E6E8E6;
+      padding: 10px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+    }
+    span{
+      font-size: 20px;
+      margin-left: 10px;
+    }
     }
     .d-flex{
       justify-content: space-between;

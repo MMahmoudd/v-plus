@@ -78,7 +78,7 @@ const router = new Router({
           name: 'notAuthorized',
           component: () => import('../pages/NotAuthorized.vue'),
       },
-      { path: '*', redirect: '/login' },
+      // { path: '*', redirect: '/login' },
       ],
     },
   ],

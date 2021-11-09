@@ -1,5 +1,4 @@
 import Vue from 'vue'
-// import 'font-awesome/css/font-awesome.min.css'
 import Vuetify from 'vuetify/lib'
 import i18n from '@/i18n'
 import '@/sass/overrides.sass'
