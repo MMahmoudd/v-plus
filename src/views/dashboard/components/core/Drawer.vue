@@ -93,6 +93,25 @@
             },
           ],
         },
+        {
+          title: 'المعاملات',
+          icon: 'fa-home',
+          role: true,
+          // children: [
+          //   {
+          //     icon: 'fa-home',
+          //     title: 'الفرعية',
+          //     to: '/',
+          //     role: true,
+          //   },
+          //   {
+          //     icon: 'fa-home',
+          //     title: 'الفرعية',
+          //     to: '/',
+          //     role: true,
+          //   },
+          // ],
+        },
       ],
     }),
     computed: {
