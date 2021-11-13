@@ -1,7 +1,7 @@
 <template>
     <v-container>
         <v-row justify='space-between' align='center' class="mx-0 mt-4">
-            <h1 font-weight-bold>معاملة رقم 1920215841</h1>
+            <h1 class="font-weight-bold">معاملة رقم 1920215841</h1>
             <v-chip class="ma-2 time-chip" color="blue" label text-color="white">
                 <v-icon left> mdi-clock-time-four-outline </v-icon>
                 <span>تاريخ المعاملة</span>

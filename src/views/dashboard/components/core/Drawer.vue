@@ -96,22 +96,14 @@
         {
           title: 'المعاملات',
           icon: 'fa-home',
+          to: '/Treatments',
+          role: true,
+        },
+        {
+          title: 'معاملة جديدة',
+          icon: 'fa-home',
           to: '/New-Treatments',
           role: true,
-          // children: [
-          //   {
-          //     icon: 'fa-home',
-          //     title: 'الفرعية',
-          //     to: '/',
-          //     role: true,
-          //   },
-          //   {
-          //     icon: 'fa-home',
-          //     title: 'الفرعية',
-          //     to: '/',
-          //     role: true,
-          //   },
-          // ],
         },
       ],
     }),
