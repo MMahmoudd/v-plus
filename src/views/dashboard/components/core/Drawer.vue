@@ -96,6 +96,7 @@
         {
           title: 'المعاملات',
           icon: 'fa-home',
+          to: '/New-Treatments',
           role: true,
           // children: [
           //   {
