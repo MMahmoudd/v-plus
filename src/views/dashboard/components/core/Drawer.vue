@@ -93,6 +93,25 @@
             },
           ],
         },
+        {
+          title: 'الرئيسية2',
+          icon: 'fa-home',
+          role: true,
+          children: [
+            {
+              icon: 'fa-home',
+              title: 'الفرعية',
+              to: '/home',
+              role: true,
+            },
+            {
+              icon: 'fa-home',
+              title: 'الفرعية',
+              to: '/home2',
+              role: true,
+            },
+          ],
+        },
       ],
     }),
     computed: {
