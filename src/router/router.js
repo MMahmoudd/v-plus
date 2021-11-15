@@ -74,16 +74,6 @@ const router = new Router({
           meta: { requiresAuth: true },
         },
         {
-          name: 'Treatments',
-          path: '/Treatments/',
-          component: () => import('@/views/dashboard/Treatment/Treatments'),
-        },
-        {
-          name: 'New Treatments',
-          path: '/New-Treatments/',
-          component: () => import('@/views/dashboard/Treatment/NewTreatment'),
-        },
-        {
           path: '/notAuthorized',
           name: 'notAuthorized',
           component: () => import('../pages/NotAuthorized.vue'),
