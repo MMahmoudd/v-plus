@@ -1,4 +1,3 @@
-
 <template>
   <v-navigation-drawer
     id="core-navigation-drawer"

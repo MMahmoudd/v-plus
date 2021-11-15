@@ -1,3 +1,4 @@
+
 <template>
   <v-container>
     <v-row
@@ -348,7 +349,6 @@
               <v-btn
                 x-large
                 class="ma-2 filter-bg"
-                v-bind="attrs"
                 @click="dialog = false"
               >
                 <v-icon left>
