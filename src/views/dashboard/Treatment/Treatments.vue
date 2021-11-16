@@ -12,7 +12,6 @@
       <div>
         <v-dialog
           v-model="dialog"
-          persistent
           max-width="800px"
         >
           <template v-slot:activator="{ on, attrs }">
@@ -359,22 +358,80 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
-
-        <v-btn
-          x-large
-          class="ma-2"
-          color="blue"
+        <v-dialog
+          v-model="newTratment"
+          width="500"
         >
-          <v-icon left>
-            mdi-file-plus-outline
-          </v-icon>
-          معاملة جديدة
-        </v-btn>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              x-large
+              class="ma-2"
+              color="blue"
+              v-bind="attrs"
+              v-on="on"
+            >
+              <v-icon left>
+                mdi-file-plus-outline
+              </v-icon>
+              معاملة جديدة
+            </v-btn>
+          </template>
+
+          <v-card>
+            <v-card-title class="text-right">
+              <h3 class="card-title">
+                اختيار نوع النموذج
+              </h3>
+            </v-card-title>
+            <v-card-text>
+              <v-container>
+                <v-row>
+                  <v-col
+                    cols="12"
+                    sm="12"
+                  >
+                    <v-menu offset-y>
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                          single-line
+                          outlined
+                          v-bind="attrs"
+                          v-on="on"
+                        >
+                          اختر النموذج
+                        </v-btn>
+                      </template>
+                      <v-list>
+                        <v-list-item
+                          v-for="(item, index) in items"
+                          :key="index"
+                        >
+                          <v-list-item-title>
+                            <router-link to="/New-Treatment">
+                              {{ item }}
+                            </router-link>
+                          </v-list-item-title>
+                        </v-list-item>
+                      </v-list>
+                    </v-menu>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-card-text>
+          </v-card>
+        </v-dialog>
       </div>
     </v-row>
     <v-card class="form-container">
       <v-container>
-        <div />
+        <template>
+          <v-data-table
+            :headers="headers"
+            :items="desserts"
+            :items-per-page="5"
+            class="elevation-1"
+          />
+        </template>
       </v-container>
     </v-card>
   </v-container>
@@ -385,6 +442,7 @@
     name: 'NewTreatment',
 
     data: () => ({
+      // Checkboxes
       ex1: false,
       ex2: false,
       ex3: false,
@@ -396,7 +454,11 @@
       ex9: false,
       ex10: false,
 
+      // Dialogs
       dialog: false,
+      newTratment: false,
+
+      // Selectboxes
       items: [
         'Item 1',
         'Item 2',
@@ -409,6 +471,90 @@
       modal: false,
       menu1: false,
       menu2: false,
+
+      // Table
+      headers: [
+        { text: 'التاريخ', value: 'date' },
+        { text: 'رقم العقار', value: 'buildingNum' },
+        { text: 'بواسطة', value: 'through' },
+        { text: 'عد الساعات', value: 'hoursNum' },
+        { text: 'جهة التقييم', value: 'evaluator' },
+        { text: 'المالك', value: 'owner' },
+        { text: 'جوال المالك', value: 'ownerPhone' },
+        { text: 'المقييم', value: 'evaluator1' },
+        { text: 'نوع العقار', value: 'buildingType' },
+        { text: 'المكان', value: 'place' },
+        { text: 'المخطط', value: 'chart' },
+        { text: 'القطعة', value: 'widget' },
+        { text: 'فسح البناء', value: 'buildingClearance' },
+        { text: 'الحالة', value: 'status' },
+      ],
+      desserts: [
+        {
+          date: '25-5-2020',
+          buildingNum: 515424,
+          through: 'الدغم الفنى',
+          hoursNum: 1345,
+          evaluator: 'البنك الأول',
+          owner: 'الطيب بن على الثالث',
+          ownerPhone: 5154216584,
+          evaluator1: 'الدعم الفنى',
+          buildingType: 'برج مكتبى',
+          place: 'الخبر - الهدا',
+          chart: 1230,
+          widget: 5,
+          buildingClearance: 548,
+          status: 'مسودة',
+        },
+        {
+          date: '25-5-2020',
+          buildingNum: 515424,
+          through: 'الدغم الفنى',
+          hoursNum: 1345,
+          evaluator: 'البنك الأول',
+          owner: 'الطيب بن على الثالث',
+          ownerPhone: 5154216584,
+          evaluator1: 'الدعم الفنى',
+          buildingType: 'برج مكتبى',
+          place: 'الخبر - الهدا',
+          chart: 1230,
+          widget: 5,
+          buildingClearance: 548,
+          status: 'مسودة',
+        },
+        {
+          date: '25-5-2020',
+          buildingNum: 515424,
+          through: 'الدغم الفنى',
+          hoursNum: 1345,
+          evaluator: 'البنك الأول',
+          owner: 'الطيب بن على الثالث',
+          ownerPhone: 5154216584,
+          evaluator1: 'الدعم الفنى',
+          buildingType: 'برج مكتبى',
+          place: 'الخبر - الهدا',
+          chart: 1230,
+          widget: 5,
+          buildingClearance: 548,
+          status: 'مسودة',
+        },
+        {
+          date: '25-5-2020',
+          buildingNum: 515424,
+          through: 'الدغم الفنى',
+          hoursNum: 1345,
+          evaluator: 'البنك الأول',
+          owner: 'الطيب بن على الثالث',
+          ownerPhone: 5154216584,
+          evaluator1: 'الدعم الفنى',
+          buildingType: 'برج مكتبى',
+          place: 'الخبر - الهدا',
+          chart: 1230,
+          widget: 5,
+          buildingClearance: 548,
+          status: 'مسودة',
+        },
+      ],
     }),
   }
 </script>
@@ -419,5 +565,12 @@
 }
 label{
     font-size: 13px;
+}
+.card-title{
+  color: #37A8FF
+}
+a{
+  text-decoration: none;
+  color: #000
 }
 </style>

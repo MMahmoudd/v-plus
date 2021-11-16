@@ -116,7 +116,7 @@
         {
           title: 'معاملة جديدة',
           icon: 'fa-home',
-          to: '/New-Treatments',
+          to: '/New-Treatment',
           role: true,
         },
       ],
