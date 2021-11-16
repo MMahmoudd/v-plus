@@ -34,9 +34,7 @@
       </v-list-item>
     </v-list> -->
     <v-list>
-      <template
-        v-for="(item, i) in sidebarList"
-      >
+      <template v-for="(item, i) in sidebarList">
         <base-item-group
           v-if="item.children"
           :key="`group-${i}`"
@@ -54,10 +52,8 @@
 </template>
 
 <script>
-  // Utilities
-  import {
-    mapState,
-  } from 'vuex'
+// Utilities
+  import { mapState } from 'vuex'
 
   export default {
     name: 'DashboardCoreDrawer',
@@ -93,6 +89,25 @@
           ],
         },
         {
+          title: 'المالية',
+          icon: 'fa-home',
+          role: true,
+          children: [
+            {
+              icon: 'fa-home',
+              title: 'العملاء',
+              to: '/customers',
+              role: true,
+            },
+            {
+              icon: 'fa-home',
+              title: 'عروض الأسعار',
+              to: '/price-offers',
+              role: true,
+            },
+          ],
+        },
+        {
           title: 'المعاملات',
           icon: 'fa-home',
           to: '/Treatments',
@@ -107,9 +122,9 @@
       ],
     }),
     computed: {
-      ...mapState(['barColor'],
-                  { role: state => state.login.userDataPermission },
-      ),
+      ...mapState(['barColor'], {
+        role: (state) => state.login.userDataPermission,
+      }),
       drawer: {
         get () {
           return this.$store.state.drawer
@@ -130,7 +145,7 @@
       },
     },
     created () {
-      // this.checkLinksRole()
+    // this.checkLinksRole()
     },
     methods: {
       mapItem (item) {
@@ -140,114 +155,114 @@
           title: this.$t(item.title),
         }
       },
-      // checkLinksRole () {
-      //   const userDataPermission = localStorage.getItem('userDataPermission')
-      //   const permissions = userDataPermission.split(',')
-      //   this.permissions = permissions
-      //   // console.log(this.permissions)
+    // checkLinksRole () {
+    //   const userDataPermission = localStorage.getItem('userDataPermission')
+    //   const permissions = userDataPermission.split(',')
+    //   this.permissions = permissions
+    //   // console.log(this.permissions)
 
-      //   this.companies = this.companies.filter(item => {
-      //     for (let i = 0; i < item.role.length; i++) {
-      //       if (this.permissions.includes(item.role[i])) {
-      //         return true
-      //       }
-      //     }
-      //   })
-      //   this.assets = this.assets.filter(item => {
-      //     for (let i = 0; i < item.role.length; i++) {
-      //       if (this.permissions.includes(item.role[i])) {
-      //         return true
-      //       }
-      //     }
-      //   })
-      // },
+    //   this.companies = this.companies.filter(item => {
+    //     for (let i = 0; i < item.role.length; i++) {
+    //       if (this.permissions.includes(item.role[i])) {
+    //         return true
+    //       }
+    //     }
+    //   })
+    //   this.assets = this.assets.filter(item => {
+    //     for (let i = 0; i < item.role.length; i++) {
+    //       if (this.permissions.includes(item.role[i])) {
+    //         return true
+    //       }
+    //     }
+    //   })
+    // },
     },
   }
 </script>
 
 <style lang="sass">
-  @import '~vuetify/src/styles/tools/_rtl.sass'
+@import '~vuetify/src/styles/tools/_rtl.sass'
 
-  .v-navigation-drawer .v-icon.v-icon
-      margin: 0 8px !important
-      color: #000 !important
-
-  .theme--dark.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled)
+.v-navigation-drawer .v-icon.v-icon
+    margin: 0 8px !important
     color: #000 !important
-    font-weight: bold
+
+.theme--dark.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled)
+  color: #000 !important
+  font-weight: bold
+  margin-right: 15px
+
+#core-navigation-drawer
+
+  .v-list-group__header.v-list-item--active:before
+    opacity: 0
     margin-right: 15px
 
-  #core-navigation-drawer
-
-    .v-list-group__header.v-list-item--active:before
-      opacity: 0
+  .v-list-group__items
+        .v-list-item
+          margin-bottom: 0 !important
+          margin-right: 15px
+  .v-list-group--sub-group
+    .v-list-item
+      padding: 0
+      padding-left: 0 !important
       margin-right: 15px
-
-    .v-list-group__items
-          .v-list-item
-            margin-bottom: 0 !important
-            margin-right: 15px
-    .v-list-group--sub-group
-      .v-list-item
-        padding: 0
-        padding-left: 0 !important
-        margin-right: 15px
-    .v-list-item--active
-      background-color: #FDCA40 !important
-      border-radius: 15px
-      width: fit-content
-      margin-right: 15px
-      border-color: #FDCA40 !important
+  .v-list-item--active
+    background-color: #FDCA40 !important
+    border-radius: 15px
+    width: fit-content
+    margin-right: 15px
+    border-color: #FDCA40 !important
+    color: #000 !important
+    font-weight: bold
+    .v-icon.v-icon
       color: #000 !important
-      font-weight: bold
-      .v-icon.v-icon
-        color: #000 !important
+  .v-list-item
+    &__icon--text,
+    &__icon:first-child
+      justify-content: center
+      text-align: center
+      width: 20px
+
+      +ltr()
+        margin-right: 24px
+        margin-left: 12px !important
+
+      +rtl()
+        margin-left: 24px
+        margin-right: 12px !important
+
+  .v-list--dense
     .v-list-item
       &__icon--text,
       &__icon:first-child
-        justify-content: center
-        text-align: center
-        width: 20px
+        margin-top: 10px
+
+  .v-list-group--sub-group
+    .v-list-item
+      +ltr()
+        padding-left: 8px
+
+      +rtl()
+        padding-right: 8px
+
+    .v-list-group__header
+      +ltr()
+        padding-right: 0
+
+      +rtl()
+        padding-right: 0
+
+      .v-list-item__icon--text
+        margin-top: 19px
+        order: 0
+
+      .v-list-group__header__prepend-icon
+        order: 2
 
         +ltr()
-          margin-right: 24px
-          margin-left: 12px !important
+          margin-right: 8px
 
         +rtl()
-          margin-left: 24px
-          margin-right: 12px !important
-
-    .v-list--dense
-      .v-list-item
-        &__icon--text,
-        &__icon:first-child
-          margin-top: 10px
-
-    .v-list-group--sub-group
-      .v-list-item
-        +ltr()
-          padding-left: 8px
-
-        +rtl()
-          padding-right: 8px
-
-      .v-list-group__header
-        +ltr()
-          padding-right: 0
-
-        +rtl()
-          padding-right: 0
-
-        .v-list-item__icon--text
-          margin-top: 19px
-          order: 0
-
-        .v-list-group__header__prepend-icon
-          order: 2
-
-          +ltr()
-            margin-right: 8px
-
-          +rtl()
-            margin-left: 8px
+          margin-left: 8px
 </style>

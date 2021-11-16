@@ -3,13 +3,13 @@ module.exports = {
   env: {
     node: true,
   },
-  extends: ["vuetify", "plugin:vuetify/base"],
+  extends: ['vuetify', 'plugin:vuetify/base'],
   rules: {
-    // indent: 'off',
+    indent: 'off',
     // 'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     // 'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
   },
   parserOptions: {
-    parser: "@babel/eslint-parser",
+    parser: '@babel/eslint-parser',
   },
-};
+}

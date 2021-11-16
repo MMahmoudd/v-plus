@@ -194,7 +194,9 @@
                   lg="3"
                   md="4"
                 >
-                  <label class="d-block mb-3 font-weight-bold">اسم مستخدم التقرير</label>
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >اسم مستخدم التقرير</label>
                   <v-text-field
                     label="اسم مستخدم التقرير"
                     single-line
@@ -207,7 +209,9 @@
                   lg="3"
                   md="4"
                 >
-                  <label class="d-block mb-3 font-weight-bold">جوال مستخدم التقرير</label>
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >جوال مستخدم التقرير</label>
                   <v-text-field
                     label="جوال مستخدم التقرير"
                     single-line
@@ -220,7 +224,9 @@
                   lg="3"
                   md="4"
                 >
-                  <label class="d-block mb-3 font-weight-bold">الغرض من التقييم</label>
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >الغرض من التقييم</label>
                   <v-select
                     :items="items"
                     label="الغرض من التقييم"
@@ -234,7 +240,9 @@
                   lg="3"
                   md="4"
                 >
-                  <label class="d-block mb-3 font-weight-bold">أساس القيمة</label>
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >أساس القيمة</label>
                   <v-select
                     :items="items"
                     label="أساس القيمة"
@@ -248,7 +256,9 @@
                   lg="3"
                   md="4"
                 >
-                  <label class="d-block mb-3 font-weight-bold">فرضية القيمة</label>
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >فرضية القيمة</label>
                   <v-select
                     :items="items"
                     label="فرضية القيمة"
@@ -262,7 +272,9 @@
                   lg="3"
                   md="4"
                 >
-                  <label class="d-block mb-3 font-weight-bold">تاريخ التكليف</label>
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >تاريخ التكليف</label>
                   <v-menu
                     v-model="menu1"
                     :close-on-content-click="false"
@@ -292,7 +304,9 @@
                   lg="3"
                   md="4"
                 >
-                  <label class="d-block mb-3 font-weight-bold">تاريخ التقييم</label>
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >تاريخ التقييم</label>
                   <v-menu
                     v-model="menu2"
                     :close-on-content-click="false"
@@ -322,7 +336,9 @@
                   lg="3"
                   md="4"
                 >
-                  <label class="d-block mb-3 font-weight-bold">تاريخ المعاينة</label>
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >تاريخ المعاينة</label>
                   <v-menu
                     v-model="menu3"
                     :close-on-content-click="false"
@@ -352,7 +368,9 @@
                   lg="3"
                   md="4"
                 >
-                  <label class="d-block mb-3 font-weight-bold">نوع التقرير</label>
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >نوع التقرير</label>
                   <v-select
                     :items="items"
                     label="نوع التقرير"
@@ -366,7 +384,9 @@
                   lg="3"
                   md="4"
                 >
-                  <label class="d-block mb-3 font-weight-bold">رمز إيداع التقرير</label>
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >رمز إيداع التقرير</label>
                   <v-text-field
                     label="رمز إيداع التقرير"
                     single-line
@@ -379,7 +399,9 @@
                   lg="3"
                   md="4"
                 >
-                  <label class="d-block mb-3 font-weight-bold">الرقم المرجعى</label>
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >الرقم المرجعى</label>
                   <v-text-field
                     label="الرقم المرجعى"
                     single-line
@@ -392,7 +414,9 @@
                   lg="3"
                   md="4"
                 >
-                  <label class="d-block mb-3 font-weight-bold">رمز العقار / رقم الموقع / رقم العميل</label>
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >رمز العقار / رقم الموقع / رقم العميل</label>
                   <v-text-field
                     label="رمز العقار / رقم الموقع / رقم العميل"
                     single-line
@@ -409,7 +433,9 @@
                   lg="3"
                   md="4"
                 >
-                  <label class="d-block mb-3 font-weight-bold">اسم المنطقة</label>
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >اسم المنطقة</label>
                   <v-text-field
                     label="اسم المنطقة"
                     single-line
@@ -422,7 +448,9 @@
                   lg="3"
                   md="4"
                 >
-                  <label class="d-block mb-3 font-weight-bold">اسم المدينة</label>
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >اسم المدينة</label>
                   <v-text-field
                     label="اسم المدينة"
                     single-line
@@ -448,7 +476,9 @@
                   lg="3"
                   md="4"
                 >
-                  <label class="d-block mb-3 font-weight-bold">اسم الشارع</label>
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >اسم الشارع</label>
                   <v-text-field
                     label="اسم الشارع"
                     single-line
@@ -461,7 +491,9 @@
                   lg="3"
                   md="4"
                 >
-                  <label class="d-block mb-3 font-weight-bold">اسم المخطط</label>
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >اسم المخطط</label>
                   <v-text-field
                     label="اسم المخطط"
                     single-line
@@ -474,7 +506,9 @@
                   lg="3"
                   md="4"
                 >
-                  <label class="d-block mb-3 font-weight-bold">رقم المخطط</label>
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >رقم المخطط</label>
                   <v-text-field
                     label="رقم المخطط"
                     single-line
@@ -487,7 +521,9 @@
                   lg="3"
                   md="4"
                 >
-                  <label class="d-block mb-3 font-weight-bold">رقم البلوك</label>
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >رقم البلوك</label>
                   <v-text-field
                     label="رقم البلوك"
                     single-line
@@ -500,7 +536,9 @@
                   lg="3"
                   md="4"
                 >
-                  <label class="d-block mb-3 font-weight-bold">رقم القطعة</label>
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >رقم القطعة</label>
                   <v-text-field
                     label="رقم القطعة"
                     single-line
@@ -513,7 +551,9 @@
                   lg="3"
                   md="4"
                 >
-                  <label class="d-block mb-3 font-weight-bold">استخدام العقار</label>
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >استخدام العقار</label>
                   <v-select
                     :items="items"
                     label="استخدام العقار"
@@ -527,7 +567,9 @@
                   lg="3"
                   md="4"
                 >
-                  <label class="d-block mb-3 font-weight-bold">نوع العقار</label>
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >نوع العقار</label>
                   <v-select
                     :items="items"
                     label="نوع العقار"
@@ -541,7 +583,9 @@
                   lg="3"
                   md="4"
                 >
-                  <label class="d-block mb-3 font-weight-bold">اسم المالك</label>
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >اسم المالك</label>
                   <v-text-field
                     label="اسم المالك"
                     single-line
@@ -554,7 +598,9 @@
                   lg="3"
                   md="4"
                 >
-                  <label class="d-block mb-3 font-weight-bold">جوال المالك</label>
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >جوال المالك</label>
                   <v-text-field
                     label="جوال المالك"
                     single-line
@@ -580,7 +626,9 @@
                   lg="3"
                   md="4"
                 >
-                  <label class="d-block mb-3 font-weight-bold">تاريخ الصك</label>
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >تاريخ الصك</label>
                   <v-text-field
                     label="تاريخ الصك"
                     single-line
@@ -593,7 +641,9 @@
                   lg="3"
                   md="4"
                 >
-                  <label class="d-block mb-3 font-weight-bold">رقم رخصة البناء</label>
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >رقم رخصة البناء</label>
                   <v-text-field
                     label="رقم رخصة البناء"
                     single-line
@@ -606,7 +656,9 @@
                   lg="3"
                   md="4"
                 >
-                  <label class="d-block mb-3 font-weight-bold">تاريخ رخصة البناء</label>
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >تاريخ رخصة البناء</label>
                   <v-text-field
                     label="تاريخ رخصة البناء"
                     single-line
@@ -619,7 +671,9 @@
                   lg="3"
                   md="4"
                 >
-                  <label class="d-block mb-3 font-weight-bold">عمر البناء</label>
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >عمر البناء</label>
                   <v-text-field
                     label="عمر البناء"
                     single-line
@@ -632,7 +686,9 @@
                   lg="3"
                   md="4"
                 >
-                  <label class="d-block mb-3 font-weight-bold">رقم محضر التجزئة</label>
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >رقم محضر التجزئة</label>
                   <v-text-field
                     label="رقم محضر التجزئة"
                     single-line
@@ -645,7 +701,9 @@
                   lg="3"
                   md="4"
                 >
-                  <label class="d-block mb-3 font-weight-bold">تاريخ محضر التجزئة</label>
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >تاريخ محضر التجزئة</label>
                   <v-text-field
                     label="تاريخ محضر التجزئة"
                     single-line
@@ -658,7 +716,9 @@
                   lg="3"
                   md="4"
                 >
-                  <label class="d-block mb-3 font-weight-bold">حالة البناء</label>
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >حالة البناء</label>
                   <v-select
                     :items="items"
                     label="حالة البناء"
@@ -672,7 +732,9 @@
                   lg="3"
                   md="4"
                 >
-                  <label class="d-block mb-3 font-weight-bold">حالة الأشغال</label>
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >حالة الأشغال</label>
                   <v-select
                     :items="items"
                     label="حالة الأشغال"
@@ -690,7 +752,9 @@
                   lg="3"
                   md="4"
                 >
-                  <label class="d-block mb-3 font-weight-bold">الموقع العام</label>
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >الموقع العام</label>
                   <v-select
                     :items="items"
                     label="الموقع العام"
@@ -760,7 +824,9 @@
                   lg="3"
                   md="4"
                 >
-                  <label class="d-block mb-3 font-weight-bold">اضاءة الشوارع</label>
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >اضاءة الشوارع</label>
                   <v-select
                     :items="items"
                     label="اضاءة الشوارع"
@@ -774,7 +840,9 @@
                   lg="3"
                   md="4"
                 >
-                  <label class="d-block mb-3 font-weight-bold">التيار الكهربائى</label>
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >التيار الكهربائى</label>
                   <v-select
                     :items="items"
                     label="التيار الكهربائى"
@@ -801,7 +869,9 @@
                   lg="3"
                   md="4"
                 >
-                  <label class="d-block mb-3 font-weight-bold">نوع أرضية الاحواش</label>
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >نوع أرضية الاحواش</label>
                   <v-select
                     :items="items"
                     label="نوع أرضية الاحواش"
@@ -815,7 +885,9 @@
                   lg="3"
                   md="4"
                 >
-                  <label class="d-block mb-3 font-weight-bold">نوع أرضية الاستقبال</label>
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >نوع أرضية الاستقبال</label>
                   <v-select
                     :items="items"
                     label="نوع أرضية الاستقبال"
@@ -829,7 +901,9 @@
                   lg="3"
                   md="4"
                 >
-                  <label class="d-block mb-3 font-weight-bold">نوع أرضية المدخل</label>
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >نوع أرضية المدخل</label>
                   <v-select
                     :items="items"
                     label="نوع أرضية المدخل"
@@ -843,7 +917,9 @@
                   lg="3"
                   md="4"
                 >
-                  <label class="d-block mb-3 font-weight-bold">نوع أرضية الغرف</label>
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >نوع أرضية الغرف</label>
                   <v-select
                     :items="items"
                     label="نوع أرضية الغرف"
@@ -857,7 +933,9 @@
                   lg="3"
                   md="4"
                 >
-                  <label class="d-block mb-3 font-weight-bold">وصف الأبواب الخارجية</label>
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >وصف الأبواب الخارجية</label>
                   <v-text-field
                     label="وصف الأبواب الخارجية"
                     single-line
@@ -870,7 +948,9 @@
                   lg="3"
                   md="4"
                 >
-                  <label class="d-block mb-3 font-weight-bold">وصف الأبواب الداخلية</label>
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >وصف الأبواب الداخلية</label>
                   <v-text-field
                     label="وصف الأبواب الداخلية"
                     single-line
@@ -883,7 +963,9 @@
                   lg="3"
                   md="4"
                 >
-                  <label class="d-block mb-3 font-weight-bold">الهيكل الانشائى</label>
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >الهيكل الانشائى</label>
                   <v-select
                     :items="items"
                     label="الهيكل الانشائى"
@@ -897,7 +979,9 @@
                   lg="3"
                   md="4"
                 >
-                  <label class="d-block mb-3 font-weight-bold">نوع الاسقف</label>
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >نوع الاسقف</label>
                   <v-select
                     :items="items"
                     label="نوع الاسقف"
@@ -1061,7 +1145,7 @@
                 </div>
               </v-row>
               <v-row
-                v-for="(row,index) in airRows"
+                v-for="(row, index) in airRows"
                 :key="index"
                 align="center"
               >
@@ -1070,7 +1154,9 @@
                   lg="3"
                   md="4"
                 >
-                  <label class="d-block mb-3 font-weight-bold">نوعية التركيب</label>
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >نوعية التركيب</label>
                   <v-select
                     :items="items"
                     label="نوعية التركيب"
@@ -1083,7 +1169,9 @@
                   lg="2"
                   md="2"
                 >
-                  <label class="d-block mb-3 font-weight-bold">رقم العداد</label>
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >رقم العداد</label>
                   <v-text-field
                     label="رقم العداد"
                     single-line
@@ -1118,8 +1206,8 @@
                 </div>
               </v-row>
               <v-row
-                v-for="(row,index) in airRows2"
-                :key="'row2'+index"
+                v-for="(row, index) in airRows2"
+                :key="'row2' + index"
                 align="center"
               >
                 <v-col
@@ -1127,7 +1215,9 @@
                   lg="3"
                   md="4"
                 >
-                  <label class="d-block mb-3 font-weight-bold">نوعية التركيب</label>
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >نوعية التركيب</label>
                   <v-select
                     :items="items"
                     label="نوعية التركيب"
@@ -1140,7 +1230,9 @@
                   lg="2"
                   md="2"
                 >
-                  <label class="d-block mb-3 font-weight-bold">رقم العداد</label>
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >رقم العداد</label>
                   <v-text-field
                     label="رقم العداد"
                     single-line
@@ -1175,8 +1267,8 @@
                 </div>
               </v-row>
               <v-row
-                v-for="(row,index) in airRows3"
-                :key="'row3'+index"
+                v-for="(row, index) in airRows3"
+                :key="'row3' + index"
                 align="center"
               >
                 <v-col
@@ -1184,7 +1276,9 @@
                   lg="3"
                   md="4"
                 >
-                  <label class="d-block mb-3 font-weight-bold">نوعية التركيب</label>
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >نوعية التركيب</label>
                   <v-select
                     :items="items"
                     label="نوعية التركيب"
@@ -1197,7 +1291,9 @@
                   lg="2"
                   md="2"
                 >
-                  <label class="d-block mb-3 font-weight-bold">رقم العداد</label>
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >رقم العداد</label>
                   <v-text-field
                     label="رقم العداد"
                     single-line
@@ -1232,8 +1328,8 @@
                 </div>
               </v-row>
               <v-row
-                v-for="(row,index) in airRows4"
-                :key="'row4'+index"
+                v-for="(row, index) in airRows4"
+                :key="'row4' + index"
                 align="center"
               >
                 <v-col
@@ -1241,7 +1337,9 @@
                   lg="3"
                   md="4"
                 >
-                  <label class="d-block mb-3 font-weight-bold">نوعية التركيب</label>
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >نوعية التركيب</label>
                   <v-select
                     :items="items"
                     label="نوعية التركيب"
@@ -1254,7 +1352,9 @@
                   lg="2"
                   md="2"
                 >
-                  <label class="d-block mb-3 font-weight-bold">رقم العداد</label>
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >رقم العداد</label>
                   <v-text-field
                     label="رقم العداد"
                     single-line
@@ -1340,7 +1440,6 @@
       airRows2: 1,
       airRows3: 1,
       airRows4: 1,
-
       ex1: false,
       ex2: false,
       ex3: false,
@@ -1358,14 +1457,11 @@
       ex15: false,
       ex16: false,
       select: null,
-      items: [
-        'Item 1',
-        'Item 2',
-        'Item 3',
-        'Item 4',
-      ],
+      items: ['Item 1', 'Item 2', 'Item 3', 'Item 4'],
       // Date Inputs
-      date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+      date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+        .toISOString()
+        .substr(0, 10),
       menu: false,
       modal: false,
       menu1: false,
@@ -1376,18 +1472,18 @@
 </script>
 
 <style lang="scss" scoped>
-.time-chip span{
-    font-size: 15px;
+.time-chip span {
+  font-size: 15px;
 }
-.form-container{
-    margin-top: 50px;
+.form-container {
+  margin-top: 50px;
 }
-.form-container h2{
-    font-size: 25px;
-    color: #37A8FF;
-    margin-bottom: 25px
+.form-container h2 {
+  font-size: 25px;
+  color: #37a8ff;
+  margin-bottom: 25px;
 }
-label{
-    font-size: 13px;
+label {
+  font-size: 13px;
 }
 </style>

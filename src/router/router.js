@@ -1,4 +1,3 @@
-
 import Vue from 'vue'
 import Router from 'vue-router'
 // import axios from 'axios'
@@ -86,11 +85,24 @@ const router = new Router({
           meta: { requiresAuth: true },
         },
         {
+          name: 'Customers',
+          path: '/customers',
+          component: () => import('@/views/dashboard/Finance/Customers'),
+          meta: { requiresAuth: true },
+        },
+        {
+          name: 'PriceOffers',
+          path: '/price-offers',
+          component: () => import('@/views/dashboard/Finance/PriceOffers'),
+          meta: { requiresAuth: true },
+        },
+
+        {
           path: '/notAuthorized',
           name: 'notAuthorized',
           component: () => import('../pages/NotAuthorized.vue'),
-      },
-      // { path: '*', redirect: '/login' },
+        },
+        // { path: '*', redirect: '/login' },
       ],
     },
   ],
