@@ -1379,6 +1379,20 @@
 
             <v-divider class="my-10" />
 
+            <div>
+              <h2>احداثيات العقار</h2>
+              <v-row>
+                <v-col
+                  cols="12"
+                  md="12"
+                >
+                  <div id="map" />
+                </v-col>
+              </v-row>
+            </div>
+
+            <v-divider class="my-10" />
+
             <v-row
               class="mb-10"
               align="center"
@@ -1432,6 +1446,9 @@
 </template>
 
 <script>
+  import { Loader } from '@googlemaps/js-api-loader'
+  const loader = new Loader('AIzaSyACo4RXxzSABqvI3S_Q3_nQ2YIW4HfJuXI')
+
   export default {
     name: 'NewTreatment',
 
@@ -1468,6 +1485,31 @@
       menu2: false,
       menu3: false,
     }),
+
+    created () {
+      this.getMap()
+    },
+    methods: {
+      getMap: function () {
+        loader.load().then(function (google) {
+          // Regular Map
+          const center = new google.maps.LatLng(24.2075, 55.74472) // Center
+          const mapOptions = {
+            zoom: 13,
+            center: center,
+            mapId: '2bf1cba222371325',
+            scrollwheel: false, // we disable de scroll over the map, it is a really annoing when you scroll through page
+            disableDefaultUI: true, // a way to quickly hide all controls
+            zoomControl: true,
+          }
+          // eslint-disable-next-line no-new
+          new google.maps.Map(
+            document.getElementById('map'),
+            mapOptions
+          )
+        })
+      },
+    },
   }
 </script>
 
@@ -1485,5 +1527,8 @@
 }
 label {
   font-size: 13px;
+}
+#map{
+  height: 400px;
 }
 </style>

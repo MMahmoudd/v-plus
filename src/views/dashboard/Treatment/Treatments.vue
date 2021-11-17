@@ -573,4 +573,14 @@ a{
   text-decoration: none;
   color: #000
 }
+.theme--light.v-data-table > .v-data-table__wrapper > table > thead > tr:last-child > th{
+  color: #000;
+  font-size: 15px;
+  white-space: nowrap;
+  font-weight: 500;
+}
+.elevation-1 th,
+.theme--light.v-data-table > .v-data-table__wrapper > table > thead > tr > th{
+  color: #000 !important
+}
 </style>

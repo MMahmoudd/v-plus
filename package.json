@@ -16,6 +16,7 @@
   "dependencies": {
     "@babel/eslint-parser": "^7.16.3",
     "@fortawesome/fontawesome-free": "^5.15.4",
+    "@googlemaps/js-api-loader": "^1.12.9",
     "axios": "^0.19.2",
     "chart.js": "2.8.0",
     "core-js": "^3.19.1",
