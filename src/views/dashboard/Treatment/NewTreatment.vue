@@ -1389,6 +1389,62 @@
                   <div id="map" />
                 </v-col>
               </v-row>
+              <v-row>
+                <v-col
+                  cols="12"
+                  lg="3"
+                  md="4"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >خط الطول</label>
+                  <v-text-field
+                    v-model="long"
+                    label="خط الطول"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  lg="3"
+                  md="4"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >خط العرض</label>
+                  <v-text-field
+                    v-model="lat"
+                    label="خط العرض"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  class="d-flex align-items-center justify-content-end"
+                  cols="12"
+                  lg="6"
+                  md="6"
+                >
+                  <div>
+                    <v-btn
+                      x-large
+                      class="ma-2"
+                      color="black"
+                    >
+                      نسخ
+                    </v-btn>
+                    <v-btn
+                      x-large
+                      class="ma-2"
+                      color="error"
+                      @click.prevent="getMap(lat,long)"
+                    >
+                      موقعى
+                    </v-btn>
+                  </div>
+                </v-col>
+              </v-row>
             </div>
 
             <v-divider class="my-10" />
@@ -1484,16 +1540,19 @@
       menu1: false,
       menu2: false,
       menu3: false,
+      lat: 24.2075,
+      long: 55.74472,
     }),
 
-    created () {
-      this.getMap()
+    mounted () {
+      this.getMap(this.lat, this.long)
     },
     methods: {
-      getMap: function () {
+      getMap: function (x, y) {
+        console.log(this.lat)
         loader.load().then(function (google) {
           // Regular Map
-          const center = new google.maps.LatLng(24.2075, 55.74472) // Center
+          var center = new google.maps.LatLng(x, y) // Center
           const mapOptions = {
             zoom: 13,
             center: center,
@@ -1503,10 +1562,16 @@
             zoomControl: true,
           }
           // eslint-disable-next-line no-new
-          new google.maps.Map(
+          var map = new google.maps.Map(
             document.getElementById('map'),
             mapOptions
           )
+          // eslint-disable-next-line no-new
+          new google.maps.Marker({
+            position: center,
+            map,
+            title: 'Hello World!',
+          })
         })
       },
     },
@@ -1530,5 +1595,11 @@ label {
 }
 #map{
   height: 400px;
+}
+.align-items-center{
+  align-items: center
+}
+.justify-content-end{
+  justify-content: end
 }
 </style>
