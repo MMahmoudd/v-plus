@@ -29,7 +29,7 @@
               <v-row>
                 <v-col
                   cols="12"
-                  md="6"
+                  sm="6"
                 >
                   <v-file-input
                     chips
@@ -52,7 +52,7 @@
 
                 <v-col
                   cols="12"
-                  md="6"
+                  sm="6"
                 >
                   <v-file-input
                     chips
@@ -75,7 +75,7 @@
 
                 <v-col
                   cols="12"
-                  md="6"
+                  sm="6"
                 >
                   <v-file-input
                     chips
@@ -98,7 +98,7 @@
 
                 <v-col
                   cols="12"
-                  md="6"
+                  sm="6"
                 >
                   <v-file-input
                     chips
@@ -124,61 +124,13 @@
             <v-divider class="my-10" />
 
             <div>
-              <h2>إسناداً إلى</h2>
-              <v-row>
-                <v-col
-                  cols="12"
-                  lg="3"
-                  md="4"
-                >
-                  <label class="d-block mb-3 font-weight-bold">المقيم</label>
-                  <v-select
-                    :items="items"
-                    label="المقيم"
-                    single-line
-                    outlined
-                  />
-                </v-col>
-
-                <v-col
-                  cols="12"
-                  lg="3"
-                  md="4"
-                >
-                  <label class="d-block mb-3 font-weight-bold">المراجع</label>
-                  <v-select
-                    :items="items"
-                    label="المراجع"
-                    single-line
-                    outlined
-                  />
-                </v-col>
-
-                <v-col
-                  cols="12"
-                  lg="3"
-                  md="4"
-                >
-                  <label class="d-block mb-3 font-weight-bold">المعتمد</label>
-                  <v-select
-                    :items="items"
-                    label="المعتمد"
-                    single-line
-                    outlined
-                  />
-                </v-col>
-              </v-row>
-            </div>
-
-            <v-divider class="my-10" />
-
-            <div>
               <h2>نطاق العمل وتفاصيل العقار</h2>
               <v-row>
                 <v-col
                   cols="12"
                   lg="3"
                   md="4"
+                  sm="6"
                 >
                   <label class="d-block mb-3 font-weight-bold">العميل</label>
                   <v-select
@@ -193,6 +145,7 @@
                   cols="12"
                   lg="3"
                   md="4"
+                  sm="6"
                 >
                   <label
                     class="d-block mb-3 font-weight-bold"
@@ -208,6 +161,7 @@
                   cols="12"
                   lg="3"
                   md="4"
+                  sm="6"
                 >
                   <label
                     class="d-block mb-3 font-weight-bold"
@@ -223,6 +177,7 @@
                   cols="12"
                   lg="3"
                   md="4"
+                  sm="6"
                 >
                   <label
                     class="d-block mb-3 font-weight-bold"
@@ -239,6 +194,7 @@
                   cols="12"
                   lg="3"
                   md="4"
+                  sm="6"
                 >
                   <label
                     class="d-block mb-3 font-weight-bold"
@@ -255,6 +211,7 @@
                   cols="12"
                   lg="3"
                   md="4"
+                  sm="6"
                 >
                   <label
                     class="d-block mb-3 font-weight-bold"
@@ -271,6 +228,7 @@
                   cols="12"
                   lg="3"
                   md="4"
+                  sm="6"
                 >
                   <label
                     class="d-block mb-3 font-weight-bold"
@@ -303,6 +261,7 @@
                   cols="12"
                   lg="3"
                   md="4"
+                  sm="6"
                 >
                   <label
                     class="d-block mb-3 font-weight-bold"
@@ -335,6 +294,7 @@
                   cols="12"
                   lg="3"
                   md="4"
+                  sm="6"
                 >
                   <label
                     class="d-block mb-3 font-weight-bold"
@@ -367,6 +327,7 @@
                   cols="12"
                   lg="3"
                   md="4"
+                  sm="6"
                 >
                   <label
                     class="d-block mb-3 font-weight-bold"
@@ -383,6 +344,7 @@
                   cols="12"
                   lg="3"
                   md="4"
+                  sm="6"
                 >
                   <label
                     class="d-block mb-3 font-weight-bold"
@@ -398,6 +360,7 @@
                   cols="12"
                   lg="3"
                   md="4"
+                  sm="6"
                 >
                   <label
                     class="d-block mb-3 font-weight-bold"
@@ -413,6 +376,7 @@
                   cols="12"
                   lg="3"
                   md="4"
+                  sm="6"
                 >
                   <label
                     class="d-block mb-3 font-weight-bold"
@@ -447,6 +411,7 @@
                   cols="12"
                   lg="3"
                   md="4"
+                  sm="6"
                 >
                   <label
                     class="d-block mb-3 font-weight-bold"
@@ -462,6 +427,7 @@
                   cols="12"
                   lg="3"
                   md="4"
+                  sm="6"
                 >
                   <label class="d-block mb-3 font-weight-bold">اسم الحى</label>
                   <v-text-field
@@ -475,6 +441,7 @@
                   cols="12"
                   lg="3"
                   md="4"
+                  sm="6"
                 >
                   <label
                     class="d-block mb-3 font-weight-bold"
@@ -490,6 +457,7 @@
                   cols="12"
                   lg="3"
                   md="4"
+                  sm="6"
                 >
                   <label
                     class="d-block mb-3 font-weight-bold"
@@ -505,6 +473,7 @@
                   cols="12"
                   lg="3"
                   md="4"
+                  sm="6"
                 >
                   <label
                     class="d-block mb-3 font-weight-bold"
@@ -520,6 +489,7 @@
                   cols="12"
                   lg="3"
                   md="4"
+                  sm="6"
                 >
                   <label
                     class="d-block mb-3 font-weight-bold"
@@ -535,6 +505,7 @@
                   cols="12"
                   lg="3"
                   md="4"
+                  sm="6"
                 >
                   <label
                     class="d-block mb-3 font-weight-bold"
@@ -550,6 +521,7 @@
                   cols="12"
                   lg="3"
                   md="4"
+                  sm="6"
                 >
                   <label
                     class="d-block mb-3 font-weight-bold"
@@ -566,6 +538,7 @@
                   cols="12"
                   lg="3"
                   md="4"
+                  sm="6"
                 >
                   <label
                     class="d-block mb-3 font-weight-bold"
@@ -582,6 +555,7 @@
                   cols="12"
                   lg="3"
                   md="4"
+                  sm="6"
                 >
                   <label
                     class="d-block mb-3 font-weight-bold"
@@ -597,6 +571,7 @@
                   cols="12"
                   lg="3"
                   md="4"
+                  sm="6"
                 >
                   <label
                     class="d-block mb-3 font-weight-bold"
@@ -612,6 +587,7 @@
                   cols="12"
                   lg="3"
                   md="4"
+                  sm="6"
                 >
                   <label class="d-block mb-3 font-weight-bold">رقم الصك</label>
                   <v-text-field
@@ -625,6 +601,7 @@
                   cols="12"
                   lg="3"
                   md="4"
+                  sm="6"
                 >
                   <label
                     class="d-block mb-3 font-weight-bold"
@@ -640,6 +617,7 @@
                   cols="12"
                   lg="3"
                   md="4"
+                  sm="6"
                 >
                   <label
                     class="d-block mb-3 font-weight-bold"
@@ -655,6 +633,7 @@
                   cols="12"
                   lg="3"
                   md="4"
+                  sm="6"
                 >
                   <label
                     class="d-block mb-3 font-weight-bold"
@@ -670,6 +649,7 @@
                   cols="12"
                   lg="3"
                   md="4"
+                  sm="6"
                 >
                   <label
                     class="d-block mb-3 font-weight-bold"
@@ -685,6 +665,7 @@
                   cols="12"
                   lg="3"
                   md="4"
+                  sm="6"
                 >
                   <label
                     class="d-block mb-3 font-weight-bold"
@@ -700,6 +681,7 @@
                   cols="12"
                   lg="3"
                   md="4"
+                  sm="6"
                 >
                   <label
                     class="d-block mb-3 font-weight-bold"
@@ -715,6 +697,7 @@
                   cols="12"
                   lg="3"
                   md="4"
+                  sm="6"
                 >
                   <label
                     class="d-block mb-3 font-weight-bold"
@@ -731,6 +714,7 @@
                   cols="12"
                   lg="3"
                   md="4"
+                  sm="6"
                 >
                   <label
                     class="d-block mb-3 font-weight-bold"
@@ -751,6 +735,7 @@
                   cols="12"
                   lg="3"
                   md="4"
+                  sm="6"
                 >
                   <label
                     class="d-block mb-3 font-weight-bold"
@@ -767,6 +752,7 @@
                   cols="12"
                   lg="3"
                   md="4"
+                  sm="6"
                 >
                   <label class="d-block mb-3 font-weight-bold">التصميم</label>
                   <v-select
@@ -781,6 +767,7 @@
                   cols="12"
                   lg="3"
                   md="4"
+                  sm="6"
                 >
                   <label class="d-block mb-3 font-weight-bold">المنسوب</label>
                   <v-select
@@ -795,6 +782,7 @@
                   cols="12"
                   lg="3"
                   md="4"
+                  sm="6"
                 >
                   <label class="d-block mb-3 font-weight-bold">الجار</label>
                   <v-select
@@ -809,6 +797,7 @@
                   cols="12"
                   lg="3"
                   md="4"
+                  sm="6"
                 >
                   <label class="d-block mb-3 font-weight-bold">الشوارع</label>
                   <v-select
@@ -823,6 +812,7 @@
                   cols="12"
                   lg="3"
                   md="4"
+                  sm="6"
                 >
                   <label
                     class="d-block mb-3 font-weight-bold"
@@ -839,6 +829,7 @@
                   cols="12"
                   lg="3"
                   md="4"
+                  sm="6"
                 >
                   <label
                     class="d-block mb-3 font-weight-bold"
@@ -855,6 +846,7 @@
                   cols="12"
                   lg="3"
                   md="4"
+                  sm="6"
                 >
                   <label class="d-block mb-3 font-weight-bold">نوع العزل</label>
                   <v-text-field
@@ -868,6 +860,7 @@
                   cols="12"
                   lg="3"
                   md="4"
+                  sm="6"
                 >
                   <label
                     class="d-block mb-3 font-weight-bold"
@@ -884,6 +877,7 @@
                   cols="12"
                   lg="3"
                   md="4"
+                  sm="6"
                 >
                   <label
                     class="d-block mb-3 font-weight-bold"
@@ -900,6 +894,7 @@
                   cols="12"
                   lg="3"
                   md="4"
+                  sm="6"
                 >
                   <label
                     class="d-block mb-3 font-weight-bold"
@@ -916,6 +911,7 @@
                   cols="12"
                   lg="3"
                   md="4"
+                  sm="6"
                 >
                   <label
                     class="d-block mb-3 font-weight-bold"
@@ -932,6 +928,7 @@
                   cols="12"
                   lg="3"
                   md="4"
+                  sm="6"
                 >
                   <label
                     class="d-block mb-3 font-weight-bold"
@@ -947,6 +944,7 @@
                   cols="12"
                   lg="3"
                   md="4"
+                  sm="6"
                 >
                   <label
                     class="d-block mb-3 font-weight-bold"
@@ -962,6 +960,7 @@
                   cols="12"
                   lg="3"
                   md="4"
+                  sm="6"
                 >
                   <label
                     class="d-block mb-3 font-weight-bold"
@@ -978,6 +977,7 @@
                   cols="12"
                   lg="3"
                   md="4"
+                  sm="6"
                 >
                   <label
                     class="d-block mb-3 font-weight-bold"
@@ -995,6 +995,7 @@
                   cols="12"
                   lg="3"
                   md="4"
+                  sm="6"
                 >
                   <label class="d-block font-weight-bold">مميزات العقار</label>
                 </v-col>
@@ -1150,9 +1151,8 @@
                 align="center"
               >
                 <v-col
-                  cols="12"
-                  lg="3"
-                  md="4"
+                  cols="8"
+                  sm="4"
                 >
                   <label
                     class="d-block mb-3 font-weight-bold"
@@ -1165,9 +1165,8 @@
                   />
                 </v-col>
                 <v-col
-                  cols="12"
-                  lg="2"
-                  md="2"
+                  cols="4"
+                  sm="2"
                 >
                   <label
                     class="d-block mb-3 font-weight-bold"
@@ -1180,8 +1179,7 @@
                 </v-col>
                 <v-col
                   cols="12"
-                  lg="2"
-                  md="2"
+                  sm="6"
                 >
                   <label
                     class="d-block font-weight-bold"
@@ -1211,9 +1209,8 @@
                 align="center"
               >
                 <v-col
-                  cols="12"
-                  lg="3"
-                  md="4"
+                  cols="8"
+                  sm="4"
                 >
                   <label
                     class="d-block mb-3 font-weight-bold"
@@ -1226,9 +1223,8 @@
                   />
                 </v-col>
                 <v-col
-                  cols="12"
-                  lg="2"
-                  md="2"
+                  cols="4"
+                  sm="2"
                 >
                   <label
                     class="d-block mb-3 font-weight-bold"
@@ -1241,8 +1237,7 @@
                 </v-col>
                 <v-col
                   cols="12"
-                  lg="2"
-                  md="2"
+                  sm="6"
                 >
                   <label
                     class="d-block font-weight-bold"
@@ -1272,9 +1267,8 @@
                 align="center"
               >
                 <v-col
-                  cols="12"
-                  lg="3"
-                  md="4"
+                  cols="8"
+                  sm="4"
                 >
                   <label
                     class="d-block mb-3 font-weight-bold"
@@ -1287,9 +1281,8 @@
                   />
                 </v-col>
                 <v-col
-                  cols="12"
-                  lg="2"
-                  md="2"
+                  cols="4"
+                  sm="2"
                 >
                   <label
                     class="d-block mb-3 font-weight-bold"
@@ -1302,8 +1295,7 @@
                 </v-col>
                 <v-col
                   cols="12"
-                  lg="2"
-                  md="2"
+                  sm="6"
                 >
                   <label
                     class="d-block font-weight-bold"
@@ -1333,9 +1325,8 @@
                 align="center"
               >
                 <v-col
-                  cols="12"
-                  lg="3"
-                  md="4"
+                  cols="8"
+                  sm="4"
                 >
                   <label
                     class="d-block mb-3 font-weight-bold"
@@ -1348,9 +1339,8 @@
                   />
                 </v-col>
                 <v-col
-                  cols="12"
-                  lg="2"
-                  md="2"
+                  cols="4"
+                  sm="2"
                 >
                   <label
                     class="d-block mb-3 font-weight-bold"
@@ -1363,8 +1353,7 @@
                 </v-col>
                 <v-col
                   cols="12"
-                  lg="2"
-                  md="2"
+                  sm="6"
                 >
                   <label
                     class="d-block font-weight-bold"
@@ -1373,6 +1362,721 @@
                     <v-icon left> mdi-plus </v-icon>
                     إضافة رقم عداد جديد
                   </label>
+                </v-col>
+              </v-row>
+            </div>
+
+            <v-divider class="my-10" />
+
+            <div>
+              <h2>احداثيات العقار</h2>
+              <v-row>
+                <v-col
+                  cols="12"
+                  md="12"
+                >
+                  <div id="map" />
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col
+                  cols="12"
+                  lg="3"
+                  md="4"
+                  sm="6"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >خط الطول</label>
+                  <v-text-field
+                    v-model="long"
+                    label="خط الطول"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  lg="3"
+                  md="4"
+                  sm="6"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >خط العرض</label>
+                  <v-text-field
+                    v-model="lat"
+                    label="خط العرض"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  class="d-flex align-items-center justify-content-end"
+                  cols="12"
+                  lg="6"
+                  md="6"
+                >
+                  <div>
+                    <v-btn
+                      x-large
+                      class="ma-2"
+                      color="blue"
+                      @click="doCopy"
+                    >
+                      <v-icon left>
+                        fas fa-copy
+                      </v-icon>
+                      نسخ
+                    </v-btn>
+                    <v-btn
+                      x-large
+                      class="ma-2 orange-btn"
+                      @click.prevent="getMap(lat,long)"
+                    >
+                      <v-icon left>
+                        fas fa-map-marker-alt
+                      </v-icon>
+                      موقعى
+                    </v-btn>
+                  </div>
+                </v-col>
+              </v-row>
+            </div>
+
+            <v-divider class="my-10" />
+
+            <div>
+              <h2>وصف العقار</h2>
+              <v-row>
+                <v-col
+                  cols="12"
+                  md="12"
+                >
+                  <v-textarea
+                    name="input-7-1"
+                    hint="Hint text"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+              </v-row>
+            </div>
+            <v-divider class="my-10" />
+
+            <div>
+              <h2>حدود واطوال العقار</h2>
+              <v-row>
+                <v-col
+                  cols="8"
+                  sm="4"
+                  lg="2"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >الحد الشمالى</label>
+                  <v-text-field
+                    label="الحد الشمالى"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="4"
+                  sm="2"
+                  lg="1"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >بطول</label>
+                  <v-text-field
+                    label="1525"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="8"
+                  sm="4"
+                  lg="2"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >الحد الجنوبى</label>
+                  <v-text-field
+                    label="الحد الجنوبى"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="4"
+                  sm="2"
+                  lg="1"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >بطول</label>
+                  <v-text-field
+                    label="1525"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="8"
+                  sm="4"
+                  lg="2"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >الحد الشرقى</label>
+                  <v-text-field
+                    label="الحد الشرقى"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="4"
+                  sm="2"
+                  lg="1"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >بطول</label>
+                  <v-text-field
+                    label="1525"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="8"
+                  sm="4"
+                  lg="2"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >الحد الغربى</label>
+                  <v-text-field
+                    label="الحد الغربى"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="4"
+                  sm="2"
+                  lg="1"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >بطول</label>
+                  <v-text-field
+                    label="1525"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  lg="3"
+                  md="4"
+                  sm="6"
+                >
+                  <label class="d-block mb-3 font-weight-bold">الواجهة الشمالية</label>
+                  <v-select
+                    :items="items"
+                    label="الواجهة الشمالية"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  lg="3"
+                  md="4"
+                  sm="6"
+                >
+                  <label class="d-block mb-3 font-weight-bold">الواجهة الجنوبية</label>
+                  <v-select
+                    :items="items"
+                    label="الواجهة الجنوبية"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  lg="3"
+                  md="4"
+                  sm="6"
+                >
+                  <label class="d-block mb-3 font-weight-bold">الواجهة الشرقية</label>
+                  <v-select
+                    :items="items"
+                    label="الواجهة الشرقية"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  lg="3"
+                  md="4"
+                  sm="6"
+                >
+                  <label class="d-block mb-3 font-weight-bold">الواجهة الغربية</label>
+                  <v-select
+                    :items="items"
+                    label="الواجهة الغربية"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  lg="3"
+                  md="4"
+                  sm="6"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >مساحة الارض</label>
+                  <v-text-field
+                    label="1525"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  lg="3"
+                  md="4"
+                  sm="6"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >مساحة المبانى</label>
+                  <v-text-field
+                    label="1525"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  lg="3"
+                  md="4"
+                  sm="6"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >مساحة القبو</label>
+                  <v-text-field
+                    label="1525"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  lg="3"
+                  md="4"
+                  sm="6"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >مساحة الملاحق</label>
+                  <v-text-field
+                    label="1525"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  lg="3"
+                  md="4"
+                  sm="6"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >عدد الأدوار للفلل السكنية</label>
+                  <v-text-field
+                    label="5"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+              </v-row>
+            </div>
+
+            <v-divider class="my-10" />
+
+            <div>
+              <h2>معلومات رخصة البناء</h2>
+              <v-row>
+                <v-col
+                  cols="12"
+                  lg="6"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >هل العقار على الطبيعة مطابق لرخصة البناء</label>
+                  <v-radio-group
+                    v-model="row"
+                    row
+                  >
+                    <v-radio
+                      label="نعم"
+                      value="radio-1"
+                    />
+                    <v-radio
+                      label="لا"
+                      value="radio-2"
+                    />
+                  </v-radio-group>
+                </v-col>
+                <v-col
+                  cols="12"
+                  lg="6"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >حدود المعاينة</label>
+                  <v-radio-group
+                    v-model="row"
+                    row
+                  >
+                    <v-radio
+                      label="من داخل العقار"
+                      value="radio-1"
+                    />
+                    <v-radio
+                      label="من خارج العقار"
+                      value="radio-2"
+                    />
+                    <v-radio
+                      label="من الداخل والخارج"
+                      value="radio-3"
+                    />
+                  </v-radio-group>
+                </v-col>
+                <v-col
+                  cols="12"
+                  md="12"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >فى حال عدم مطابقة العقار لرخصة البناء، الرجاء توضيح المخالفات أو أى ملاحظات</label>
+                  <v-textarea
+                    name="input-7-1"
+                    hint="Hint text"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+              </v-row>
+            </div>
+            <v-divider class="my-10" />
+
+            <div>
+              <h2>مكونات العقار</h2>
+              <v-row>
+                <v-col
+                  cols="4"
+                  sm="2"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >مجالس</label>
+                  <v-text-field
+                    label="5"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="4"
+                  sm="2"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >غرف طعام</label>
+                  <v-text-field
+                    label="4"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="4"
+                  sm="2"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >غرف نوم</label>
+                  <v-text-field
+                    label="4"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="4"
+                  sm="2"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >مطابخ</label>
+                  <v-text-field
+                    label="5"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="4"
+                  sm="2"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >دورات مياه</label>
+                  <v-text-field
+                    label="5"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="4"
+                  sm="2"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >جاكوزى</label>
+                  <v-text-field
+                    label="5"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="4"
+                  sm="2"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >حديقة</label>
+                  <v-text-field
+                    label="5"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="4"
+                  sm="2"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >غرفة خادمة</label>
+                  <v-text-field
+                    label="5"
+                    single-line
+                    outlined
+                  />
+                </v-col><v-col
+                  cols="4"
+                  sm="2"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >غرفة حارس</label>
+                  <v-text-field
+                    label="5"
+                    single-line
+                    outlined
+                  />
+                </v-col><v-col
+                  cols="4"
+                  sm="2"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >قبو</label>
+                  <v-text-field
+                    label="5"
+                    single-line
+                    outlined
+                  />
+                </v-col><v-col
+                  cols="4"
+                  sm="2"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >الصالات</label>
+                  <v-text-field
+                    label="5"
+                    single-line
+                    outlined
+                  />
+                </v-col><v-col
+                  cols="4"
+                  sm="2"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >الملاحق</label>
+                  <v-text-field
+                    label="5"
+                    single-line
+                    outlined
+                  />
+                </v-col><v-col
+                  cols="4"
+                  sm="2"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >مصاعد</label>
+                  <v-text-field
+                    label="5"
+                    single-line
+                    outlined
+                  />
+                </v-col><v-col
+                  cols="4"
+                  sm="2"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >موقف سيارات</label>
+                  <v-text-field
+                    label="5"
+                    single-line
+                    outlined
+                  />
+                </v-col><v-col
+                  cols="4"
+                  sm="2"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >ملاعب أطفال</label>
+                  <v-text-field
+                    label="5"
+                    single-line
+                    outlined
+                  />
+                </v-col><v-col
+                  cols="4"
+                  sm="2"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >مسرح</label>
+                  <v-text-field
+                    label="5"
+                    single-line
+                    outlined
+                  />
+                </v-col><v-col
+                  cols="4"
+                  sm="2"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >مستودع</label>
+                  <v-text-field
+                    label="5"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  md="12"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >أخرى</label>
+                  <v-textarea
+                    name="input-7-1"
+                    hint="Hint text"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+              </v-row>
+            </div>
+            <v-divider class="my-10" />
+
+            <div>
+              <h2>معلومات رخصة البناء</h2>
+              <v-row>
+                <v-col
+                  cols="12"
+                  lg="6"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >هل العقار على الطبيعة مطابق لرخصة البناء</label>
+                  <v-radio-group
+                    v-model="row"
+                    row
+                  >
+                    <v-radio
+                      label="نعم"
+                      value="radio-1"
+                    />
+                    <v-radio
+                      label="لا"
+                      value="radio-2"
+                    />
+                  </v-radio-group>
+                </v-col>
+                <v-col
+                  cols="12"
+                  lg="6"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >حدود المعاينة</label>
+                  <v-radio-group
+                    v-model="row"
+                    row
+                  >
+                    <v-radio
+                      label="من داخل العقار"
+                      value="radio-1"
+                    />
+                    <v-radio
+                      label="من خارج العقار"
+                      value="radio-2"
+                    />
+                    <v-radio
+                      label="من الداخل والخارج"
+                      value="radio-3"
+                    />
+                  </v-radio-group>
+                </v-col>
+                <v-col
+                  cols="12"
+                  md="12"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >فى حال عدم مطابقة العقار لرخصة البناء، الرجاء توضيح المخالفات أو أى ملاحظات</label>
+                  <v-textarea
+                    name="input-7-1"
+                    hint="Hint text"
+                    single-line
+                    outlined
+                  />
                 </v-col>
               </v-row>
             </div>
@@ -1432,9 +2136,13 @@
 </template>
 
 <script>
-  export default {
-    name: 'NewTreatment',
+  import Swal from 'sweetalert2'
+  import { copyText } from 'vue3-clipboard'
+  import { Loader } from '@googlemaps/js-api-loader'
+  const loader = new Loader('AIzaSyACo4RXxzSABqvI3S_Q3_nQ2YIW4HfJuXI')
 
+  export default {
+    name: 'EvaluateTreatment',
     data: () => ({
       airRows: 1,
       airRows2: 1,
@@ -1467,7 +2175,56 @@
       menu1: false,
       menu2: false,
       menu3: false,
+      lat: 24.68773,
+      long: 46.72185,
     }),
+
+    mounted () {
+      this.getMap(this.lat, this.long)
+    },
+    methods: {
+      doCopy: function () {
+        copyText(this.lat + ',' + this.long, undefined, (error, event) => {
+          if (error) {
+            alert('Can not copy')
+            console.log(error)
+          } else {
+            // alert('Copied')
+            Swal.fire({
+              title: 'Copied!',
+              icon: 'success',
+              timer: 2000,
+            })
+            console.log(event)
+          }
+        })
+      },
+      getMap: function (x, y) {
+        loader.load().then(function (google) {
+          // Regular Map
+          var center = new google.maps.LatLng(x, y) // Center
+          const mapOptions = {
+            zoom: 13,
+            center: center,
+            mapId: '2bf1cba222371325',
+            scrollwheel: false, // we disable de scroll over the map, it is a really annoing when you scroll through page
+            disableDefaultUI: true, // a way to quickly hide all controls
+            zoomControl: true,
+          }
+          // eslint-disable-next-line no-new
+          var map = new google.maps.Map(
+            document.getElementById('map'),
+            mapOptions
+          )
+          // eslint-disable-next-line no-new
+          new google.maps.Marker({
+            position: center,
+            map,
+            title: 'Hello World!',
+          })
+        })
+      },
+    },
   }
 </script>
 
@@ -1494,5 +2251,9 @@ label {
 }
 .justify-content-end{
   justify-content: end
+}
+.orange-btn{
+  background-color: #FDCA40 !important;
+  color: #000 !important;
 }
 </style>
