@@ -72,6 +72,21 @@ const router = new Router({
           component: () => import('@/views/dashboard/Dashboard'),
           meta: { requiresAuth: true },
         },
+        // Users
+        {
+          name: 'Users',
+          path: '/Users',
+          component: () => import('@/views/dashboard/users/Users.vue'),
+          // meta: { role: 'Users.GetAll' },
+          // beforeEnter: routerGuard,
+        },
+        {
+          name: 'user Form',
+          path: '/userForm/:id?',
+          component: () => import('@/views/dashboard/users/Form.vue'),
+          // meta: { role: 'Users.GetById' },
+          // beforeEnter: routerGuard,
+        },
         {
           name: 'NewTreatment',
           path: '/New-Treatments',
@@ -96,13 +111,12 @@ const router = new Router({
           component: () => import('@/views/dashboard/Finance/PriceOffers'),
           meta: { requiresAuth: true },
         },
-
         {
           path: '/notAuthorized',
           name: 'notAuthorized',
           component: () => import('../pages/NotAuthorized.vue'),
         },
-        // { path: '*', redirect: '/login' },
+        { path: '*', redirect: '/login' },
       ],
     },
   ],

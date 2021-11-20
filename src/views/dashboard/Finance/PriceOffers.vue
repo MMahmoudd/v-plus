@@ -20,10 +20,10 @@
         <span>اضافة عميل</span>
       </v-btn>
     </v-row>
-    <v-row class="table_container">     <v-col cols="12">
-        </v-col>
+    <v-row class="table_container">
+      <v-col cols="12" />
     </v-row>
-        </v-container>
+  </v-container>
 </template>
 
 <script>
