@@ -88,15 +88,21 @@ const router = new Router({
           // beforeEnter: routerGuard,
         },
         {
+          name: 'Treatments',
+          path: '/Treatments',
+          component: () => import('@/views/dashboard/Treatment/Treatments'),
+          meta: { requiresAuth: true },
+        },
+        {
           name: 'NewTreatment',
-          path: '/New-Treatments',
+          path: '/New-Treatment',
           component: () => import('@/views/dashboard/Treatment/NewTreatment'),
           meta: { requiresAuth: true },
         },
         {
-          name: 'Treatments',
-          path: '/Treatments',
-          component: () => import('@/views/dashboard/Treatment/Treatments'),
+          name: 'EvaluateTreatment',
+          path: '/Evaluate-Treatment',
+          component: () => import('@/views/dashboard/Treatment/EvaluateTreatment'),
           meta: { requiresAuth: true },
         },
         {
