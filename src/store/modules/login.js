@@ -44,14 +44,14 @@ const Login = {
     doLogin ({ commit, state, dispatch }, loginData) {
       commit('resetState')
       const userData = {
-        key: loginData.email.replace(/\s+/g, ''),
-        value: loginData.password,
+        email: loginData.email.replace(/\s+/g, ''),
+        password: loginData.password,
       }
-      axios.post(`${API_URL}/Authentication/LogIn`, userData)
+      axios.post(`${API_URL}/login`, userData)
         .then((response) => {
           state.isLoading = true
           console.log(response)
-          if (response.status === 200) {
+          if (response.success === true) {
             localStorage.setItem('token', response.data.token)
             localStorage.setItem('userDataPermission', response.data.userPolicy)
             state.userToken = response.data.token
@@ -59,13 +59,14 @@ const Login = {
             dispatch('checkUserData')
             window.location.href = process.env.BASE_URL
           } else {
-            // state.loginErrorMessage = response.data.error[0]
+            console.log('response', response)
+            state.loginErrorMessage = response
             state.isLoading = true
           }
         })
         .catch(error => {
-          console.log(error)
-          state.loginErrorMessage = error.response.data.error[0]
+          console.log('error', error)
+          state.loginErrorMessage = error
           state.isLoading = true
         })
     },

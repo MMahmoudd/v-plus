@@ -54,6 +54,14 @@
               <span>{{ $t('login.login') }}</span>
             </v-tooltip>
           </v-card-actions>
+          <template v-if="loginErrorMessage">
+            <v-alert
+              type="error"
+              color="#ff5252"
+            >
+              {{ loginErrorMessage }}
+            </v-alert>
+          </template>
         </div>
         <div class="image">
           <img

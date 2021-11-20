@@ -32,3 +32,10 @@ $headings: (
   'subtitle-2': ( 'size': 1rem ),
   'overline': ( 'letter-spacing': 0 )
 );
+
+
+.customers_table_container{
+  v-data-table-header{
+    margin-bottom:5rem;
+  }
+}

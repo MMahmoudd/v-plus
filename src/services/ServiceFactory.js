@@ -1,4 +1,4 @@
-// import companiesService from './CompaniesService'
+import usersService from './UsersServices'
 // import CompanyBranchesServices from './CompanyBranchesServices'
 // import companyGroupServices from './companyGroupServices'
 // import CompanyAreaServices from './CompanyAreaServices'
@@ -15,7 +15,7 @@
 // import ReportsServices from './ReportsServices'
 
 const services = {
-  // companies: companiesService,
+  Users: usersService,
   // companyGroup: companyGroupServices,
   // companyBranches: CompanyBranchesServices,
   // CompanyArea: CompanyAreaServices,

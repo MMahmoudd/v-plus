@@ -72,21 +72,8 @@
         {
           title: 'الرئيسية',
           icon: 'fa-home',
+          to: '/',
           role: true,
-          children: [
-            {
-              icon: 'fa-home',
-              title: 'الفرعية',
-              to: '/',
-              role: true,
-            },
-            {
-              icon: 'fa-home',
-              title: 'الفرعية',
-              to: '/',
-              role: true,
-            },
-          ],
         },
         {
           title: 'المالية',
@@ -106,6 +93,12 @@
               role: true,
             },
           ],
+        },
+        {
+          title: 'المستخدمين',
+          icon: 'fa-users',
+          to: '/Users',
+          role: true,
         },
         {
           title: 'المعاملات',
