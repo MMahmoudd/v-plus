@@ -427,7 +427,7 @@
         <template>
           <v-data-table
             :headers="headers"
-            :items="desserts"
+            :items="itemsTr"
             :items-per-page="5"
             class="elevation-1"
           />
@@ -489,7 +489,7 @@
         { text: 'فسح البناء', value: 'buildingClearance' },
         { text: 'الحالة', value: 'status' },
       ],
-      desserts: [
+      itemsTr: [
         {
           date: '25-5-2020',
           buildingNum: 515424,

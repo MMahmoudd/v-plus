@@ -113,6 +113,12 @@
           role: true,
           children: [
             {
+              title: 'المعاملات',
+              icon: 'fa-home',
+              to: '/Treatments',
+              role: true,
+            },
+            {
               title: 'معاملة جديدة',
               icon: 'fa-home',
               to: '/New-Treatment',

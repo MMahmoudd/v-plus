@@ -1888,7 +1888,8 @@
                     single-line
                     outlined
                   />
-                </v-col><v-col
+                </v-col>
+                <v-col
                   cols="4"
                   sm="2"
                 >
@@ -1900,7 +1901,8 @@
                     single-line
                     outlined
                   />
-                </v-col><v-col
+                </v-col>
+                <v-col
                   cols="4"
                   sm="2"
                 >
@@ -1912,7 +1914,8 @@
                     single-line
                     outlined
                   />
-                </v-col><v-col
+                </v-col>
+                <v-col
                   cols="4"
                   sm="2"
                 >
@@ -1924,7 +1927,8 @@
                     single-line
                     outlined
                   />
-                </v-col><v-col
+                </v-col>
+                <v-col
                   cols="4"
                   sm="2"
                 >
@@ -1936,7 +1940,8 @@
                     single-line
                     outlined
                   />
-                </v-col><v-col
+                </v-col>
+                <v-col
                   cols="4"
                   sm="2"
                 >
@@ -1948,7 +1953,8 @@
                     single-line
                     outlined
                   />
-                </v-col><v-col
+                </v-col>
+                <v-col
                   cols="4"
                   sm="2"
                 >
@@ -1960,7 +1966,8 @@
                     single-line
                     outlined
                   />
-                </v-col><v-col
+                </v-col>
+                <v-col
                   cols="4"
                   sm="2"
                 >
@@ -1972,7 +1979,8 @@
                     single-line
                     outlined
                   />
-                </v-col><v-col
+                </v-col>
+                <v-col
                   cols="4"
                   sm="2"
                 >
@@ -1984,7 +1992,8 @@
                     single-line
                     outlined
                   />
-                </v-col><v-col
+                </v-col>
+                <v-col
                   cols="4"
                   sm="2"
                 >
@@ -2083,6 +2092,2208 @@
 
             <v-divider class="my-10" />
 
+            <div>
+              <h2>تصنيف مستوى تشطيبات البناء</h2>
+              <v-radio-group
+                v-model="row"
+                row
+              >
+                <v-col
+                  cols="12"
+                  lg="3"
+                  sm="6"
+                >
+                  <v-radio
+                    class="mb-2"
+                    label="تشطيب فاخر"
+                    value="radio-1"
+                    name="tash"
+                  />
+                  <label
+                    class="d-block mb-3 font-weight-bold text-right"
+                  >تشطيبات خارجية</label>
+                  <v-textarea
+                    name="input-7-1"
+                    single-line
+                    outlined
+                  />
+                  <label
+                    class="d-block mb-3 font-weight-bold text-right"
+                  >تشطيبات داخلية</label>
+                  <v-textarea
+                    name="input-7-1"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  lg="3"
+                  sm="6"
+                >
+                  <v-radio
+                    class="mb-2"
+                    label="تشطيب متوسط"
+                    value="radio-2"
+                    name="tash"
+                  />
+                  <label
+                    class="d-block mb-3 font-weight-bold text-right"
+                  >تشطيبات خارجية</label>
+                  <v-textarea
+                    name="input-7-1"
+                    single-line
+                    outlined
+                  />
+                  <label
+                    class="d-block mb-3 font-weight-bold text-right"
+                  >تشطيبات داخلية</label>
+                  <v-textarea
+                    name="input-7-1"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  lg="3"
+                  sm="6"
+                >
+                  <v-radio
+                    class="mb-2"
+                    label="تشطيب عادى"
+                    value="radio-3"
+                    name="tash"
+                  />
+                  <label
+                    class="d-block mb-3 font-weight-bold text-right"
+                  >تشطيبات خارجية</label>
+                  <v-textarea
+                    name="input-7-1"
+                    single-line
+                    outlined
+                  />
+                  <label
+                    class="d-block mb-3 font-weight-bold text-right"
+                  >تشطيبات داخلية</label>
+                  <v-textarea
+                    name="input-7-1"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  lg="3"
+                  sm="6"
+                >
+                  <v-radio
+                    class="mb-2"
+                    label="بدون تشطيب"
+                    value="radio-4"
+                    name="tash"
+                  />
+                </v-col>
+              </v-radio-group>
+            </div>
+
+            <v-divider class="my-10" />
+
+            <div>
+              <h2>الخدمات والمرافق المتوفرة بالبناء</h2>
+              <v-row>
+                <v-col
+                  cols="12"
+                  sm="6"
+                >
+                  <v-checkbox
+                    v-model="selected"
+                    label="هاتف"
+                    value="هاتف"
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  sm="6"
+                >
+                  <v-checkbox
+                    v-model="selected"
+                    label="صرف صحى"
+                    value="صرف صحى"
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  sm="6"
+                >
+                  <v-checkbox
+                    v-model="selected"
+                    label="مياه"
+                    value="مياه"
+                  />
+                  <v-row
+                    align="center"
+                  >
+                    <v-col
+                      v-for="(row, index) in airRows5"
+                      :key="'row5'+index"
+                      cols="12"
+                      sm="6"
+                    >
+                      <label
+                        class="d-block mb-3 font-weight-bold"
+                      >رقم العداد</label>
+                      <v-text-field
+                        class="d-inline"
+                        label="رقم العداد"
+                        single-line
+                        outlined
+                      />
+                    </v-col>
+                    <v-col
+                      cols="12"
+                      sm="6"
+                    >
+                      <label
+                        class="d-block font-weight-bold"
+                        @click.prevent="airRows5++"
+                      >
+                        <v-icon left> mdi-plus </v-icon>
+                        إضافة رقم عداد جديد
+                      </label>
+                    </v-col>
+                  </v-row>
+                </v-col>
+                <v-col
+                  cols="12"
+                  sm="6"
+                >
+                  <v-checkbox
+                    v-model="selected"
+                    label="كهرباء"
+                    value="كهرباء"
+                  />
+                  <v-row
+                    align="center"
+                  >
+                    <v-col
+                      v-for="(row, index) in airRows6"
+                      :key="'row6'+index"
+                      cols="12"
+                      sm="6"
+                    >
+                      <label
+                        class="d-block mb-3 font-weight-bold"
+                      >رقم العداد</label>
+                      <v-text-field
+                        class="d-inline"
+                        label="رقم العداد"
+                        single-line
+                        outlined
+                      />
+                    </v-col>
+                    <v-col
+                      cols="12"
+                      sm="6"
+                    >
+                      <label
+                        class="d-block font-weight-bold"
+                        @click.prevent="airRows6++"
+                      >
+                        <v-icon left> mdi-plus </v-icon>
+                        إضافة رقم عداد جديد
+                      </label>
+                    </v-col>
+                  </v-row>
+                </v-col>
+              </v-row>
+            </div>
+            <v-divider class="my-10" />
+
+            <div>
+              <h2>المحيط المؤثر للعقار</h2>
+              <v-row>
+                <v-col
+                  cols="8"
+                  sm="4"
+                  lg="2"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >جامع</label>
+                  <v-text-field
+                    label="تفاصيل"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="4"
+                  sm="2"
+                  lg="1"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >يبعد</label>
+                  <v-text-field
+                    label="100 م"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="8"
+                  sm="4"
+                  lg="2"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >مرفق طبى</label>
+                  <v-text-field
+                    label="تفاصيل"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="4"
+                  sm="2"
+                  lg="1"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >يبعد</label>
+                  <v-text-field
+                    label="100 م"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="8"
+                  sm="4"
+                  lg="2"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >مرفق أمنى</label>
+                  <v-text-field
+                    label="تفاصيل"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="4"
+                  sm="2"
+                  lg="1"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >يبعد</label>
+                  <v-text-field
+                    label="100 م"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="8"
+                  sm="4"
+                  lg="2"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >سوق تجارى</label>
+                  <v-text-field
+                    label="تفاصيل"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="4"
+                  sm="2"
+                  lg="1"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >يبعد</label>
+                  <v-text-field
+                    label="100 م"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="8"
+                  sm="4"
+                  lg="2"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >حديقة</label>
+                  <v-text-field
+                    label="تفاصيل"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="4"
+                  sm="2"
+                  lg="1"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >يبعد</label>
+                  <v-text-field
+                    label="100 م"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="8"
+                  sm="4"
+                  lg="2"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >مرفق تعليمى</label>
+                  <v-text-field
+                    label="تفاصيل"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="4"
+                  sm="2"
+                  lg="1"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >يبعد</label>
+                  <v-text-field
+                    label="100 م"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="8"
+                  sm="4"
+                  lg="2"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >مقر حكومى</label>
+                  <v-text-field
+                    label="تفاصيل"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="4"
+                  sm="2"
+                  lg="1"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >يبعد</label>
+                  <v-text-field
+                    label="100 م"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="8"
+                  sm="4"
+                  lg="2"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >طريق سريع</label>
+                  <v-text-field
+                    label="تفاصيل"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="4"
+                  sm="2"
+                  lg="1"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >يبعد</label>
+                  <v-text-field
+                    label="100 م"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+              </v-row>
+            </div>
+
+            <v-divider class="my-10" />
+
+            <div>
+              <h2>أسلوب او طريقة التقييم المستخدمة</h2>
+              <v-row>
+                <v-col
+                  cols="12"
+                  sm="6"
+                  lg="4"
+                >
+                  <v-checkbox
+                    v-model="evaluateType"
+                    label="أسلوب السوق"
+                    value="evaluateType1"
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  sm="6"
+                  lg="4"
+                >
+                  <v-checkbox
+                    v-model="evaluateType"
+                    label="أسلوب الدخل"
+                    value="evaluateType2"
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  sm="6"
+                  lg="4"
+                >
+                  <v-checkbox
+                    v-model="evaluateType"
+                    label="أسلوب التكلفة (المقاول)"
+                    value="evaluateType3"
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  sm="6"
+                  lg="4"
+                >
+                  <v-checkbox
+                    v-model="evaluateType"
+                    label="طريقة البيوع المقارنة"
+                    value="evaluateType1"
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  sm="6"
+                  lg="4"
+                >
+                  <v-checkbox
+                    v-model="evaluateType"
+                    label="طريقة الاستثمار رسملة الدخل"
+                    value="evaluateType2"
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  sm="6"
+                  lg="4"
+                >
+                  <v-checkbox
+                    v-model="evaluateType"
+                    label="طريقة التكلفة المقاول"
+                    value="evaluateType3"
+                  />
+                </v-col>
+              </v-row>
+            </div>
+            <v-divider class="my-10" />
+            <div v-show="evaluateType == 'evaluateType1'">
+              <div>
+                <h2>العقارات المقارنة</h2>
+                <div class="table-responsive">
+                  <template>
+                    <v-simple-table>
+                      <template v-slot:default>
+                        <thead>
+                          <tr>
+                            <th>
+                              #
+                            </th>
+                            <th>
+                              نوع العقار
+                            </th>
+                            <th>
+                              المساحة
+                            </th>
+                            <th>
+                              نوع العملية
+                            </th>
+                            <th>
+                              تاريخ العملية
+                            </th>
+                            <th>
+                              السعر
+                            </th>
+                            <th>
+                              التواصل
+                            </th>
+                            <th>
+                              خط العرض
+                            </th>
+                            <th>
+                              خط الطول
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>
+                              <label class="v-label theme--light">المقارن 1</label>
+                            </td>
+                            <td>
+                              <v-text-field
+                                class="mt-3"
+                                single-line
+                                outlined
+                              />
+                            </td>
+                            <td>
+                              <v-text-field
+                                class="mt-3"
+                                single-line
+                                outlined
+                              />
+                            </td>
+                            <td>
+                              <v-select
+                                class="mt-3"
+                                :items="items"
+                                single-line
+                                outlined
+                              />
+                            </td>
+                            <td>
+                              <v-text-field
+                                class="mt-3"
+                                single-line
+                                outlined
+                              />
+                            </td>
+                            <td>
+                              <v-text-field
+                                class="mt-3"
+                                single-line
+                                outlined
+                              />
+                            </td>
+                            <td>
+                              <v-text-field
+                                class="mt-3"
+                                single-line
+                                outlined
+                              />
+                            </td>
+                            <td>
+                              <v-text-field
+                                class="mt-3"
+                                single-line
+                                outlined
+                              />
+                            </td>
+                            <td>
+                              <v-text-field
+                                class="mt-3"
+                                single-line
+                                outlined
+                              />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <label class="v-label theme--light">المقارن 2</label>
+                            </td>
+                            <td>
+                              <v-text-field
+                                class="mt-3"
+                                single-line
+                                outlined
+                              />
+                            </td>
+                            <td>
+                              <v-text-field
+                                class="mt-3"
+                                single-line
+                                outlined
+                              />
+                            </td>
+                            <td>
+                              <v-select
+                                class="mt-3"
+                                :items="items"
+                                single-line
+                                outlined
+                              />
+                            </td>
+                            <td>
+                              <v-text-field
+                                class="mt-3"
+                                single-line
+                                outlined
+                              />
+                            </td>
+                            <td>
+                              <v-text-field
+                                class="mt-3"
+                                single-line
+                                outlined
+                              />
+                            </td>
+                            <td>
+                              <v-text-field
+                                class="mt-3"
+                                single-line
+                                outlined
+                              />
+                            </td>
+                            <td>
+                              <v-text-field
+                                class="mt-3"
+                                single-line
+                                outlined
+                              />
+                            </td>
+                            <td>
+                              <v-text-field
+                                class="mt-3"
+                                single-line
+                                outlined
+                              />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <label class="v-label theme--light">المقارن 3</label>
+                            </td>
+                            <td>
+                              <v-text-field
+                                class="mt-3"
+                                single-line
+                                outlined
+                              />
+                            </td>
+                            <td>
+                              <v-text-field
+                                class="mt-3"
+                                single-line
+                                outlined
+                              />
+                            </td>
+                            <td>
+                              <v-select
+                                class="mt-3"
+                                :items="items"
+                                single-line
+                                outlined
+                              />
+                            </td>
+                            <td>
+                              <v-text-field
+                                class="mt-3"
+                                single-line
+                                outlined
+                              />
+                            </td>
+                            <td>
+                              <v-text-field
+                                class="mt-3"
+                                single-line
+                                outlined
+                              />
+                            </td>
+                            <td>
+                              <v-text-field
+                                class="mt-3"
+                                single-line
+                                outlined
+                              />
+                            </td>
+                            <td>
+                              <v-text-field
+                                class="mt-3"
+                                single-line
+                                outlined
+                              />
+                            </td>
+                            <td>
+                              <v-text-field
+                                class="mt-3"
+                                single-line
+                                outlined
+                              />
+                            </td>
+                          </tr>
+                        </tbody>
+                      </template>
+                    </v-simple-table>
+                  </template>
+                </div>
+              </div>
+              <v-divider class="my-10" />
+              <div>
+                <h2>نوع التسوية</h2>
+                <v-row>
+                  <v-col
+                    cols="12"
+                    sm="4"
+                    lg="4"
+                  >
+                    <label
+                      class="d-block mb-3 font-weight-bold"
+                    >اختيار نوع التسوية</label>
+                    <v-select
+                      :items="items"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                </v-row>
+                <h2>جدول التسويات</h2>
+                <div class="table-responsive">
+                  <template>
+                    <v-simple-table>
+                      <template v-slot:default>
+                        <thead>
+                          <tr>
+                            <th>
+                              عناصر المقارنة
+                            </th>
+                            <th>
+                              المقارن 1
+                            </th>
+                            <th>
+                              المقارن 2
+                            </th>
+                            <th>
+                              المقارن 3
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>
+                              <label class="v-label theme--light">تسوية عامل الوقت</label>
+                            </td>
+                            <td>
+                              <v-text-field
+                                class="mt-3"
+                                single-line
+                                outlined
+                              />
+                            </td>
+                            <td>
+                              <v-text-field
+                                class="mt-3"
+                                single-line
+                                outlined
+                              />
+                            </td>
+                            <td>
+                              <v-text-field
+                                class="mt-3"
+                                single-line
+                                outlined
+                              />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <label class="v-label theme--light">تسوية شروط التمويل</label>
+                            </td>
+                            <td>
+                              <v-text-field
+                                class="mt-3"
+                                single-line
+                                outlined
+                              />
+                            </td>
+                            <td>
+                              <v-text-field
+                                class="mt-3"
+                                single-line
+                                outlined
+                              />
+                            </td>
+                            <td>
+                              <v-text-field
+                                class="mt-3"
+                                single-line
+                                outlined
+                              />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <label class="v-label theme--light">% إجمالى تسويات التمويل والسوق</label>
+                            </td>
+                            <td>
+                              <v-text-field
+                                class="mt-3"
+                                single-line
+                                outlined
+                              />
+                            </td>
+                            <td>
+                              <v-text-field
+                                class="mt-3"
+                                single-line
+                                outlined
+                              />
+                            </td>
+                            <td>
+                              <v-text-field
+                                class="mt-3"
+                                single-line
+                                outlined
+                              />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <label class="v-label theme--light">سعر البيع بعد تسوية شروط التمويل وظروف السوق</label>
+                            </td>
+                            <td>
+                              <v-text-field
+                                class="mt-3"
+                                single-line
+                                outlined
+                              />
+                            </td>
+                            <td>
+                              <v-text-field
+                                class="mt-3"
+                                single-line
+                                outlined
+                              />
+                            </td>
+                            <td>
+                              <v-text-field
+                                class="mt-3"
+                                single-line
+                                outlined
+                              />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <label class="v-label theme--light">تسوية المساحة</label>
+                            </td>
+                            <td>
+                              <v-text-field
+                                class="mt-3"
+                                single-line
+                                outlined
+                              />
+                            </td>
+                            <td>
+                              <v-text-field
+                                class="mt-3"
+                                single-line
+                                outlined
+                              />
+                            </td>
+                            <td>
+                              <v-text-field
+                                class="mt-3"
+                                single-line
+                                outlined
+                              />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <label class="v-label theme--light">تسويات أخرى</label>
+                            </td>
+                            <td>
+                              <v-text-field
+                                class="mt-3"
+                                single-line
+                                outlined
+                              />
+                            </td>
+                            <td>
+                              <v-text-field
+                                class="mt-3"
+                                single-line
+                                outlined
+                              />
+                            </td>
+                            <td>
+                              <v-text-field
+                                class="mt-3"
+                                single-line
+                                outlined
+                              />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <label class="v-label theme--light">مجموع نسب التسويات</label>
+                            </td>
+                            <td>
+                              <v-text-field
+                                class="mt-3"
+                                single-line
+                                outlined
+                              />
+                            </td>
+                            <td>
+                              <v-text-field
+                                class="mt-3"
+                                single-line
+                                outlined
+                              />
+                            </td>
+                            <td>
+                              <v-text-field
+                                class="mt-3"
+                                single-line
+                                outlined
+                              />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <label class="v-label theme--light">سعر البيع بعد التسويات</label>
+                            </td>
+                            <td>
+                              <v-text-field
+                                class="mt-3"
+                                single-line
+                                outlined
+                              />
+                            </td>
+                            <td>
+                              <v-text-field
+                                class="mt-3"
+                                single-line
+                                outlined
+                              />
+                            </td>
+                            <td>
+                              <v-text-field
+                                class="mt-3"
+                                single-line
+                                outlined
+                              />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <label class="v-label theme--light">الأوزان النسبية للعقارات المقارنة</label>
+                            </td>
+                            <td>
+                              <v-text-field
+                                class="mt-3"
+                                single-line
+                                outlined
+                              />
+                            </td>
+                            <td>
+                              <v-text-field
+                                class="mt-3"
+                                single-line
+                                outlined
+                              />
+                            </td>
+                            <td>
+                              <v-text-field
+                                class="mt-3"
+                                single-line
+                                outlined
+                              />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <label class="v-label theme--light">مساهمة العقارات المقارنة حسب الوزن النسبى</label>
+                            </td>
+                            <td>
+                              <v-text-field
+                                class="mt-3"
+                                single-line
+                                outlined
+                              />
+                            </td>
+                            <td>
+                              <v-text-field
+                                class="mt-3"
+                                single-line
+                                outlined
+                              />
+                            </td>
+                            <td>
+                              <v-text-field
+                                class="mt-3"
+                                single-line
+                                outlined
+                              />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <label class="v-label theme--light">القيمة السوقية بطريقة البيوع المقارنة</label>
+                            </td>
+                            <td colspan="3">
+                              <v-text-field
+                                class="mt-3"
+                                single-line
+                                outlined
+                              />
+                            </td>
+                          </tr>
+                        </tbody>
+                      </template>
+                    </v-simple-table>
+                  </template>
+                </div>
+              </div>
+            </div>
+            <div v-show="evaluateType == 'evaluateType2'">
+              <div>
+                <h2>تقييم الايجارات</h2>
+                <v-row>
+                  <v-col
+                    cols="12"
+                    lg="2"
+                    md="3"
+                    sm="6"
+                  >
+                    <label
+                      class="d-block mb-3 font-weight-bold"
+                    >اسم الوحدة</label>
+                    <v-text-field
+                      label="اسم الوحدة"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    lg="2"
+                    md="3"
+                    sm="6"
+                  >
+                    <label
+                      class="d-block mb-3 font-weight-bold"
+                    >عدد الوحدة</label>
+                    <v-text-field
+                      label="عدد الوحدة"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    lg="2"
+                    md="3"
+                    sm="6"
+                  >
+                    <label
+                      class="d-block mb-3 font-weight-bold"
+                    >ايجار الوحدات</label>
+                    <v-text-field
+                      label="ايجار الوحدات"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    lg="2"
+                    md="3"
+                    sm="6"
+                  >
+                    <label
+                      class="d-block mb-3 font-weight-bold"
+                    >شغائر الصيانة</label>
+                    <v-text-field
+                      label="شغائر الصيانة"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    lg="2"
+                    md="3"
+                    sm="6"
+                  >
+                    <label
+                      class="d-block mb-3 font-weight-bold"
+                    >مجموع الايجارات</label>
+                    <v-text-field
+                      label="مجموع الايجارات"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    lg="2"
+                    md="3"
+                    sm="6"
+                  >
+                    <label
+                      class="d-block mb-3 font-weight-bold"
+                    >صافى الدخل</label>
+                    <v-text-field
+                      label="صافى الدخل"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    lg="2"
+                    md="3"
+                    sm="6"
+                  >
+                    <label
+                      class="d-block mb-3 font-weight-bold"
+                    >اسم الوحدة</label>
+                    <v-text-field
+                      label="اسم الوحدة"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    lg="2"
+                    md="3"
+                    sm="6"
+                  >
+                    <label
+                      class="d-block mb-3 font-weight-bold"
+                    >عدد الوحدة</label>
+                    <v-text-field
+                      label="عدد الوحدة"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    lg="2"
+                    md="3"
+                    sm="6"
+                  >
+                    <label
+                      class="d-block mb-3 font-weight-bold"
+                    >ايجار الوحدات</label>
+                    <v-text-field
+                      label="ايجار الوحدات"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    lg="2"
+                    md="3"
+                    sm="6"
+                  >
+                    <label
+                      class="d-block mb-3 font-weight-bold"
+                    >شغائر الصيانة</label>
+                    <v-text-field
+                      label="شغائر الصيانة"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    lg="2"
+                    md="3"
+                    sm="6"
+                  >
+                    <label
+                      class="d-block mb-3 font-weight-bold"
+                    >مجموع الايجارات</label>
+                    <v-text-field
+                      label="مجموع الايجارات"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    lg="2"
+                    md="3"
+                    sm="6"
+                  >
+                    <label
+                      class="d-block mb-3 font-weight-bold"
+                    >صافى الدخل</label>
+                    <v-text-field
+                      label="صافى الدخل"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    lg="2"
+                    md="3"
+                    sm="6"
+                  >
+                    <label
+                      class="d-block mb-3 font-weight-bold"
+                    >اسم الوحدة</label>
+                    <v-text-field
+                      label="اسم الوحدة"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    lg="2"
+                    md="3"
+                    sm="6"
+                  >
+                    <label
+                      class="d-block mb-3 font-weight-bold"
+                    >عدد الوحدة</label>
+                    <v-text-field
+                      label="عدد الوحدة"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    lg="2"
+                    md="3"
+                    sm="6"
+                  >
+                    <label
+                      class="d-block mb-3 font-weight-bold"
+                    >ايجار الوحدات</label>
+                    <v-text-field
+                      label="ايجار الوحدات"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    lg="2"
+                    md="3"
+                    sm="6"
+                  >
+                    <label
+                      class="d-block mb-3 font-weight-bold"
+                    >شغائر الصيانة</label>
+                    <v-text-field
+                      label="شغائر الصيانة"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    lg="2"
+                    md="3"
+                    sm="6"
+                  >
+                    <label
+                      class="d-block mb-3 font-weight-bold"
+                    >مجموع الايجارات</label>
+                    <v-text-field
+                      label="مجموع الايجارات"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    lg="2"
+                    md="3"
+                    sm="6"
+                  >
+                    <label
+                      class="d-block mb-3 font-weight-bold"
+                    >صافى الدخل</label>
+                    <v-text-field
+                      label="صافى الدخل"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                </v-row>
+              </div>
+              <v-divider class="my-10" />
+              <div>
+                <h2>رسملة الدخل</h2>
+                <v-row>
+                  <v-col
+                    cols="12"
+                    lg="3"
+                    sm="4"
+                  >
+                    <label class="v-label theme--light font-weight-bold">إجمالى الدخل السنوى</label>
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    lg="9"
+                    sm="8"
+                  >
+                    <v-text-field
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    lg="3"
+                    sm="4"
+                  >
+                    <label class="v-label theme--light font-weight-bold">خصم خسائر عدم الإشغال والتحصيل</label>
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    lg="9"
+                    sm="8"
+                  >
+                    <v-text-field
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    lg="3"
+                    sm="4"
+                  >
+                    <label class="v-label theme--light font-weight-bold">إجمالى الدخل الفعلى</label>
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    lg="9"
+                    sm="8"
+                  >
+                    <v-text-field
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    lg="3"
+                    sm="4"
+                  >
+                    <label class="v-label theme--light font-weight-bold">ناقصا النفقات التشغيلية والرأسمالية</label>
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    lg="9"
+                    sm="8"
+                  >
+                    <v-text-field
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    lg="3"
+                    sm="4"
+                  >
+                    <label class="v-label theme--light font-weight-bold">صافى الدخل التشغيلي</label>
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    lg="9"
+                    sm="8"
+                  >
+                    <v-text-field
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    lg="3"
+                    sm="4"
+                  >
+                    <label class="v-label theme--light font-weight-bold">معدل الرسملة (أ) عامل شراء السنوات</label>
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    lg="9"
+                    sm="8"
+                  >
+                    <v-text-field
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    lg="3"
+                    sm="4"
+                  >
+                    <label class="v-label theme--light font-weight-bold">القيمة السوقية باستخدام طريقة رسملة الدخل</label>
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    lg="9"
+                    sm="8"
+                  >
+                    <v-text-field
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                </v-row>
+              </div>
+            </div>
+            <div v-show="evaluateType == 'evaluateType3'">
+              <div>
+                <h2>تقييم الأرض والمبانى</h2>
+                <v-row>
+                  <v-col
+                    cols="12"
+                    md="3"
+                  >
+                    <label class="v-label theme--light font-weight-bold">الأرض</label>
+                  </v-col>
+                  <v-col
+                    cols="4"
+                    md="3"
+                  >
+                    <label class="d-block mb-3 font-weight-bold">المساحة</label>
+                    <v-text-field
+                      value="153"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                  <v-col
+                    cols="4"
+                    md="3"
+                  >
+                    <label class="d-block mb-3 font-weight-bold">سعر المتر</label>
+                    <v-text-field
+                      value="153"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                  <v-col
+                    cols="4"
+                    md="3"
+                  >
+                    <label class="d-block mb-3 font-weight-bold">المجموع</label>
+                    <v-text-field
+                      value="153"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col
+                    cols="12"
+                    md="3"
+                  >
+                    <label class="v-label theme--light font-weight-bold">المبانى</label>
+                  </v-col>
+                  <v-col
+                    cols="4"
+                    md="3"
+                  >
+                    <label class="d-block mb-3 font-weight-bold">المساحة</label>
+                    <v-text-field
+                      value="153"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                  <v-col
+                    cols="4"
+                    md="3"
+                  >
+                    <label class="d-block mb-3 font-weight-bold">سعر المتر</label>
+                    <v-text-field
+                      value="153"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                  <v-col
+                    cols="4"
+                    md="3"
+                  >
+                    <label class="d-block mb-3 font-weight-bold">المجموع</label>
+                    <v-text-field
+                      value="153"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col
+                    cols="12"
+                    md="3"
+                  >
+                    <label class="v-label theme--light font-weight-bold">القبو</label>
+                  </v-col>
+                  <v-col
+                    cols="4"
+                    md="3"
+                  >
+                    <label class="d-block mb-3 font-weight-bold">المساحة</label>
+                    <v-text-field
+                      value="153"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                  <v-col
+                    cols="4"
+                    md="3"
+                  >
+                    <label class="d-block mb-3 font-weight-bold">سعر المتر</label>
+                    <v-text-field
+                      value="153"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                  <v-col
+                    cols="4"
+                    md="3"
+                  >
+                    <label class="d-block mb-3 font-weight-bold">المجموع</label>
+                    <v-text-field
+                      value="153"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col
+                    cols="12"
+                    md="3"
+                  >
+                    <label class="v-label theme--light font-weight-bold">الملاحق</label>
+                  </v-col>
+                  <v-col
+                    cols="4"
+                    md="3"
+                  >
+                    <label class="d-block mb-3 font-weight-bold">المساحة</label>
+                    <v-text-field
+                      value="153"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                  <v-col
+                    cols="4"
+                    md="3"
+                  >
+                    <label class="d-block mb-3 font-weight-bold">سعر المتر</label>
+                    <v-text-field
+                      value="153"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                  <v-col
+                    cols="4"
+                    md="3"
+                  >
+                    <label class="d-block mb-3 font-weight-bold">المجموع</label>
+                    <v-text-field
+                      value="153"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col
+                    cols="12"
+                    md="3"
+                  >
+                    <label class="v-label theme--light font-weight-bold">الأسوار</label>
+                  </v-col>
+                  <v-col
+                    cols="4"
+                    md="3"
+                  >
+                    <label class="d-block mb-3 font-weight-bold">المساحة</label>
+                    <v-text-field
+                      value="153"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                  <v-col
+                    cols="4"
+                    md="3"
+                  >
+                    <label class="d-block mb-3 font-weight-bold">سعر المتر</label>
+                    <v-text-field
+                      value="153"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                  <v-col
+                    cols="4"
+                    md="3"
+                  >
+                    <label class="d-block mb-3 font-weight-bold">المجموع</label>
+                    <v-text-field
+                      value="153"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col
+                    cols="12"
+                    md="3"
+                  >
+                    <label class="v-label theme--light font-weight-bold">أخرى</label>
+                  </v-col>
+                  <v-col
+                    cols="4"
+                    md="3"
+                  >
+                    <label class="d-block mb-3 font-weight-bold">المساحة</label>
+                    <v-text-field
+                      value="153"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                  <v-col
+                    cols="4"
+                    md="3"
+                  >
+                    <label class="d-block mb-3 font-weight-bold">سعر المتر</label>
+                    <v-text-field
+                      value="153"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                  <v-col
+                    cols="4"
+                    md="3"
+                  >
+                    <label class="d-block mb-3 font-weight-bold">المجموع</label>
+                    <v-text-field
+                      value="153"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col
+                    cols="3"
+                  >
+                    <label class="v-label theme--light font-weight-bold">المجموع</label>
+                  </v-col>
+                  <v-col
+                    cols="9"
+                  >
+                    <v-text-field
+                      value="153"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                </v-row>
+              </div>
+              <v-divider class="my-10" />
+              <div>
+                <h2>طريقة التكلفة</h2>
+                <v-row>
+                  <v-col
+                    cols="12"
+                    md="3"
+                  >
+                    <label class="v-label theme--light font-weight-bold">قيمة الاستبدال</label>
+                  </v-col>
+                  <v-col
+                    cols="6"
+                    md="3"
+                  >
+                    <label class="d-block mb-3 font-weight-bold">قيمة الاستبدال</label>
+                    <v-text-field
+                      value="153"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                  <v-col
+                    cols="6"
+                  >
+                    <label class="d-block mb-3 font-weight-bold">ملاحظات اضافية</label>
+                    <v-text-field
+                      label="ملاحظات اضافية"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col
+                    cols="12"
+                    md="3"
+                  >
+                    <label class="v-label theme--light font-weight-bold">التكاليف المباشرة</label>
+                  </v-col>
+                  <v-col
+                    cols="6"
+                    md="3"
+                  >
+                    <label class="d-block mb-3 font-weight-bold">التكاليف المباشرة</label>
+                    <v-text-field
+                      value="153"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                  <v-col
+                    cols="6"
+                  >
+                    <label class="d-block mb-3 font-weight-bold">ملاحظات اضافية</label>
+                    <v-text-field
+                      label="ملاحظات اضافية"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col
+                    cols="12"
+                    md="3"
+                  >
+                    <label class="v-label theme--light font-weight-bold">التكاليف الغير المباشرة</label>
+                  </v-col>
+                  <v-col
+                    cols="6"
+                    md="3"
+                  >
+                    <label class="d-block mb-3 font-weight-bold">التكاليف الغير المباشرة</label>
+                    <v-text-field
+                      value="153"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                  <v-col
+                    cols="6"
+                  >
+                    <label class="d-block mb-3 font-weight-bold">ملاحظات اضافية</label>
+                    <v-text-field
+                      label="ملاحظات اضافية"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                </v-row>
+              </div>
+              <v-divider class="my-10" />
+              <h2>ناقصا الإهلاك</h2>
+              <div class="table-responsive">
+                <template>
+                  <v-simple-table>
+                    <template v-slot:default>
+                      <thead>
+                        <tr>
+                          <th>
+                            #
+                          </th>
+                          <th>
+                            النسبة
+                          </th>
+                          <th>
+                            قيمة الإهلاك
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>
+                            <label class="v-label theme--light">التدهور المادى</label>
+                          </td>
+                          <td>
+                            <v-text-field
+                              class="mt-3"
+                              single-line
+                              outlined
+                            />
+                          </td>
+                          <td>
+                            <v-text-field
+                              class="mt-3"
+                              single-line
+                              outlined
+                            />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <label class="v-label theme--light">التقادم الوظيفى</label>
+                          </td>
+                          <td>
+                            <v-text-field
+                              class="mt-3"
+                              single-line
+                              outlined
+                            />
+                          </td>
+                          <td>
+                            <v-text-field
+                              class="mt-3"
+                              single-line
+                              outlined
+                            />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <label class="v-label theme--light">التقادم الاقتصادى</label>
+                          </td>
+                          <td>
+                            <v-text-field
+                              class="mt-3"
+                              single-line
+                              outlined
+                            />
+                          </td>
+                          <td>
+                            <v-text-field
+                              class="mt-3"
+                              single-line
+                              outlined
+                            />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <label class="v-label theme--light">إجمالى الإهلاك</label>
+                          </td>
+                          <td>
+                            <v-text-field
+                              class="mt-3"
+                              single-line
+                              outlined
+                            />
+                          </td>
+                          <td>
+                            <v-text-field
+                              class="mt-3"
+                              single-line
+                              outlined
+                            />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <label class="v-label theme--light">إهلاك المبانى</label>
+                          </td>
+                          <td>
+                            <v-text-field
+                              class="mt-3"
+                              single-line
+                              outlined
+                            />
+                          </td>
+                          <td>
+                            <v-text-field
+                              class="mt-3"
+                              single-line
+                              outlined
+                            />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <label class="v-label theme--light">إهلاك أعمال الموقع</label>
+                          </td>
+                          <td>
+                            <v-text-field
+                              class="mt-3"
+                              single-line
+                              outlined
+                            />
+                          </td>
+                          <td>
+                            <v-text-field
+                              class="mt-3"
+                              single-line
+                              outlined
+                            />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <label class="v-label theme--light">أرباح المطور</label>
+                          </td>
+                          <td>
+                            <v-text-field
+                              class="mt-3"
+                              single-line
+                              outlined
+                            />
+                          </td>
+                          <td>
+                            <v-text-field
+                              class="mt-3"
+                              single-line
+                              outlined
+                            />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <label class="v-label theme--light">القيمة السوقية بأسلوب التكلفة</label>
+                          </td>
+                          <td colspan="2">
+                            <v-text-field
+                              class="mt-3"
+                              single-line
+                              outlined
+                            />
+                          </td>
+                        </tr>
+                      </tbody>
+                    </template>
+                  </v-simple-table>
+                </template>
+              </div>
+            </div>
+
+            <v-divider class="my-10" />
+            <div>
+              <h2>الترجيح</h2>
+              <div class="table-responsive">
+                <template>
+                  <v-simple-table>
+                    <template v-slot:default>
+                      <thead>
+                        <tr>
+                          <th>
+                            #
+                          </th>
+                          <th>
+                            القيمة السوقية بطريقة البيوع المقارنة
+                          </th>
+                          <th>
+                            القيمة السوقية بطريقة رسملة الدخل
+                          </th>
+                          <th>
+                            القيمة السوقية بطريقة التكلفة
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>
+                            <label class="v-label theme--light">الأوزان النسبية للطرق المستخدمة %</label>
+                          </td>
+                          <td>
+                            <v-text-field
+                              class="mt-3"
+                              single-line
+                              outlined
+                            />
+                          </td>
+                          <td>
+                            <v-text-field
+                              class="mt-3"
+                              single-line
+                              outlined
+                            />
+                          </td>
+                          <td>
+                            <v-text-field
+                              class="mt-3"
+                              single-line
+                              outlined
+                            />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <label class="v-label theme--light">مساهمة الطرق المستخدمة حسب الوزن النسبى</label>
+                          </td>
+                          <td>
+                            <v-text-field
+                              class="mt-3"
+                              single-line
+                              outlined
+                            />
+                          </td>
+                          <td>
+                            <v-text-field
+                              class="mt-3"
+                              single-line
+                              outlined
+                            />
+                          </td>
+                          <td>
+                            <v-text-field
+                              class="mt-3"
+                              single-line
+                              outlined
+                            />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <label class="v-label theme--light">القيمة السوقية بعد الترجيح رقماً</label>
+                          </td>
+                          <td colspan="3">
+                            <v-text-field
+                              class="mt-3"
+                              single-line
+                              outlined
+                            />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <label class="v-label theme--light">القيمة السوقية بعد الترجيح كتابة</label>
+                          </td>
+                          <td colspan="3">
+                            <v-text-field
+                              class="mt-3"
+                              single-line
+                              outlined
+                            />
+                          </td>
+                        </tr>
+                      </tbody>
+                    </template>
+                  </v-simple-table>
+                </template>
+              </div>
+            </div>
+
+            <v-divider class="my-10" />
+            <div>
+              <h2>المشاركون فى إعداد التقرير</h2>
+              <v-row
+                v-for="(row, index) in participants"
+                :key="'participants' + index"
+                align="center"
+              >
+                <v-col
+                  cols="12"
+                  sm="6"
+                  md="3"
+                >
+                  <label class="d-block mb-3 font-weight-bold">الاسم</label>
+                  <v-text-field
+                    label="الاسم"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  sm="6"
+                  md="3"
+                >
+                  <label class="d-block mb-3 font-weight-bold">المسمى الوظيفى</label>
+                  <v-text-field
+                    label="المسمى الوظيفى"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  sm="6"
+                  md="3"
+                >
+                  <label class="d-block mb-3 font-weight-bold">فئة العضوية</label>
+                  <v-text-field
+                    label="فئة العضوية"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  sm="6"
+                  md="3"
+                >
+                  <label class="d-block mb-3 font-weight-bold">رقم العضوية</label>
+                  <v-text-field
+                    label="رقم العضوية"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-btn
+                  x-large
+                  class="ma-2 orange-btn"
+                  @click.prevent="participants++"
+                >
+                  <v-icon left>
+                    fas fa-plus
+                  </v-icon>
+                  اضافة مشترك جديد
+                </v-btn>
+                <v-btn
+                  x-large
+                  class="ma-2 blue-darken-btn"
+                >
+                  <v-icon left>
+                    far fa-eye-slash
+                  </v-icon>
+                  اخفاء
+                </v-btn>
+                <v-btn
+                  x-large
+                  class="ma-2 error"
+                  @click.prevent="participants--"
+                >
+                  <v-icon left>
+                    fas fa-trash-alt
+                  </v-icon>
+                  حذف
+                </v-btn>
+              </v-row>
+            </div>
+            <v-divider class="my-10" />
+
             <v-row
               class="mb-10"
               align="center"
@@ -2148,6 +4359,9 @@
       airRows2: 1,
       airRows3: 1,
       airRows4: 1,
+      airRows5: 1,
+      airRows6: 1,
+      participants: 1,
       ex1: false,
       ex2: false,
       ex3: false,
@@ -2165,6 +4379,9 @@
       ex15: false,
       ex16: false,
       select: null,
+      selected: null,
+      row: null,
+      evaluateType: 'evaluateType1',
       items: ['Item 1', 'Item 2', 'Item 3', 'Item 4'],
       // Date Inputs
       date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
@@ -2255,5 +4472,27 @@ label {
 .orange-btn{
   background-color: #FDCA40 !important;
   color: #000 !important;
+}
+.table-responsive{
+  overflow-x: auto;
+}
+thead{
+  background: #F0F2F3;
+}
+th{
+  color: #000 !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+}
+td{
+  white-space: nowrap;
+  min-width: 100px;
+}
+.blue-darken-btn{
+  background-color: #061058 !important;
+  color: #fff !important;
+}
+.orange-btn{
+  background-color: #FDCA40;
 }
 </style>
