@@ -1,4 +1,5 @@
 import usersService from './UsersServices'
+import customersService from './CustomersServices'
 // import CompanyBranchesServices from './CompanyBranchesServices'
 // import companyGroupServices from './companyGroupServices'
 // import CompanyAreaServices from './CompanyAreaServices'
@@ -16,6 +17,7 @@ import usersService from './UsersServices'
 
 const services = {
   Users: usersService,
+  Customers: customersService,
   // companyGroup: companyGroupServices,
   // companyBranches: CompanyBranchesServices,
   // CompanyArea: CompanyAreaServices,
@@ -33,5 +35,5 @@ const services = {
 }
 
 export const ServiceFactory = {
-    get: name => services[name],
+  get: (name) => services[name],
 }

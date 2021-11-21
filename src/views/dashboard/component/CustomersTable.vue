@@ -1,10 +1,24 @@
 <template>
   <v-data-table
+    :loading="dataLoading"
     :headers="headers"
-    :items="desserts"
-    sort-by="calories"
-    class="custom_table_class mt-9"
+    :search="search"
+    :items="items"
+    :items-per-page="20"
+    :footer-props="{
+      'items-per-page-options': [5, 10, 20, 40, 50],
+    }"
+    :options.sync="options"
+    :server-items-length="total"
+    :page-count="numberOfPages"
+    class="custom_table_class mt-8"
+    @fetchAllItems="fetchAllItems"
   >
+    <template v-slot:[`item.color_e`]="{ item }">
+      <p class="color_primary">
+        {{ item.color_e }}
+      </p>
+    </template>
     <template v-slot:top>
       <v-dialog
         v-model="dialog"
@@ -122,7 +136,54 @@
       <!-- </v-toolbar> -->
     </template>
     <template v-slot:[`item.actions`]="{ item }">
-      <v-icon
+      <div class="text-center">
+        <v-menu offset-y>
+          <template v-slot:activator="{ on, attrs }">
+            <v-icon
+              large
+              class="mr-2"
+              v-bind="attrs"
+              color="primary"
+              v-on="on"
+            >
+              mdi-dots-vertical
+            </v-icon>
+          </template>
+          <v-list>
+            <v-list-item @click="editItem(item)">
+              <v-icon class="ml-2">
+                mdi-pencil
+              </v-icon>
+              تعديل
+            </v-list-item>
+            <v-list-item @click="editItem(item)">
+              <v-icon class="ml-2">
+                mdi-cash
+              </v-icon>
+              <span> مطالبة مالية</span>
+            </v-list-item>
+            <v-list-item @click="editItem(item)">
+              <v-icon class="ml-2">
+                mdi-send-outline
+              </v-icon>
+              <span> ارسال المطالبة المالية </span>
+            </v-list-item>
+            <v-list-item
+              color="primary"
+              @click="deleteItem(item)"
+            >
+              <v-icon
+                color="danger"
+                class="ml-2"
+              >
+                mdi-trash-can-outline
+              </v-icon>
+              <span class="color_danger"> حذف </span>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+      </div>
+      <!-- <v-icon
         small
         class="mr-2"
         @click="editItem(item)"
@@ -134,40 +195,53 @@
         @click="deleteItem(item)"
       >
         mdi-delete
-      </v-icon>
-    </template>
-    <template v-slot:no-data>
-      <v-btn
-        color="primary"
-        @click="initialize"
-      >
-        Reset
-      </v-btn>
+      </v-icon> -->
     </template>
   </v-data-table>
 </template>
 
 <script>
+  import { ServiceFactory } from '../../../services/ServiceFactory'
+  import moment from 'moment'
+  const CustomersService = ServiceFactory.get('Customers')
+
   export default {
     data: () => ({
+      search: '',
+      dataLoading: false,
+      page: 0,
+      total: 0,
+      numberOfPages: 0,
+      options: {},
+      items: [],
+      loading: false,
+      deleteDailog: false,
+      userDetails: {},
+      editedIndex: -1,
+      successSnackbar: false,
+      errorSnackbar: false,
+      timeout: 3000,
+      successMessage: '',
+      errorMessage: '',
+      disabled: false,
+      // asdasdasd
       dialog: false,
       dialogDelete: false,
       headers: [
         {
-          text: 'Dessert (100g serving)',
+          text: 'أسم العميل',
           align: 'start',
           sortable: false,
-          value: 'name',
-          class: 'my-header-style',
+          value: 'cs_name',
         },
-        { text: 'Calories', value: 'calories', class: 'my-header-style' },
-        { text: 'Fat (g)', value: 'fat', class: 'my-header-style' },
-        { text: 'Carbs (g)', value: 'carbs' },
-        { text: 'Protein (g)', value: 'protein' },
-        { text: 'Actions', value: 'actions', sortable: false },
+        { text: 'التصنيف', value: 'cs_type' },
+        { text: 'الجوال/الهاتف', value: 'cs_phone' },
+        { text: 'الإيميل', value: 'cs_email' },
+        { text: 'الإعدادات', value: 'protein' },
+        { text: 'الربحية', value: 'color_e', class: 'color_primary' },
+        { text: '', value: 'actions', sortable: false },
       ],
       desserts: [],
-      editedIndex: -1,
       editedItem: {
         name: '',
         calories: 0,
@@ -191,6 +265,11 @@
     },
 
     watch: {
+      options: {
+        handler () {
+          this.fetchAllItems()
+        },
+      },
       dialog (val) {
         val || this.close()
       },
@@ -199,84 +278,25 @@
       },
     },
 
-    created () {
-      this.initialize()
-    },
+    created () {},
 
     methods: {
-      initialize () {
-        this.desserts = [
-          {
-            name: 'Frozen Yogurt',
-            calories: 159,
-            fat: 6.0,
-            carbs: 24,
-            protein: 4.0,
-          },
-          {
-            name: 'Ice cream sandwich',
-            calories: 237,
-            fat: 9.0,
-            carbs: 37,
-            protein: 4.3,
-          },
-          {
-            name: 'Eclair',
-            calories: 262,
-            fat: 16.0,
-            carbs: 23,
-            protein: 6.0,
-          },
-          {
-            name: 'Cupcake',
-            calories: 305,
-            fat: 3.7,
-            carbs: 67,
-            protein: 4.3,
-          },
-          {
-            name: 'Gingerbread',
-            calories: 356,
-            fat: 16.0,
-            carbs: 49,
-            protein: 3.9,
-          },
-          {
-            name: 'Jelly bean',
-            calories: 375,
-            fat: 0.0,
-            carbs: 94,
-            protein: 0.0,
-          },
-          {
-            name: 'Lollipop',
-            calories: 392,
-            fat: 0.2,
-            carbs: 98,
-            protein: 0,
-          },
-          {
-            name: 'Honeycomb',
-            calories: 408,
-            fat: 3.2,
-            carbs: 87,
-            protein: 6.5,
-          },
-          {
-            name: 'Donut',
-            calories: 452,
-            fat: 25.0,
-            carbs: 51,
-            protein: 4.9,
-          },
-          {
-            name: 'KitKat',
-            calories: 518,
-            fat: 26.0,
-            carbs: 65,
-            protein: 7,
-          },
-        ]
+      async fetchAllItems () {
+        this.dataLoading = true
+        const { page, itemsPerPage } = this.options
+        const pageNumber = page - 1
+        const items = await CustomersService.getAllItems(
+          itemsPerPage,
+          page,
+          pageNumber
+        )
+        console.log('Users', items)
+        items.data.data.map((item) => {
+          item.created_at = moment(item.created_at).format('YYYY-MM-DD hh:mm a')
+        })
+        this.items = items.data.data
+        this.total = items.total
+        this.dataLoading = false
       },
 
       editItem (item) {
@@ -292,7 +312,7 @@
       },
 
       deleteItemConfirm () {
-        this.desserts.splice(this.editedIndex, 1)
+        this.items.splice(this.editedIndex, 1)
         this.closeDelete()
       },
 
@@ -337,15 +357,30 @@
   margin: 0rem;
   padding: 1rem;
 }
+.theme--light.v-data-table
+  > .v-data-table__wrapper
+  > table
+  > thead
+  > tr:last-child
+  > th {
+  font-weight: bold;
+}
+.custom_table_class td {
+  font-weight: bold;
+}
 .custom_table_class thead th {
   background-color: #f0f2f5;
 }
 .custom_table_class thead th:first-child {
   border-radius: 0px 39px 39px 0;
   border-bottom: none;
-
 }
-.theme--light.v-data-table > .v-data-table__wrapper > table > thead > tr:last-child > th{
+.theme--light.v-data-table
+  > .v-data-table__wrapper
+  > table
+  > thead
+  > tr:last-child
+  > th {
   border-bottom: 0px;
 }
 .custom_table_class thead th:last-child {
