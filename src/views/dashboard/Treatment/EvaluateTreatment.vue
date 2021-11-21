@@ -4293,6 +4293,184 @@
               </v-row>
             </div>
             <v-divider class="my-10" />
+            <div>
+              <v-row>
+                <v-col
+                  v-for="(image,index) in images"
+                  :key="'image'+index"
+                  class="upload-img-container"
+                  cols="12"
+                  sm="6"
+                  md="3"
+                >
+                  <div
+                    v-if="!image.image"
+                  >
+                    <input
+                      type="file"
+                      @change="onFileChange(image, $event)"
+                    >
+                  </div>
+                  <div v-else>
+                    <img :src="image.image">
+                    <button
+                      class="remove-img"
+                      @click="removeImage(image)"
+                    >
+                      <v-icon left>
+                        fas fa-trash-alt
+                      </v-icon>
+                    </button>
+                  </div>
+                </v-col>
+              </v-row>
+            </div>
+            <v-divider class="my-10" />
+            <div>
+              <h2>بيانات اضافية</h2>
+              <v-row>
+                <v-col
+                  cols="12"
+                  lg="3"
+                  sm="4"
+                >
+                  <label class="v-label theme--light font-weight-bold">ملاحظات داخلية</label>
+                </v-col>
+                <v-col
+                  cols="12"
+                  lg="9"
+                  sm="8"
+                >
+                  <v-text-field
+                    label="ملاحظات داخلية"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col
+                  cols="12"
+                  lg="3"
+                  sm="4"
+                >
+                  <label class="v-label theme--light font-weight-bold">عملة التقييم</label>
+                </v-col>
+                <v-col
+                  cols="12"
+                  lg="9"
+                  sm="8"
+                >
+                  <v-select
+                    :items="items"
+                    label="عملة التقييم"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col
+                  cols="12"
+                  lg="3"
+                  sm="4"
+                >
+                  <label class="v-label theme--light font-weight-bold">المعايير المهنية</label>
+                </v-col>
+                <v-col
+                  cols="12"
+                  lg="9"
+                  sm="8"
+                >
+                  <v-text-field
+                    label="المعايير المهنية"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col
+                  cols="12"
+                  lg="3"
+                  sm="4"
+                >
+                  <label class="v-label theme--light font-weight-bold">اقرار بالاستقلالية وعدم تضارب المصالح</label>
+                </v-col>
+                <v-col
+                  cols="12"
+                  lg="9"
+                  sm="8"
+                >
+                  <v-text-field
+                    label="اقرار بالاستقلالية وعدم تضارب المصالح"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col
+                  cols="12"
+                  lg="3"
+                  sm="4"
+                >
+                  <label class="v-label theme--light font-weight-bold">القيود على الاستخدام والنشر</label>
+                </v-col>
+                <v-col
+                  cols="12"
+                  lg="9"
+                  sm="8"
+                >
+                  <v-text-field
+                    label="القيود على الاستخدام والنشر"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col
+                  cols="12"
+                  lg="3"
+                  sm="4"
+                >
+                  <label class="v-label theme--light font-weight-bold">اخلاء المسئولية</label>
+                </v-col>
+                <v-col
+                  cols="12"
+                  lg="9"
+                  sm="8"
+                >
+                  <v-text-field
+                    label="اخلاء المسئولية"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col
+                  cols="12"
+                  lg="3"
+                  sm="4"
+                >
+                  <label class="v-label theme--light font-weight-bold">الافتراضات الخاصة ان وجدت</label>
+                </v-col>
+                <v-col
+                  cols="12"
+                  lg="9"
+                  sm="8"
+                >
+                  <v-text-field
+                    label="الافتراضات الخاصة ان وجدت"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+              </v-row>
+            </div>
+            <v-divider class="my-10" />
 
             <v-row
               class="mb-10"
@@ -4300,6 +4478,16 @@
               justify="space-between"
             >
               <div>
+                <v-btn
+                  x-large
+                  class="ma-2 orange-btn"
+                  @click.prevent="participants++"
+                >
+                  <v-icon left>
+                    fas fa-redo
+                  </v-icon>
+                  اعادة الى المرحلة السابقة
+                </v-btn>
                 <v-btn
                   x-large
                   class="ma-2"
@@ -4394,12 +4582,30 @@
       menu3: false,
       lat: 24.68773,
       long: 46.72185,
+      images: [
+        {
+          image: false,
+        },
+        {
+          image: false,
+        },
+        {
+          image: false,
+        },
+        {
+          image: false,
+        },
+        {
+          image: false,
+        },
+      ],
     }),
 
     mounted () {
       this.getMap(this.lat, this.long)
     },
     methods: {
+      // Copy Lat & Long of map
       doCopy: function () {
         copyText(this.lat + ',' + this.long, undefined, (error, event) => {
           if (error) {
@@ -4416,6 +4622,7 @@
           }
         })
       },
+      // Show Map with Marker
       getMap: function (x, y) {
         loader.load().then(function (google) {
           // Regular Map
@@ -4440,6 +4647,24 @@
             title: 'Hello World!',
           })
         })
+      },
+      onFileChange (item, e) {
+        var files = e.target.files || e.dataTransfer.files
+        if (!files.length) {
+          return
+        }
+        this.createImage(item, files[0])
+      },
+      createImage (item, file) {
+        // var image = new Image()
+        var reader = new FileReader()
+        reader.onload = (e) => {
+          item.image = e.target.result
+        }
+        reader.readAsDataURL(file)
+      },
+      removeImage: function (item) {
+        item.image = false
       },
     },
   }
@@ -4494,5 +4719,37 @@ td{
 }
 .orange-btn{
   background-color: #FDCA40;
+}
+.upload-img-container > div{
+  width: 100%;
+  height: 120px;
+  background: #f00;
+  position: relative;
+  overflow: hidden;
+}
+input[type='file']{
+  width: 100%;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  opacity: 0;
+}
+img {
+  width: 100%;
+}
+.remove-img{
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  background: #fff;
+  border-radius: 5px;
+  padding: 4px;
+  box-shadow: 0px 2px 7px rgba(0,0,0,.2);
+}
+.remove-img i{
+  margin: auto;
+  color: #dc3545!important;
 }
 </style>
