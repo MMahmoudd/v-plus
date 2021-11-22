@@ -430,7 +430,104 @@
             :items="itemsTr"
             :items-per-page="5"
             class="elevation-1"
-          />
+          >
+            <template v-slot:[`item.status`]>
+              <v-chip
+                class="pa-2"
+                color="yellow"
+              >
+                مسودة
+              </v-chip>
+            </template>
+            <template v-slot:[`item.action`]>
+              <template>
+                <div class="text-center">
+                  <v-menu offset-y>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-icon
+                        v-bind="attrs"
+                        v-on="on"
+                      >
+                        fas fa-ellipsis-v
+                      </v-icon>
+                    </template>
+                    <v-list>
+                      <v-list-item>
+                        <v-list-item-title>
+                          <router-link to="/">
+                            <v-icon>
+                              far fa-edit
+                            </v-icon>
+                            تعديل
+                          </router-link>
+                        </v-list-item-title>
+                      </v-list-item>
+                      <v-list-item>
+                        <v-list-item-title>
+                          <router-link to="/">
+                            <v-icon>
+                              far fa-eye
+                            </v-icon>
+                            معاينة
+                          </router-link>
+                        </v-list-item-title>
+                      </v-list-item>
+                      <v-list-item>
+                        <v-list-item-title>
+                          <router-link to="/">
+                            <v-icon>
+                              fas fa-user-clock
+                            </v-icon>
+                            حجز موعد
+                          </router-link>
+                        </v-list-item-title>
+                      </v-list-item>
+                      <v-list-item>
+                        <v-list-item-title>
+                          <router-link to="/">
+                            <v-icon>
+                              far fa-file-alt
+                            </v-icon>
+                            الفاتورة
+                          </router-link>
+                        </v-list-item-title>
+                      </v-list-item>
+                      <v-list-item>
+                        <v-list-item-title>
+                          <router-link to="/">
+                            <v-icon>
+                              fas fa-location-arrow
+                            </v-icon>
+                            مراسلة العميل
+                          </router-link>
+                        </v-list-item-title>
+                      </v-list-item>
+                      <v-list-item>
+                        <v-list-item-title>
+                          <router-link to="/Accountant-Treatment">
+                            <v-icon>
+                              fas fa-money-bill
+                            </v-icon>
+                            تعديل الأتعاب
+                          </router-link>
+                        </v-list-item-title>
+                      </v-list-item>
+                      <v-list-item>
+                        <v-list-item-title>
+                          <router-link to="/">
+                            <v-icon>
+                              far fa-trash
+                            </v-icon>
+                            حذف
+                          </router-link>
+                        </v-list-item-title>
+                      </v-list-item>
+                    </v-list>
+                  </v-menu>
+                </div>
+              </template>
+            </template>
+          </v-data-table>
         </template>
       </v-container>
     </v-card>
@@ -474,20 +571,21 @@
 
       // Table
       headers: [
-        { text: 'التاريخ', value: 'date' },
-        { text: 'رقم العقار', value: 'buildingNum' },
-        { text: 'بواسطة', value: 'through' },
-        { text: 'عد الساعات', value: 'hoursNum' },
-        { text: 'جهة التقييم', value: 'evaluator' },
-        { text: 'المالك', value: 'owner' },
-        { text: 'جوال المالك', value: 'ownerPhone' },
-        { text: 'المقييم', value: 'evaluator1' },
-        { text: 'نوع العقار', value: 'buildingType' },
-        { text: 'المكان', value: 'place' },
-        { text: 'المخطط', value: 'chart' },
-        { text: 'القطعة', value: 'widget' },
-        { text: 'فسح البناء', value: 'buildingClearance' },
-        { text: 'الحالة', value: 'status' },
+        { text: 'التاريخ', value: 'date', width: '100px' },
+        { text: 'رقم العقار', value: 'buildingNum', width: '100px' },
+        { text: 'بواسطة', value: 'through', width: '100px' },
+        { text: 'عد الساعات', value: 'hoursNum', width: '100px' },
+        { text: 'جهة التقييم', value: 'evaluator', width: '100px' },
+        { text: 'المالك', value: 'owner', width: '120px' },
+        { text: 'جوال المالك', value: 'ownerPhone', width: '100px' },
+        { text: 'المقييم', value: 'evaluator1', width: '100px' },
+        { text: 'نوع العقار', value: 'buildingType', width: '100px' },
+        { text: 'المكان', value: 'place', width: '100px' },
+        { text: 'المخطط', value: 'chart', width: '100px' },
+        { text: 'القطعة', value: 'widget', width: '100px' },
+        { text: 'فسح البناء', value: 'buildingClearance', width: '100px' },
+        { text: 'الحالة', value: 'status', width: '100px' },
+        { text: 'Action', value: 'action', width: '100px' },
       ],
       itemsTr: [
         {
@@ -582,5 +680,8 @@ a{
 .elevation-1 th,
 .theme--light.v-data-table > .v-data-table__wrapper > table > thead > tr > th{
   color: #000 !important
+}
+.elevation-1 th span{
+  font-size: 25px !important;
 }
 </style>
