@@ -106,6 +106,12 @@ const router = new Router({
           meta: { requiresAuth: true },
         },
         {
+          name: 'AccountantTreatment',
+          path: '/Accountant-Treatment',
+          component: () => import('@/views/dashboard/Treatment/AccountantTreatment'),
+          meta: { requiresAuth: true },
+        },
+        {
           name: 'Customers',
           path: '/customers',
           component: () => import('@/views/dashboard/Finance/Customers'),

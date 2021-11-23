@@ -31,92 +31,65 @@
                   cols="12"
                   sm="6"
                 >
-                  <v-file-input
-                    chips
-                    multiple
-                    counter
-                    show-size
-                    label="الصك"
+                  <label class="d-block mb-3 font-weight-bold">الصك</label>
+                  <a
+                    class="pdf-container"
+                    href="http://shaalan.epizy.com/M-Shaalan-v1/muhammad-shaalan.pdf"
+                    target="_blank"
                   >
-                    <template v-slot:selection="{ text }">
-                      <v-chip
-                        small
-                        label
-                        color="primary"
-                      >
-                        {{ text }}
-                      </v-chip>
-                    </template>
-                  </v-file-input>
+                    <v-icon>
+                      fas fa-file
+                    </v-icon>
+                    File.pdf
+                  </a>
                 </v-col>
-
                 <v-col
                   cols="12"
                   sm="6"
                 >
-                  <v-file-input
-                    chips
-                    multiple
-                    counter
-                    show-size
-                    label="المخطط"
+                  <label class="d-block mb-3 font-weight-bold">المخطط</label>
+                  <a
+                    class="pdf-container"
+                    href="http://shaalan.epizy.com/M-Shaalan-v1/muhammad-shaalan.pdf"
+                    target="_blank"
                   >
-                    <template v-slot:selection="{ text }">
-                      <v-chip
-                        small
-                        label
-                        color="primary"
-                      >
-                        {{ text }}
-                      </v-chip>
-                    </template>
-                  </v-file-input>
+                    <v-icon>
+                      fas fa-file
+                    </v-icon>
+                    File.pdf
+                  </a>
                 </v-col>
-
                 <v-col
                   cols="12"
                   sm="6"
                 >
-                  <v-file-input
-                    chips
-                    multiple
-                    counter
-                    show-size
-                    label="خطاب التكليف"
+                  <label class="d-block mb-3 font-weight-bold">خطاب التكليف</label>
+                  <a
+                    class="pdf-container"
+                    href="http://shaalan.epizy.com/M-Shaalan-v1/muhammad-shaalan.pdf"
+                    target="_blank"
                   >
-                    <template v-slot:selection="{ text }">
-                      <v-chip
-                        small
-                        label
-                        color="primary"
-                      >
-                        {{ text }}
-                      </v-chip>
-                    </template>
-                  </v-file-input>
+                    <v-icon>
+                      fas fa-file
+                    </v-icon>
+                    File.pdf
+                  </a>
                 </v-col>
-
                 <v-col
                   cols="12"
                   sm="6"
                 >
-                  <v-file-input
-                    chips
-                    multiple
-                    counter
-                    show-size
-                    label="الأرشيف"
+                  <label class="d-block mb-3 font-weight-bold">الأرشيف</label>
+                  <a
+                    class="pdf-container"
+                    href="http://shaalan.epizy.com/M-Shaalan-v1/muhammad-shaalan.pdf"
+                    target="_blank"
                   >
-                    <template v-slot:selection="{ text }">
-                      <v-chip
-                        small
-                        label
-                        color="primary"
-                      >
-                        {{ text }}
-                      </v-chip>
-                    </template>
-                  </v-file-input>
+                    <v-icon>
+                      fas fa-file
+                    </v-icon>
+                    File.pdf
+                  </a>
                 </v-col>
               </v-row>
             </div>
@@ -4294,6 +4267,7 @@
             </div>
             <v-divider class="my-10" />
             <div>
+              <h2>الصور الفوتوغرافية</h2>
               <v-row>
                 <v-col
                   v-for="(image,index) in images"
@@ -4310,6 +4284,9 @@
                       type="file"
                       @change="onFileChange(image, $event)"
                     >
+                    <v-icon left>
+                      far fa-image
+                    </v-icon>
                   </div>
                   <div v-else>
                     <img :src="image.image">
@@ -4321,6 +4298,7 @@
                         fas fa-trash-alt
                       </v-icon>
                     </button>
+                    <span class="img-num">{{ index + 1 }}</span>
                   </div>
                 </v-col>
               </v-row>
@@ -4509,6 +4487,16 @@
                   </v-icon>
                   إرسال
                 </v-btn>
+                <v-btn
+                  x-large
+                  class="ma-2 light-green-btn"
+                  outlined
+                >
+                  <v-icon left>
+                    far fa-check-circle
+                  </v-icon>
+                  اعتماد
+                </v-btn>
               </div>
               <div>
                 <v-btn
@@ -4598,6 +4586,15 @@
         {
           image: false,
         },
+        {
+          image: false,
+        },
+        {
+          image: false,
+        },
+        {
+          image: false,
+        },
       ],
     }),
 
@@ -4648,6 +4645,7 @@
           })
         })
       },
+      // Show Image After Upload
       onFileChange (item, e) {
         var files = e.target.files || e.dataTransfer.files
         if (!files.length) {
@@ -4671,6 +4669,19 @@
 </script>
 
 <style lang="scss" scoped>
+.pdf-container{
+  display: block;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 20%);
+  width: 160px;
+  padding: 15px;
+  border-radius: 10px;
+  text-decoration: none;
+}
+.pdf-container i{
+  font-size: 40px;
+  margin-left: 10px;
+  color: #ccc;
+}
 .time-chip span {
   font-size: 15px;
 }
@@ -4698,6 +4709,10 @@ label {
   background-color: #FDCA40 !important;
   color: #000 !important;
 }
+.light-green-btn{
+  background-color: #4DC334 !important;
+  color: #fff !important;
+}
 .table-responsive{
   overflow-x: auto;
 }
@@ -4723,9 +4738,16 @@ td{
 .upload-img-container > div{
   width: 100%;
   height: 120px;
-  background: #f00;
+  background: #f9f9f9;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: relative;
   overflow: hidden;
+}
+.upload-img-container > div > i{
+  font-size: 60px;
 }
 input[type='file']{
   width: 100%;
@@ -4735,6 +4757,8 @@ input[type='file']{
   top: 0;
   bottom: 0;
   opacity: 0;
+  z-index: 99999;
+  cursor: pointer;
 }
 img {
   width: 100%;
@@ -4751,5 +4775,14 @@ img {
 .remove-img i{
   margin: auto;
   color: #dc3545!important;
+}
+.img-num{
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: #fff;
+  border-radius: 5px;
+  padding: 4px 8px;
+  box-shadow: 0px 2px 7px rgba(0,0,0,.2);
 }
 </style>
