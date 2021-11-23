@@ -95,7 +95,7 @@ const router = new Router({
         },
         {
           name: 'NewTreatment',
-          path: '/New-Treatment',
+          path: '/New-Treatment/:id',
           component: () => import('@/views/dashboard/Treatment/NewTreatment'),
           meta: { requiresAuth: true },
         },

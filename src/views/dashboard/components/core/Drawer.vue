@@ -112,12 +112,6 @@
               role: true,
             },
             {
-              title: 'معاملة جديدة',
-              icon: 'fa-home',
-              to: '/New-Treatment',
-              role: true,
-            },
-            {
               title: 'تقييم المعاملة',
               icon: 'fa-home',
               to: '/Evaluate-Treatment',

@@ -402,13 +402,17 @@
                         </v-btn>
                       </template>
                       <v-list>
-                        <v-list-item
-                          v-for="(item, index) in items"
-                          :key="index"
-                        >
+                        <v-list-item>
                           <v-list-item-title>
-                            <router-link to="/New-Treatment">
-                              {{ item }}
+                            <router-link to="/New-Treatment/1">
+                              مصرف الراجحى
+                            </router-link>
+                          </v-list-item-title>
+                        </v-list-item>
+                        <v-list-item>
+                          <v-list-item-title>
+                            <router-link to="/New-Treatment/2">
+                              الباقى
                             </router-link>
                           </v-list-item-title>
                         </v-list-item>
@@ -452,6 +456,16 @@
                       </v-icon>
                     </template>
                     <v-list>
+                      <v-list-item>
+                        <v-list-item-title>
+                          <router-link to="/">
+                            <v-icon>
+                              far fa-file-pdf
+                            </v-icon>
+                            تنزيل PDF
+                          </router-link>
+                        </v-list-item-title>
+                      </v-list-item>
                       <v-list-item>
                         <v-list-item-title>
                           <router-link to="/">

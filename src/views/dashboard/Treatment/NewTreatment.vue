@@ -743,638 +743,874 @@
                   />
                 </v-col>
               </v-row>
-
               <v-divider class="my-10" />
-
-              <v-row>
-                <v-col
-                  cols="12"
-                  lg="3"
-                  md="4"
-                >
-                  <label
-                    class="d-block mb-3 font-weight-bold"
-                  >الموقع العام</label>
-                  <v-select
-                    :items="items"
-                    label="الموقع العام"
-                    single-line
-                    outlined
-                  />
-                </v-col>
-
-                <v-col
-                  cols="12"
-                  lg="3"
-                  md="4"
-                >
-                  <label class="d-block mb-3 font-weight-bold">التصميم</label>
-                  <v-select
-                    :items="items"
-                    label="التصميم"
-                    single-line
-                    outlined
-                  />
-                </v-col>
-
-                <v-col
-                  cols="12"
-                  lg="3"
-                  md="4"
-                >
-                  <label class="d-block mb-3 font-weight-bold">المنسوب</label>
-                  <v-select
-                    :items="items"
-                    label="المنسوب"
-                    single-line
-                    outlined
-                  />
-                </v-col>
-
-                <v-col
-                  cols="12"
-                  lg="3"
-                  md="4"
-                >
-                  <label class="d-block mb-3 font-weight-bold">الجار</label>
-                  <v-select
-                    :items="items"
-                    label="الجار"
-                    single-line
-                    outlined
-                  />
-                </v-col>
-
-                <v-col
-                  cols="12"
-                  lg="3"
-                  md="4"
-                >
-                  <label class="d-block mb-3 font-weight-bold">الشوارع</label>
-                  <v-select
-                    :items="items"
-                    label="الشوارع"
-                    single-line
-                    outlined
-                  />
-                </v-col>
-
-                <v-col
-                  cols="12"
-                  lg="3"
-                  md="4"
-                >
-                  <label
-                    class="d-block mb-3 font-weight-bold"
-                  >اضاءة الشوارع</label>
-                  <v-select
-                    :items="items"
-                    label="اضاءة الشوارع"
-                    single-line
-                    outlined
-                  />
-                </v-col>
-
-                <v-col
-                  cols="12"
-                  lg="3"
-                  md="4"
-                >
-                  <label
-                    class="d-block mb-3 font-weight-bold"
-                  >التيار الكهربائى</label>
-                  <v-select
-                    :items="items"
-                    label="التيار الكهربائى"
-                    single-line
-                    outlined
-                  />
-                </v-col>
-
-                <v-col
-                  cols="12"
-                  lg="3"
-                  md="4"
-                >
-                  <label class="d-block mb-3 font-weight-bold">نوع العزل</label>
-                  <v-text-field
-                    label="نوع العزل"
-                    single-line
-                    outlined
-                  />
-                </v-col>
-
-                <v-col
-                  cols="12"
-                  lg="3"
-                  md="4"
-                >
-                  <label
-                    class="d-block mb-3 font-weight-bold"
-                  >نوع أرضية الاحواش</label>
-                  <v-select
-                    :items="items"
-                    label="نوع أرضية الاحواش"
-                    single-line
-                    outlined
-                  />
-                </v-col>
-
-                <v-col
-                  cols="12"
-                  lg="3"
-                  md="4"
-                >
-                  <label
-                    class="d-block mb-3 font-weight-bold"
-                  >نوع أرضية الاستقبال</label>
-                  <v-select
-                    :items="items"
-                    label="نوع أرضية الاستقبال"
-                    single-line
-                    outlined
-                  />
-                </v-col>
-
-                <v-col
-                  cols="12"
-                  lg="3"
-                  md="4"
-                >
-                  <label
-                    class="d-block mb-3 font-weight-bold"
-                  >نوع أرضية المدخل</label>
-                  <v-select
-                    :items="items"
-                    label="نوع أرضية المدخل"
-                    single-line
-                    outlined
-                  />
-                </v-col>
-
-                <v-col
-                  cols="12"
-                  lg="3"
-                  md="4"
-                >
-                  <label
-                    class="d-block mb-3 font-weight-bold"
-                  >نوع أرضية الغرف</label>
-                  <v-select
-                    :items="items"
-                    label="نوع أرضية الغرف"
-                    single-line
-                    outlined
-                  />
-                </v-col>
-
-                <v-col
-                  cols="12"
-                  lg="3"
-                  md="4"
-                >
-                  <label
-                    class="d-block mb-3 font-weight-bold"
-                  >وصف الأبواب الخارجية</label>
-                  <v-text-field
-                    label="وصف الأبواب الخارجية"
-                    single-line
-                    outlined
-                  />
-                </v-col>
-
-                <v-col
-                  cols="12"
-                  lg="3"
-                  md="4"
-                >
-                  <label
-                    class="d-block mb-3 font-weight-bold"
-                  >وصف الأبواب الداخلية</label>
-                  <v-text-field
-                    label="وصف الأبواب الداخلية"
-                    single-line
-                    outlined
-                  />
-                </v-col>
-
-                <v-col
-                  cols="12"
-                  lg="3"
-                  md="4"
-                >
-                  <label
-                    class="d-block mb-3 font-weight-bold"
-                  >الهيكل الانشائى</label>
-                  <v-select
-                    :items="items"
-                    label="الهيكل الانشائى"
-                    single-line
-                    outlined
-                  />
-                </v-col>
-
-                <v-col
-                  cols="12"
-                  lg="3"
-                  md="4"
-                >
-                  <label
-                    class="d-block mb-3 font-weight-bold"
-                  >نوع الاسقف</label>
-                  <v-select
-                    :items="items"
-                    label="نوع الاسقف"
-                    single-line
-                    outlined
-                  />
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col
-                  cols="12"
-                  lg="3"
-                  md="4"
-                >
-                  <label class="d-block font-weight-bold">مميزات العقار</label>
-                </v-col>
-              </v-row>
-              <v-row class="mt-0">
-                <div class="mr-3">
-                  <v-checkbox
-                    v-model="ex1"
-                    class="check-label"
-                    label="حوائط زجاجية"
-                    color="info"
-                    value=""
-                    hide-details
-                  />
-                </div>
-                <div class="mr-3">
-                  <v-checkbox
-                    v-model="ex2"
-                    class="check-label"
-                    label="زجاج مزدوج"
-                    color="info"
-                    value=""
-                    hide-details
-                  />
-                </div>
-                <div class="mr-3">
-                  <v-checkbox
-                    v-model="ex3"
-                    class="check-label"
-                    label="جبس فى السقف"
-                    color="info"
-                    value=""
-                    hide-details
-                  />
-                </div>
-                <div class="mr-3">
-                  <v-checkbox
-                    v-model="ex4"
-                    class="check-label"
-                    label="إضاءة مخفية"
-                    color="info"
-                    value=""
-                    hide-details
-                  />
-                </div>
-                <div class="mr-3">
-                  <v-checkbox
-                    v-model="ex5"
-                    class="check-label"
-                    label="مصاعد"
-                    color="info"
-                    value=""
-                    hide-details
-                  />
-                </div>
-                <div class="mr-3">
-                  <v-checkbox
-                    v-model="ex5"
-                    class="check-label"
-                    label="حمام عربى"
-                    color="info"
-                    value=""
-                    hide-details
-                  />
-                </div>
-                <div class="mr-3">
-                  <v-checkbox
-                    v-model="ex7"
-                    class="check-label"
-                    label="سلالم"
-                    color="info"
-                    value=""
-                    hide-details
-                  />
-                </div>
-                <div class="mr-3">
-                  <v-checkbox
-                    v-model="ex8"
-                    class="check-label"
-                    label="كراج كهربائى"
-                    color="info"
-                    value=""
-                    hide-details
-                  />
-                </div>
-                <div class="mr-3">
-                  <v-checkbox
-                    v-model="ex9"
-                    class="check-label"
-                    label="كراج عادى"
-                    color="info"
-                    value=""
-                    hide-details
-                  />
-                </div>
-                <div class="mr-3">
-                  <v-checkbox
-                    v-model="ex10"
-                    class="check-label"
-                    label="بوابات"
-                    color="info"
-                    value=""
-                    hide-details
-                  />
-                </div>
-                <div class="mr-3">
-                  <v-checkbox
-                    v-model="ex11"
-                    class="check-label"
-                    label="سخانات"
-                    color="info"
-                    value=""
-                    hide-details
-                  />
-                </div>
-                <div class="mr-3">
-                  <v-checkbox
-                    v-model="ex12"
-                    class="check-label"
-                    label="حمام افرنجى"
-                    color="info"
-                    value=""
-                    hide-details
-                  />
-                </div>
-              </v-row>
-
-              <v-row class="mt-10">
-                <v-col
-                  cols="12"
-                  lg="3"
-                  md="4"
-                >
-                  <label class="d-block font-weight-bold">نوع التكييف</label>
-                </v-col>
-              </v-row>
-
-              <v-row class="mt-0 mb-5">
-                <div class="mr-3">
-                  <v-checkbox
-                    v-model="ex13"
-                    class="check-label"
-                    label="مركزى"
-                    color="info"
-                    value=""
-                    hide-details
-                  />
-                </div>
-              </v-row>
-              <v-row
-                v-for="(row, index) in airRows"
-                :key="index"
-                align="center"
-              >
-                <v-col
-                  cols="12"
-                  lg="3"
-                  md="4"
-                >
-                  <label
-                    class="d-block mb-3 font-weight-bold"
-                  >نوعية التركيب</label>
-                  <v-select
-                    :items="items"
-                    label="نوعية التركيب"
-                    single-line
-                    outlined
-                  />
-                </v-col>
-                <v-col
-                  cols="12"
-                  lg="2"
-                  md="2"
-                >
-                  <label
-                    class="d-block mb-3 font-weight-bold"
-                  >رقم العداد</label>
-                  <v-text-field
-                    label="رقم العداد"
-                    single-line
-                    outlined
-                  />
-                </v-col>
-                <v-col
-                  cols="12"
-                  lg="2"
-                  md="2"
-                >
-                  <label
-                    class="d-block font-weight-bold"
-                    @click.prevent="airRows++"
+              <!-- If Raghie Module -->
+              <div v-if="this.$route.params.id == 1">
+                <v-row>
+                  <v-col
+                    cols="12"
+                    lg="3"
+                    md="4"
                   >
-                    <v-icon left> mdi-plus </v-icon>
-                    إضافة رقم عداد جديد
-                  </label>
-                </v-col>
-              </v-row>
+                    <label
+                      class="d-block mb-3 font-weight-bold"
+                    >تاريخ بدء النشاط</label>
+                    <v-menu
+                      v-model="menu4"
+                      :close-on-content-click="false"
+                      transition="scale-transition"
+                      offset-y
+                      min-width="auto"
+                    >
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-text-field
+                          v-model="date"
+                          readonly
+                          v-bind="attrs"
+                          single-line
+                          outlined
+                          v-on="on"
+                        />
+                      </template>
+                      <v-date-picker
+                        v-model="date"
+                        @input="menu4 = false"
+                      />
+                    </v-menu>
+                  </v-col>
 
-              <v-row class="mt-0 mb-5">
-                <div class="mr-3">
-                  <v-checkbox
-                    v-model="ex14"
-                    class="check-label"
-                    label="منفصل"
-                    color="info"
-                    value=""
-                    hide-details
-                  />
-                </div>
-              </v-row>
-              <v-row
-                v-for="(row, index) in airRows2"
-                :key="'row2' + index"
-                align="center"
-              >
-                <v-col
-                  cols="12"
-                  lg="3"
-                  md="4"
-                >
-                  <label
-                    class="d-block mb-3 font-weight-bold"
-                  >نوعية التركيب</label>
-                  <v-select
-                    :items="items"
-                    label="نوعية التركيب"
-                    single-line
-                    outlined
-                  />
-                </v-col>
-                <v-col
-                  cols="12"
-                  lg="2"
-                  md="2"
-                >
-                  <label
-                    class="d-block mb-3 font-weight-bold"
-                  >رقم العداد</label>
-                  <v-text-field
-                    label="رقم العداد"
-                    single-line
-                    outlined
-                  />
-                </v-col>
-                <v-col
-                  cols="12"
-                  lg="2"
-                  md="2"
-                >
-                  <label
-                    class="d-block font-weight-bold"
-                    @click.prevent="airRows2++"
+                  <v-col
+                    cols="12"
+                    lg="3"
+                    md="4"
                   >
-                    <v-icon left> mdi-plus </v-icon>
-                    إضافة رقم عداد جديد
-                  </label>
-                </v-col>
-              </v-row>
+                    <label
+                      class="d-block mb-3 font-weight-bold"
+                    >المرحلة الرئيسية</label>
+                    <v-text-field
+                      label="المرحلة الرئيسية"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
 
-              <v-row class="mt-0 mb-5">
-                <div class="mr-3">
-                  <v-checkbox
-                    v-model="ex15"
-                    class="check-label"
-                    label="شباك"
-                    color="info"
-                    value=""
-                    hide-details
-                  />
-                </div>
-              </v-row>
-              <v-row
-                v-for="(row, index) in airRows3"
-                :key="'row3' + index"
-                align="center"
-              >
-                <v-col
-                  cols="12"
-                  lg="3"
-                  md="4"
-                >
-                  <label
-                    class="d-block mb-3 font-weight-bold"
-                  >نوعية التركيب</label>
-                  <v-select
-                    :items="items"
-                    label="نوعية التركيب"
-                    single-line
-                    outlined
-                  />
-                </v-col>
-                <v-col
-                  cols="12"
-                  lg="2"
-                  md="2"
-                >
-                  <label
-                    class="d-block mb-3 font-weight-bold"
-                  >رقم العداد</label>
-                  <v-text-field
-                    label="رقم العداد"
-                    single-line
-                    outlined
-                  />
-                </v-col>
-                <v-col
-                  cols="12"
-                  lg="2"
-                  md="2"
-                >
-                  <label
-                    class="d-block font-weight-bold"
-                    @click.prevent="airRows3++"
+                  <v-col
+                    cols="12"
+                    lg="3"
+                    md="4"
                   >
-                    <v-icon left> mdi-plus </v-icon>
-                    إضافة رقم عداد جديد
-                  </label>
-                </v-col>
-              </v-row>
+                    <label class="d-block mb-3 font-weight-bold">المرحلة الفرعية</label>
+                    <v-text-field
+                      label="المرحلة الفرعية"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
 
-              <v-row class="mt-0 mb-5">
-                <div class="mr-3">
-                  <v-checkbox
-                    v-model="ex16"
-                    class="check-label"
-                    label="كونسيلد"
-                    color="info"
-                    value=""
-                    hide-details
-                  />
-                </div>
-              </v-row>
-              <v-row
-                v-for="(row, index) in airRows4"
-                :key="'row4' + index"
-                align="center"
-              >
-                <v-col
-                  cols="12"
-                  lg="3"
-                  md="4"
-                >
-                  <label
-                    class="d-block mb-3 font-weight-bold"
-                  >نوعية التركيب</label>
-                  <v-select
-                    :items="items"
-                    label="نوعية التركيب"
-                    single-line
-                    outlined
-                  />
-                </v-col>
-                <v-col
-                  cols="12"
-                  lg="2"
-                  md="2"
-                >
-                  <label
-                    class="d-block mb-3 font-weight-bold"
-                  >رقم العداد</label>
-                  <v-text-field
-                    label="رقم العداد"
-                    single-line
-                    outlined
-                  />
-                </v-col>
-                <v-col
-                  cols="12"
-                  lg="2"
-                  md="2"
-                >
-                  <label
-                    class="d-block font-weight-bold"
-                    @click.prevent="airRows4++"
+                  <v-col
+                    cols="12"
+                    lg="3"
+                    md="4"
                   >
-                    <v-icon left> mdi-plus </v-icon>
-                    إضافة رقم عداد جديد
-                  </label>
-                </v-col>
-              </v-row>
+                    <label
+                      class="d-block mb-3 font-weight-bold"
+                    >مدة الإنجاز المتبقية</label>
+                    <v-text-field
+                      label="مدة الإنجاز المتبقية"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+
+                  <v-col
+                    cols="12"
+                    lg="3"
+                    md="4"
+                  >
+                    <label
+                      class="d-block mb-3 font-weight-bold"
+                    >مساحة الأرض</label>
+                    <v-text-field
+                      label="مساحة الأرض"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+
+                  <v-col
+                    cols="12"
+                    lg="3"
+                    md="4"
+                  >
+                    <label
+                      class="d-block mb-3 font-weight-bold"
+                    >المصطحات المبنية</label>
+                    <v-text-field
+                      label="المصطحات المبنية"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+
+                  <v-col
+                    cols="12"
+                    lg="3"
+                    md="4"
+                  >
+                    <label
+                      class="d-block mb-3 font-weight-bold"
+                    >عدد الأدوار</label>
+                    <v-text-field
+                      label="5"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                </v-row>
+                <div class="d-flex">
+                  <template>
+                    <div class="text-center">
+                      <v-btn
+                        class="ma-2"
+                        rounded
+                        color="dark"
+                        dark
+                      >
+                        التكلفة
+                      </v-btn>
+                    </div>
+                  </template>
+                  <template>
+                    <div class="text-center">
+                      <v-btn
+                        class="ma-2"
+                        rounded
+                        outlined
+                        color="dark"
+                      >
+                        النسبة المئوية
+                      </v-btn>
+                    </div>
+                  </template>
+                </div>
+                <div class="table-responsive mt-10">
+                  <template>
+                    <v-simple-table>
+                      <template v-slot:default>
+                        <thead>
+                          <tr>
+                            <th>
+                              مراحل البناء
+                            </th>
+                            <th>
+                              تفاصيل المرحلة
+                            </th>
+                            <th>
+                              النسبة إلى التكلفة
+                            </th>
+                            <th>
+                              التكلفة
+                            </th>
+                            <th>
+                              نسبة الإيجار
+                            </th>
+                            <th>
+                              قيمة الإيجار
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr
+                            v-for="(participant,index) in tableParticipants"
+                            :key="'participant'+index"
+                          >
+                            <td>
+                              <label class="v-label theme--light">م{{ index + 1 }}</label>
+                            </td>
+                            <td>
+                              <v-text-field
+                                class="mt-3"
+                                single-line
+                                outlined
+                              />
+                            </td>
+                            <td>
+                              <v-text-field
+                                class="mt-3"
+                                single-line
+                                outlined
+                              />
+                            </td>
+                            <td>
+                              <v-text-field
+                                class="mt-3"
+                                single-line
+                                outlined
+                              />
+                            </td>
+                            <td>
+                              <v-text-field
+                                class="mt-3"
+                                single-line
+                                outlined
+                              />
+                            </td>
+                            <td>
+                              <v-text-field
+                                class="mt-3"
+                                single-line
+                                outlined
+                              />
+                            </td>
+                          </tr>
+                        </tbody>
+                      </template>
+                    </v-simple-table>
+                  </template>
+                </div>
+                <v-btn
+                  x-large
+                  class="orange-btn d-block ma-auto"
+                  @click.prevent="tableParticipants++"
+                >
+                  <v-icon left>
+                    fas fa-plus
+                  </v-icon>
+                  اضافة مشارك جديد
+                </v-btn>
+              </div>
+              <!-- If Not Raghie Module -->
+              <div v-else>
+                <v-row>
+                  <v-col
+                    cols="12"
+                    lg="3"
+                    md="4"
+                  >
+                    <label
+                      class="d-block mb-3 font-weight-bold"
+                    >الموقع العام</label>
+                    <v-select
+                      :items="items"
+                      label="الموقع العام"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+
+                  <v-col
+                    cols="12"
+                    lg="3"
+                    md="4"
+                  >
+                    <label class="d-block mb-3 font-weight-bold">التصميم</label>
+                    <v-select
+                      :items="items"
+                      label="التصميم"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+
+                  <v-col
+                    cols="12"
+                    lg="3"
+                    md="4"
+                  >
+                    <label class="d-block mb-3 font-weight-bold">المنسوب</label>
+                    <v-select
+                      :items="items"
+                      label="المنسوب"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+
+                  <v-col
+                    cols="12"
+                    lg="3"
+                    md="4"
+                  >
+                    <label class="d-block mb-3 font-weight-bold">الجار</label>
+                    <v-select
+                      :items="items"
+                      label="الجار"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+
+                  <v-col
+                    cols="12"
+                    lg="3"
+                    md="4"
+                  >
+                    <label class="d-block mb-3 font-weight-bold">الشوارع</label>
+                    <v-select
+                      :items="items"
+                      label="الشوارع"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+
+                  <v-col
+                    cols="12"
+                    lg="3"
+                    md="4"
+                  >
+                    <label
+                      class="d-block mb-3 font-weight-bold"
+                    >اضاءة الشوارع</label>
+                    <v-select
+                      :items="items"
+                      label="اضاءة الشوارع"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+
+                  <v-col
+                    cols="12"
+                    lg="3"
+                    md="4"
+                  >
+                    <label
+                      class="d-block mb-3 font-weight-bold"
+                    >التيار الكهربائى</label>
+                    <v-select
+                      :items="items"
+                      label="التيار الكهربائى"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+
+                  <v-col
+                    cols="12"
+                    lg="3"
+                    md="4"
+                  >
+                    <label class="d-block mb-3 font-weight-bold">نوع العزل</label>
+                    <v-text-field
+                      label="نوع العزل"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+
+                  <v-col
+                    cols="12"
+                    lg="3"
+                    md="4"
+                  >
+                    <label
+                      class="d-block mb-3 font-weight-bold"
+                    >نوع أرضية الاحواش</label>
+                    <v-select
+                      :items="items"
+                      label="نوع أرضية الاحواش"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+
+                  <v-col
+                    cols="12"
+                    lg="3"
+                    md="4"
+                  >
+                    <label
+                      class="d-block mb-3 font-weight-bold"
+                    >نوع أرضية الاستقبال</label>
+                    <v-select
+                      :items="items"
+                      label="نوع أرضية الاستقبال"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+
+                  <v-col
+                    cols="12"
+                    lg="3"
+                    md="4"
+                  >
+                    <label
+                      class="d-block mb-3 font-weight-bold"
+                    >نوع أرضية المدخل</label>
+                    <v-select
+                      :items="items"
+                      label="نوع أرضية المدخل"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+
+                  <v-col
+                    cols="12"
+                    lg="3"
+                    md="4"
+                  >
+                    <label
+                      class="d-block mb-3 font-weight-bold"
+                    >نوع أرضية الغرف</label>
+                    <v-select
+                      :items="items"
+                      label="نوع أرضية الغرف"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+
+                  <v-col
+                    cols="12"
+                    lg="3"
+                    md="4"
+                  >
+                    <label
+                      class="d-block mb-3 font-weight-bold"
+                    >وصف الأبواب الخارجية</label>
+                    <v-text-field
+                      label="وصف الأبواب الخارجية"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+
+                  <v-col
+                    cols="12"
+                    lg="3"
+                    md="4"
+                  >
+                    <label
+                      class="d-block mb-3 font-weight-bold"
+                    >وصف الأبواب الداخلية</label>
+                    <v-text-field
+                      label="وصف الأبواب الداخلية"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+
+                  <v-col
+                    cols="12"
+                    lg="3"
+                    md="4"
+                  >
+                    <label
+                      class="d-block mb-3 font-weight-bold"
+                    >الهيكل الانشائى</label>
+                    <v-select
+                      :items="items"
+                      label="الهيكل الانشائى"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+
+                  <v-col
+                    cols="12"
+                    lg="3"
+                    md="4"
+                  >
+                    <label
+                      class="d-block mb-3 font-weight-bold"
+                    >نوع الاسقف</label>
+                    <v-select
+                      :items="items"
+                      label="نوع الاسقف"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col
+                    cols="12"
+                    lg="3"
+                    md="4"
+                  >
+                    <label class="d-block font-weight-bold">مميزات العقار</label>
+                  </v-col>
+                </v-row>
+                <v-row class="mt-0">
+                  <div class="mr-3">
+                    <v-checkbox
+                      v-model="ex1"
+                      class="check-label"
+                      label="حوائط زجاجية"
+                      color="info"
+                      value=""
+                      hide-details
+                    />
+                  </div>
+                  <div class="mr-3">
+                    <v-checkbox
+                      v-model="ex2"
+                      class="check-label"
+                      label="زجاج مزدوج"
+                      color="info"
+                      value=""
+                      hide-details
+                    />
+                  </div>
+                  <div class="mr-3">
+                    <v-checkbox
+                      v-model="ex3"
+                      class="check-label"
+                      label="جبس فى السقف"
+                      color="info"
+                      value=""
+                      hide-details
+                    />
+                  </div>
+                  <div class="mr-3">
+                    <v-checkbox
+                      v-model="ex4"
+                      class="check-label"
+                      label="إضاءة مخفية"
+                      color="info"
+                      value=""
+                      hide-details
+                    />
+                  </div>
+                  <div class="mr-3">
+                    <v-checkbox
+                      v-model="ex5"
+                      class="check-label"
+                      label="مصاعد"
+                      color="info"
+                      value=""
+                      hide-details
+                    />
+                  </div>
+                  <div class="mr-3">
+                    <v-checkbox
+                      v-model="ex5"
+                      class="check-label"
+                      label="حمام عربى"
+                      color="info"
+                      value=""
+                      hide-details
+                    />
+                  </div>
+                  <div class="mr-3">
+                    <v-checkbox
+                      v-model="ex7"
+                      class="check-label"
+                      label="سلالم"
+                      color="info"
+                      value=""
+                      hide-details
+                    />
+                  </div>
+                  <div class="mr-3">
+                    <v-checkbox
+                      v-model="ex8"
+                      class="check-label"
+                      label="كراج كهربائى"
+                      color="info"
+                      value=""
+                      hide-details
+                    />
+                  </div>
+                  <div class="mr-3">
+                    <v-checkbox
+                      v-model="ex9"
+                      class="check-label"
+                      label="كراج عادى"
+                      color="info"
+                      value=""
+                      hide-details
+                    />
+                  </div>
+                  <div class="mr-3">
+                    <v-checkbox
+                      v-model="ex10"
+                      class="check-label"
+                      label="بوابات"
+                      color="info"
+                      value=""
+                      hide-details
+                    />
+                  </div>
+                  <div class="mr-3">
+                    <v-checkbox
+                      v-model="ex11"
+                      class="check-label"
+                      label="سخانات"
+                      color="info"
+                      value=""
+                      hide-details
+                    />
+                  </div>
+                  <div class="mr-3">
+                    <v-checkbox
+                      v-model="ex12"
+                      class="check-label"
+                      label="حمام افرنجى"
+                      color="info"
+                      value=""
+                      hide-details
+                    />
+                  </div>
+                </v-row>
+
+                <v-row class="mt-10">
+                  <v-col
+                    cols="12"
+                    lg="3"
+                    md="4"
+                  >
+                    <label class="d-block font-weight-bold">نوع التكييف</label>
+                  </v-col>
+                </v-row>
+
+                <v-row class="mt-0 mb-5">
+                  <div class="mr-3">
+                    <v-checkbox
+                      v-model="ex13"
+                      class="check-label"
+                      label="مركزى"
+                      color="info"
+                      value=""
+                      hide-details
+                    />
+                  </div>
+                </v-row>
+                <v-row
+                  v-for="(row, index) in airRows"
+                  :key="index"
+                  align="center"
+                >
+                  <v-col
+                    cols="12"
+                    lg="3"
+                    md="4"
+                  >
+                    <label
+                      class="d-block mb-3 font-weight-bold"
+                    >نوعية التركيب</label>
+                    <v-select
+                      :items="items"
+                      label="نوعية التركيب"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    lg="2"
+                    md="2"
+                  >
+                    <label
+                      class="d-block mb-3 font-weight-bold"
+                    >رقم العداد</label>
+                    <v-text-field
+                      label="رقم العداد"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    lg="2"
+                    md="2"
+                  >
+                    <label
+                      class="d-block font-weight-bold"
+                      @click.prevent="airRows++"
+                    >
+                      <v-icon left> mdi-plus </v-icon>
+                      إضافة رقم عداد جديد
+                    </label>
+                  </v-col>
+                </v-row>
+
+                <v-row class="mt-0 mb-5">
+                  <div class="mr-3">
+                    <v-checkbox
+                      v-model="ex14"
+                      class="check-label"
+                      label="منفصل"
+                      color="info"
+                      value=""
+                      hide-details
+                    />
+                  </div>
+                </v-row>
+                <v-row
+                  v-for="(row, index) in airRows2"
+                  :key="'row2' + index"
+                  align="center"
+                >
+                  <v-col
+                    cols="12"
+                    lg="3"
+                    md="4"
+                  >
+                    <label
+                      class="d-block mb-3 font-weight-bold"
+                    >نوعية التركيب</label>
+                    <v-select
+                      :items="items"
+                      label="نوعية التركيب"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    lg="2"
+                    md="2"
+                  >
+                    <label
+                      class="d-block mb-3 font-weight-bold"
+                    >رقم العداد</label>
+                    <v-text-field
+                      label="رقم العداد"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    lg="2"
+                    md="2"
+                  >
+                    <label
+                      class="d-block font-weight-bold"
+                      @click.prevent="airRows2++"
+                    >
+                      <v-icon left> mdi-plus </v-icon>
+                      إضافة رقم عداد جديد
+                    </label>
+                  </v-col>
+                </v-row>
+
+                <v-row class="mt-0 mb-5">
+                  <div class="mr-3">
+                    <v-checkbox
+                      v-model="ex15"
+                      class="check-label"
+                      label="شباك"
+                      color="info"
+                      value=""
+                      hide-details
+                    />
+                  </div>
+                </v-row>
+                <v-row
+                  v-for="(row, index) in airRows3"
+                  :key="'row3' + index"
+                  align="center"
+                >
+                  <v-col
+                    cols="12"
+                    lg="3"
+                    md="4"
+                  >
+                    <label
+                      class="d-block mb-3 font-weight-bold"
+                    >نوعية التركيب</label>
+                    <v-select
+                      :items="items"
+                      label="نوعية التركيب"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    lg="2"
+                    md="2"
+                  >
+                    <label
+                      class="d-block mb-3 font-weight-bold"
+                    >رقم العداد</label>
+                    <v-text-field
+                      label="رقم العداد"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    lg="2"
+                    md="2"
+                  >
+                    <label
+                      class="d-block font-weight-bold"
+                      @click.prevent="airRows3++"
+                    >
+                      <v-icon left> mdi-plus </v-icon>
+                      إضافة رقم عداد جديد
+                    </label>
+                  </v-col>
+                </v-row>
+
+                <v-row class="mt-0 mb-5">
+                  <div class="mr-3">
+                    <v-checkbox
+                      v-model="ex16"
+                      class="check-label"
+                      label="كونسيلد"
+                      color="info"
+                      value=""
+                      hide-details
+                    />
+                  </div>
+                </v-row>
+                <v-row
+                  v-for="(row, index) in airRows4"
+                  :key="'row4' + index"
+                  align="center"
+                >
+                  <v-col
+                    cols="12"
+                    lg="3"
+                    md="4"
+                  >
+                    <label
+                      class="d-block mb-3 font-weight-bold"
+                    >نوعية التركيب</label>
+                    <v-select
+                      :items="items"
+                      label="نوعية التركيب"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    lg="2"
+                    md="2"
+                  >
+                    <label
+                      class="d-block mb-3 font-weight-bold"
+                    >رقم العداد</label>
+                    <v-text-field
+                      label="رقم العداد"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    lg="2"
+                    md="2"
+                  >
+                    <label
+                      class="d-block font-weight-bold"
+                      @click.prevent="airRows4++"
+                    >
+                      <v-icon left> mdi-plus </v-icon>
+                      إضافة رقم عداد جديد
+                    </label>
+                  </v-col>
+                </v-row>
+              </div>
             </div>
 
             <v-divider class="my-10" />
@@ -1457,6 +1693,7 @@
       ex15: false,
       ex16: false,
       select: null,
+      tableParticipants: 1,
       items: ['Item 1', 'Item 2', 'Item 3', 'Item 4'],
       // Date Inputs
       date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
@@ -1467,6 +1704,7 @@
       menu1: false,
       menu2: false,
       menu3: false,
+      menu4: false,
     }),
   }
 </script>
@@ -1494,5 +1732,25 @@ label {
 }
 .justify-content-end{
   justify-content: end
+}
+
+.table-responsive{
+  overflow-x: auto;
+}
+thead{
+  background: #F0F2F3;
+}
+th{
+  color: #000 !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+}
+td{
+  white-space: nowrap;
+  min-width: 100px;
+}
+.orange-btn{
+  background-color: #FDCA40 !important;
+  color: #000 !important;
 }
 </style>
