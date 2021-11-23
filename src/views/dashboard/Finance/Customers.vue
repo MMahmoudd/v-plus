@@ -33,7 +33,7 @@
 
   export default {
     components: {
-      CustomersTable: () => import('../component/CustomersTable.vue'),
+      CustomersTable: () => import('../component/customers/CustomersTable.vue'),
     },
     data: () => ({
       search: '',

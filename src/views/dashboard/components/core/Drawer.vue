@@ -92,6 +92,18 @@
               to: '/price-offers',
               role: true,
             },
+            {
+              icon: 'fa-home',
+              title: 'الفواتير',
+              to: '/Bills',
+              role: true,
+            },
+            {
+              icon: 'fa-home',
+              title: 'المصروفات',
+              to: '/expenses',
+              role: true,
+            },
           ],
         },
         {
