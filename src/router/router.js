@@ -124,6 +124,18 @@ const router = new Router({
           meta: { requiresAuth: true },
         },
         {
+          name: 'Bills',
+          path: '/bills',
+          component: () => import('@/views/dashboard/Finance/Bills'),
+          meta: { requiresAuth: true },
+        },
+        {
+          name: 'Expenses',
+          path: '/expenses',
+          component: () => import('@/views/dashboard/Finance/Expenses'),
+          meta: { requiresAuth: true },
+        },
+        {
           path: '/notAuthorized',
           name: 'notAuthorized',
           component: () => import('../pages/NotAuthorized.vue'),
