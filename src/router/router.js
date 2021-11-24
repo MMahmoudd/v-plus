@@ -123,6 +123,13 @@ const router = new Router({
           component: () => import('@/views/dashboard/Finance/PriceOffers'),
           meta: { requiresAuth: true },
         },
+        // SETTING
+        {
+          name: 'facilityFile',
+          path: '/facility-file',
+          component: () => import('@/views/dashboard/setting/Facility.vue'),
+          meta: { requiresAuth: true },
+        },
         {
           name: 'Bills',
           path: '/bills',
@@ -146,19 +153,19 @@ const router = new Router({
   ],
 })
 
-// router.beforeEach((to, from, next) => {
-//   const token = localStorage.getItem('token')
-//   if (to.meta.requiresAuth) {
-//     if (!token) {
-//       next({
-//         name: 'Login',
-//       })
-//     } else {
-//       return next()
-//     }
-//   } else {
-//     next()
-//   }
-// })
+router.beforeEach((to, from, next) => {
+  const token = localStorage.getItem('token')
+  if (to.meta.requiresAuth) {
+    if (!token) {
+      next({
+        name: 'Login',
+      })
+    } else {
+      return next()
+    }
+  } else {
+    next()
+  }
+})
 
 export default router

@@ -50,17 +50,17 @@ const Login = {
       axios.post(`${API_URL}/login`, userData)
         .then((response) => {
           state.isLoading = true
-          console.log(response)
-          if (response.success === true) {
+          if (response.data.token) {
+            console.log('response', response)
             localStorage.setItem('token', response.data.token)
-            localStorage.setItem('userDataPermission', response.data.userPolicy)
+            // localStorage.setItem('userDataPermission', response.data.userPolicy)
             state.userToken = response.data.token
-            state.userDataPermission = response.data.userPolicy
+            // state.userDataPermission = response.data.userPolicy
             dispatch('checkUserData')
             window.location.href = process.env.BASE_URL
           } else {
             console.log('response', response)
-            state.loginErrorMessage = response
+            state.loginErrorMessage = response.data.error_message
             state.isLoading = true
           }
         })
