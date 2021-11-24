@@ -1998,74 +1998,6 @@
             <v-divider class="my-10" />
 
             <div>
-              <h2>معلومات رخصة البناء</h2>
-              <v-row>
-                <v-col
-                  cols="12"
-                  lg="6"
-                >
-                  <label
-                    class="d-block mb-3 font-weight-bold"
-                  >هل العقار على الطبيعة مطابق لرخصة البناء</label>
-                  <v-radio-group
-                    v-model="row"
-                    row
-                  >
-                    <v-radio
-                      label="نعم"
-                      value="radio-1"
-                    />
-                    <v-radio
-                      label="لا"
-                      value="radio-2"
-                    />
-                  </v-radio-group>
-                </v-col>
-                <v-col
-                  cols="12"
-                  lg="6"
-                >
-                  <label
-                    class="d-block mb-3 font-weight-bold"
-                  >حدود المعاينة</label>
-                  <v-radio-group
-                    v-model="row"
-                    row
-                  >
-                    <v-radio
-                      label="من داخل العقار"
-                      value="radio-1"
-                    />
-                    <v-radio
-                      label="من خارج العقار"
-                      value="radio-2"
-                    />
-                    <v-radio
-                      label="من الداخل والخارج"
-                      value="radio-3"
-                    />
-                  </v-radio-group>
-                </v-col>
-                <v-col
-                  cols="12"
-                  md="12"
-                >
-                  <label
-                    class="d-block mb-3 font-weight-bold"
-                  >فى حال عدم مطابقة العقار لرخصة البناء، الرجاء توضيح المخالفات أو أى ملاحظات</label>
-                  <v-textarea
-                    name="input-7-1"
-                    hint="Hint text"
-                    single-line
-                    outlined
-                  />
-                </v-col>
-              </v-row>
-            </div>
-
-            <v-divider class="my-10" />
-
-            <div>
               <h2>تصنيف مستوى تشطيبات البناء</h2>
               <v-radio-group
                 v-model="row"
@@ -4179,89 +4111,95 @@
             <v-divider class="my-10" />
             <div>
               <h2>المشاركون فى إعداد التقرير</h2>
-              <v-row
-                v-for="(row, index) in participants"
-                :key="'participants' + index"
-                align="center"
+              <div
+                v-for="(participant, index) in participants"
+                :key="'participant' + index"
               >
-                <v-col
-                  cols="12"
-                  sm="6"
-                  md="3"
+                <v-row
+                  v-if="participant.participant"
+                  align="center"
                 >
-                  <label class="d-block mb-3 font-weight-bold">الاسم</label>
-                  <v-text-field
-                    label="الاسم"
-                    single-line
-                    outlined
-                  />
-                </v-col>
-                <v-col
-                  cols="12"
-                  sm="6"
-                  md="3"
-                >
-                  <label class="d-block mb-3 font-weight-bold">المسمى الوظيفى</label>
-                  <v-text-field
-                    label="المسمى الوظيفى"
-                    single-line
-                    outlined
-                  />
-                </v-col>
-                <v-col
-                  cols="12"
-                  sm="6"
-                  md="3"
-                >
-                  <label class="d-block mb-3 font-weight-bold">فئة العضوية</label>
-                  <v-text-field
-                    label="فئة العضوية"
-                    single-line
-                    outlined
-                  />
-                </v-col>
-                <v-col
-                  cols="12"
-                  sm="6"
-                  md="3"
-                >
-                  <label class="d-block mb-3 font-weight-bold">رقم العضوية</label>
-                  <v-text-field
-                    label="رقم العضوية"
-                    single-line
-                    outlined
-                  />
-                </v-col>
-              </v-row>
-              <v-row>
+                  <v-col
+                    cols="12"
+                    sm="6"
+                    md="3"
+                  >
+                    <label class="d-block mb-3 font-weight-bold">الاسم</label>
+                    <v-text-field
+                      label="الاسم"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    sm="6"
+                    md="3"
+                  >
+                    <label class="d-block mb-3 font-weight-bold">المسمى الوظيفى</label>
+                    <v-text-field
+                      label="المسمى الوظيفى"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    sm="6"
+                    md="3"
+                  >
+                    <label class="d-block mb-3 font-weight-bold">فئة العضوية</label>
+                    <v-text-field
+                      label="فئة العضوية"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    sm="6"
+                    md="3"
+                  >
+                    <label class="d-block mb-3 font-weight-bold">رقم العضوية</label>
+                    <v-text-field
+                      label="رقم العضوية"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
+                  <v-btn
+                    x-large
+                    class="ma-2 blue-darken-btn"
+                  >
+                    <v-icon left>
+                      far fa-eye-slash
+                    </v-icon>
+                    اخفاء
+                  </v-btn>
+                  <v-btn
+                    x-large
+                    class="ma-2 error"
+                    @click.prevent="removeParticipant(participant)"
+                  >
+                    <v-icon left>
+                      fas fa-trash-alt
+                    </v-icon>
+                    حذف
+                  </v-btn>
+                </v-row>
+              </div>
+              <v-row
+                class="mt-3"
+              >
                 <v-btn
                   x-large
                   class="ma-2 orange-btn"
-                  @click.prevent="participants++"
+                  @click.prevent="addParticipant()"
                 >
                   <v-icon left>
                     fas fa-plus
                   </v-icon>
-                  اضافة مشترك جديد
-                </v-btn>
-                <v-btn
-                  x-large
-                  class="ma-2 blue-darken-btn"
-                >
-                  <v-icon left>
-                    far fa-eye-slash
-                  </v-icon>
-                  اخفاء
-                </v-btn>
-                <v-btn
-                  x-large
-                  class="ma-2 error"
-                  @click.prevent="participants--"
-                >
-                  <v-icon left>
-                    fas fa-trash-alt
-                  </v-icon>
-                  حذف
+                  اضافة مشارك جديد
                 </v-btn>
               </v-row>
             </div>
@@ -4292,13 +4230,17 @@
                     <img :src="image.image">
                     <button
                       class="remove-img"
-                      @click="removeImage(image)"
+                      @click.prevent="removeImage(image,index)"
                     >
                       <v-icon left>
                         fas fa-trash-alt
                       </v-icon>
                     </button>
-                    <span class="img-num">{{ index + 1 }}</span>
+                    <input
+                      v-model="imageSorting[index]"
+                      type="text"
+                      class="img-num"
+                    >
                   </div>
                 </v-col>
               </v-row>
@@ -4360,7 +4302,8 @@
                   lg="9"
                   sm="8"
                 >
-                  <v-text-field
+                  <v-textarea
+                    v-model="ProfessionalStandards"
                     label="المعايير المهنية"
                     single-line
                     outlined
@@ -4380,7 +4323,8 @@
                   lg="9"
                   sm="8"
                 >
-                  <v-text-field
+                  <v-textarea
+                    v-model="AcknowledgmentOfIndependence"
                     label="اقرار بالاستقلالية وعدم تضارب المصالح"
                     single-line
                     outlined
@@ -4400,7 +4344,8 @@
                   lg="9"
                   sm="8"
                 >
-                  <v-text-field
+                  <v-textarea
+                    v-model="RestrictionsUsePublication"
                     label="القيود على الاستخدام والنشر"
                     single-line
                     outlined
@@ -4420,7 +4365,8 @@
                   lg="9"
                   sm="8"
                 >
-                  <v-text-field
+                  <v-textarea
+                    v-model="EvacuationResponsibilaty"
                     label="اخلاء المسئولية"
                     single-line
                     outlined
@@ -4433,14 +4379,15 @@
                   lg="3"
                   sm="4"
                 >
-                  <label class="v-label theme--light font-weight-bold">الافتراضات الخاصة ان وجدت</label>
+                  <label class="v-label theme--light font-weight-bold">الافتراضات والافتراضات الخاصة ان وجدت</label>
                 </v-col>
                 <v-col
                   cols="12"
                   lg="9"
                   sm="8"
                 >
-                  <v-text-field
+                  <v-textarea
+                    v-model="Assumptions"
                     label="الافتراضات الخاصة ان وجدت"
                     single-line
                     outlined
@@ -4531,13 +4478,36 @@
   export default {
     name: 'EvaluateTreatment',
     data: () => ({
+      // Real Data
+      ProfessionalStandards: `طريقة استخراج القيمة: عن طريق دراسة المنطقة و تحليل أسعار العقارات التجارية والسكنية والعروض المشابهة للأرض و التكلفة للمباني بعد خصم نسبة الإهلاك.
+المستندات المقدمة من طالب التقييم: هوية المالك - صك الملكية.
+نطاق البحث: أسعار البيع للأرض بالحي، مدى توفر خدمات البنية التحتية و خدمات البنية الفوقية مثل المدارس والمستشفيات والحدائق وغيرها، اكتمال العمران في المنطقة المحيطة، نظام البناء في منطقة العقار.
+طريقة اعتماد مسطحات البناء: عن طريق المستندات المقدمة من طالب التقييم.
+مدة التقرير: تقرير التقييم صالح لمدة 90 يوما من تاريخ الاعتماد ما لم يطرأ أي تغير في منطقة العقار.
+المستخدمون الآخرون بالتقرير: العميل المذكور أعلاه.
+المدخلات الرئيسية: البيانات المتوفرة في الصك و رخصة البناء.
+استنتاج القيمة والأسباب الرئيسية: تم استنتاج القيمة بالطريقة المذكورة أعلاه وذلك بت…`,
+      AcknowledgmentOfIndependence: 'الشركة غير مسؤولة عن صحة الصكوك والفسوحات والمستندات المقدمة من الطرف الثاني (العميل) صحة التراخيص الخاصة بالعقار موضع التقييم وتحت مسؤوليته .',
+      RestrictionsUsePublication: 'تعد عمليات التقييم والتقارير سرية للطرف الموجه ولمن يتم إحالتها إليه لغرض محدد مع عدم تحمل أي مسؤولية من أي نوع لأي طرف ثالث، ولا يجوز نشر هذا التقرير كاملا أو أي جزء منه أو الإشارة إليه في أي وثيقة أو بيان أو نشرة دورية أو في أي وسيلة تواصل مع أي طرف ثالث دون الحصول على موافقة مسبقة مكتوبة بالشكل والسياق الذي تظهر فيه',
+      EvacuationResponsibilaty: 'يفيد فريق عمل (اسم الشركة) بأنه تم معاينة العقار و انه ليس لدينا اي مصلحة شخصية  او مادية  او  اي اهتمامات حالية او مستقبلية بالعقار موضع التقييم و ان ما تم تقديمه بالتقرير سليم وصحيح ، حي  تم رفع جميع البيانات من واقع السوق الحالي وجميع المعادلات المحددة ونتائج الاسعار المحددة والمرفقة بالتقرير مراجعة ومدققة وتم تحليلها .',
+      Assumptions: `• نفترض بأن العقار ملكية مطلقة دون أي أعباء.
+• تم اعتماد سعر متر الأرض بناء على العروض المشابهة المحيطة بالمنطقة وأخذ في الاعتبار ظروف السوق وعمل جدول تسويات للأرض.
+• تم اعتماد القيمة السوقية للعقار بطريقة السوق ( المقارنة ).
+• مصدر الملكية: صحة صور المستندات المقدمه لنا على مسؤولية العميل وتم افتراض صحتها.
+• تم التقييم في ظل جائجة كورونا وهذة الفترة التعامل مع عدم اليقين في اوقات اضطراب حاله وظروف السوق.
+• في 11 مارس 2020 صنفت منظمة الصحة العالمية فيروس كورونا المستجد COVID-19 بأنه وباء عالمي. مما أحدث تأثيراً واضحاً على الاقتصادات والأسواق العالمية والمحلية وبناء عليه تم اتخاذ العديد من الإجراءات الرسمية محلياً وعالمياً والتي من شأنها أن تؤثر على جميع القطاعات.`,
+      participants: [
+        {
+          participant: true,
+        },
+      ],
+      // Fake Data
       airRows: 1,
       airRows2: 1,
       airRows3: 1,
       airRows4: 1,
       airRows5: 1,
       airRows6: 1,
-      participants: 1,
       ex1: false,
       ex2: false,
       ex3: false,
@@ -4574,28 +4544,8 @@
         {
           image: false,
         },
-        {
-          image: false,
-        },
-        {
-          image: false,
-        },
-        {
-          image: false,
-        },
-        {
-          image: false,
-        },
-        {
-          image: false,
-        },
-        {
-          image: false,
-        },
-        {
-          image: false,
-        },
       ],
+      imageSorting: [],
     }),
 
     mounted () {
@@ -4660,9 +4610,20 @@
           item.image = e.target.result
         }
         reader.readAsDataURL(file)
+        this.images.push({ image: false })
       },
-      removeImage: function (item) {
+      removeImage: function (item, index) {
         item.image = false
+        this.images.splice(index, 1)
+        // Remove sort of image
+        this.imageSorting.splice(index, 1)
+      },
+      // Adding & Remove Participant
+      addParticipant: function () {
+        this.participants.push({ participant: true })
+      },
+      removeParticipant: function (item) {
+        item.participant = false
       },
     },
   }
@@ -4778,11 +4739,15 @@ img {
 }
 .img-num{
   position: absolute;
+  width: 25px;
   top: 5px;
   right: 5px;
   background: #fff;
   border-radius: 5px;
   padding: 4px 8px;
   box-shadow: 0px 2px 7px rgba(0,0,0,.2);
+}
+.img-num:focus{
+  outline: 0;
 }
 </style>
