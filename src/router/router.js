@@ -153,19 +153,19 @@ const router = new Router({
   ],
 })
 
-// router.beforeEach((to, from, next) => {
-//   const token = localStorage.getItem('token')
-//   if (to.meta.requiresAuth) {
-//     if (!token) {
-//       next({
-//         name: 'Login',
-//       })
-//     } else {
-//       return next()
-//     }
-//   } else {
-//     next()
-//   }
-// })
+router.beforeEach((to, from, next) => {
+  const token = localStorage.getItem('token')
+  if (to.meta.requiresAuth) {
+    if (!token) {
+      next({
+        name: 'Login',
+      })
+    } else {
+      return next()
+    }
+  } else {
+    next()
+  }
+})
 
 export default router
