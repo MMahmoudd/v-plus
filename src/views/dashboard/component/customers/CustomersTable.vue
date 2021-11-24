@@ -201,7 +201,7 @@
 </template>
 
 <script>
-  import { ServiceFactory } from '../../../services/ServiceFactory'
+  import { ServiceFactory } from '../../../../services/ServiceFactory'
   import moment from 'moment'
   const CustomersService = ServiceFactory.get('Customers')
 

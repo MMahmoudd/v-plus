@@ -95,7 +95,7 @@ const router = new Router({
         },
         {
           name: 'NewTreatment',
-          path: '/New-Treatment',
+          path: '/New-Treatment/:id',
           component: () => import('@/views/dashboard/Treatment/NewTreatment'),
           meta: { requiresAuth: true },
         },
@@ -128,6 +128,18 @@ const router = new Router({
           name: 'facilityFile',
           path: '/facility-file',
           component: () => import('@/views/dashboard/setting/Facility.vue'),
+          meta: { requiresAuth: true },
+        },
+        {
+          name: 'Bills',
+          path: '/bills',
+          component: () => import('@/views/dashboard/Finance/Bills'),
+          meta: { requiresAuth: true },
+        },
+        {
+          name: 'Expenses',
+          path: '/expenses',
+          component: () => import('@/views/dashboard/Finance/Expenses'),
           meta: { requiresAuth: true },
         },
         {
