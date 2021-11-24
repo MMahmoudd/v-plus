@@ -10,35 +10,11 @@
     class="pt-16"
     v-bind="$attrs"
   >
-    <!--<v-list
-      dense
-      nav
-    >
-      <v-list-item>
-        <v-list-item-avatar
-          class="align-self-center mx-auto"
-          size="150"
-          rounded="0"
-        >
-          <v-avatar
-            size="150"
-            rounded="0"
-            tile
-          >
-            <img
-              src="../../../../assets/logos.png"
-              alt="logo"
-            >
-          </v-avatar>
-        </v-list-item-avatar>
-      </v-list-item>
-    </v-list> -->
     <v-list>
       <template v-for="(item, i) in sidebarList">
         <base-item-group
           v-if="item.children"
           :key="`group-${i}`"
-          :class="item.icon"
           :item="item"
         />
         <base-item
@@ -69,25 +45,45 @@
       expand: false,
       permissions: [],
       sidebarList: [
+        // {
+        //   title: 'الرئيسية',
+        //   icon: 'fa-home',
+        //   to: '/',
+        //   role: true,
+        // },
         {
-          title: 'الرئيسية',
-          icon: 'fa-home',
-          to: '/',
-          role: true,
-        },
-        {
-          title: 'المالية',
-          icon: 'fa-home',
+          title: 'المعاملات',
+          icon: 'fa-file-alt',
           role: true,
           children: [
             {
-              icon: 'fa-home',
+              title: 'المعاملات',
+              to: '/Treatments',
+              role: true,
+            },
+            {
+              title: 'معاملة جديدة',
+              to: '/New-Treatment',
+              role: true,
+            },
+            {
+              title: 'تقييم المعاملة',
+              to: '/Evaluate-Treatment',
+              role: true,
+            },
+          ],
+        },
+        {
+          title: 'المالية',
+          icon: 'fa-money-bill-alt',
+          role: true,
+          children: [
+            {
               title: 'العملاء',
               to: '/customers',
               role: true,
             },
             {
-              icon: 'fa-home',
               title: 'عروض الأسعار',
               to: '/price-offers',
               role: true,
@@ -101,26 +97,13 @@
           role: true,
         },
         {
-          title: 'المعاملات',
-          icon: 'fa-home',
+          title: 'الاعدادات',
+          icon: 'fa-cog',
           role: true,
           children: [
             {
-              title: 'المعاملات',
-              icon: 'fa-home',
-              to: '/Treatments',
-              role: true,
-            },
-            {
-              title: 'معاملة جديدة',
-              icon: 'fa-home',
-              to: '/New-Treatment',
-              role: true,
-            },
-            {
-              title: 'تقييم المعاملة',
-              icon: 'fa-home',
-              to: '/Evaluate-Treatment',
+              title: 'ملف المنشأة',
+              to: '/facility-file',
               role: true,
             },
           ],
@@ -207,12 +190,13 @@
   .v-list-group__items
         .v-list-item
           margin-bottom: 0 !important
-          margin-right: 15px
+          margin: 10px 15px 10px 0
   .v-list-group--sub-group
     .v-list-item
       padding: 0
       padding-left: 0 !important
       margin-right: 15px
+      margin: 10px 15px 10px 0
   .v-list-item--active
     background-color: #FDCA40 !important
     border-radius: 15px

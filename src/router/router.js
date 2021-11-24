@@ -123,6 +123,13 @@ const router = new Router({
           component: () => import('@/views/dashboard/Finance/PriceOffers'),
           meta: { requiresAuth: true },
         },
+        // SETTING
+        {
+          name: 'facilityFile',
+          path: '/facility-file',
+          component: () => import('@/views/dashboard/setting/Facility.vue'),
+          meta: { requiresAuth: true },
+        },
         {
           path: '/notAuthorized',
           name: 'notAuthorized',
