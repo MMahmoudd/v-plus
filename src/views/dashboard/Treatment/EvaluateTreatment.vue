@@ -1350,6 +1350,16 @@
                 >
                   <div id="map" />
                 </v-col>
+                <div
+                  v-if="errorCurLocation"
+                  class="text-danger"
+                >
+                  <v-alert
+                    type="error"
+                  >
+                    {{ errorCurLocation }}
+                  </v-alert>
+                </div>
               </v-row>
               <v-row>
                 <v-col
@@ -1405,12 +1415,22 @@
                     <v-btn
                       x-large
                       class="ma-2 orange-btn"
-                      @click.prevent="getMap(lat,long)"
+                      @click.prevent="getCurrentLocation()"
                     >
                       <v-icon left>
                         fas fa-map-marker-alt
                       </v-icon>
                       موقعى
+                    </v-btn>
+                    <v-btn
+                      x-large
+                      class="ma-2 light-green-btn"
+                      @click.prevent="getMap(lat,long)"
+                    >
+                      <v-icon left>
+                        fas fa-map-marker-alt
+                      </v-icon>
+                      تحديد الموقع
                     </v-btn>
                   </div>
                 </v-col>
@@ -2008,8 +2028,8 @@
                   lg="3"
                   sm="6"
                 >
-                  <v-radio
-                    class="mb-2"
+                  <v-checkbox
+                    v-model="selected"
                     label="تشطيب فاخر"
                     value="radio-1"
                     name="tash"
@@ -2036,8 +2056,8 @@
                   lg="3"
                   sm="6"
                 >
-                  <v-radio
-                    class="mb-2"
+                  <v-checkbox
+                    v-model="selected"
                     label="تشطيب متوسط"
                     value="radio-2"
                     name="tash"
@@ -2064,8 +2084,8 @@
                   lg="3"
                   sm="6"
                 >
-                  <v-radio
-                    class="mb-2"
+                  <v-checkbox
+                    v-model="selected"
                     label="تشطيب عادى"
                     value="radio-3"
                     name="tash"
@@ -2092,8 +2112,8 @@
                   lg="3"
                   sm="6"
                 >
-                  <v-radio
-                    class="mb-2"
+                  <v-checkbox
+                    v-model="selected"
                     label="بدون تشطيب"
                     value="radio-4"
                     name="tash"
@@ -4227,13 +4247,33 @@
                     </v-icon>
                   </div>
                   <div v-else>
-                    <img :src="image.image">
+                    <img
+                      :src="image.image"
+                      :class="{'hidden-img': image.hidden}"
+                    >
                     <button
                       class="remove-img"
                       @click.prevent="removeImage(image,index)"
                     >
                       <v-icon left>
                         fas fa-trash-alt
+                      </v-icon>
+                    </button>
+                    <button
+                      class="hide-img"
+                      @click.prevent="image.hidden = !image.hidden"
+                    >
+                      <v-icon
+                        v-if="!image.hidden"
+                        left
+                      >
+                        far fa-eye
+                      </v-icon>
+                      <v-icon
+                        v-else
+                        left
+                      >
+                        far fa-eye-slash
                       </v-icon>
                     </button>
                     <input
@@ -4543,33 +4583,43 @@
       images: [
         {
           image: false,
+          hidden: false,
         },
       ],
       imageSorting: [],
+      location: null,
+      gettingLocation: false,
+      errorCurLocation: null,
     }),
 
+    // mounted () {
+    //   this.getMap(this.lat, this.long)
+    // },
     mounted () {
-      this.getMap(this.lat, this.long)
+      this.getCurrentLocation()
     },
     methods: {
-      // Copy Lat & Long of map
-      doCopy: function () {
-        copyText(this.lat + ',' + this.long, undefined, (error, event) => {
-          if (error) {
-            alert('Can not copy')
-            console.log(error)
-          } else {
-            // alert('Copied')
-            Swal.fire({
-              title: 'Copied!',
-              icon: 'success',
-              timer: 2000,
-            })
-            console.log(event)
-          }
+      // Get Cureent Location
+      getCurrentLocation: function () {
+        // do we support geolocation
+        if (!('geolocation' in navigator)) {
+          this.errorCurLocation = 'Geolocation is not available.'
+          return
+        }
+        this.gettingLocation = true
+        // get position
+        navigator.geolocation.getCurrentPosition(pos => {
+          this.gettingLocation = false
+          this.location = pos
+          this.lat = this.location.coords.latitude
+          this.long = this.location.coords.longitude
+          this.getMap(this.location.coords.latitude, this.location.coords.longitude)
+        }, err => {
+          this.gettingLocation = false
+          this.errorCurLocation = err.message
         })
       },
-      // Show Map with Marker
+      // Get Location debendes on 2 inputs
       getMap: function (x, y) {
         loader.load().then(function (google) {
           // Regular Map
@@ -4595,6 +4645,23 @@
           })
         })
       },
+      // Copy Lat & Long of map
+      doCopy: function () {
+        copyText(this.lat + ',' + this.long, undefined, (error, event) => {
+          if (error) {
+            alert('Can not copy')
+            console.log(error)
+          } else {
+            // alert('Copied')
+            Swal.fire({
+              title: 'Copied!',
+              icon: 'success',
+              timer: 2000,
+            })
+            console.log(event)
+          }
+        })
+      },
       // Show Image After Upload
       onFileChange (item, e) {
         var files = e.target.files || e.dataTransfer.files
@@ -4610,7 +4677,7 @@
           item.image = e.target.result
         }
         reader.readAsDataURL(file)
-        this.images.push({ image: false })
+        this.images.push({ image: false, hidden: false })
       },
       removeImage: function (item, index) {
         item.image = false
@@ -4618,6 +4685,9 @@
         // Remove sort of image
         this.imageSorting.splice(index, 1)
       },
+      // hideImage: function (item) {
+      //   item.hidden = true
+      // },
       // Adding & Remove Participant
       addParticipant: function () {
         this.participants.push({ participant: true })
@@ -4724,6 +4794,9 @@ input[type='file']{
 img {
   width: 100%;
 }
+.hidden-img{
+  opacity: .4;
+}
 .remove-img{
   position: absolute;
   top: 5px;
@@ -4737,9 +4810,22 @@ img {
   margin: auto;
   color: #dc3545!important;
 }
+.hide-img{
+  position: absolute;
+  top: 5px;
+  left: 40px;
+  background: #fff;
+  border-radius: 5px;
+  padding: 4px;
+  box-shadow: 0px 2px 7px rgba(0,0,0,.2);
+}
+.hide-img i{
+  margin: auto;
+  color: #3772FF!important;
+}
 .img-num{
   position: absolute;
-  width: 25px;
+  width: 30px;
   top: 5px;
   right: 5px;
   background: #fff;
