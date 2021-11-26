@@ -4,417 +4,437 @@
     fluid
     tag="section"
   >
-    <v-card>
-      <v-card-title>
-        {{ this.$route.params.id ? $t('assets.editAssets') : $t('assets.addAssets') }}
-      </v-card-title>
-      <v-img
-        class="white--text align-end"
-        height="200px"
-        src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
-      >
-        <v-card-title>Top 10 Australian beaches</v-card-title>
-      </v-img>
-    </v-card>
     <template>
       <v-form
         v-model="valid"
         @submit.prevent="submitForm()"
       >
-        <!-- <v-container fluid>
-          <v-row class="mx-md-8 px-md-8">
-            <h3>{{ $t('assets.basicInfo') }}</h3>
-            <v-col cols="12">
-              <v-row class=" px-2">
-                <v-col
-                  cols="12"
-                  md="6"
+        <v-container fluid>
+          <v-card class="image-card">
+            <v-img
+              class="white--text align-end"
+              height="300px"
+              src="../../../assets/background.png"
+            >
+              <v-card-title class="Card-Title">
+                <v-avatar
+                  size="125"
+                  color="#F5F5F5"
                 >
-                  <v-text-field
-                    v-model="data.assetName"
-                    :label="$t('assets.assetName')"
-                    outlined
-                    dense
+                  <v-img
+                    class="elevation-6 w-75"
+                    alt=""
+                    :src="data.logo"
                   />
-                </v-col>
-
-                <v-col
-                  cols="12"
-                  md="6"
-                >
-                  <v-text-field
-                    v-model="data.assetDescription"
-                    :label="$t('assets.assetDescription')"
-                    outlined
-                    dense
-                  />
-                </v-col>
-              </v-row>
-            </v-col>
-            <h3>{{ $t('assets.assetsInfo') }}</h3>
-            <v-col cols="12">
-              <v-row class=" px-2">
-                <v-col
-                  cols="12"
-                  md="6"
-                  class="d-flex"
-                >
-                  <v-select
-                    v-model="data.assetCategoryId"
-                    :items="LKPCategory"
-                    item-text="name"
-                    item-value="id"
-                    :label="$t('assets.chooseCtegory')"
-                    outlined
-                    dense
-                    @input="getLKPType(data.assetCategoryId)"
-                  />
-                  <span v-if="!this.$route.params.id">
-                    <div
-                      v-for="role in Roles"
-                      :key="role"
-                    >
-                      <v-tooltip bottom>
-                        <template v-slot:activator="{ on, attrs }">
-                          <v-btn
-                            v-if="role === 'AssetCategory.AddOrUpdate'"
-                            color="green"
-                            outlined
-                            v-bind="attrs"
-                            v-on="on"
-                            @click="addAssetCategory = true"
-                          >
-                            <v-icon>
-                              fa-plus
-                            </v-icon>
-                          </v-btn>
-                        </template>
-                        {{ $t('actions.addCategory') }}
-                      </v-tooltip>
-                    </div>
-                  </span>
-                </v-col>
-                <v-col
-                  cols="12"
-                  md="6"
-                  class="d-flex"
-                >
-                  <v-select
-                    v-model="data.assetTypeId"
-                    :items="LKPType"
-                    item-text="name"
-                    item-value="id"
-                    :label="$t('assets.chooseType')"
-                    outlined
-                    dense
-                    @input="getLKPBrand(data.assetTypeId)"
-                  />
-                  <span v-if="!this.$route.params.id">
-                    <div
-                      v-for="role in Roles"
-                      :key="role"
-                    >
-                      <v-tooltip bottom>
-                        <template v-slot:activator="{ on, attrs }">
-                          <v-btn
-                            v-if="role === 'AssetType.AddOrUpdate'"
-                            color="green"
-                            outlined
-                            v-bind="attrs"
-                            v-on="on"
-                            @click="addAssetType = true"
-                          >
-                            <v-icon>
-                              fa-plus
-                            </v-icon>
-                          </v-btn>
-                        </template>
-                        {{ $t('actions.addType') }}
-                      </v-tooltip>
-                    </div>
-                  </span>
-                </v-col>
-                <v-col
-                  cols="12"
-                  md="6"
-                  class="d-flex"
-                >
-                  <v-select
-                    v-model="data.assetBrandId"
-                    :items="LKPBrand"
-                    item-text="name"
-                    item-value="id"
-                    :label="$t('assets.chooseBrand')"
-                    outlined
-                    dense
-                    @input="getLKPModel(data.assetBrandId)"
-                  />
-                  <span v-if="!this.$route.params.id">
-                    <div
-                      v-for="role in Roles"
-                      :key="role"
-                    >
-                      <v-tooltip bottom>
-                        <template v-slot:activator="{ on, attrs }">
-                          <v-btn
-                            v-if="role === 'AssetBrand.AddOrUpdate'"
-                            color="green"
-                            outlined
-                            v-bind="attrs"
-                            v-on="on"
-                            @click="addAssetBrand = true"
-                          >
-                            <v-icon>
-                              fa-plus
-                            </v-icon>
-                          </v-btn>
-                        </template>
-                        {{ $t('actions.addBrand') }}
-                      </v-tooltip>
-                    </div>
-                  </span>
-                </v-col>
-                <v-col
-                  cols="12"
-                  md="6"
-                  class="d-flex"
-                >
-                  <v-select
-                    v-model="data.assetModelId"
-                    :items="LKPModel"
-                    item-text="name"
-                    item-value="id"
-                    :label="$t('assets.chooseModel')"
-                    outlined
-                    dense
-                  />
-                  <span v-if="!this.$route.params.id">
-                    <div
-                      v-for="role in Roles"
-                      :key="role"
-                    >
-                      <v-tooltip bottom>
-                        <template v-slot:activator="{ on, attrs }">
-                          <v-btn
-                            v-if="role === 'AssetModel.AddOrUpdate'"
-                            color="green"
-                            outlined
-                            v-bind="attrs"
-                            v-on="on"
-                            @click="addAssetModel = true"
-                          >
-                            <v-icon>
-                              fa-plus
-                            </v-icon>
-                          </v-btn>
-                        </template>
-                        {{ $t('actions.addModel') }}
-                      </v-tooltip>
-                    </div>
-                  </span>
-                </v-col>
-                <v-col
-                  cols="12"
-                  md="6"
-                  class="d-flex"
-                >
-                  <v-select
-                    v-model="data.assetStatusId"
-                    :items="LKPStatus"
-                    item-text="name"
-                    item-value="id"
-                    :label="$t('assets.chooseStatus')"
-                    outlined
-                    dense
-                  />
-                </v-col>
-                <v-col
-                  v-if="this.$route.params.id"
-                  cols="12"
-                  md="6"
-                >
-                  <v-text-field
-                    v-model="data.assetSerialNumber"
-                    :label="$t('assets.assetSerialNumber')"
-                    outlined
-                    dense
-                    required
-                  />
-                </v-col>
-                <v-col
-                  v-if="!this.$route.params.id"
-                  cols="12"
-                  md="6"
-                >
-                  <v-text-field
-                    v-model="data.assetCount"
-                    :label="$t('assets.assetCount')"
-                    outlined
-                    dense
-                    required
-                    type="number"
-                  />
-                </v-col>
-              </v-row>
-            </v-col>
-            <h3>{{ $t('assets.companiesInfo') }}</h3>
-            <v-col cols="12">
-              <v-row class=" px-2">
-                <v-col
-                  cols="12"
-                  md="6"
-                >
-                  <v-select
-                    v-model="data.branchId"
-                    :items="LKPBrnch"
-                    item-text="name"
-                    item-value="id"
-                    :label="$t('assets.chooseBranch')"
-                    outlined
-                    dense
-                    @input="getLKPFloor(data.branchId)"
-                  />
-                </v-col>
-                <v-col
-                  cols="12"
-                  md="6"
-                >
-                  <v-select
-                    v-model="data.floorId"
-                    :items="LKPFloor"
-                    item-text="name"
-                    item-value="id"
-                    :label="$t('assets.chooseFloor')"
-                    outlined
-                    dense
-                    @input="getLKPRoom(data.floorId)"
-                  />
-                </v-col>
-                <v-col
-                  cols="12"
-                  md="6"
-                >
-                  <v-select
-                    v-model="data.roomId"
-                    :items="LKPRoom"
-                    item-text="name"
-                    item-value="id"
-                    :label="$t('assets.chooseRoom')"
-                    outlined
-                    dense
-                  />
-                </v-col>
-              </v-row>
-            </v-col>
-            <h3>{{ $t('assets.datesInfo') }}</h3>
-            <v-col cols="12">
-              <v-row class=" px-2">
-                <v-col
-                  cols="12"
-                  md="6"
-                >
-                  <v-menu
-                    v-model="assetProductionDate"
-                    :close-on-content-click="false"
-                    :nudge-right="40"
-                    transition="scale-transition"
-                    offset-y
-                    min-width="auto"
+                </v-avatar>
+                <h2 class="text-center py-2">
+                  Millennium
+                </h2>
+                <v-text-field
+                  v-model="data.url"
+                  suffix="millennium.sa"
+                  outlined
+                  class="w-300"
+                />
+              </v-card-title>
+            </v-img>
+          </v-card>
+          <v-row>
+            <v-col
+              cols="12"
+              md="4"
+            >
+              <v-card class="image-card py-2 px-3">
+                <h3 class="head-card">
+                  ختم المنشأة
+                </h3>
+                <v-row>
+                  <v-col
+                    cols="12"
+                    md="3"
                   >
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-text-field
-                        v-model="data.assetProductionDate"
-                        :label="$t('assets.assetProductionDate')"
-                        prepend-icon="mdi-calendar"
-                        readonly
-                        outlined
-                        dense
-                        v-bind="attrs"
-                        v-on="on"
-                      />
-                    </template>
-                    <v-date-picker
-                      v-model="data.assetProductionDate"
-                      class="mt-0 mb-0"
-                      @input="assetProductionDate = false"
-                    />
-                  </v-menu>
-                </v-col>
-                <v-col
-                  cols="12"
-                  md="6"
-                >
-                  <v-menu
-                    v-model="assetExpiryDate"
-                    :close-on-content-click="false"
-                    :nudge-right="40"
-                    transition="scale-transition"
-                    offset-y
-                    min-width="auto"
+                    <v-subheader>اسم الختم:</v-subheader>
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    md="9"
                   >
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-text-field
-                        v-model="data.assetExpiryDate"
-                        :label="$t('assets.assetExpiryDate')"
-                        prepend-icon="mdi-calendar"
-                        readonly
-                        outlined
-                        dense
-                        v-bind="attrs"
-                        v-on="on"
-                      />
-                    </template>
-                    <v-date-picker
-                      v-model="data.assetExpiryDate"
-                      class="mt-0 mb-0"
-                      @input="assetExpiryDate = false"
+                    <v-text-field
+                      v-model="data.seal_name"
+                      outlined
+                      dense
                     />
-                  </v-menu>
-                </v-col>
-                <v-col
-                  cols="12"
-                  md="6"
-                >
-                  <v-menu
-                    v-model="assetMaintinanceDate"
-                    :close-on-content-click="false"
-                    :nudge-right="40"
-                    transition="scale-transition"
-                    offset-y
-                    min-width="auto"
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col
+                    cols="12"
+                    md="3"
                   >
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-text-field
-                        v-model="data.assetMaintinanceDate"
-                        :label="$t('assets.assetMaintinanceDate')"
-                        prepend-icon="mdi-calendar"
-                        readonly
-                        outlined
-                        dense
-                        v-bind="attrs"
-                        v-on="on"
-                      />
-                    </template>
-                    <v-date-picker
-                      v-model="data.assetMaintinanceDate"
-                      class="mt-0 mb-0"
-                      @input="assetMaintinanceDate = false"
+                    <v-subheader>ارفاق الختم:</v-subheader>
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    md="9"
+                  >
+                    <v-file-input
+                      outlined
+                      chips
+                      dense
+                      label="إضافة مرفق"
                     />
-                  </v-menu>
-                </v-col>
-              </v-row>
+                  </v-col>
+                </v-row>
+              </v-card>
+            </v-col>
+            <v-col
+              cols="12"
+              md="4"
+            >
+              <v-card class="image-card py-2 px-3">
+                <h3 class="head-card">
+                  بيانات التواصل
+                </h3>
+                <v-row>
+                  <v-col
+                    cols="12"
+                    md="3"
+                  >
+                    <v-subheader>رقم الهاتف:</v-subheader>
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    md="9"
+                  >
+                    <v-text-field
+                      v-model="data.phone_number"
+                      outlined
+                      dense
+                    />
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col
+                    cols="12"
+                    md="3"
+                  >
+                    <v-subheader>البريد الالكتروني:</v-subheader>
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    md="9"
+                  >
+                    <v-text-field
+                      v-model="data.email"
+                      outlined
+                      dense
+                    />
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col
+                    cols="12"
+                    md="3"
+                  >
+                    <v-subheader>الرقم الموحد:</v-subheader>
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    md="9"
+                  >
+                    <v-text-field
+                      v-model="data.unified_number"
+                      outlined
+                      dense
+                    />
+                  </v-col>
+                </v-row>
+              </v-card>
+            </v-col>
+            <v-col
+              cols="12"
+              md="4"
+            >
+              <v-card class="image-card py-2 px-3">
+                <h3 class="head-card">
+                  بيانات الدخول
+                </h3>
+                <v-row>
+                  <v-col
+                    cols="12"
+                    md="3"
+                  >
+                    <v-subheader>اسم المستخدم:</v-subheader>
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    md="9"
+                  >
+                    <v-text-field
+                      v-model="data.name"
+                      outlined
+                      dense
+                    />
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col
+                    cols="12"
+                    md="3"
+                  >
+                    <v-subheader>كلمة المرور:</v-subheader>
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    md="9"
+                  >
+                    <v-text-field
+                      v-model="data.password"
+                      :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                      outlined
+                      dense
+                      :type="show1 ? 'text' : 'password'"
+                      @click:append="show1 = !show1"
+                    />
+                  </v-col>
+                </v-row>
+              </v-card>
             </v-col>
           </v-row>
+          <v-card class="image-card py-2 px-3">
+            <h3 class="head-card">
+              هوية المقيم المعتمد
+            </h3>
+            <v-row>
+              <v-col
+                cols="12"
+                sm="6"
+                md="3"
+              >
+                <label>
+                  <strong>الاسم</strong>
+                </label>
+                <v-text-field
+                  v-model="data.seal_name"
+                  outlined
+                  placeholder="الاسم"
+                  class="mt-1"
+                />
+              </v-col>
+              <v-col
+                cols="12"
+                sm="6"
+                md="3"
+              >
+                <label>
+                  <strong>فرع التقييم</strong>
+                </label>
+                <v-text-field
+                  v-model="data.seal_name"
+                  outlined
+                  placeholder="فرع التقييم"
+                  class="mt-1"
+                />
+              </v-col>
+              <v-col
+                cols="12"
+                sm="6"
+                md="3"
+              >
+                <label>
+                  <strong>فئة العضوية</strong>
+                </label>
+                <v-text-field
+                  v-model="data.seal_name"
+                  outlined
+                  class="mt-1"
+                  placeholder="فئة العضوية"
+                />
+              </v-col>
+              <v-col
+                cols="12"
+                sm="6"
+                md="3"
+              >
+                <label>
+                  <strong>صفته</strong>
+                </label>
+                <v-text-field
+                  v-model="data.seal_name"
+                  outlined
+                  class="mt-1"
+                  placeholder="صفته"
+                />
+              </v-col>
+              <v-col
+                cols="12"
+                sm="6"
+                md="3"
+              >
+                <label>
+                  <strong>التوقيع</strong>
+                </label>
+                <v-file-input
+                  outlined
+                  chips
+                  class="mt-1"
+                  placeholder="إضافة مرفق"
+                />
+              </v-col>
+              <v-col
+                cols="12"
+                sm="6"
+                md="3"
+              >
+                <label>
+                  <strong>رقم الترخيص</strong>
+                </label>
+                <v-text-field
+                  v-model="data.ID_approved_resident"
+                  outlined
+                  class="mt-1"
+                  placeholder="رقم الترخيص"
+                />
+              </v-col>
+              <v-col
+                cols="12"
+                sm="6"
+                md="3"
+              >
+                <label>
+                  <strong>تاريخ الترخيص</strong>
+                </label>
+                <v-text-field
+                  v-model="data.seal_name"
+                  outlined
+                  class="mt-1"
+                  placeholder="تاريخ الترخيص"
+                />
+              </v-col>
+            </v-row>
+          </v-card>
+          <v-card class="image-card py-2 px-3">
+            <h3 class="head-card">
+              العنوان الوطني
+            </h3>
+            <v-row>
+              <v-col
+                cols="12"
+                sm="6"
+                md="3"
+              >
+                <label>
+                  <strong>المدينة</strong>
+                </label>
+                <v-text-field
+                  v-model="data.city"
+                  outlined
+                  placeholder="المدينة"
+                  class="mt-1"
+                />
+              </v-col>
+              <v-col
+                cols="12"
+                sm="6"
+                md="3"
+              >
+                <label>
+                  <strong>الحي</strong>
+                </label>
+                <v-text-field
+                  v-model="data.neighborhood"
+                  outlined
+                  placeholder="الحي"
+                  class="mt-1"
+                />
+              </v-col>
+              <v-col
+                cols="12"
+                sm="6"
+                md="3"
+              >
+                <label>
+                  <strong>الشارع</strong>
+                </label>
+                <v-text-field
+                  v-model="data.street"
+                  outlined
+                  class="mt-1"
+                  placeholder="الشارع"
+                />
+              </v-col>
+              <v-col
+                cols="12"
+                sm="6"
+                md="3"
+              >
+                <label>
+                  <strong>رقم المبنى</strong>
+                </label>
+                <v-text-field
+                  v-model="data.building_number"
+                  outlined
+                  class="mt-1"
+                  placeholder="رقم المبنى"
+                />
+              </v-col>
+              <v-col
+                cols="12"
+                sm="6"
+                md="3"
+              >
+                <label>
+                  <strong>رقم الوحدة</strong>
+                </label>
+                <v-text-field
+                  v-model="data.unit_number"
+                  outlined
+                  class="mt-1"
+                  placeholder="رقم الوحدة"
+                />
+              </v-col>
+              <v-col
+                cols="12"
+                sm="6"
+                md="3"
+              >
+                <label>
+                  <strong>الرمز البريدي</strong>
+                </label>
+                <v-text-field
+                  v-model="data.postal_code"
+                  outlined
+                  class="mt-1"
+                  placeholder="الرمز البريدي"
+                />
+              </v-col>
+              <v-col
+                cols="12"
+                sm="6"
+                md="3"
+              >
+                <label>
+                  <strong>الرقم الإضافي</strong>
+                </label>
+                <v-text-field
+                  v-model="data.extra_number"
+                  outlined
+                  class="mt-1"
+                  placeholder="الرقم الإضافي"
+                />
+              </v-col>
+            </v-row>
+          </v-card>
           <v-btn
             type="submit"
             class="mx-auto my-auto d-flex"
-            color="indigo"
+            color="#3772FF"
             :loading="loading"
             :disabled="disabled"
           >
-            {{ this.$route.params.id ? $t('actions.save') : $t('actions.add') }}
+            <i class="far fa-save ml-2" />  حفظ
           </v-btn>
-        </v-container> -->
+        </v-container>
       </v-form>
     </template>
     <v-snackbar
@@ -449,8 +469,10 @@
     data: (vm) => ({
       dataLoading: false,
       valid: false,
+      show1: false,
       data: {
         name: '',
+        password: '',
         logo: '',
         url: '',
         tax_number: '',
@@ -501,9 +523,9 @@
       },
       async fetchItem () {
         this.dataLoading = true
-        const assets = await SettingService.getFacility()
-        this.data = assets.object
-        console.log('assets.object', assets.object)
+        const data = await SettingService.getFacility()
+        this.data = data.data
+        console.log('assets', data.data)
         this.dataLoading = false
       },
     },
@@ -520,5 +542,41 @@ a{
 }
 .v-text-field.v-text-field--enclosed .v-text-field__details{
   display: none !important;
+}
+.image-card{
+  min-height: 255px !important;
+}
+.image-card .v-responsive__content{
+  margin-right: unset !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+.image-card .theme--light.v-label{
+  color: rgba(0, 0, 0, 0.3);;
+}
+.image-card .head-card{
+  color: #37A8FF;
+  padding-bottom: 20px;
+}
+.Card-Title{
+  margin: auto;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  color: #000;
+  display: block;
+  transform: translate(50%, 10%);
+  direction: ltr;
+}
+.w-75{
+  max-width: 90px !important;
+  max-height: 90px;
+}
+.w-300{
+  width: 300px;
+  margin: auto !important;
+}
+.w-300 .v-input__slot{
+  background-color: #f5f5f5 !important;
 }
 </style>

@@ -79,6 +79,7 @@ const router = new Router({
           component: () => import('@/views/dashboard/users/Users.vue'),
           // meta: { role: 'Users.GetAll' },
           // beforeEnter: routerGuard,
+          meta: { requiresAuth: true },
         },
         {
           name: 'user Form',
@@ -86,6 +87,7 @@ const router = new Router({
           component: () => import('@/views/dashboard/users/Form.vue'),
           // meta: { role: 'Users.GetById' },
           // beforeEnter: routerGuard,
+          meta: { requiresAuth: true },
         },
         {
           name: 'Treatments',
