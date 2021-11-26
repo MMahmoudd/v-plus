@@ -976,7 +976,7 @@
                   <v-icon left>
                     fas fa-plus
                   </v-icon>
-                  اضافة مشارك جديد
+                  اضافة مرحلة جديدة
                 </v-btn>
               </div>
               <!-- If Not Raghie Module -->
