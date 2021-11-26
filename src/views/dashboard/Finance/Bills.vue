@@ -6,7 +6,7 @@
       class="mx-0 mt-4"
     >
       <h1 class="font-weight-bold">
-        عروض الأسعار
+        الفواتير
       </h1>
       <v-btn
         class="time-chip"
@@ -15,14 +15,17 @@
         text-color="white"
         @click="dialog = !dialog"
       >
-        <v-icon left>
-          mdi-account-plus
+        <v-icon
+          left
+          small
+        >
+          mdi-file-plus-outline
         </v-icon>
-        <span>اضافة عميل</span>
+        <span>عرض سعر جديد</span>
       </v-btn>
     </v-row>
 
-    <price-offers-table />
+    <bills-table />
   </v-container>
 </template>
 
@@ -33,7 +36,7 @@
 
   export default {
     components: {
-      PriceOffersTable: () => import('../component/offers/PriceOffersTable.vue'),
+      BillsTable: () => import('../component/bills/BillsTable.vue'),
     },
     data: () => ({
       search: '',

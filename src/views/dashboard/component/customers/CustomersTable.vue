@@ -140,7 +140,7 @@
         <v-menu offset-y>
           <template v-slot:activator="{ on, attrs }">
             <v-icon
-              large
+              medium
               class="mr-2"
               v-bind="attrs"
               color="primary"

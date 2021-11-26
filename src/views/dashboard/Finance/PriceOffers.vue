@@ -15,10 +15,13 @@
         text-color="white"
         @click="dialog = !dialog"
       >
-        <v-icon left>
-          mdi-account-plus
+        <v-icon
+          left
+          small
+        >
+          mdi-file-plus-outline
         </v-icon>
-        <span>اضافة عميل</span>
+        <span>عرض سعر جديد</span>
       </v-btn>
     </v-row>
 
