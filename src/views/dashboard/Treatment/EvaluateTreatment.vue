@@ -2020,7 +2020,7 @@
             <div>
               <h2>تصنيف مستوى تشطيبات البناء</h2>
               <v-radio-group
-                v-model="row"
+                v-model="outsideFinishing"
                 row
               >
                 <v-col
@@ -2028,24 +2028,17 @@
                   lg="3"
                   sm="6"
                 >
-                  <v-checkbox
-                    v-model="selected"
-                    label="تشطيب فاخر"
-                    value="radio-1"
-                    name="tash"
-                  />
                   <label
                     class="d-block mb-3 font-weight-bold text-right"
-                  >تشطيبات خارجية</label>
-                  <v-textarea
-                    name="input-7-1"
-                    single-line
-                    outlined
+                  >تشطيب فاخر</label>
+                  <v-radio
+                    class="mr-0"
+                    label="تشطيبات خارجية فاخرة"
+                    value="outLux"
+                    name="outsideFinishing"
                   />
-                  <label
-                    class="d-block mb-3 font-weight-bold text-right"
-                  >تشطيبات داخلية</label>
                   <v-textarea
+                    v-model="outLux"
                     name="input-7-1"
                     single-line
                     outlined
@@ -2056,24 +2049,17 @@
                   lg="3"
                   sm="6"
                 >
-                  <v-checkbox
-                    v-model="selected"
-                    label="تشطيب متوسط"
-                    value="radio-2"
-                    name="tash"
-                  />
                   <label
                     class="d-block mb-3 font-weight-bold text-right"
-                  >تشطيبات خارجية</label>
-                  <v-textarea
-                    name="input-7-1"
-                    single-line
-                    outlined
+                  >تشطيب متوسط</label>
+                  <v-radio
+                    class="mr-0"
+                    label="تشطيبات خارجية متوسطة"
+                    value="outMed"
+                    name="outsideFinishing"
                   />
-                  <label
-                    class="d-block mb-3 font-weight-bold text-right"
-                  >تشطيبات داخلية</label>
                   <v-textarea
+                    v-model="outMed"
                     name="input-7-1"
                     single-line
                     outlined
@@ -2084,24 +2070,17 @@
                   lg="3"
                   sm="6"
                 >
-                  <v-checkbox
-                    v-model="selected"
-                    label="تشطيب عادى"
-                    value="radio-3"
-                    name="tash"
-                  />
                   <label
                     class="d-block mb-3 font-weight-bold text-right"
-                  >تشطيبات خارجية</label>
-                  <v-textarea
-                    name="input-7-1"
-                    single-line
-                    outlined
+                  >تشطيبات عادى</label>
+                  <v-radio
+                    class="mr-0"
+                    label="تشطيبات خارجية عادية"
+                    value="outNorm"
+                    name="outsideFinishing"
                   />
-                  <label
-                    class="d-block mb-3 font-weight-bold text-right"
-                  >تشطيبات داخلية</label>
                   <v-textarea
+                    v-model="outNorm"
                     name="input-7-1"
                     single-line
                     outlined
@@ -2112,11 +2091,88 @@
                   lg="3"
                   sm="6"
                 >
-                  <v-checkbox
+                  <label
+                    class="d-block mb-3 font-weight-bold text-right"
+                  >بدون تشطيب</label>
+                  <v-radio
                     v-model="selected"
-                    label="بدون تشطيب"
-                    value="radio-4"
-                    name="tash"
+                    class="mr-0"
+                    label="بدون تشطيب خارجى"
+                    value="without"
+                    name="outsideFinishing"
+                  />
+                </v-col>
+              </v-radio-group>
+              <v-radio-group
+                v-model="outsideFinishing"
+                class="mt-0"
+                row
+              >
+                <v-col
+                  cols="12"
+                  lg="3"
+                  sm="6"
+                >
+                  <v-radio
+                    class="mr-0"
+                    label="تشطيبات داخلية فاخرة"
+                    value="inLux"
+                    name="insideFinishing"
+                  />
+                  <v-textarea
+                    v-model="inLux"
+                    name="input-7-1"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  lg="3"
+                  sm="6"
+                >
+                  <v-radio
+                    class="mr-0"
+                    label="تشطيبات داخلية متوسطة"
+                    value="inMed"
+                    name="insideFinishing"
+                  />
+                  <v-textarea
+                    v-model="inMed"
+                    name="input-7-1"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  lg="3"
+                  sm="6"
+                >
+                  <v-radio
+                    class="mr-0"
+                    label="تشطيبات داخلية عادية"
+                    value="inNorm"
+                    name="insideFinishing"
+                  />
+                  <v-textarea
+                    v-model="inNorm"
+                    name="input-7-1"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  lg="3"
+                  sm="6"
+                >
+                  <v-radio
+                    v-model="selected"
+                    class="mr-0"
+                    label="بدون تشطيب داخلى"
+                    value="without"
+                    name="insideFinishing"
                   />
                 </v-col>
               </v-radio-group>
@@ -4580,6 +4636,7 @@
       menu3: false,
       lat: 24.68773,
       long: 46.72185,
+      // Images Section
       images: [
         {
           image: false,
@@ -4587,9 +4644,17 @@
         },
       ],
       imageSorting: [],
+      // Map
       location: null,
       gettingLocation: false,
       errorCurLocation: null,
+      // Finishing Textarea => التشطيبات
+      outLux: 'الواجهات من حجر طبيعي أو دهان ذو جودة عالية، نوعية الأبواب الخارجية، نوعية أرضيات الساحات الخارجية',
+      inLux: 'نوعية أرضيات المداخل والمجالس وصالات الطعام تتكون من رخام فاخر، نوعية الأبواب الداخلية، نوعية العزل، نوعية الشبابيك، مكونات الجدران الخارجية تكون مزدوجة، نوعية التسليك والسباكة، نوعية الدهان الداخلي، أعمال الجبس بأشكال هندسية وجودتها، تكييف مركزي، مصعد، جودة عمال التشطيب.',
+      outMed: 'الواجهات من حجر أو دهان، نوعية الأبواب الخارجية، نوعية أرضيات الساحات الخارجية غالباً من السيراميك، مكونات الجدران الخارجية تكون مزدوجة',
+      inMed: 'نوعية أرضيات المداخل والمجالس وصالات الطعام تتكون من السيراميك، نوعية الأبواب الداخلية، نوعية العزل، نوعية الشبابيك، ، نوعية التسليك والسباكة، نوعية الدهان الداخلي، أعمال الجبس وجودتها، التكييف منفصل (سبيلت).',
+      outNorm: 'الواجهات دهان، نوعية الأبواب الخارجية، نوعية أرضيات الساحات الخارجية غالباً من بلاط بلدي،',
+      inNorm: 'نوعية أرضيات المداخل والمجالس وصالات الطعام تتكون من السيراميك العادي أو بلاط بلدي لفرش الموكيت، نوعية الأبواب الداخلية، لا يوجد عوازل، الشبابيك عادية جداً، نوعية التسليك والسباكة، نوعية الدهان الداخلي، لا يوجد جبس بالأسقف، نوعية التكييف شباك.',
     }),
 
     // mounted () {
