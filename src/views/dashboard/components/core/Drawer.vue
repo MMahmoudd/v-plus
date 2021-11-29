@@ -61,11 +61,11 @@
               to: '/Treatments',
               role: true,
             },
-            {
-              title: 'معاملة جديدة',
-              to: '/New-Treatment',
-              role: true,
-            },
+            // {
+            //   title: 'معاملة جديدة',
+            //   to: '/New-Treatment',
+            //   role: true,
+            // },
             {
               title: 'تقييم المعاملة',
               to: '/Evaluate-Treatment',

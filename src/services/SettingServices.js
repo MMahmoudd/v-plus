@@ -12,4 +12,12 @@ export default {
             }
         })
     },
+    updateFacility (data) {
+      return Service.post(`${resource}/facilities`, data)
+      .then((response) => {
+        if (response.status === 200) {
+            return response.data
+        }
+    })
+    },
 }
