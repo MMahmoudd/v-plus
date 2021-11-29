@@ -107,10 +107,13 @@
                 >
                   <label class="d-block mb-3 font-weight-bold">العميل</label>
                   <v-select
-                    :items="items"
+                    v-model="data.customer_id"
+                    :items="customersList"
                     label="العميل"
                     single-line
                     outlined
+                    item-text="name"
+                    item-value="id"
                   />
                 </v-col>
 
@@ -156,7 +159,9 @@
                     class="d-block mb-3 font-weight-bold"
                   >الغرض من التقييم</label>
                   <v-select
-                    :items="items"
+                    :items="evaluationPurposeList"
+                    item-text="name"
+                    item-value="id"
                     label="الغرض من التقييم"
                     single-line
                     outlined
@@ -534,6 +539,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >اسم المالك</label>
                   <v-text-field
+                    v-model="data.prop_owner_name"
                     label="اسم المالك"
                     single-line
                     outlined
@@ -550,6 +556,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >جوال المالك</label>
                   <v-text-field
+                    v-modal="data.prop_owner_phone"
                     label="جوال المالك"
                     single-line
                     outlined
@@ -1786,6 +1793,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >مجالس</label>
                   <v-text-field
+                    v-modal="data.boards"
                     label="5"
                     single-line
                     outlined
@@ -1799,6 +1807,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >غرف طعام</label>
                   <v-text-field
+                    v-model="data.dining_rooms"
                     label="4"
                     single-line
                     outlined
@@ -1812,6 +1821,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >غرف نوم</label>
                   <v-text-field
+                    v-model="data.bed_room"
                     label="4"
                     single-line
                     outlined
@@ -1825,6 +1835,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >مطابخ</label>
                   <v-text-field
+                    v-model="data.Kitchens"
                     label="5"
                     single-line
                     outlined
@@ -1838,6 +1849,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >دورات مياه</label>
                   <v-text-field
+                    v-model="data.toilets"
                     label="5"
                     single-line
                     outlined
@@ -1851,6 +1863,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >جاكوزى</label>
                   <v-text-field
+                    v-model="data.jacuzzi"
                     label="5"
                     single-line
                     outlined
@@ -1864,6 +1877,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >حديقة</label>
                   <v-text-field
+                    v-model="data.garden"
                     label="5"
                     single-line
                     outlined
@@ -1877,6 +1891,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >غرفة خادمة</label>
                   <v-text-field
+                    v-model="data.maids_room"
                     label="5"
                     single-line
                     outlined
@@ -1890,6 +1905,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >غرفة حارس</label>
                   <v-text-field
+                    v-model="data.guard_Room"
                     label="5"
                     single-line
                     outlined
@@ -1903,6 +1919,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >قبو</label>
                   <v-text-field
+                    v-model="data.basement"
                     label="5"
                     single-line
                     outlined
@@ -1916,6 +1933,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >الصالات</label>
                   <v-text-field
+                    v-model="data.halls"
                     label="5"
                     single-line
                     outlined
@@ -1929,6 +1947,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >الملاحق</label>
                   <v-text-field
+                    v-model="data.Supplements"
                     label="5"
                     single-line
                     outlined
@@ -1942,6 +1961,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >مصاعد</label>
                   <v-text-field
+                    v-model="data.elevators"
                     label="5"
                     single-line
                     outlined
@@ -1955,6 +1975,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >موقف سيارات</label>
                   <v-text-field
+                    v-model="data.parking"
                     label="5"
                     single-line
                     outlined
@@ -1968,6 +1989,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >ملاعب أطفال</label>
                   <v-text-field
+                    v-model="data.childrens_playground"
                     label="5"
                     single-line
                     outlined
@@ -4569,11 +4591,165 @@
   import Swal from 'sweetalert2'
   import { copyText } from 'vue3-clipboard'
   import { Loader } from '@googlemaps/js-api-loader'
+  import { ServiceFactory } from '../../../services/ServiceFactory'
   const loader = new Loader('AIzaSyACo4RXxzSABqvI3S_Q3_nQ2YIW4HfJuXI')
+  const CustomersService = ServiceFactory.get('Customers')
+  const EvaluationPurposeService = ServiceFactory.get('EvaluationPurpose')
+  // ! TODO : change this later
+  const UsersServices = ServiceFactory.get('Users')
 
   export default {
     name: 'EvaluateTreatment',
     data: () => ({
+      customersList: [],
+      evaluationPurposeList: [],
+      appraisersList: [],
+      previewsList: [],
+      coordinatorsList: [],
+      // مكونات العقار
+      boards_show: false,
+      dining_rooms_show: false,
+      bed_room_show: false,
+      Kitchens_show: false,
+      toilets_show: false,
+      jacuzzi_show: false,
+      garden_show: false,
+      maids_room_show: false,
+      guard_Room_show: false,
+      basement_show: false,
+      halls_show: false,
+      Supplements_show: false,
+      elevators_show: false,
+      parking_show: false,
+      childrens_playground_show: false,
+      swimming_pool_show: false,
+      storehouse_show: false,
+      data: {
+        deposit_code: '',
+        evaluation_request: '',
+        commissioning_num: '',
+        commissioning_date: '2021-11-29',
+        delivery_time: '2021-11-29',
+        prop_customer_name: '',
+        prop_customer_phone: '',
+        prop_customer_email: '',
+        prop_customer_relationship: '',
+        prop_owner_name: '',
+        prop_owner_phone: '',
+        prop_evaluation_report_user: '',
+        prop_Albulk_num: '',
+        prop_apartment_num: '',
+        prop_part_num: '',
+        prop_floor: '',
+        prop_residential_plan_name: '',
+        prop_residential_plan_num: '',
+        prop_retail_record_num: '',
+        prop_instrument_num: '',
+        prop_instrument_date: '2021-11-29',
+        prop_building_clearance_num: '',
+        prop_building_end: '2021-11-29',
+        region_id: 0,
+        city_id: 0,
+        neighborhood_id: 0,
+        prop_street_name: '',
+        appraiser_id: 0,
+        preview_id: 0,
+        coordinator_id: 0,
+        appraisal_value: '',
+        appraisal_fees: '',
+        latitude: '',
+        longitude: '',
+        coordinate_type: '',
+        property_condition: '',
+        construction_condition: '',
+        occupancy_status: '',
+        northern_border: '',
+        eastern_border: '',
+        western_border: '',
+        southern_border: '',
+        tall_northern: '',
+        tall_eastern: '',
+        tall_western: '',
+        tall_southern: '',
+        north_facade: '',
+        eastern_facade: '',
+        western_facade: '',
+        south_facade: '',
+        conforms_building_permit: '',
+        internal_preview: '',
+        external_preview: '',
+        review_note: '',
+        // مكونات العقار
+        boards: '',
+        dining_rooms: '',
+        bed_room: '',
+        Kitchens: '',
+        toilets: '',
+        jacuzzi: '',
+        garden: '',
+        maids_room: '',
+        guard_Room: '',
+        basement: '',
+        halls: '',
+        Supplements: '',
+        elevators: '',
+        parking: '',
+        childrens_playground: '',
+        swimming_pool: '',
+        storehouse: '',
+        additional_component_1: '',
+        additional_component_2: '',
+        additional_component_3: '',
+        additional_component_4: '',
+        additional_component_value_1: '',
+        additional_component_value_2: '',
+        additional_component_value_3: '',
+        additional_component_value_4: '',
+        finishing_condition: '',
+        property_notes: '',
+        masjid: '',
+        masjid_note: '',
+        masjid_distance: '',
+        market: '',
+        market_note: '',
+        market_distance: '',
+        medical_facility: '',
+        medical_facility_note: '',
+        medical_facility_distance: '',
+        security_facility: '',
+        security_facility_note: '',
+        security_facility_distance: '',
+        public_garden: '',
+        public_garden_note: '',
+        public_garden_distance: '',
+        educational_facility: '',
+        educational_facility_note: '',
+        educational_facility_distance: '',
+        government_office: '',
+        government_office_note: '',
+        government_office_distance: '',
+        highway: '',
+        highway_note: '',
+        highway_distance: '',
+        is_telephone: '',
+        water_meter: '',
+        water_meter_number: '',
+        electric_meter: '',
+        electric_meter_number: '',
+        sanitation: '',
+        appraiser_opinion: '',
+        scope_research_sources_information: '',
+        unfinished_n_maintenance: '',
+        notes_shortcomings: '',
+        important_notes: '',
+        private_notes: '',
+        reason_for_comment: '',
+        recommendation: '',
+        acknowledgment_independence: '',
+        land_area: 0,
+        construction_age: 0,
+        status: '',
+      },
       // Real Data
       ProfessionalStandards: `طريقة استخراج القيمة: عن طريق دراسة المنطقة و تحليل أسعار العقارات التجارية والسكنية والعروض المشابهة للأرض و التكلفة للمباني بعد خصم نسبة الإهلاك.
 المستندات المقدمة من طالب التقييم: هوية المالك - صك الملكية.
@@ -4662,8 +4838,51 @@
     // },
     mounted () {
       this.getCurrentLocation()
+      this.getCustomers()
+      this.getEvaluationPurpose()
+      // ! TODO : change this later with proper method
+      this.getUsers()
     },
     methods: {
+      // ! TODO : cheange this with proper endpoint
+      getUsers: async function () {
+        const { data } = await UsersServices.getAllItems()
+        console.log(data)
+        // appraisersList: [],
+        // previewsList: [],
+        // coordinatorsList: [],
+        const usersList = data.data.map(({ id, name }) => {
+          return ({
+            id,
+            name,
+          })
+        })
+
+        this.appraisersList = usersList
+        this.previewsList = usersList
+        this.coordinatorsList = usersList
+      },
+      // get current customers
+      getCustomers: async function () {
+        // console.log('hi')
+        const { data } = await CustomersService.getAllItems()
+        this.customersList = data.data.map((customer) => {
+          return ({
+            id: customer.id,
+            name: customer.cs_name,
+          })
+        })
+        // console.log(this.customersList)
+        // console.log(await CustomersService.getAllItems())
+        // console.log(items)
+      },
+      // EvaluationPurpose
+      getEvaluationPurpose: async function () {
+        const { data } = await EvaluationPurposeService.getAllItems()
+        this.evaluationPurposeList = data.data.map(({ id, name }) => ({
+          id, name,
+        }))
+      },
       // Get Cureent Location
       getCurrentLocation: function () {
         // do we support geolocation

@@ -6,7 +6,7 @@
       class="mx-0 mt-4"
     >
       <h1 class="font-weight-bold">
-        معاملة رقم 1920215841
+        معاملة جديدة
       </h1>
       <v-chip
         class="ma-2 time-chip"
@@ -133,7 +133,10 @@
                 >
                   <label class="d-block mb-3 font-weight-bold">المقيم</label>
                   <v-select
-                    :items="items"
+                    v-model="data.appraiser_id"
+                    :items="appraisersList"
+                    item-text="name"
+                    item-value="id"
                     label="المقيم"
                     single-line
                     outlined
@@ -147,7 +150,10 @@
                 >
                   <label class="d-block mb-3 font-weight-bold">المراجع</label>
                   <v-select
-                    :items="items"
+                    v-model="data.preview_id"
+                    :items="previewsList"
+                    item-text="name"
+                    item-value="id"
                     label="المراجع"
                     single-line
                     outlined
@@ -161,7 +167,10 @@
                 >
                   <label class="d-block mb-3 font-weight-bold">المعتمد</label>
                   <v-select
-                    :items="items"
+                    v-model="data.coordinator_id"
+                    :items="coordinatorsList"
+                    item-text="name"
+                    item-value="id"
                     label="المعتمد"
                     single-line
                     outlined
@@ -182,7 +191,10 @@
                 >
                   <label class="d-block mb-3 font-weight-bold">العميل</label>
                   <v-select
-                    :items="items"
+                    v-model="data.customer_id"
+                    :items="customersList"
+                    item-text="name"
+                    item-value="id"
                     label="العميل"
                     single-line
                     outlined
@@ -228,7 +240,10 @@
                     class="d-block mb-3 font-weight-bold"
                   >الغرض من التقييم</label>
                   <v-select
-                    :items="items"
+                    v-model="data.evaluation_purpose_id"
+                    :items="evaluationPurposeList"
+                    item-text="name"
+                    item-value="id"
                     label="الغرض من التقييم"
                     single-line
                     outlined
@@ -244,7 +259,10 @@
                     class="d-block mb-3 font-weight-bold"
                   >أساس القيمة</label>
                   <v-select
-                    :items="items"
+                    v-model="data.appraisal_fees"
+                    :items="valuesUsedList"
+                    item-text="name"
+                    item-value="id"
                     label="أساس القيمة"
                     single-line
                     outlined
@@ -260,7 +278,10 @@
                     class="d-block mb-3 font-weight-bold"
                   >فرضية القيمة</label>
                   <v-select
-                    :items="items"
+                    v-model="data.appraisal_value"
+                    :items="feesUsedValuesList"
+                    item-text="name"
+                    item-value="id"
                     label="فرضية القيمة"
                     single-line
                     outlined
@@ -436,7 +457,11 @@
                   <label
                     class="d-block mb-3 font-weight-bold"
                   >اسم المنطقة</label>
-                  <v-text-field
+                  <v-select
+                    v-model="data.region_id"
+                    :items="regionsList"
+                    item-text="name"
+                    item-value="id"
                     label="اسم المنطقة"
                     single-line
                     outlined
@@ -451,7 +476,11 @@
                   <label
                     class="d-block mb-3 font-weight-bold"
                   >اسم المدينة</label>
-                  <v-text-field
+                  <v-select
+                    v-model="data.city_id"
+                    :items="citesList"
+                    item-text="name"
+                    item-value="id"
                     label="اسم المدينة"
                     single-line
                     outlined
@@ -464,7 +493,11 @@
                   md="4"
                 >
                   <label class="d-block mb-3 font-weight-bold">اسم الحى</label>
-                  <v-text-field
+                  <v-select
+                    v-model="data.neighborhood_id"
+                    :items="neighborhoodsList"
+                    item-text="name"
+                    item-value="id"
                     label="اسم الحى"
                     single-line
                     outlined
@@ -480,6 +513,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >اسم الشارع</label>
                   <v-text-field
+                    v-model="data.prop_street_name"
                     label="اسم الشارع"
                     single-line
                     outlined
@@ -510,6 +544,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >رقم المخطط</label>
                   <v-text-field
+                    v-model="data.prop_apartment_num"
                     label="رقم المخطط"
                     single-line
                     outlined
@@ -525,6 +560,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >رقم البلوك</label>
                   <v-text-field
+                    v-model="data.prop_Albulk_num"
                     label="رقم البلوك"
                     single-line
                     outlined
@@ -540,6 +576,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >رقم القطعة</label>
                   <v-text-field
+                    v-model="data.prop_part_num"
                     label="رقم القطعة"
                     single-line
                     outlined
@@ -555,7 +592,9 @@
                     class="d-block mb-3 font-weight-bold"
                   >استخدام العقار</label>
                   <v-select
-                    :items="items"
+                    :items="propUsageList"
+                    item-text="name"
+                    item-value="id"
                     label="استخدام العقار"
                     single-line
                     outlined
@@ -571,7 +610,9 @@
                     class="d-block mb-3 font-weight-bold"
                   >نوع العقار</label>
                   <v-select
-                    :items="items"
+                    :items="propTypeList"
+                    item-text="name"
+                    item-value="id"
                     label="نوع العقار"
                     single-line
                     outlined
@@ -587,6 +628,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >اسم المالك</label>
                   <v-text-field
+                    v-model="data.prop_owner_name"
                     label="اسم المالك"
                     single-line
                     outlined
@@ -602,6 +644,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >جوال المالك</label>
                   <v-text-field
+                    v-model="data.prop_owner_phone"
                     label="جوال المالك"
                     single-line
                     outlined
@@ -615,6 +658,7 @@
                 >
                   <label class="d-block mb-3 font-weight-bold">رقم الصك</label>
                   <v-text-field
+                    v-model="data.prop_instrument_num"
                     label="رقم الصك"
                     single-line
                     outlined
@@ -630,6 +674,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >تاريخ الصك</label>
                   <v-text-field
+                    v-model="data.prop_instrument_date"
                     label="تاريخ الصك"
                     single-line
                     outlined
@@ -645,6 +690,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >رقم رخصة البناء</label>
                   <v-text-field
+                    v-model="data.prop_building_clearance_num"
                     label="رقم رخصة البناء"
                     single-line
                     outlined
@@ -660,6 +706,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >تاريخ رخصة البناء</label>
                   <v-text-field
+                    v-model="data.prop_building_end"
                     label="تاريخ رخصة البناء"
                     single-line
                     outlined
@@ -675,6 +722,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >عمر البناء</label>
                   <v-text-field
+                    v-model="data.construction_age"
                     label="عمر البناء"
                     single-line
                     outlined
@@ -1668,10 +1716,685 @@
 </template>
 
 <script>
+  import { ServiceFactory } from '../../../services/ServiceFactory'
+  const CustomersService = ServiceFactory.get('Customers')
+  const EvaluationPurposeService = ServiceFactory.get('EvaluationPurpose')
+  // ! TODO : change this later
+  const UsersServices = ServiceFactory.get('Users')
+  const RegionsServices = ServiceFactory.get('Regions')
+  const CitesServices = ServiceFactory.get('Cites')
+  const NeighborhoodsServices = ServiceFactory.get('Neighborhoods')
+
   export default {
     name: 'NewTreatment',
 
     data: () => ({
+      customersList: [],
+      evaluationPurposeList: [],
+      appraisersList: [],
+      previewsList: [],
+      coordinatorsList: [],
+      regionsList: [],
+      citesList: [],
+      neighborhoodsList: [],
+      appraisalFeesList: [],
+      appraisalValueList: [],
+      valuesUsedList: [
+        {
+          id: 'القيمة السوقية',
+          name: 'القيمة السوقية',
+        },
+        {
+          id: 'الإيجار السوقي',
+          name: 'الإيجار السوقي',
+        },
+        {
+          id: 'القيمة المنصفة',
+          name: 'القيمة المنصفة',
+        },
+        {
+          id: 'القيمة الاستثمارية',
+          name: 'القيمة الاستثمارية',
+        },
+        {
+          id: 'القيمة التكاملية',
+          name: 'القيمة التكاملية',
+        },
+        {
+          id: 'قيمة التصفية',
+          name: 'قيمة التصفية',
+        },
+        {
+          id: 'القيمة العادلة',
+          name: 'القيمة العادلة',
+        },
+        {
+          id: 'القيمة السوقية العادلة',
+          name: 'القيمة السوقية العادلة',
+        },
+        {
+          id: 'أخرى',
+          name: 'أخرى',
+        },
+      ],
+      feesUsedValuesList: [
+        {
+          id: 'الاستخدام الأعلى والأفضل',
+          name: 'الاستخدام الأعلى والأفضل',
+        },
+        {
+          id: 'الاستخدام الحالي',
+          name: 'الاستخدام الحالي',
+        },
+        {
+          id: 'التصفية المنظمة',
+          name: 'التصفية المنظمة',
+        },
+        {
+          id: 'البيع القسري',
+          name: 'البيع القسري',
+        },
+      ],
+      propTypeList: [
+        {
+          id: 'فيلا سكنية',
+          name: 'فيلا سكنية',
+        },
+        {
+          id: 'فيلا',
+          name: 'فيلا',
+        },
+        {
+          id: 'أرض',
+          name: 'أرض',
+        },
+        {
+          id: 'برج مكتبي',
+          name: 'برج مكتبي',
+        },
+        {
+          id: 'برج',
+          name: 'برج',
+        },
+        {
+          id: 'عماره',
+          name: 'عماره',
+        },
+        {
+          id: 'معارض',
+          name: 'معارض',
+        },
+        {
+          id: 'مواقف + مستودعات',
+          name: 'مواقف + مستودعات',
+        },
+        {
+          id: 'مستودعات',
+          name: 'مستودعات',
+        },
+        {
+          id: 'ورشة',
+          name: 'ورشة',
+        },
+        {
+          id: 'محلات',
+          name: 'محلات',
+        },
+        {
+          id: 'عمائر',
+          name: 'عمائر',
+        },
+        {
+          id: 'مبنى أرض مقهى',
+          name: 'مبنى أرض مقهى',
+        },
+        {
+          id: 'فلل',
+          name: 'فلل',
+        },
+        {
+          id: 'مدرسة',
+          name: 'مدرسة',
+        },
+        {
+          id: 'منجرة',
+          name: 'منجرة',
+        },
+        {
+          id: 'مركز تجاري',
+          name: 'مركز تجاري',
+        },
+        {
+          id: 'عدد 4 قطع أراضي فضاء',
+          name: 'عدد 4 قطع أراضي فضاء',
+        },
+        {
+          id: 'أرض فضاء',
+          name: 'أرض فضاء',
+        },
+        {
+          id: 'حوش',
+          name: 'حوش',
+        },
+        {
+          id: 'بيت شعبي',
+          name: 'بيت شعبي',
+        },
+        {
+          id: 'إستراحة',
+          name: 'إستراحة',
+        },
+        {
+          id: 'قصر',
+          name: 'قصر',
+        },
+        {
+          id: 'مرفق تعليمي',
+          name: 'مرفق تعليمي',
+        },
+        {
+          id: 'مخطط سكني تجاري',
+          name: 'مخطط سكني تجاري',
+        },
+        {
+          id: 'مصنع',
+          name: 'مصنع',
+        },
+        {
+          id: 'مجمع تجاري مكتبي',
+          name: 'مجمع تجاري مكتبي',
+        },
+        {
+          id: 'أرض وبناء',
+          name: 'أرض وبناء',
+        },
+        {
+          id: 'عمارة مكتبية',
+          name: 'عمارة مكتبية',
+        },
+        {
+          id: 'أرض مقام عليها مصنع خرسانه',
+          name: 'أرض مقام عليها مصنع خرسانه',
+        },
+        {
+          id: 'مبنى اداري',
+          name: 'مبنى اداري',
+        },
+        {
+          id: 'محطة',
+          name: 'محطة',
+        },
+        {
+          id: 'أرض وبناء',
+          name: 'أرض وبناء',
+        },
+        {
+          id: 'عمارتين سكني تجاري',
+          name: 'عمارتين سكني تجاري',
+        },
+        {
+          id: 'ارض صناعي',
+          name: 'ارض صناعي',
+        },
+        {
+          id: 'عمارة سكنية',
+          name: 'عمارة سكنية',
+        },
+        {
+          id: 'سكن عمال',
+          name: 'سكن عمال',
+        },
+        {
+          id: 'شقة',
+          name: 'شقة',
+        },
+        {
+          id: 'عمارة تجاري',
+          name: 'عمارة تجاري',
+        },
+        {
+          id: 'أرض خام',
+          name: 'أرض خام',
+        },
+        {
+          id: 'تعليمي',
+          name: 'تعليمي',
+        },
+        {
+          id: 'أرض مقام عليها فيلا',
+          name: 'أرض مقام عليها فيلا',
+        },
+        {
+          id: 'ارض مقام عليها اساسات',
+          name: 'ارض مقام عليها اساسات',
+        },
+        {
+          id: 'مــزرعــــة',
+          name: 'مــزرعــــة',
+        },
+        {
+          id: 'ارض مقام عليها اساسات',
+          name: 'ارض مقام عليها اساسات',
+        },
+        {
+          id: 'عمارة + فيلا',
+          name: 'عمارة + فيلا',
+        },
+        {
+          id: 'عمارة + فلتين',
+          name: 'عمارة + فلتين',
+        },
+        {
+          id: 'محطه',
+          name: 'محطه',
+        },
+        {
+          id: 'مبنى (مقر بنك ساب)',
+          name: 'مبنى (مقر بنك ساب)',
+        },
+        {
+          id: 'أرض زراعي',
+          name: 'أرض زراعي',
+        },
+        {
+          id: 'أرض مقام عليها محطة عظم',
+          name: 'أرض مقام عليها محطة عظم',
+        },
+        {
+          id: 'مجمع فلل',
+          name: 'مجمع فلل',
+        },
+        {
+          id: 'مستودع',
+          name: 'مستودع',
+        },
+        {
+          id: 'فندق الروضة',
+          name: 'فندق الروضة',
+        },
+        {
+          id: 'عمارة مكتبية ومعارض',
+          name: 'عمارة مكتبية ومعارض',
+        },
+        {
+          id: 'أرض مقام عليها مباني',
+          name: 'أرض مقام عليها مباني',
+        },
+        {
+          id: 'فندق',
+          name: 'فندق',
+        },
+        {
+          id: 'عمارة شقق مفروشة',
+          name: 'عمارة شقق مفروشة',
+        },
+        {
+          id: 'أرض مسورة',
+          name: 'أرض مسورة',
+        },
+        {
+          id: 'مستودع + مكاتب إداريه',
+          name: 'مستودع + مكاتب إداريه',
+        },
+        {
+          id: 'مجمع تجاري',
+          name: 'مجمع تجاري',
+        },
+        {
+          id: 'شاليه + ملعب',
+          name: 'شاليه + ملعب',
+        },
+        {
+          id: 'محلات + عمارة',
+          name: 'محلات + عمارة',
+        },
+        {
+          id: 'ارض مسورة بها مظلة',
+          name: 'ارض مسورة بها مظلة',
+        },
+        {
+          id: 'صالات عرض ومبنى اداري',
+          name: 'صالات عرض ومبنى اداري',
+        },
+        {
+          id: 'عمارتين + فلتين',
+          name: 'عمارتين + فلتين',
+        },
+        {
+          id: 'محل تجاري',
+          name: 'محل تجاري',
+        },
+        {
+          id: 'شاليه',
+          name: 'شاليه',
+        },
+        {
+          id: 'مطعم',
+          name: 'مطعم',
+        },
+        {
+          id: 'عمارة مكتبية',
+          name: 'عمارة مكتبية',
+        },
+        {
+          id: 'ارض زراعية',
+          name: 'ارض زراعية',
+        },
+        {
+          id: 'معرض سيارات',
+          name: 'معرض سيارات',
+        },
+        {
+          id: 'مبنى',
+          name: 'مبنى',
+        },
+        {
+          id: 'ارض مسوره',
+          name: 'ارض مسوره',
+        },
+        {
+          id: 'معرض',
+          name: 'معرض',
+        },
+        {
+          id: 'ارض تجارية',
+          name: 'ارض تجارية',
+        },
+        {
+          id: 'ارض سكنية',
+          name: 'ارض سكنية',
+        },
+        {
+          id: 'ارض مقام عليها مباني',
+          name: 'ارض مقام عليها مباني',
+        },
+        {
+          id: 'سكن عائلي',
+          name: 'سكن عائلي',
+        },
+        {
+          id: 'سكني تجاري',
+          name: 'سكني تجاري',
+        },
+        {
+          id: 'عمارة تجارية',
+          name: 'عمارة تجارية',
+        },
+        {
+          id: 'فيلا دبلكس',
+          name: 'فيلا دبلكس',
+        },
+        {
+          id: 'فيلا روف',
+          name: 'فيلا روف',
+        },
+        {
+          id: 'قصر سكني',
+          name: 'قصر سكني',
+        },
+        {
+          id: 'مجمع سكني',
+          name: 'مجمع سكني',
+        },
+        {
+          id: 'مخطط تحت التطوير',
+          name: 'مخطط تحت التطوير',
+        },
+        {
+          id: 'مقر شركة',
+          name: 'مقر شركة',
+        },
+        {
+          id: 'ملاحق أرضية',
+          name: 'ملاحق أرضية',
+        },
+        {
+          id: 'منتزه ترفيهي',
+          name: 'منتزه ترفيهي',
+        },
+        {
+          id: 'وحدة سكنية',
+          name: 'وحدة سكنية',
+        },
+        {
+          id: 'مجمع مدراس',
+          name: 'مجمع مدراس',
+        },
+        {
+          id: 'معارض تجارية',
+          name: 'معارض تجارية',
+        },
+        {
+          id: 'عمارة سكنية تجارية مكتبية (شقق مفروشة)',
+          name: 'عمارة سكنية تجارية مكتبية (شقق مفروشة)',
+        },
+        {
+          id: 'عمارة سكنية + مستودعات',
+          name: 'عمارة سكنية + مستودعات',
+        },
+        {
+          id: 'مجمع مكتبي',
+          name: 'مجمع مكتبي',
+        },
+        {
+          id: 'مجمع تجاري مكتبي سكني',
+          name: 'مجمع تجاري مكتبي سكني',
+        },
+        {
+          id: 'مخطط سكني تجاري',
+          name: 'مخطط سكني تجاري',
+        },
+        {
+          id: 'محلات+ سكن + استراحة',
+          name: 'محلات+ سكن + استراحة',
+        },
+        {
+          id: 'عمارة + محلات',
+          name: 'عمارة + محلات',
+        },
+        {
+          id: 'مكتب تجاري',
+          name: 'مكتب تجاري',
+        },
+        {
+          id: 'اختبار',
+          name: 'اختبار',
+        },
+        {
+          id: 'حسب الواقع',
+          name: 'حسب الواقع',
+        },
+        {
+          id: 'دور',
+          name: 'دور',
+        },
+        {
+          id: 'سوق تجاري',
+          name: 'سوق تجاري',
+        },
+        {
+          id: 'ستريب مول',
+          name: 'ستريب مول',
+        },
+        {
+          id: 'عمارة تجارية مكتبية',
+          name: 'عمارة تجارية مكتبية',
+        },
+        {
+          id: 'سكني تجاري وشقق مفروشة',
+          name: 'سكني تجاري وشقق مفروشة',
+        },
+        {
+          id: 'عمارة تجارية مكتبية + مستودع',
+          name: 'عمارة تجارية مكتبية + مستودع',
+        },
+        {
+          id: 'مزرعة صك رقم (213202004985)',
+          name: 'مزرعة صك رقم (213202004985)',
+        },
+        {
+          id: 'عماره + مستودعات',
+          name: 'عماره + مستودعات',
+        },
+        {
+          id: 'مزرعة صك رقم( 630801010713)',
+          name: 'مزرعة صك رقم( 630801010713)',
+        },
+        {
+          id: 'مقهى',
+          name: 'مقهى',
+        },
+        {
+          id: 'مباني فقط',
+          name: 'مباني فقط',
+        },
+        {
+          id: 'مزرعة ( الصك رقم 330114012614 )',
+          name: 'مزرعة ( الصك رقم 330114012614 )',
+        },
+        {
+          id: 'المزرعة صك رقم 371705005464',
+          name: 'المزرعة صك رقم 371705005464',
+        },
+      ],
+      propUsageList: [
+        {
+          id: 'سكني',
+          name: 'سكني',
+        },
+        {
+          id: 'تجاري',
+          name: 'تجاري',
+        },
+        {
+          id: 'سكني تجاري',
+          name: 'سكني تجاري',
+        },
+        {
+          id: 'زراعي',
+          name: 'زراعي',
+        },
+        {
+          id: 'صناعي',
+          name: 'صناعي',
+        },
+        {
+          id: 'ورش',
+          name: 'ورش',
+        },
+        {
+          id: 'مستودعات',
+          name: 'مستودعات',
+        },
+        {
+          id: 'خام',
+          name: 'خام',
+        },
+        {
+          id: 'مرفق',
+          name: 'مرفق',
+        },
+        {
+          id: 'أخرى',
+          name: 'أخرى',
+        },
+        {
+          id: 'تعليمي',
+          name: 'تعليمي',
+        },
+        {
+          id: 'مكتبي',
+          name: 'مكتبي',
+        },
+        {
+          id: 'اخرى',
+          name: 'اخرى',
+        },
+        {
+          id: 'ماكولات بحرية',
+          name: 'ماكولات بحرية',
+        },
+        {
+          id: 'ترفيهي',
+          name: 'ترفيهي',
+        },
+        {
+          id: 'استثماري',
+          name: 'استثماري',
+        },
+        {
+          id: 'استراحات',
+          name: 'استراحات',
+        },
+        {
+          id: 'فضاء',
+          name: 'فضاء',
+        },
+        {
+          id: 'مناطق بحرية',
+          name: 'مناطق بحرية',
+        },
+        {
+          id: 'مجمع مكتبي',
+          name: 'مجمع مكتبي',
+        },
+        {
+          id: 'فندقي',
+          name: 'فندقي',
+        },
+        {
+          id: 'فندقي',
+          name: 'فندقي',
+        },
+        {
+          id: 'مستودعات - تجاري',
+          name: 'مستودعات - تجاري',
+        },
+        {
+          id: 'تجاري اداري',
+          name: 'تجاري اداري',
+        },
+        {
+          id: 'تجاري مكتبي',
+          name: 'تجاري مكتبي',
+        },
+        {
+          id: 'معارض سيارات',
+          name: 'معارض سيارات',
+        },
+        {
+          id: 'مرفق حكومي ( دفاع مدني )',
+          name: 'مرفق حكومي ( دفاع مدني )',
+        },
+        {
+          id: 'مركز إجتماعي',
+          name: 'مركز إجتماعي',
+        },
+        {
+          id: 'صناعية',
+          name: 'صناعية',
+        },
+        {
+          id: 'سكني تجاري مكتبي',
+          name: 'سكني تجاري مكتبي',
+        },
+      ],
+      data: {
+        customer_id: '',
+        appraiser_id: 0,
+        preview_id: 0,
+        coordinator_id: 0,
+        prop_street_name: '',
+        evaluation_purpose_id: '',
+        appraisal_fees: '',
+        appraisal_value: '',
+        region_id: 0,
+        city_id: 0,
+        neighborhood_id: 0,
+        prop_Albulk_num: '',
+        prop_apartment_num: '',
+        prop_part_num: '',
+      },
       airRows: 1,
       airRows2: 1,
       airRows3: 1,
@@ -1706,6 +2429,75 @@
       menu3: false,
       menu4: false,
     }),
+    mounted () {
+      this.getCustomers()
+      this.getEvaluationPurpose()
+      // ! TODO : change this later with proper method
+      this.getUsers()
+      this.getRegions()
+      // ! TODO : move these to "watch" when get cites by region id id avaliable
+      this.getCites()
+      // ! TODO : move these to "watch" when get Neighborhoods by city id id avaliable
+      this.getNeighborhoods()
+    },
+    methods: {
+      // ! TODO : cheange this with proper endpoint
+      getUsers: async function () {
+        const { data } = await UsersServices.getAllItems()
+        console.log(data)
+        // appraisersList: [],
+        // previewsList: [],
+        // coordinatorsList: [],
+        const usersList = data.data.map(({ id, name }) => {
+          return ({
+            id,
+            name,
+          })
+        })
+
+        this.appraisersList = usersList
+        this.previewsList = usersList
+        this.coordinatorsList = usersList
+      },
+      // get current customers
+      getCustomers: async function () {
+        // console.log('hi')
+        const { data } = await CustomersService.getAllItems()
+        this.customersList = data.data.map((customer) => {
+          return ({
+            id: customer.id,
+            name: customer.cs_name,
+          })
+        })
+      },
+      // EvaluationPurpose
+      getEvaluationPurpose: async function () {
+        const { data } = await EvaluationPurposeService.getAllItems()
+        this.evaluationPurposeList = data.data.map(({ id, name }) => ({
+          id, name,
+        }))
+      },
+
+      // Placess
+      getRegions: async function () {
+        const { data } = await RegionsServices.getAllItems()
+        this.regionsList = data.data.map(({ id, name }) => ({
+          id, name,
+        }))
+      },
+      getCites: async function () {
+        const { data } = await CitesServices.getAllItems()
+        this.citesList = data.data.map(({ id, name }) => ({
+          id, name,
+        }))
+      },
+      getNeighborhoods: async function () {
+        const { data } = await NeighborhoodsServices.getAllItems()
+        this.neighborhoodsList = data.data.map(({ id, name }) => ({
+          id, name,
+        }))
+      },
+    },
   }
 </script>
 
