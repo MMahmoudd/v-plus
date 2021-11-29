@@ -7,8 +7,9 @@
     <template>
       <v-form
         v-model="valid"
-        @submit.prevent="submitForm()"
+        @submit.prevent="updateContent()"
       >
+        <h1>ملف المنشأة</h1>
         <v-container fluid>
           <v-card class="image-card">
             <v-img
@@ -28,7 +29,7 @@
                   />
                 </v-avatar>
                 <h2 class="text-center py-2">
-                  Millennium
+                  {{ data.name }}
                 </h2>
                 <v-text-field
                   v-model="data.url"
@@ -42,7 +43,7 @@
           <v-row>
             <v-col
               cols="12"
-              md="4"
+              md="6"
             >
               <v-card class="image-card py-2 px-3">
                 <h3 class="head-card">
@@ -89,7 +90,7 @@
             </v-col>
             <v-col
               cols="12"
-              md="4"
+              md="6"
             >
               <v-card class="image-card py-2 px-3">
                 <h3 class="head-card">
@@ -151,55 +152,6 @@
                 </v-row>
               </v-card>
             </v-col>
-            <v-col
-              cols="12"
-              md="4"
-            >
-              <v-card class="image-card py-2 px-3">
-                <h3 class="head-card">
-                  بيانات الدخول
-                </h3>
-                <v-row>
-                  <v-col
-                    cols="12"
-                    md="3"
-                  >
-                    <v-subheader>اسم المستخدم:</v-subheader>
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    md="9"
-                  >
-                    <v-text-field
-                      v-model="data.name"
-                      outlined
-                      dense
-                    />
-                  </v-col>
-                </v-row>
-                <v-row>
-                  <v-col
-                    cols="12"
-                    md="3"
-                  >
-                    <v-subheader>كلمة المرور:</v-subheader>
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    md="9"
-                  >
-                    <v-text-field
-                      v-model="data.password"
-                      :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-                      outlined
-                      dense
-                      :type="show1 ? 'text' : 'password'"
-                      @click:append="show1 = !show1"
-                    />
-                  </v-col>
-                </v-row>
-              </v-card>
-            </v-col>
           </v-row>
           <v-card class="image-card py-2 px-3">
             <h3 class="head-card">
@@ -215,7 +167,7 @@
                   <strong>الاسم</strong>
                 </label>
                 <v-text-field
-                  v-model="data.seal_name"
+                  v-model="data.resident_name"
                   outlined
                   placeholder="الاسم"
                   class="mt-1"
@@ -230,7 +182,7 @@
                   <strong>فرع التقييم</strong>
                 </label>
                 <v-text-field
-                  v-model="data.seal_name"
+                  v-model="data.evaluation_branch"
                   outlined
                   placeholder="فرع التقييم"
                   class="mt-1"
@@ -245,7 +197,7 @@
                   <strong>فئة العضوية</strong>
                 </label>
                 <v-text-field
-                  v-model="data.seal_name"
+                  v-model="data.membership_category"
                   outlined
                   class="mt-1"
                   placeholder="فئة العضوية"
@@ -260,7 +212,7 @@
                   <strong>صفته</strong>
                 </label>
                 <v-text-field
-                  v-model="data.seal_name"
+                  v-model="data.resident_adjective"
                   outlined
                   class="mt-1"
                   placeholder="صفته"
@@ -275,6 +227,7 @@
                   <strong>التوقيع</strong>
                 </label>
                 <v-file-input
+                  v-model="data.signature"
                   outlined
                   chips
                   class="mt-1"
@@ -290,7 +243,7 @@
                   <strong>رقم الترخيص</strong>
                 </label>
                 <v-text-field
-                  v-model="data.ID_approved_resident"
+                  v-model="data.license_number"
                   outlined
                   class="mt-1"
                   placeholder="رقم الترخيص"
@@ -304,12 +257,29 @@
                 <label>
                   <strong>تاريخ الترخيص</strong>
                 </label>
-                <v-text-field
-                  v-model="data.seal_name"
-                  outlined
-                  class="mt-1"
-                  placeholder="تاريخ الترخيص"
-                />
+                <v-menu
+                  v-model="license_date"
+                  :close-on-content-click="false"
+                  :nudge-right="40"
+                  transition="scale-transition"
+                  offset-y
+                  min-width="auto"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                      v-model="data.license_date"
+                      prepend-icon="mdi-calendar"
+                      readonly
+                      outlined
+                      v-bind="attrs"
+                      v-on="on"
+                    />
+                  </template>
+                  <v-date-picker
+                    v-model="data.license_date"
+                    @input="license_date = false"
+                  />
+                </v-menu>
               </v-col>
             </v-row>
           </v-card>
@@ -463,6 +433,7 @@
 </template>
 <script>
   import { ServiceFactory } from '../../../services/ServiceFactory'
+  import moment from 'moment'
   const SettingService = ServiceFactory.get('Setting')
   export default {
     name: 'Companies',
@@ -470,9 +441,9 @@
       dataLoading: false,
       valid: false,
       show1: false,
+      license_date: false,
       data: {
         name: '',
-        password: '',
         logo: '',
         url: '',
         tax_number: '',
@@ -491,6 +462,13 @@
         unit_number: '',
         postal_code: '',
         extra_number: '',
+        resident_name: '',
+        evaluation_branch: '',
+        membership_category: '',
+        resident_adjective: '',
+        signature: '',
+        license_number: '',
+        license_date: null,
         user_id: 0,
       },
       successSnackbar: false,
@@ -505,15 +483,11 @@
       this.fetchItem()
     },
     methods: {
-      async updateContent (data) {
-        console.log('update Item', data)
-        const item = await SettingService.updateAssets(data)
+      async updateContent () {
+        const item = await SettingService.updateFacility(this.data)
         if (item.success === true) {
           this.successMessage = 'Successful'
           this.successSnackbar = true
-          setTimeout(() => {
-            this.$router.push('/Assets')
-          }, 1500)
         } else {
           this.errorMessage('something Error')
           this.errorSnackbar = true
@@ -525,6 +499,9 @@
         this.dataLoading = true
         const data = await SettingService.getFacility()
         this.data = data.data
+        if (data.data.license_date) {
+          data.data.license_date = moment(data.data.license_date).format('YYYY-MM-DD')
+        }
         console.log('assets', data.data)
         this.dataLoading = false
       },
