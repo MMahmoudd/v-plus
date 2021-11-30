@@ -402,20 +402,15 @@
                         </v-btn>
                       </template>
                       <v-list>
-                        <v-list-item>
-                          <v-list-item-title>
-                            <router-link to="/New-Treatment/1">
-                              مصرف الراجحى
-                            </router-link>
-                          </v-list-item-title>
-                        </v-list-item>
-                        <v-list-item>
-                          <v-list-item-title>
-                            <router-link to="/New-Treatment/2">
-                              الباقى
-                            </router-link>
-                          </v-list-item-title>
-                        </v-list-item>
+                        <template v-for="sample in samplesList">
+                          <v-list-item v-bind:key="sample.id">
+                            <v-list-item-title>
+                              <router-link :to="sample.path">
+                                {{sample.name}}
+                              </router-link>
+                            </v-list-item-title>
+                          </v-list-item>
+                        </template>
                       </v-list>
                     </v-menu>
                   </v-col>
@@ -549,10 +544,14 @@
 </template>
 
 <script>
+  import { ServiceFactory } from '../../../services/ServiceFactory'
+  const SamplesService = ServiceFactory.get('Samples')
+
   export default {
     name: 'NewTreatment',
 
     data: () => ({
+      samplesList: [],
       // Checkboxes
       ex1: false,
       ex2: false,
@@ -606,6 +605,21 @@
         },
       ],
     }),
+    mounted () {
+      this.getSamples()
+    },
+    methods: {
+      getSamples: async function () {
+        const { data } = await SamplesService.getAllItems()
+        this.samplesList = data.map(sample => {
+          return {
+            name: sample.name,
+            id: sample.id,
+            path: `/New-Treatment/${sample.id}`,
+          }
+        })
+      },
+    },
   }
 </script>
 
