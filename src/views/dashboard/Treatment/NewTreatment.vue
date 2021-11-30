@@ -210,6 +210,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >اسم مستخدم التقرير</label>
                   <v-text-field
+                    v-model="data.prop_evaluation_report_user"
                     label="اسم مستخدم التقرير"
                     single-line
                     outlined
@@ -225,6 +226,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >جوال مستخدم التقرير</label>
                   <v-text-field
+                    v-model="data.prop_evaluation_report_phone"
                     label="جوال مستخدم التقرير"
                     single-line
                     outlined
@@ -297,7 +299,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >تاريخ التكليف</label>
                   <v-menu
-                    v-model="menu1"
+                    v-model="data.commissioning_date"
                     :close-on-content-click="false"
                     transition="scale-transition"
                     offset-y
@@ -409,6 +411,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >رمز إيداع التقرير</label>
                   <v-text-field
+                    v-model="data.deposit_code"
                     label="رمز إيداع التقرير"
                     single-line
                     outlined
@@ -478,7 +481,7 @@
                   >اسم المدينة</label>
                   <v-select
                     v-model="data.city_id"
-                    :items="citesList"
+                    :items="updateCitesList"
                     item-text="name"
                     item-value="id"
                     label="اسم المدينة"
@@ -495,7 +498,7 @@
                   <label class="d-block mb-3 font-weight-bold">اسم الحى</label>
                   <v-select
                     v-model="data.neighborhood_id"
-                    :items="neighborhoodsList"
+                    :items="updateNeighborhoodsList"
                     item-text="name"
                     item-value="id"
                     label="اسم الحى"
@@ -592,6 +595,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >استخدام العقار</label>
                   <v-select
+                    v-model="data.property_rating_id"
                     :items="propRatingsList"
                     item-text="name"
                     item-value="id"
@@ -610,6 +614,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >نوع العقار</label>
                   <v-select
+                    v-model="data.property_type_id"
                     :items="propTypeList"
                     item-text="name"
                     item-value="id"
@@ -738,6 +743,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >رقم محضر التجزئة</label>
                   <v-text-field
+                    v-model="data.prop_retail_record_num"
                     label="رقم محضر التجزئة"
                     single-line
                     outlined
@@ -753,6 +759,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >تاريخ محضر التجزئة</label>
                   <v-text-field
+                    v-model="data.prop_retail_record_date"
                     label="تاريخ محضر التجزئة"
                     single-line
                     outlined
@@ -767,8 +774,8 @@
                   <label
                     class="d-block mb-3 font-weight-bold"
                   >حالة البناء</label>
-                  <v-select
-                    :items="items"
+                  <v-text-field
+                    v-model="data.construction_condition"
                     label="حالة البناء"
                     single-line
                     outlined
@@ -783,8 +790,8 @@
                   <label
                     class="d-block mb-3 font-weight-bold"
                   >حالة الأشغال</label>
-                  <v-select
-                    :items="items"
+                  <v-text-field
+                    v-model="data.occupancy_status"
                     label="حالة الأشغال"
                     single-line
                     outlined
@@ -879,6 +886,7 @@
                       class="d-block mb-3 font-weight-bold"
                     >مساحة الأرض</label>
                     <v-text-field
+                      v-model="data.land_area"
                       label="مساحة الأرض"
                       single-line
                       outlined
@@ -909,6 +917,7 @@
                       class="d-block mb-3 font-weight-bold"
                     >عدد الأدوار</label>
                     <v-text-field
+                      v-model="data.prop_floor"
                       label="5"
                       single-line
                       outlined
@@ -2431,6 +2440,25 @@
       menu3: false,
       menu4: false,
     }),
+    computed: {
+      updateCitesList: function () {
+        // const citesList = [];
+        const data = this.citesList.filter((city) => {
+          if (city.regionId === this.data.region_id) {
+            return city
+          }
+        })
+        return data
+      },
+      updateNeighborhoodsList: function () {
+        const data = this.neighborhoodsList.filter((neighborhood) => {
+          if (neighborhood.cityId === this.data.city_id) {
+            return neighborhood
+          }
+        })
+        return data
+      },
+    },
     mounted () {
       this.getCustomers()
       this.getEvaluationPurpose()
@@ -2492,14 +2520,18 @@
       },
       getCites: async function () {
         const { data } = await CitesServices.getAllItems()
-        this.citesList = data.data.map(({ id, name }) => ({
-          id, name,
+        this.citesList = data.data.map((city) => ({
+          id: city.id,
+          name: city.name,
+          regionId: city.region_id,
         }))
       },
       getNeighborhoods: async function () {
         const { data } = await NeighborhoodsServices.getAllItems()
-        this.neighborhoodsList = data.data.map(({ id, name }) => ({
-          id, name,
+        this.neighborhoodsList = data.data.map((neighborhood) => ({
+          id: neighborhood.id,
+          name: neighborhood.name,
+          cityId: neighborhood.city_id, 
         }))
       },
       // property ratings
