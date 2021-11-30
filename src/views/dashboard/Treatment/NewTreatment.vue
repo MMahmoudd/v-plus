@@ -592,7 +592,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >استخدام العقار</label>
                   <v-select
-                    :items="propUsageList"
+                    :items="propRatingsList"
                     item-text="name"
                     item-value="id"
                     label="استخدام العقار"
@@ -1724,6 +1724,8 @@
   const RegionsServices = ServiceFactory.get('Regions')
   const CitesServices = ServiceFactory.get('Cites')
   const NeighborhoodsServices = ServiceFactory.get('Neighborhoods')
+  const PropertyRatingsServices = ServiceFactory.get('PropertyRatings')
+  const PropertyTypesServices = ServiceFactory.get('PropertyTypes')
 
   export default {
     name: 'NewTreatment',
@@ -2257,7 +2259,7 @@
           name: 'المزرعة صك رقم 371705005464',
         },
       ],
-      propUsageList: [
+      propRatingsList: [
         {
           id: 'سكني',
           name: 'سكني',
@@ -2439,6 +2441,9 @@
       this.getCites()
       // ! TODO : move these to "watch" when get Neighborhoods by city id id avaliable
       this.getNeighborhoods()
+
+      this.getPropertyRatings()
+      this.getPropertyTypes()
     },
     methods: {
       // ! TODO : cheange this with proper endpoint
@@ -2496,6 +2501,26 @@
         this.neighborhoodsList = data.data.map(({ id, name }) => ({
           id, name,
         }))
+      },
+      // property ratings
+      getPropertyRatings: async function () {
+        const { data } = await PropertyRatingsServices.getAllItems()
+        this.propRatingsList = data.data.map((pr) => {
+          return {
+            id: pr.id,
+            name: pr.name,
+          }
+        })
+      },
+      // property types
+      getPropertyTypes: async function () {
+        const { data } = await PropertyTypesServices.getAllItems()
+        this.propTypeList = data.data.map((pt) => {
+          return {
+            id: pt.id,
+            name: pt.name,
+          }
+        })
       },
     },
   }

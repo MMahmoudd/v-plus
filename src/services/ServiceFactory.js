@@ -6,6 +6,8 @@ import CitesServices from './CitesServices'
 import RegionServices from './RegionServices'
 import NeighborhoodsServices from './NeighborhoodsServices'
 import SamplesServices from './SamplesServices'
+import PropertyRatingsServices from './PropertyRatingsServices'
+import PropertyTypesServices from './PropertyTypesServices'
 
 const services = {
   Users: usersService,
@@ -16,6 +18,8 @@ const services = {
   Cites: CitesServices,
   Regions: RegionServices,
   Neighborhoods: NeighborhoodsServices,
+  PropertyRatings: PropertyRatingsServices,
+  PropertyTypes: PropertyTypesServices,
 }
 
 export const ServiceFactory = {
