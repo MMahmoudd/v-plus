@@ -11,4 +11,11 @@ export default {
             }
         })
     },
+    addNeighborhood (neighborhoodName, cityId) {
+        return Service.post(`${resource}/neighborhoods`, { name: neighborhoodName, city_id: cityId }).then((response) => {
+            if (response.status === 200) {
+                return response.data
+            }
+        })
+    },
 }

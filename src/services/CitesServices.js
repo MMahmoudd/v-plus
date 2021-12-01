@@ -11,4 +11,11 @@ export default {
             }
         })
     },
+    addCity (cityName, regionId) {
+        return Service.post(`${resource}/cities`, { name: cityName, region_id: regionId }).then((response) => {
+            if (response.status === 200) {
+                return response.data
+            }
+        })
+    },
 }

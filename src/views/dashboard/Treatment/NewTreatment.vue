@@ -522,7 +522,101 @@
                     outlined
                   />
                 </v-col>
-
+                <!-- add city -->
+                <v-col
+                  cols="12"
+                  lg="6"
+                  md="12"
+                  class="mt-0 pt-0"
+                >
+                  <v-row
+                    align="center"
+                  >
+                    <v-col
+                      cols="9"
+                      lg="9"
+                      md="9"
+                    >
+                      <label
+                        class="d-block mb-3 font-weight-bold"
+                      >
+                        إضافة مدينة
+                      </label>
+                      <v-text-field
+                        v-model="cityName"
+                        :disabled="!data.region_id"
+                        label="اسم المدينة"
+                        single-line
+                        outlined
+                      />
+                    </v-col>
+                    <v-col
+                      cols="3"
+                      lg="3"
+                      md="3"
+                    >
+                      <v-btn
+                        :disabled="!data.region_id||!cityName"
+                        block
+                        x-large
+                        class="mr-0"
+                        color="green"
+                        @click="addCity(cityName,data.region_id)"
+                      >
+                        إضافة
+                      </v-btn>
+                    </v-col>
+                  </v-row>
+                </v-col>
+                <!-- end add city -->
+                <!-- add neighborhood -->
+                <v-col
+                  cols="12"
+                  lg="6"
+                  md="12"
+                  class="mt-0 pt-0"
+                >
+                  <v-row
+                    align="center"
+                  >
+                    <v-col
+                      cols="9"
+                      lg="9"
+                      md="9"
+                    >
+                      <label
+                        class="d-block mb-3 font-weight-bold"
+                      >
+                        إضافة حي
+                      </label>
+                      <v-text-field
+                        v-model="neighborhoodName"
+                        :items="regionsList"
+                        :disabled="!data.city_id"
+                        label="اسم الحي"
+                        single-line
+                        outlined
+                      />
+                    </v-col>
+                    <v-col
+                      cols="3"
+                      lg="3"
+                      md="3"
+                    >
+                      <v-btn
+                        x-large
+                        block
+                        color="green"
+                        class="w-100 mr-0"
+                        :disabled="!data.city_id||!neighborhoodName"
+                        @click="addNeighborhood(neighborhoodName,data.city_id)"
+                      >
+                        إضافة
+                      </v-btn>
+                    </v-col>
+                  </v-row>
+                </v-col>
+                <!-- end add neighborhood -->
                 <v-col
                   cols="12"
                   lg="3"
@@ -1702,7 +1796,6 @@
               </div>
               <div>
                 <v-btn
-                  x-large
                   class="ma-2"
                   color="black"
                 >
@@ -2390,6 +2483,8 @@
           name: 'سكني تجاري مكتبي',
         },
       ],
+      cityName: '',
+      neighborhoodName: '',
       data: {
         customer_id: '',
         appraiser_id: 0,
@@ -2502,6 +2597,18 @@
             name: customer.cs_name,
           })
         })
+      },
+      // add city
+      addCity: async function (cityName, regionId) {
+        await CitesServices.addCity(cityName, regionId)
+        this.getCites()
+        this.cityName = ''
+      },
+      // add Neighborhood
+      addNeighborhood: async function (neighborhoodName, cityId) {
+        await NeighborhoodsServices.addNeighborhood(neighborhoodName, cityId)
+        this.getNeighborhoods()
+        this.neighborhoodName = ''
       },
       // EvaluationPurpose
       getEvaluationPurpose: async function () {
