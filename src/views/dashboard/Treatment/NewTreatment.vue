@@ -2531,7 +2531,7 @@
         this.neighborhoodsList = data.data.map((neighborhood) => ({
           id: neighborhood.id,
           name: neighborhood.name,
-          cityId: neighborhood.city_id, 
+          cityId: neighborhood.city_id,
         }))
       },
       // property ratings

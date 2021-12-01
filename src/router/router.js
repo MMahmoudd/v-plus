@@ -144,6 +144,23 @@ const router = new Router({
           component: () => import('@/views/dashboard/Finance/Expenses'),
           meta: { requiresAuth: true },
         },
+        // Users Setting
+        {
+          name: 'Users Setting',
+          path: '/users-setting',
+          component: () => import('@/views/dashboard/setting/userSetting/UserSetting.vue'),
+          // meta: { role: 'Users.GetAll' },
+          // beforeEnter: routerGuard,
+          meta: { requiresAuth: true },
+        },
+        {
+          name: 'user Setting Form',
+          path: '/userSettingForm/:id?',
+          component: () => import('@/views/dashboard/setting/userSetting/Form.vue'),
+          // meta: { role: 'Users.GetById' },
+          // beforeEnter: routerGuard,
+          meta: { requiresAuth: true },
+        },
         {
           path: '/notAuthorized',
           name: 'notAuthorized',

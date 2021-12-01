@@ -118,6 +118,11 @@
               to: '/facility-file',
               role: true,
             },
+            {
+              title: 'اعدادات المستخدمين',
+              to: '/users-setting',
+              role: true,
+            },
           ],
         },
       ],

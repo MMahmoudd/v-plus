@@ -403,10 +403,10 @@
                       </template>
                       <v-list>
                         <template v-for="sample in samplesList">
-                          <v-list-item v-bind:key="sample.id">
+                          <v-list-item :key="sample.id">
                             <v-list-item-title>
                               <router-link :to="sample.path">
-                                {{sample.name}}
+                                {{ sample.name }}
                               </router-link>
                             </v-list-item-title>
                           </v-list-item>
