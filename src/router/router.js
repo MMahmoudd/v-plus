@@ -212,6 +212,33 @@ const router = new Router({
           component: () => import('@/views/dashboard/TreatmentSettings/Neighborhood/Form.vue'),
           meta: { requiresAuth: true },
         },
+
+        // /treatment-settings/propertyTypes
+        {
+          path: '/treatment-settings/propertyTypes',
+          component: () => import('@/views/dashboard/TreatmentSettings/PropertyType/List.vue'),
+          meta: { requiresAuth: true },
+
+        },
+        {
+          path: '/treatment-settings/propertyTypesForm/:id?',
+          component: () => import('@/views/dashboard/TreatmentSettings/PropertyType/Form.vue'),
+          meta: { requiresAuth: true },
+
+        },
+        // /treatment-settings/propertyRatings
+        {
+          path: '/treatment-settings/propertyRatings',
+          component: () => import('@/views/dashboard/TreatmentSettings/PropertyRating/List.vue'),
+          meta: { requiresAuth: true },
+
+        },
+        {
+          path: '/treatment-settings/propertyRatingsForm/:id?',
+          component: () => import('@/views/dashboard/TreatmentSettings/PropertyRating/Form.vue'),
+          meta: { requiresAuth: true },
+
+        },
         { path: '*', redirect: '/login' },
       ],
     },

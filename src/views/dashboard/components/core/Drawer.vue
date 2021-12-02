@@ -145,6 +145,16 @@
               to: '/treatment-settings/neighborhoods',
               role: true,
             },
+            {
+              title: 'أنواع العقارات',
+              to: '/treatment-settings/propertyTypes',
+              tole: true,
+            },
+            {
+              title: 'تصنيف العقارات',
+              to: '/treatment-settings/propertyRatings',
+              tole: true,
+            },
           ],
         },
       ],
