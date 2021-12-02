@@ -21,16 +21,16 @@
               >
                 <label
                   class="d-block mb-3 font-weight-bold"
-                >المنطقة</label>
+                >المدينة</label>
                 <v-select
-                  v-model="data.region_id"
-                  :loading="regionsLoading"
-                  :items="regionsList"
+                  v-model="data.city_id"
+                  :loading="citiesLoading"
+                  :items="citiesList"
                   item-text="name"
                   item-value="id"
                   outlined
                   required
-                  label="إسم المنطقة"
+                  label="إسم المدينة"
                 />
               </v-col>
               <!-- <v-col
@@ -65,10 +65,10 @@
               >
                 <label
                   class="d-block mb-3 font-weight-bold"
-                >إسم المدينة</label>
+                >إسم الحي</label>
                 <v-text-field
                   v-model="data.name"
-                  :disabled="!data.region_id"
+                  :disabled="!data.city_id"
                   outlined
                   required
                 />
@@ -163,19 +163,19 @@
 <script>
   import { ServiceFactory } from '../../../../services/ServiceFactory'
   const CitiesService = ServiceFactory.get('Cites')
-  const RegionsService = ServiceFactory.get('Regions')
-
+  // const RegionsService = ServiceFactory.get('Regions')
+  const NeighborhoodsService = ServiceFactory.get('Neighborhoods')
   export default {
     name: 'Companies',
     data: (vm) => ({
       dataLoading: false,
-      regionsLoading: false,
+      citiesLoading: false,
       valid: false,
-      regionsList: [],
+      citiesList: [],
       data: {
         id: null,
         name: '',
-        region_id: '',
+        city_id: '',
       },
       successSnackbar: false,
       errorSnackbar: false,
@@ -191,7 +191,7 @@
       }
     },
     mounted () {
-      this.getRegions()
+      this.getCities()
     },
     methods: {
       async  submitForm () {
@@ -199,7 +199,7 @@
         this.disabled = true
         const formData = {
           name: this.data.name,
-          region_id: this.data.region_id,
+          city_id: this.data.city_id,
         }
         if (this.$route.params.id) {
           this.updateContent(this.$route.params.id, formData)
@@ -208,12 +208,12 @@
         }
       },
       async newItem (data) {
-        const item = await CitiesService.addOneItem(data)
+        const item = await NeighborhoodsService.addOneItem(data)
         if (item.success === true) {
           this.successMessage = 'تمت الاضافة بنجاح'
           this.successSnackbar = true
           setTimeout(() => {
-            this.$router.push('/treatment-settings/cities')
+            this.$router.push('/treatment-settings/neighborhoods')
           }, 1500)
         } else {
           this.errorMessage = item.message
@@ -223,12 +223,12 @@
         this.loading = false
       },
       async updateContent (id, data) {
-        const item = await CitiesService.updateOneItem(id, data)
+        const item = await NeighborhoodsService.updateOneItem(id, data)
         if (item.success === true) {
           this.successMessage = 'تم التعديل بنجاح'
           this.successSnackbar = true
           setTimeout(() => {
-            this.$router.push('/treatment-settings/cities')
+            this.$router.push('/treatment-settings/neighborhoods')
           }, 1500)
         } else {
           this.errorMessage('يوجد مشكلة في التعديل')
@@ -239,18 +239,18 @@
       },
       async fetchOneItem (id) {
         this.dataLoading = true
-        const user = await CitiesService.fetchOneItem(id)
+        const user = await NeighborhoodsService.fetchOneItem(id)
         console.log(user)
         this.data = user.data
         this.dataLoading = false
       },
-      async getRegions () {
-        this.regionsLoading = true
-        const { data } = await RegionsService.getAllItems()
-        this.regionsList = data.data.map(({ id, name }) => ({
+      async getCities () {
+        this.citiesLoading = true
+        const { data } = await CitiesService.getAllItems()
+        this.citiesList = data.data.map(({ id, name }) => ({
           id, name,
         }))
-        this.regionsLoading = false
+        this.citiesLoading = false
       },
     },
   }

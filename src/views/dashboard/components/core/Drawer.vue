@@ -140,6 +140,11 @@
               to: '/treatment-settings/cities',
               role: true,
             },
+            {
+              title: 'إعدادات الحي',
+              to: '/treatment-settings/neighborhoods',
+              role: true,
+            },
           ],
         },
       ],

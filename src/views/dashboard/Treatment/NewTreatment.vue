@@ -560,7 +560,7 @@
                         block
                         x-large
                         class="mr-0"
-                        color="green"
+                        color="blue"
                         @click="addCity(cityName,data.region_id)"
                       >
                         إضافة
@@ -606,7 +606,7 @@
                       <v-btn
                         x-large
                         block
-                        color="green"
+                        color="blue"
                         class="w-100 mr-0"
                         :disabled="!data.city_id||!neighborhoodName"
                         @click="addNeighborhood(neighborhoodName,data.city_id)"

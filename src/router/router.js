@@ -195,6 +195,17 @@ const router = new Router({
           component: () => import('@/views/dashboard/TreatmentSettings/City/Form.vue'),
           meta: { requiresAuth: true },
         },
+        // treatment settings - Neighborhoods
+        {
+          path: '/treatment-settings/neighborhoods',
+          meta: { requiresAuth: true },
+          component: () => import('@/views/dashboard/TreatmentSettings/Neighborhood/List.vue'),
+        },
+        {
+          path: '/treatment-settings/neighborhoodsForm/:id?',
+          component: () => import('@/views/dashboard/TreatmentSettings/Neighborhood/Form.vue'),
+          meta: { requiresAuth: true },
+        },
         { path: '*', redirect: '/login' },
       ],
     },
