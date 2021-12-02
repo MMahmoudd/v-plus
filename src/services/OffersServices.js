@@ -12,6 +12,14 @@ export default {
             }
         })
     },
+  getCustomer () {
+        return Service.get(`${resource}/customers`)
+        .then((response) => {
+            if (response.status === 200) {
+                return response.data
+            }
+        })
+    },
     fetchOneItem (id) {
       return Service.get(`${resource}/offers/${id}`)
       .then((response) => {
@@ -20,7 +28,8 @@ export default {
         }
     })
     },
-    addUser (data) {
+    addOffer (data) {
+    console.log(resource + '/offers')
       return Service.post(`${resource}/offers`, data)
       .then((response) => {
         if (response.status === 200) {
@@ -28,7 +37,7 @@ export default {
         }
     })
     },
-    updateUser (id, data) {
+    updateOffer (id, data) {
       return Service.put(`${resource}/offers/${id}`, data)
       .then((response) => {
         if (response.status === 200) {
@@ -36,7 +45,7 @@ export default {
         }
     })
     },
-    deleteUser (id) {
+    deleteOffer (id) {
       return Service.delete(`${resource}/offers/${id}`)
       .then((response) => {
         if (response.status === 200) {

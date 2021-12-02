@@ -9,6 +9,7 @@ import SamplesServices from './SamplesServices'
 import PropertyRatingsServices from './PropertyRatingsServices'
 import PropertyTypesServices from './PropertyTypesServices'
 import UserSettingServices from './UserSettingServices'
+import OffersServices from '@/services/OffersServices'
 
 const services = {
   Users: usersService,
@@ -22,6 +23,7 @@ const services = {
   PropertyRatings: PropertyRatingsServices,
   PropertyTypes: PropertyTypesServices,
   UserSetting: UserSettingServices,
+  Offers: OffersServices,
 }
 
 export const ServiceFactory = {

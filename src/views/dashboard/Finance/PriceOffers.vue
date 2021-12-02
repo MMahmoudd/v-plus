@@ -8,21 +8,17 @@
       <h1 class="font-weight-bold">
         عروض الأسعار
       </h1>
-      <v-btn
-        class="time-chip"
-        color="primary"
-        label
-        text-color="white"
-        @click="dialog = !dialog"
+      <router-link
+        :to="{ path: '/new-offers'}"
+        color="blue"
       >
-        <v-icon
-          left
-          small
+        <v-btn
+          class="mx-2"
+          color="blue"
         >
-          mdi-file-plus-outline
-        </v-icon>
-        <span>عرض سعر جديد</span>
-      </v-btn>
+          عرض سعر جديد
+        </v-btn>
+      </router-link>
     </v-row>
 
     <price-offers-table />
@@ -30,9 +26,9 @@
 </template>
 
 <script>
-  import { ServiceFactory } from '../../../services/ServiceFactory'
+  import { ServiceFactory } from '@/services/ServiceFactory'
   import moment from 'moment'
-  const CustomersService = ServiceFactory.get('Customers')
+  const OffersService = ServiceFactory.get('Offers')
 
   export default {
     components: {
@@ -72,12 +68,12 @@
         this.dataLoading = true
         const { page, itemsPerPage } = this.options
         const pageNumber = page - 1
-        const items = await CustomersService.getAllItems(
+        const items = await OffersService.getAllItems(
           itemsPerPage,
           page,
           pageNumber
         )
-        console.log('Users', items)
+        // console.log('offers', items)
         items.data.data.map((item) => {
           item.created_at = moment(item.created_at).format('YYYY-MM-DD hh:mm a')
         })

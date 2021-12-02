@@ -201,9 +201,9 @@
 </template>
 
 <script>
-  import { ServiceFactory } from '../../../../services/ServiceFactory'
+  import { ServiceFactory } from '@/services/ServiceFactory'
   import moment from 'moment'
-  const CustomersService = ServiceFactory.get('Customers')
+  const OffersService = ServiceFactory.get('Offers')
 
   export default {
     data: () => ({
@@ -232,28 +232,28 @@
           text: 'أسم العميل',
           align: 'start',
           sortable: false,
-          value: 'cs_name',
+          value: 'customer.cs_name',
         },
-        { text: 'المبلغ', value: 'cs_type' },
-        { text: 'الوقت المنجز', value: 'cs_phone' },
-        { text: 'التاريخ', value: 'cs_email' },
-        { text: 'الحالة', value: 'protein' },
+        { text: 'المبلغ', value: 'of_price' },
+        { text: 'الوقت المنجز', value: 'of_time' },
+        { text: 'التاريخ', value: 'created_at' },
+        { text: 'الحالة', value: 'status' },
         { text: '', value: 'actions', sortable: false },
       ],
       desserts: [],
       editedItem: {
-        name: '',
-        calories: 0,
-        fat: 0,
-        carbs: 0,
-        protein: 0,
+        cs_name: '',
+        of_price: 0,
+        of_time: 0,
+        created_at: 0,
+        status: 0,
       },
       defaultItem: {
-        name: '',
-        calories: 0,
-        fat: 0,
-        carbs: 0,
-        protein: 0,
+        customer: { cs_name: '' },
+        of_price: 0,
+        of_time: 0,
+        created_at: 0,
+        status: 0,
       },
     }),
 
@@ -284,12 +284,12 @@
         this.dataLoading = true
         const { page, itemsPerPage } = this.options
         const pageNumber = page - 1
-        const items = await CustomersService.getAllItems(
+        const items = await OffersService.getAllItems(
           itemsPerPage,
           page,
           pageNumber
         )
-        console.log('Users', items)
+        // console.log('Offers', items)
         items.data.data.map((item) => {
           item.created_at = moment(item.created_at).format('YYYY-MM-DD hh:mm a')
         })
