@@ -11,4 +11,36 @@ export default {
             }
         })
     },
+    fetchOneItem (id) {
+        return Service.get(`${resource}/regions/${id}`)
+        .then((response) => {
+          if (response.status === 200) {
+              return response.data
+          }
+      })
+    },
+    addOneItem (data) {
+        return Service.post(`${resource}/regions`, data)
+        .then((response) => {
+            if (response.status === 200) {
+                return response.data
+            }
+        })
+    },
+    updateOneItem (id, data) {
+        return Service.put(`${resource}/regions/${id}`, data)
+        .then((response) => {
+            if (response.status === 200) {
+                return response.data
+            }
+        })
+    },
+    deleteOneItem (id) {
+        return Service.delete(`${resource}/regions/${id}`)
+      .then((response) => {
+        if (response.status === 200) {
+            return response.data
+        }
+    })
+    },
 }

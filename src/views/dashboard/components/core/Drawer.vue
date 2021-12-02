@@ -125,6 +125,18 @@
             },
           ],
         },
+        {
+          title: 'إعدادات المعاملة',
+          icon: 'fa-cog',
+          role: true,
+          children: [
+            {
+              title: 'إعدادات المنطقة',
+              to: '/treatment-settings/regions',
+              role: true,
+            },
+          ],
+        },
       ],
     }),
     computed: {

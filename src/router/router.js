@@ -166,6 +166,24 @@ const router = new Router({
           name: 'notAuthorized',
           component: () => import('../pages/NotAuthorized.vue'),
         },
+        // treatment settings
+        {
+          path: '/treatment-settings',
+          meta: { requiresAuth: true },
+          redirect: '/treatment-settings/regions',
+          component: () => import('@/views/dashboard/TreatmentSettings/Region/List.vue'),
+        },
+        // treatment settings - regions
+        {
+          path: '/treatment-settings/regions',
+          meta: { requiresAuth: true },
+          component: () => import('@/views/dashboard/TreatmentSettings/Region/List.vue'),
+        },
+        {
+          path: '/treatment-settings/regionsForm/:id?',
+          component: () => import('@/views/dashboard/TreatmentSettings/Region/Form.vue'),
+          meta: { requiresAuth: true },
+        },
         { path: '*', redirect: '/login' },
       ],
     },
