@@ -135,6 +135,11 @@
               to: '/treatment-settings/regions',
               role: true,
             },
+            {
+              title: 'إعدادات المدينة',
+              to: '/treatment-settings/cities',
+              role: true,
+            },
           ],
         },
       ],
