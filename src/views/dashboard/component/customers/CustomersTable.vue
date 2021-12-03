@@ -156,18 +156,18 @@
               </v-icon>
               تعديل
             </v-list-item>
-            <v-list-item @click="editItem(item)">
+            <!-- <v-list-item @click="editItem(item)">
               <v-icon class="ml-2">
                 mdi-cash
               </v-icon>
               <span> مطالبة مالية</span>
-            </v-list-item>
-            <v-list-item @click="editItem(item)">
+            </v-list-item> -->
+            <!-- <v-list-item @click="editItem(item)">
               <v-icon class="ml-2">
                 mdi-send-outline
               </v-icon>
               <span> ارسال المطالبة المالية </span>
-            </v-list-item>
+            </v-list-item> -->
             <v-list-item
               color="primary"
               @click="deleteItem(item)"
@@ -234,10 +234,10 @@
           sortable: false,
           value: 'cs_name',
         },
-        { text: 'التصنيف', value: 'cs_type' },
+        { text: 'نوع العميل', value: 'cs_type' },
         { text: 'الجوال/الهاتف', value: 'cs_phone' },
-        { text: 'الإيميل', value: 'cs_email' },
-        { text: 'الإعدادات', value: 'protein' },
+        { text: 'البريد الالكتروني', value: 'cs_email' },
+        // { text: 'الإعدادات', value: 'protein' },
         { text: 'الربحية', value: 'color_e', class: 'color_primary' },
         { text: '', value: 'actions', sortable: false },
       ],

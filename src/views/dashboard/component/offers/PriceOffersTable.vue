@@ -156,18 +156,12 @@
               </v-icon>
               تعديل
             </v-list-item>
-            <v-list-item @click="editItem(item)">
+            <!-- <v-list-item @click="editItem(item)">
               <v-icon class="ml-2">
                 mdi-cash
               </v-icon>
               <span> مطالبة مالية</span>
-            </v-list-item>
-            <v-list-item @click="editItem(item)">
-              <v-icon class="ml-2">
-                mdi-send-outline
-              </v-icon>
-              <span> ارسال المطالبة المالية </span>
-            </v-list-item>
+            </v-list-item> -->
             <v-list-item
               color="primary"
               @click="deleteItem(item)"
@@ -179,6 +173,12 @@
                 mdi-trash-can-outline
               </v-icon>
               <span class="color_danger"> حذف </span>
+            </v-list-item>
+            <v-list-item @click="editItem(item)">
+              <v-icon class="ml-2">
+                mdi-printer
+              </v-icon>
+              <span>طباعة </span>
             </v-list-item>
           </v-list>
         </v-menu>
@@ -229,13 +229,13 @@
       dialogDelete: false,
       headers: [
         {
-          text: 'أسم العميل',
+          text: 'اسم العميل',
           align: 'start',
           sortable: false,
           value: 'customer.cs_name',
         },
         { text: 'المبلغ', value: 'of_price' },
-        { text: 'الوقت المنجز', value: 'of_time' },
+        { text: 'مدة الإنجاز', value: 'of_time' },
         { text: 'التاريخ', value: 'created_at' },
         { text: 'الحالة', value: 'status' },
         { text: '', value: 'actions', sortable: false },

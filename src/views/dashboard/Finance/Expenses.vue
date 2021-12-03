@@ -63,7 +63,7 @@
       </v-col>
     </v-row>
     <div
-      v-for="n in 8"
+      v-for="n in 12"
       :key="n.index"
       class="mt-10 mx-10"
     >
@@ -76,7 +76,7 @@
         >
           <label
             class="d-block mb-3 font-weight-bold"
-          >إجمالي المصاريف الثابتة</label>
+          >اجمالي المصاريف الثابتة</label>
           <v-text-field
             label="إجمالي المصاريف الثابتة"
             single-line
@@ -108,7 +108,7 @@
         >
           <label
             class="d-block mb-3 font-weight-bold"
-          >أجمالي المصاريف الشهر</label>
+          >أجمالي مصاريف الشهر</label>
           <v-text-field
             label="أجمالي المصاريف الشهر"
             single-line
@@ -132,6 +132,79 @@
       </v-row>
       <v-divider class="my-3" />
     </div>
+    <h2 class="mx-9 primary--text">
+      أجمالي مصاريف السنة
+    </h2>
+    <v-row class="mx-6 mt-4">
+      <v-col
+        cols="12"
+        lg="3"
+        md="4"
+      >
+        <label
+          class="d-block mb-3 font-weight-bold"
+        >اجمالي مصاريف الثابتة</label>
+        <v-text-field
+          label="إجمالي المصاريف الثابتة"
+          single-line
+          outlined
+        />
+      </v-col>
+
+      <v-col
+        cols="12"
+        lg="3"
+        md="4"
+        sm="6"
+      >
+        <label
+          class="d-block mb-3 font-weight-bold"
+        >إجمالي مصاريف المتغيرة</label>
+        <v-text-field
+          label="إجمالي المصاريف المتغيرة"
+          single-line
+          outlined
+        />
+      </v-col>
+
+      <v-col
+        cols="12"
+        lg="3"
+        md="4"
+        sm="6"
+      >
+        <label class="d-block mb-3 font-weight-bold">أجمالي مصاريف السنة</label>
+        <v-text-field
+          label="أجمالي مصاريف السنة"
+          single-line
+          outlined
+        />
+      </v-col>
+
+      <v-col
+        cols="12"
+        lg="3"
+        md="4"
+        sm="6"
+        class="d-flex align-center"
+      >
+        <v-btn
+          class="time-chip mr-auto"
+          color="primary"
+          label
+          text-color="white"
+          @click="dialog = !dialog"
+        >
+          <v-icon
+            left
+            small
+          >
+            mdi-content-save
+          </v-icon>
+          <span>حفظ التعديلات</span>
+        </v-btn>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -139,4 +212,4 @@
   export default {}
 </script>
 
-<style></style>
+<style scoped></style>
