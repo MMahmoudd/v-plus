@@ -33,30 +33,6 @@
                   label="إسم المنطقة"
                 />
               </v-col>
-              <!-- <v-col
-                cols="12"
-                md="6"
-              >
-                <v-text-field
-                  v-model="data.email"
-                  label="البريد الاليكتروني"
-                  type="email"
-                  outlined
-                  required
-                />
-              </v-col> -->
-              <!-- <v-col
-                v-if="!this.$route.params.id"
-                cols="12"
-              >
-                <v-text-field
-                  v-model="data.password"
-                  label="كلمة السر"
-                  outlined
-                  required
-                  type="password"
-                />
-              </v-col> -->
             </v-row>
             <v-row class="mx-md-16 px-md-16">
               <v-col
@@ -73,30 +49,6 @@
                   required
                 />
               </v-col>
-              <!-- <v-col
-                cols="12"
-                md="6"
-              >
-                <v-text-field
-                  v-model="data.email"
-                  label="البريد الاليكتروني"
-                  type="email"
-                  outlined
-                  required
-                />
-              </v-col> -->
-              <!-- <v-col
-                v-if="!this.$route.params.id"
-                cols="12"
-              >
-                <v-text-field
-                  v-model="data.password"
-                  label="كلمة السر"
-                  outlined
-                  required
-                  type="password"
-                />
-              </v-col> -->
             </v-row>
             <!-- <v-row class="mx-md-16 px-md-16">
               <v-col

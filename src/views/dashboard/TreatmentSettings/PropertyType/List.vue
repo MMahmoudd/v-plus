@@ -39,21 +39,10 @@
           v-slot:[`item.name`]="{ item }"
         >
           <v-row>
-            <!-- <v-col md="3">
-              <v-avatar
-                size="70"
-              >
-                <img
-                  :src="item.profile_photo_url"
-                  alt="profile image"
-                >
-              </v-avatar>
-            </v-col> -->
             <v-col md="12">
               <p>
                 {{ item.name }}
               </p>
-              <!-- <p>{{ item.email }}</p> -->
             </v-col>
           </v-row>
         </template>
@@ -219,7 +208,6 @@
         const { page, itemsPerPage } = this.options
         const pageNumber = page - 1
         const items = await PropertyTypesService.getAllItems(itemsPerPage, page, pageNumber)
-        // console.log('Users', items)
         items.data.data.map(item => {
           item.created_at = moment(item.created_at).format('YYYY-MM-DD hh:mm a')
           item.status = item.status === '1' ? 'مفعل' : 'غير مفعل'
