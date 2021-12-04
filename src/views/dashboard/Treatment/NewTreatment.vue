@@ -133,7 +133,7 @@
                 >
                   <label class="d-block mb-3 font-weight-bold">المقيم</label>
                   <v-select
-                    v-model="data.appraiser_id"
+                    v-model="data.resident_id"
                     :items="appraisersList"
                     item-text="name"
                     item-value="id"
@@ -150,7 +150,7 @@
                 >
                   <label class="d-block mb-3 font-weight-bold">المراجع</label>
                   <v-select
-                    v-model="data.preview_id"
+                    v-model="data.reviewer_id"
                     :items="previewsList"
                     item-text="name"
                     item-value="id"
@@ -167,7 +167,7 @@
                 >
                   <label class="d-block mb-3 font-weight-bold">المعتمد</label>
                   <v-select
-                    v-model="data.coordinator_id"
+                    v-model="data.approved_id"
                     :items="coordinatorsList"
                     item-text="name"
                     item-value="id"
@@ -210,7 +210,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >اسم مستخدم التقرير</label>
                   <v-text-field
-                    v-model="data.prop_evaluation_report_user"
+                    v-model="data.trans_report_name"
                     label="اسم مستخدم التقرير"
                     single-line
                     outlined
@@ -226,7 +226,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >جوال مستخدم التقرير</label>
                   <v-text-field
-                    v-model="data.prop_evaluation_report_phone"
+                    v-model="data.trans_report_phone"
                     label="جوال مستخدم التقرير"
                     single-line
                     outlined
@@ -261,7 +261,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >أساس القيمة</label>
                   <v-select
-                    v-model="data.appraisal_fees"
+                    v-model="data.trans_value_basis"
                     :items="valuesUsedList"
                     item-text="name"
                     item-value="id"
@@ -280,7 +280,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >فرضية القيمة</label>
                   <v-select
-                    v-model="data.appraisal_value"
+                    v-model="data.value_hypothesis"
                     :items="feesUsedValuesList"
                     item-text="name"
                     item-value="id"
@@ -299,7 +299,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >تاريخ التكليف</label>
                   <v-menu
-                    v-model="data.commissioning_date"
+                    v-model="data.trans_assignment_date"
                     :close-on-content-click="false"
                     transition="scale-transition"
                     offset-y
@@ -331,7 +331,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >تاريخ التقييم</label>
                   <v-menu
-                    v-model="menu2"
+                    v-model="data.trans_evaluation_date"
                     :close-on-content-click="false"
                     transition="scale-transition"
                     offset-y
@@ -363,7 +363,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >تاريخ المعاينة</label>
                   <v-menu
-                    v-model="menu3"
+                    v-model="data.trans_inspection_date"
                     :close-on-content-click="false"
                     transition="scale-transition"
                     offset-y
@@ -395,7 +395,10 @@
                     class="d-block mb-3 font-weight-bold"
                   >نوع التقرير</label>
                   <v-select
-                    :items="items"
+                    v-model="data.trans_Report_type"
+                    :items="staticLists.trans_Report_type"
+                    item-text="name"
+                    item-value="id"
                     label="نوع التقرير"
                     single-line
                     outlined
@@ -411,7 +414,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >رمز إيداع التقرير</label>
                   <v-text-field
-                    v-model="data.deposit_code"
+                    v-model="data.trans_filing_the_report"
                     label="رمز إيداع التقرير"
                     single-line
                     outlined
@@ -427,6 +430,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >الرقم المرجعى</label>
                   <v-text-field
+                    v-model="data.trans_reference_number"
                     label="الرقم المرجعى"
                     single-line
                     outlined
@@ -442,6 +446,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >رمز العقار / رقم الموقع / رقم العميل</label>
                   <v-text-field
+                    v-model="data.trans_deposit_code_site_num_customer_num"
                     label="رمز العقار / رقم الموقع / رقم العميل"
                     single-line
                     outlined
@@ -516,7 +521,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >اسم الشارع</label>
                   <v-text-field
-                    v-model="data.prop_street_name"
+                    v-model="data.trans_street_name"
                     label="اسم الشارع"
                     single-line
                     outlined
@@ -626,6 +631,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >اسم المخطط</label>
                   <v-text-field
+                    v-model="data.residential_plan_name"
                     label="اسم المخطط"
                     single-line
                     outlined
@@ -641,7 +647,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >رقم المخطط</label>
                   <v-text-field
-                    v-model="data.prop_apartment_num"
+                    v-model="data.residential_plan_no"
                     label="رقم المخطط"
                     single-line
                     outlined
@@ -657,7 +663,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >رقم البلوك</label>
                   <v-text-field
-                    v-model="data.prop_Albulk_num"
+                    v-model="data.trans_part_num"
                     label="رقم البلوك"
                     single-line
                     outlined
@@ -673,7 +679,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >رقم القطعة</label>
                   <v-text-field
-                    v-model="data.prop_part_num"
+                    v-model="data.trans_part_num"
                     label="رقم القطعة"
                     single-line
                     outlined
@@ -727,7 +733,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >اسم المالك</label>
                   <v-text-field
-                    v-model="data.prop_owner_name"
+                    v-model="data.trans_owner_name"
                     label="اسم المالك"
                     single-line
                     outlined
@@ -743,7 +749,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >جوال المالك</label>
                   <v-text-field
-                    v-model="data.prop_owner_phone"
+                    v-model="data.trans_owner_phone"
                     label="جوال المالك"
                     single-line
                     outlined
@@ -757,7 +763,7 @@
                 >
                   <label class="d-block mb-3 font-weight-bold">رقم الصك</label>
                   <v-text-field
-                    v-model="data.prop_instrument_num"
+                    v-model="data.trans_instrument_num"
                     label="رقم الصك"
                     single-line
                     outlined
@@ -773,7 +779,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >تاريخ الصك</label>
                   <v-text-field
-                    v-model="data.prop_instrument_date"
+                    v-model="data.trans_instrument_date"
                     label="تاريخ الصك"
                     single-line
                     outlined
@@ -789,7 +795,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >رقم رخصة البناء</label>
                   <v-text-field
-                    v-model="data.prop_building_clearance_num"
+                    v-model="data.trans_building_permit_number"
                     label="رقم رخصة البناء"
                     single-line
                     outlined
@@ -805,7 +811,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >تاريخ رخصة البناء</label>
                   <v-text-field
-                    v-model="data.prop_building_end"
+                    v-model="data.trans_building_permit_date"
                     label="تاريخ رخصة البناء"
                     single-line
                     outlined
@@ -821,7 +827,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >عمر البناء</label>
                   <v-text-field
-                    v-model="data.construction_age"
+                    v-model="data.trans_construction_age"
                     label="عمر البناء"
                     single-line
                     outlined
@@ -837,7 +843,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >رقم محضر التجزئة</label>
                   <v-text-field
-                    v-model="data.prop_retail_record_num"
+                    v-model="data.trans_retail_record_num"
                     label="رقم محضر التجزئة"
                     single-line
                     outlined
@@ -853,7 +859,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >تاريخ محضر التجزئة</label>
                   <v-text-field
-                    v-model="data.prop_retail_record_date"
+                    v-model="data.trans_retail_record_date"
                     label="تاريخ محضر التجزئة"
                     single-line
                     outlined
@@ -868,9 +874,12 @@
                   <label
                     class="d-block mb-3 font-weight-bold"
                   >حالة البناء</label>
-                  <v-text-field
-                    v-model="data.construction_condition"
+                  <v-select
+                    v-model="data.trans_construction_condition"
+                    :items="staticLists.trans_construction_condition"
                     label="حالة البناء"
+                    item-text="name"
+                    item-value="id"
                     single-line
                     outlined
                   />
@@ -884,8 +893,11 @@
                   <label
                     class="d-block mb-3 font-weight-bold"
                   >حالة الأشغال</label>
-                  <v-text-field
-                    v-model="data.occupancy_status"
+                  <v-select
+                    v-model="data.trans_occupancy_status"
+                    :items="staticLists.trans_occupancy_status"
+                    item-text="name"
+                    item-value="id"
                     label="حالة الأشغال"
                     single-line
                     outlined
@@ -1142,7 +1154,10 @@
                       class="d-block mb-3 font-weight-bold"
                     >الموقع العام</label>
                     <v-select
-                      :items="items"
+                      v-model="data.trans_general_site"
+                      :items="staticLists.trans_general_site"
+                      item-text="name"
+                      item-value="id"
                       label="الموقع العام"
                       single-line
                       outlined
@@ -1156,7 +1171,10 @@
                   >
                     <label class="d-block mb-3 font-weight-bold">التصميم</label>
                     <v-select
-                      :items="items"
+                      v-model="data.trans_the_design"
+                      :items="staticLists.trans_the_design"
+                      item-text="name"
+                      item-value="id"
                       label="التصميم"
                       single-line
                       outlined
@@ -1170,8 +1188,11 @@
                   >
                     <label class="d-block mb-3 font-weight-bold">المنسوب</label>
                     <v-select
-                      :items="items"
+                      v-model="data.trans_attributable"
                       label="المنسوب"
+                      :items="staticLists.trans_attributable"
+                      item-text="name"
+                      item-value="id"
                       single-line
                       outlined
                     />
@@ -1184,7 +1205,10 @@
                   >
                     <label class="d-block mb-3 font-weight-bold">الجار</label>
                     <v-select
-                      :items="items"
+                      v-model="data.trans_neighbor"
+                      :items="staticLists.trans_neighbor"
+                      item-text="name"
+                      item-value="id"
                       label="الجار"
                       single-line
                       outlined
@@ -1198,7 +1222,10 @@
                   >
                     <label class="d-block mb-3 font-weight-bold">الشوارع</label>
                     <v-select
-                      :items="items"
+                      v-model="data.trans_streets"
+                      :items="staticLists.trans_streets"
+                      item-text="name"
+                      item-value="id"
                       label="الشوارع"
                       single-line
                       outlined
@@ -1214,7 +1241,10 @@
                       class="d-block mb-3 font-weight-bold"
                     >اضاءة الشوارع</label>
                     <v-select
-                      :items="items"
+                      v-model="data.trans_Street_lighting"
+                      :items="staticLists.trans_Street_lighting"
+                      item-text="name"
+                      item-value="id"
                       label="اضاءة الشوارع"
                       single-line
                       outlined
@@ -1230,7 +1260,10 @@
                       class="d-block mb-3 font-weight-bold"
                     >التيار الكهربائى</label>
                     <v-select
-                      :items="items"
+                      v-model="data.trans_electric_current"
+                      :items="staticLists.trans_electric_current"
+                      item-text="name"
+                      item-value="id"
                       label="التيار الكهربائى"
                       single-line
                       outlined
@@ -1243,7 +1276,11 @@
                     md="4"
                   >
                     <label class="d-block mb-3 font-weight-bold">نوع العزل</label>
-                    <v-text-field
+                    <v-select
+                      v-model="data.trans_insulation_type"
+                      :items="staticLists.trans_insulation_type"
+                      item-text="name"
+                      item-value="id"
                       label="نوع العزل"
                       single-line
                       outlined
@@ -1259,7 +1296,10 @@
                       class="d-block mb-3 font-weight-bold"
                     >نوع أرضية الاحواش</label>
                     <v-select
-                      :items="items"
+                      v-model="data.trans_the_type_of_yard_floor"
+                      :items="staticLists.trans_the_type_of_yard_floor"
+                      item-text="name"
+                      item-value="id"
                       label="نوع أرضية الاحواش"
                       single-line
                       outlined
@@ -1275,7 +1315,10 @@
                       class="d-block mb-3 font-weight-bold"
                     >نوع أرضية الاستقبال</label>
                     <v-select
-                      :items="items"
+                      v-model="data.trans_reception_floor_type"
+                      :items="staticLists.trans_reception_floor_type"
+                      item-text="name"
+                      item-value="id"
                       label="نوع أرضية الاستقبال"
                       single-line
                       outlined
@@ -1291,7 +1334,10 @@
                       class="d-block mb-3 font-weight-bold"
                     >نوع أرضية المدخل</label>
                     <v-select
-                      :items="items"
+                      v-model="data.trans_entrance_floor"
+                      :items="staticLists.trans_entrance_floor"
+                      item-text="name"
+                      item-value="id"
                       label="نوع أرضية المدخل"
                       single-line
                       outlined
@@ -1307,7 +1353,10 @@
                       class="d-block mb-3 font-weight-bold"
                     >نوع أرضية الغرف</label>
                     <v-select
-                      :items="items"
+                      v-model="data.trans_room_floor_type"
+                      :items="staticLists.trans_room_floor_type"
+                      item-text="name"
+                      item-value="id"
                       label="نوع أرضية الغرف"
                       single-line
                       outlined
@@ -1323,6 +1372,7 @@
                       class="d-block mb-3 font-weight-bold"
                     >وصف الأبواب الخارجية</label>
                     <v-text-field
+                      v-model="data.trans_bolt_the_outer_doors"
                       label="وصف الأبواب الخارجية"
                       single-line
                       outlined
@@ -1338,6 +1388,7 @@
                       class="d-block mb-3 font-weight-bold"
                     >وصف الأبواب الداخلية</label>
                     <v-text-field
+                      v-model="data.trans_wool_interior_doors"
                       label="وصف الأبواب الداخلية"
                       single-line
                       outlined
@@ -1353,8 +1404,11 @@
                       class="d-block mb-3 font-weight-bold"
                     >الهيكل الانشائى</label>
                     <v-select
-                      :items="items"
+                      v-model="data.trans_structural_structure"
+                      :items="staticLists.trans_structural_structure"
                       label="الهيكل الانشائى"
+                      item-text="name"
+                      item-value="id"
                       single-line
                       outlined
                     />
@@ -1369,7 +1423,10 @@
                       class="d-block mb-3 font-weight-bold"
                     >نوع الاسقف</label>
                     <v-select
-                      :items="items"
+                      v-model="data.trans_bishop_type"
+                      :items="staticLists.trans_bishop_type"
+                      item-text="name"
+                      item-value="id"
                       label="نوع الاسقف"
                       single-line
                       outlined
@@ -1388,97 +1445,106 @@
                 <v-row class="mt-0">
                   <div class="mr-3">
                     <v-checkbox
-                      v-model="ex1"
+                      v-model="data.glass_walls_status"
                       class="check-label"
                       label="حوائط زجاجية"
                       color="info"
-                      value=""
+                      true-value="1"
+                      false-value="0"
                       hide-details
                     />
                   </div>
                   <div class="mr-3">
                     <v-checkbox
-                      v-model="ex2"
+                      v-model="data.double_glazing_status"
                       class="check-label"
                       label="زجاج مزدوج"
                       color="info"
-                      value=""
+                      true-value="1"
+                      false-value="0"
                       hide-details
                     />
                   </div>
                   <div class="mr-3">
                     <v-checkbox
-                      v-model="ex3"
+                      v-model="data.plaster_on_the_ceiling_status"
                       class="check-label"
                       label="جبس فى السقف"
                       color="info"
-                      value=""
+                      true-value="1"
+                      false-value="0"
                       hide-details
                     />
                   </div>
                   <div class="mr-3">
                     <v-checkbox
-                      v-model="ex4"
+                      v-model="data.hidden_lighting_status"
                       class="check-label"
                       label="إضاءة مخفية"
                       color="info"
-                      value=""
+                      true-value="1"
+                      false-value="0"
                       hide-details
                     />
                   </div>
                   <div class="mr-3">
                     <v-checkbox
-                      v-model="ex5"
+                      v-model="data.trans_elevators_status"
                       class="check-label"
                       label="مصاعد"
                       color="info"
-                      value=""
+                      true-value="1"
+                      false-value="0"
                       hide-details
                     />
                   </div>
                   <div class="mr-3">
                     <v-checkbox
-                      v-model="ex5"
+                      v-model="data.arabic_bath_status"
                       class="check-label"
                       label="حمام عربى"
                       color="info"
-                      value=""
+                      true-value="1"
+                      false-value="0"
                       hide-details
                     />
                   </div>
                   <div class="mr-3">
                     <v-checkbox
-                      v-model="ex7"
+                      v-model="data.stairs_status"
                       class="check-label"
                       label="سلالم"
                       color="info"
-                      value=""
+                      true-value="1"
+                      false-value="0"
                       hide-details
                     />
                   </div>
                   <div class="mr-3">
                     <v-checkbox
-                      v-model="ex8"
+                      v-model="data.electric_garage_status"
                       class="check-label"
                       label="كراج كهربائى"
                       color="info"
-                      value=""
+                      true-value="1"
+                      false-value="0"
                       hide-details
                     />
                   </div>
                   <div class="mr-3">
                     <v-checkbox
-                      v-model="ex9"
+                      v-model="data.ordinary_garage_status"
                       class="check-label"
                       label="كراج عادى"
                       color="info"
-                      value=""
+                      true-value="1"
+                      false-value="0"
                       hide-details
                     />
                   </div>
                   <div class="mr-3">
                     <v-checkbox
-                      v-model="ex10"
+                      v-model="data.portals_status"
                       class="check-label"
                       label="بوابات"
                       color="info"
@@ -1488,21 +1554,23 @@
                   </div>
                   <div class="mr-3">
                     <v-checkbox
-                      v-model="ex11"
+                      v-model="data.heaters_status"
                       class="check-label"
                       label="سخانات"
                       color="info"
-                      value=""
+                      true-value="1"
+                      false-value="0"
                       hide-details
                     />
                   </div>
                   <div class="mr-3">
                     <v-checkbox
-                      v-model="ex12"
+                      v-model="data.french_bath_status"
                       class="check-label"
                       label="حمام افرنجى"
                       color="info"
-                      value=""
+                      true-value="1"
+                      false-value="0"
                       hide-details
                     />
                   </div>
@@ -1776,6 +1844,7 @@
                   x-large
                   class="ma-2"
                   color="blue"
+                  @click="save"
                 >
                   <v-icon left>
                     fas fa-save
@@ -1819,6 +1888,7 @@
 
 <script>
   import { ServiceFactory } from '../../../services/ServiceFactory'
+  import staticLists from './staticData.json'
   const CustomersService = ServiceFactory.get('Customers')
   const EvaluationPurposeService = ServiceFactory.get('EvaluationPurpose')
   // ! TODO : change this later
@@ -1829,10 +1899,13 @@
   const PropertyRatingsServices = ServiceFactory.get('PropertyRatings')
   const PropertyTypesServices = ServiceFactory.get('PropertyTypes')
 
+  const TransactionsServices = ServiceFactory.get('Transactions')
+
   export default {
     name: 'NewTreatment',
 
     data: () => ({
+      staticLists: { ...staticLists },
       customersList: [],
       evaluationPurposeList: [],
       appraisersList: [],
@@ -2568,6 +2641,9 @@
       this.getPropertyRatings()
       this.getPropertyTypes()
     },
+    created () {
+      this.data.sample_id = this.$route.params.id
+    },
     methods: {
       // ! TODO : cheange this with proper endpoint
       getUsers: async function () {
@@ -2660,6 +2736,11 @@
             name: pt.name,
           }
         })
+      },
+      // submit
+      save: async function () {
+        const response = TransactionsServices.addOneItem(this.data)
+        console.log(response)
       },
     },
   }
