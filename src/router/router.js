@@ -125,6 +125,12 @@ const router = new Router({
           component: () => import('@/views/dashboard/Finance/PriceOffers'),
           meta: { requiresAuth: true },
         },
+        {
+          name: 'NewOffers',
+          path: '/new-offers',
+          component: () => import('@/views/dashboard/Finance/Offers/From'),
+          meta: { requiresAuth: true },
+        },
         // SETTING
         {
           name: 'facilityFile',

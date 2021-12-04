@@ -21,7 +21,7 @@
         >
           mdi-file-plus-outline
         </v-icon>
-        <span>عرض سعر جديد</span>
+        <span>فاتورة جديدة</span>
       </v-btn>
     </v-row>
 

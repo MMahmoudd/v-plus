@@ -5,7 +5,7 @@ import { API_URL } from '../config'
 const resource = `${API_URL}`
 export default {
   getAllItems (itemsPerPage, page, pageNumber) {
-        return Service.get(`${resource}/offers`)
+        return Service.get(`${resource}/bills`)
         .then((response) => {
             if (response.status === 200) {
                 return response.data
@@ -21,32 +21,31 @@ export default {
         })
     },
     fetchOneItem (id) {
-      return Service.get(`${resource}/offers/${id}`)
+      return Service.get(`${resource}/bills/${id}`)
       .then((response) => {
         if (response.status === 200) {
             return response.data
         }
     })
     },
-    addOffer (data) {
-    console.log(resource + '/offers')
-      return Service.post(`${resource}/offers`, data)
+    addBill (data) {
+      return Service.post(`${resource}/bills`, data)
       .then((response) => {
         if (response.status === 200) {
             return response.data
         }
     })
     },
-    updateOffer (id, data) {
-      return Service.put(`${resource}/offers/${id}`, data)
+    updateBill (id, data) {
+      return Service.put(`${resource}/bills/${id}`, data)
       .then((response) => {
         if (response.status === 200) {
             return response.data
         }
     })
     },
-    deleteOffer (id) {
-      return Service.delete(`${resource}/offers/${id}`)
+    deleteBill (id) {
+      return Service.delete(`${resource}/bills/${id}`)
       .then((response) => {
         if (response.status === 200) {
             return response.data

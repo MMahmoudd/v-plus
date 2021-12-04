@@ -197,26 +197,17 @@
         const item = await UserSettingService.fetchOneItem(id)
         this.data = item.data
         this.currentPermissions = item.data.permission
-        // console.log('currentPermissions', this.currentPermissions)
         this.dataLoading = false
       },
       async getAllPermission () {
         this.dataLoading = true
         const Permission = await UserSettingService.getAllPermission()
         this.allPermissions = Permission.data
-        // console.log('this.allPermissions', this.allPermissions)
         setTimeout(() => {
           this.allPermissions = this.allPermissions.map((allitem, i) => {
             const foundIt = this.currentPermissions.find(({ id }) => id === allitem.id)
             if (foundIt) {
               return foundIt
-              // const test = this.currentPermissions.find(({ id }) => id === allitem.id)
-              // this.allPermissions.slice(this.currentPermissions.find(({ id }) => id === allitem.id))
-              // this.allPermissions.push(this.currentPermissions.find(({ id }) => id === allitem.id))
-              // this.permissions[i] = this.currentPermissions.find(({ id }) => id === allitem.id)
-
-              // this.permissions.push(this.currentPermissions.find(({ id }) => id === allitem.id))
-              // console.log('allPermissions', this.permissions.push(this.currentPermissions.find(({ id }) => id === allitem.id)))
             } else {
               return allitem
             }
