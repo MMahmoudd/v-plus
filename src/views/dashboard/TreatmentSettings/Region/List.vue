@@ -39,21 +39,10 @@
           v-slot:[`item.name`]="{ item }"
         >
           <v-row>
-            <!-- <v-col md="3">
-              <v-avatar
-                size="70"
-              >
-                <img
-                  :src="item.profile_photo_url"
-                  alt="profile image"
-                >
-              </v-avatar>
-            </v-col> -->
             <v-col md="12">
               <p>
                 {{ item.name }}
               </p>
-              <!-- <p>{{ item.email }}</p> -->
             </v-col>
           </v-row>
         </template>
