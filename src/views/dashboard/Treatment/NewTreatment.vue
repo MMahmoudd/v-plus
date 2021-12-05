@@ -299,7 +299,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >تاريخ التكليف</label>
                   <v-menu
-                    v-model="data.trans_assignment_date"
+                    v-model="trans_assignment_date"
                     :close-on-content-click="false"
                     transition="scale-transition"
                     offset-y
@@ -307,7 +307,7 @@
                   >
                     <template v-slot:activator="{ on, attrs }">
                       <v-text-field
-                        v-model="date"
+                        v-model="data.trans_assignment_date"
                         readonly
                         v-bind="attrs"
                         single-line
@@ -316,8 +316,8 @@
                       />
                     </template>
                     <v-date-picker
-                      v-model="date"
-                      @input="menu1 = false"
+                      v-model="data.trans_assignment_date"
+                      @input="trans_assignment_date = false"
                     />
                   </v-menu>
                 </v-col>
@@ -331,7 +331,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >تاريخ التقييم</label>
                   <v-menu
-                    v-model="data.trans_evaluation_date"
+                    v-model="trans_evaluation_date"
                     :close-on-content-click="false"
                     transition="scale-transition"
                     offset-y
@@ -339,7 +339,7 @@
                   >
                     <template v-slot:activator="{ on, attrs }">
                       <v-text-field
-                        v-model="date"
+                        v-model="data.trans_evaluation_date"
                         readonly
                         v-bind="attrs"
                         single-line
@@ -348,7 +348,7 @@
                       />
                     </template>
                     <v-date-picker
-                      v-model="date"
+                      v-model="data.trans_evaluation_date"
                       @input="menu2 = false"
                     />
                   </v-menu>
@@ -363,7 +363,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >تاريخ المعاينة</label>
                   <v-menu
-                    v-model="data.trans_inspection_date"
+                    v-model="trans_inspection_date"
                     :close-on-content-click="false"
                     transition="scale-transition"
                     offset-y
@@ -371,7 +371,7 @@
                   >
                     <template v-slot:activator="{ on, attrs }">
                       <v-text-field
-                        v-model="date"
+                        v-model="data.trans_inspection_date"
                         readonly
                         v-bind="attrs"
                         single-line
@@ -380,8 +380,8 @@
                       />
                     </template>
                     <v-date-picker
-                      v-model="date"
-                      @input="menu3 = false"
+                      v-model="data.trans_inspection_date"
+                      @input="trans_inspection_date = false"
                     />
                   </v-menu>
                 </v-col>
@@ -778,12 +778,28 @@
                   <label
                     class="d-block mb-3 font-weight-bold"
                   >تاريخ الصك</label>
-                  <v-text-field
-                    v-model="data.trans_instrument_date"
-                    label="تاريخ الصك"
-                    single-line
-                    outlined
-                  />
+                  <v-menu
+                    v-model="trans_instrument_date"
+                    :close-on-content-click="false"
+                    transition="scale-transition"
+                    offset-y
+                    min-width="auto"
+                  >
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-text-field
+                        v-model="data.trans_instrument_date"
+                        readonly
+                        v-bind="attrs"
+                        single-line
+                        outlined
+                        v-on="on"
+                      />
+                    </template>
+                    <v-date-picker
+                      v-model="data.trans_instrument_date"
+                      @input="trans_instrument_date = false"
+                    />
+                  </v-menu>
                 </v-col>
 
                 <v-col
@@ -810,12 +826,28 @@
                   <label
                     class="d-block mb-3 font-weight-bold"
                   >تاريخ رخصة البناء</label>
-                  <v-text-field
-                    v-model="data.trans_building_permit_date"
-                    label="تاريخ رخصة البناء"
-                    single-line
-                    outlined
-                  />
+                  <v-menu
+                    v-model="trans_building_permit_date"
+                    :close-on-content-click="false"
+                    transition="scale-transition"
+                    offset-y
+                    min-width="auto"
+                  >
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-text-field
+                        v-model="data.trans_building_permit_date"
+                        readonly
+                        v-bind="attrs"
+                        single-line
+                        outlined
+                        v-on="on"
+                      />
+                    </template>
+                    <v-date-picker
+                      v-model="data.trans_building_permit_date"
+                      @input="trans_building_permit_date = false"
+                    />
+                  </v-menu>
                 </v-col>
 
                 <v-col
@@ -858,12 +890,28 @@
                   <label
                     class="d-block mb-3 font-weight-bold"
                   >تاريخ محضر التجزئة</label>
-                  <v-text-field
-                    v-model="data.trans_retail_record_date"
-                    label="تاريخ محضر التجزئة"
-                    single-line
-                    outlined
-                  />
+                  <v-menu
+                    v-model="trans_retail_record_date"
+                    :close-on-content-click="false"
+                    transition="scale-transition"
+                    offset-y
+                    min-width="auto"
+                  >
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-text-field
+                        v-model="data.trans_retail_record_date"
+                        readonly
+                        v-bind="attrs"
+                        single-line
+                        outlined
+                        v-on="on"
+                      />
+                    </template>
+                    <v-date-picker
+                      v-model="data.trans_retail_record_date"
+                      @input="trans_retail_record_date = false"
+                    />
+                  </v-menu>
                 </v-col>
 
                 <v-col
@@ -2558,6 +2606,12 @@
       ],
       cityName: '',
       neighborhoodName: '',
+      trans_assignment_date: false,
+      trans_evaluation_date: false,
+      trans_inspection_date: false,
+      trans_instrument_date: false,
+      trans_building_permit_date: false,
+      trans_retail_record_date: false,
       data: {
         sample_id: '',
         customer_id: '',
@@ -2587,9 +2641,9 @@
         trans_report_phone: '',
         trans_value_basis: '',
         value_hypothesis: '',
-        trans_assignment_date: '',
-        trans_evaluation_date: '',
-        trans_inspection_date: '',
+        trans_assignment_date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+        trans_evaluation_date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+        trans_inspection_date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
         trans_Report_type: '',
         trans_filing_the_report: '',
         trans_reference_number: '',
@@ -2604,12 +2658,12 @@
         property_type_id: '',
         property_rating_id: '',
         trans_instrument_num: '',
-        trans_instrument_date: '',
+        trans_instrument_date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
         trans_building_permit_number: '',
-        trans_building_permit_date: '',
+        trans_building_permit_date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
         trans_construction_age: '',
         trans_retail_record_num: '',
-        trans_retail_record_date: '',
+        trans_retail_record_date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
         trans_construction_condition: '',
         trans_occupancy_status: '',
         trans_general_site: '',
@@ -2818,7 +2872,7 @@
         market_value_weighting_text: '',
         cm_space: '',
         cm_operation_type: '',
-        operation_date: '',
+        operation_date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
         cm_price: '',
         cm_type: '',
         cm_mobile_number: '',
@@ -2826,7 +2880,7 @@
         cm_longitude: '',
         cm_space_2: '',
         cm_operation_type_2: '',
-        operation_date_2: '',
+        operation_date_2: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
         cm_price_2: '',
         cm_type_2: '',
         cm_mobile_number_2: '',
@@ -2834,7 +2888,7 @@
         cm_longitude_2: '',
         cm_space_3: '',
         cm_operation_type_3: '',
-        operation_date_3: '',
+        operation_date_3: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
         cm_price_3: '',
         cm_type_3: '',
         cm_mobile_number_3: '',
