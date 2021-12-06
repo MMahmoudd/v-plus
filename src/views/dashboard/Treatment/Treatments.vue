@@ -438,7 +438,7 @@
                 مسودة
               </v-chip>
             </template>
-            <template v-slot:[`item.action`]="{ item }">
+            <template v-slot:[`item.action`]>
               <template>
                 <div class="text-center">
                   <v-menu offset-y>
@@ -467,7 +467,6 @@
                             <v-icon>
                               far fa-edit
                             </v-icon>
-                            {{ item }}
                           </router-link>
                         </v-list-item-title>
                       </v-list-item>
@@ -594,9 +593,9 @@
 
       // Table
       headers: [
-        { text: 'رقم المعاملة', value: 'trans_number' },
+        { text: 'رقم المعاملة', value: 'transaction_id' },
         { text: 'اسم العميل', value: 'customer.cs_name' },
-        { text: 'تم التوجيه بواسطة', value: 'through' },
+        { text: 'تم التوجيه بواسطة', value: 'addby.name' },
         { text: 'المقيم', value: 'resident.name' },
         { text: 'نوع العقار', value: 'propertytype.name' },
         { text: 'المدينة', value: 'city.name' },
@@ -632,10 +631,10 @@
         const { page, itemsPerPage } = this.options
         const pageNumber = page - 1
         const items = await TransactionsServices.getAllItems(itemsPerPage, page, pageNumber)
-        items.data.data.map(item => {
+        items.data.map(item => {
           item.status = item.status === '1' ? 'مفعل' : 'غير مفعل'
         })
-        this.itemsTr = items.data.data
+        this.itemsTr = items.data
         this.total = items.total
         this.dataLoading = false
       },
