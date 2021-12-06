@@ -37,6 +37,7 @@
                     counter
                     show-size
                     label="الصك"
+                    @change="handleFileUpload( $event , 'instrument_file')"
                   >
                     <template v-slot:selection="{ text }">
                       <v-chip
@@ -60,6 +61,7 @@
                     counter
                     show-size
                     label="المخطط"
+                    @change="handleFileUpload( $event , 'attached_file')"
                   >
                     <template v-slot:selection="{ text }">
                       <v-chip
@@ -83,6 +85,7 @@
                     counter
                     show-size
                     label="خطاب التكليف"
+                    @change="handleFileUpload( $event , 'assignment_letter_file')"
                   >
                     <template v-slot:selection="{ text }">
                       <v-chip
@@ -106,6 +109,7 @@
                     counter
                     show-size
                     label="الأرشيف"
+                    @change="handleFileUpload( $event , 'schema_file')"
                   >
                     <template v-slot:selection="{ text }">
                       <v-chip
@@ -3036,6 +3040,10 @@
       this.data.sample_id = this.$route.params.id
     },
     methods: {
+      // files
+      handleFileUpload: function (files, name) {
+        this.data[name] = files[0]
+      },
       // ! TODO : cheange this with proper endpoint
       getUsers: async function () {
         const { data } = await UsersServices.getAllItems()
@@ -3130,7 +3138,11 @@
       },
       // submit
       save: async function () {
-        const response = TransactionsServices.addOneItem(this.data)
+        const formData = new FormData()
+        for (const key in this.data) {
+          formData.append(key, this.data[key])
+        }
+        const response = TransactionsServices.addOneItem(formData)
         console.log(response)
       },
     },

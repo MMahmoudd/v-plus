@@ -430,12 +430,12 @@
             :items-per-page="5"
             class="elevation-1"
           >
-            <template v-slot:[`item.status`]>
+            <template v-slot:[`item.status`]="{ item }">
               <v-chip
                 class="pa-2"
                 color="yellow"
               >
-                مسودة
+                {{ item.status }}
               </v-chip>
             </template>
             <template v-slot:[`item.action`]>
@@ -551,6 +551,15 @@
     name: 'NewTreatment',
 
     data: () => ({
+      statuses: {
+        1: 'جديد',
+        2: 'تحت التقييم',
+        3: 'تحت المراجعة',
+        4: 'قيد الاعتماد',
+        5: 'معتمدة',
+        6: 'مرسلة',
+        7: 'معلقة',
+      },
       samplesList: [],
       search: '',
       dataLoading: false,
@@ -603,15 +612,6 @@
         { text: 'خيارات', value: 'action' },
       ],
       itemsTr: [
-        {
-          treatNum: '121502020',
-          clientName: 'Muhammad Shaalan',
-          through: 'الدغم الفنى',
-          evaluator: 'البنك الأول',
-          buildingType: 'برج مكتبى',
-          place: 'الخبر - الهدا',
-          status: 'مسودة',
-        },
       ],
     }),
     watch: {
@@ -632,7 +632,7 @@
         const pageNumber = page - 1
         const items = await TransactionsServices.getAllItems(itemsPerPage, page, pageNumber)
         items.data.map(item => {
-          item.status = item.status === '1' ? 'مفعل' : 'غير مفعل'
+          item.status = this.statuses[item.status]
         })
         this.itemsTr = items.data
         this.total = items.total
