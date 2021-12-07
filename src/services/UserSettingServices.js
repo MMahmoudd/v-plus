@@ -36,6 +36,14 @@ export default {
         }
     })
     },
+  updatePermissions (id, data) {
+      return Service.post(`${API_URL}/role_update_permissions/${id}`, data)
+      .then((response) => {
+        if (response.status === 200) {
+            return response.data
+        }
+    })
+    },
     deleteRole (id) {
       return Service.delete(`${resource}/${id}`)
       .then((response) => {

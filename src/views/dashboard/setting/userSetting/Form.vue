@@ -146,16 +146,12 @@
       if (this.$route.params.id) {
         this.fetchOneItem(this.$route.params.id)
       }
-      this.getAllPermission()
     },
     methods: {
       async  submitForm () {
         this.loading = true
         this.disabled = true
-        const formData = {
-          role_name: this.data.role_name,
-          allPermissions: this.allPermissions,
-        }
+        const formData = this.allPermissions
         if (this.$route.params.id) {
           this.updateContent(this.$route.params.id, formData)
         } else {
@@ -178,7 +174,7 @@
         this.loading = false
       },
       async updateContent (id, data) {
-        const item = await UserSettingService.updateRole(id, data)
+        const item = await UserSettingService.updatePermissions(id, data)
         if (item.success === true) {
           this.successMessage = 'تم التعديل بنجاح'
           this.successSnackbar = true
@@ -198,23 +194,8 @@
         this.data = item.data
         this.currentPermissions = item.data.permission
         this.dataLoading = false
-      },
-      async getAllPermission () {
-        this.dataLoading = true
-        const Permission = await UserSettingService.getAllPermission()
-        this.allPermissions = Permission.data
-        setTimeout(() => {
-          this.allPermissions = this.allPermissions.map((allitem, i) => {
-            const foundIt = this.currentPermissions.find(({ id }) => id === allitem.id)
-            if (foundIt) {
-              return foundIt
-            } else {
-              return allitem
-            }
-          })
-          console.log('allPermissions', this.allPermissions)
-        }, 1500)
-        this.dataLoading = false
+        this.allPermissions = this.currentPermissions
+        console.log(this.currentPermissions)
       },
     },
   }
