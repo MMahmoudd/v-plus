@@ -32,7 +32,7 @@ export default {
         })
     },
     updateOneItem (id, data) {
-        return Service.put(`${resource}/transactions/${id}`, data)
+        return Service.post(`${resource}/transactions/${id}`, data)
         .then((response) => {
             if (response.status === 200) {
                 return response.data

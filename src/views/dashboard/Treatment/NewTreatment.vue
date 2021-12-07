@@ -6,7 +6,7 @@
       class="mx-0 mt-4"
     >
       <h1 class="font-weight-bold">
-        معاملة جديدة
+        {{ this.$route.query.edit ? `معاملة رقم ${data.transaction_id}` : 'معاملة جديدة' }}
       </h1>
       <v-chip
         class="ma-2 time-chip"
@@ -49,6 +49,17 @@
                       </v-chip>
                     </template>
                   </v-file-input>
+                  <v-chip
+                    v-if="this.$route.query.edit && data.instrument_file"
+                    small
+                    label
+                    color="primary"
+                  >
+                    <a
+                      target="_blank"
+                      :href="'https://taqeeem.millennium.sa/' + data.instrument_file "
+                    >{{ 'https://taqeeem.millennium.sa/' + data.instrument_file }}</a>
+                  </v-chip>
                 </v-col>
 
                 <v-col
@@ -73,6 +84,17 @@
                       </v-chip>
                     </template>
                   </v-file-input>
+                  <v-chip
+                    v-if="this.$route.query.edit && data.attached_file"
+                    small
+                    label
+                    color="primary"
+                  >
+                    <a
+                      target="_blank"
+                      :href="'https://taqeeem.millennium.sa/' + data.attached_file "
+                    >{{ 'https://taqeeem.millennium.sa/' + data.attached_file }}</a>
+                  </v-chip>
                 </v-col>
 
                 <v-col
@@ -97,6 +119,15 @@
                       </v-chip>
                     </template>
                   </v-file-input>
+                  <v-chip
+                    v-if="this.$route.query.edit && data.assignment_letter_file"
+                    link
+                    small
+                    label
+                    color="primary"
+                  >
+                    <a :href="'https://taqeeem.millennium.sa/' + data.assignment_letter_file"> {{ 'https://taqeeem.millennium.sa/' + data.assignment_letter_file }}</a>
+                  </v-chip>
                 </v-col>
 
                 <v-col
@@ -121,6 +152,17 @@
                       </v-chip>
                     </template>
                   </v-file-input>
+                  <v-chip
+                    v-if="this.$route.query.edit && data.schema_file"
+                    small
+                    label
+                    color="primary"
+                  >
+                    <a
+                      target="_blank"
+                      :href="'https://taqeeem.millennium.sa/' + data.schema_file "
+                    >{{ 'https://taqeeem.millennium.sa' + data.schema_file }}</a>
+                  </v-chip>
                 </v-col>
               </v-row>
             </div>
@@ -3023,6 +3065,9 @@
       },
     },
     mounted () {
+      if (this.$route.query.edit) {
+        this.fetchOneItem(this.$route.query.edit)
+      }
       this.getCustomers()
       this.getEvaluationPurpose()
       // ! TODO : change this later with proper method
@@ -3037,9 +3082,15 @@
       this.getPropertyTypes()
     },
     created () {
+      console.log(this.$route.query.edit)
       this.data.sample_id = this.$route.params.id
     },
     methods: {
+      // get one item
+      fetchOneItem: async function (id) {
+        const { data } = await TransactionsServices.fetchOneItem(id)
+        this.data = data
+      },
       // files
       handleFileUpload: function (files, name) {
         this.data[name] = files[0]
@@ -3142,8 +3193,11 @@
         for (const key in this.data) {
           formData.append(key, this.data[key])
         }
-        const response = TransactionsServices.addOneItem(formData)
-        console.log(response)
+        // const response = TransactionsServices.addOneItem(formData)
+        TransactionsServices.addOneItem(formData)
+        if (this.$route.query.edit) {
+          TransactionsServices.updateOneItem(this.$route.query.edit, formData)
+        }
       },
     },
   }
@@ -3160,6 +3214,11 @@
   font-size: 25px;
   color: #37a8ff;
   margin-bottom: 25px;
+}
+
+.v-chip__content a {
+  text-decoration: none;
+  color:white;
 }
 label {
   font-size: 13px;

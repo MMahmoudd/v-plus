@@ -438,7 +438,7 @@
                 {{ item.status }}
               </v-chip>
             </template>
-            <template v-slot:[`item.action`]>
+            <template v-slot:[`item.action`]=" {item} ">
               <template>
                 <div class="text-center">
                   <v-menu offset-y>
@@ -463,10 +463,11 @@
                       </v-list-item>
                       <v-list-item>
                         <v-list-item-title>
-                          <router-link to="/">
+                          <router-link :to="'/New-Treatment/7?edit=' + item.id">
                             <v-icon>
                               far fa-edit
                             </v-icon>
+                            تعديل
                           </router-link>
                         </v-list-item-title>
                       </v-list-item>
