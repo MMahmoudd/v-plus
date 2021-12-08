@@ -181,6 +181,8 @@
         this.loading = false
       },
       async updateContent (id, data) {
+        console.log('reS: ', data)
+
         this.disabled = false
         this.loading = false
         const item = await UserSettingService.updatePermissions(id, data)
