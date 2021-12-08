@@ -21,12 +21,15 @@ export default {
     })
     },
     addRoles (data) {
+    console.log('uu: ', `${resource}`)
       return Service.post(`${resource}`, data)
       .then((response) => {
         if (response.status === 200) {
             return response.data
         }
-    })
+    }).catch(error => {
+      console.log('error: ', error)
+        })
     },
     updateRole (data) {
       return Service.put(`${resource}`, data)
@@ -42,7 +45,9 @@ export default {
         if (response.status === 200) {
             return response.data
         }
-    })
+    }).catch(error => {
+          console.log('error: ', error)
+        })
     },
     deleteRole (id) {
       return Service.delete(`${resource}/${id}`)

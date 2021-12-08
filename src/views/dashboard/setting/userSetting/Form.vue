@@ -146,12 +146,16 @@
       if (this.$route.params.id) {
         this.fetchOneItem(this.$route.params.id)
       }
+      this.getAllPermission()
     },
     methods: {
       async  submitForm () {
         this.loading = true
         this.disabled = true
-        const formData = this.allPermissions
+        const formData = {
+          permissions: this.allPermissions,
+          role_name: this.data.role_name,
+        }
         if (this.$route.params.id) {
           this.updateContent(this.$route.params.id, formData)
         } else {
@@ -159,7 +163,10 @@
         }
       },
       async newItem (data) {
+        // console.log('request: ', data)
         const item = await UserSettingService.addRoles(data)
+        console.log('response: ', data)
+
         if (item.success === true) {
           this.successMessage = 'تمت الاضافة بنجاح'
           this.successSnackbar = true
@@ -174,7 +181,10 @@
         this.loading = false
       },
       async updateContent (id, data) {
+        this.disabled = false
+        this.loading = false
         const item = await UserSettingService.updatePermissions(id, data)
+        console.log('reS: ', item)
         if (item.success === true) {
           this.successMessage = 'تم التعديل بنجاح'
           this.successSnackbar = true
@@ -196,6 +206,24 @@
         this.dataLoading = false
         this.allPermissions = this.currentPermissions
         console.log(this.currentPermissions)
+      },
+      async getAllPermission () {
+        this.dataLoading = true
+        const Permission = await UserSettingService.getAllPermission()
+        this.allPermissions = Permission.data
+        setTimeout(() => {
+          this.allPermissions = this.allPermissions.map((allitem, i) => {
+            // eslint-disable-next-line camelcase
+            const foundIt = this.currentPermissions.find(({ model_name }) => model_name === allitem.model_name)
+            if (foundIt) {
+              return foundIt
+            } else {
+              return allitem
+            }
+          })
+          console.log('allPermissions', this.allPermissions)
+        }, 1500)
+        this.dataLoading = false
       },
     },
   }
