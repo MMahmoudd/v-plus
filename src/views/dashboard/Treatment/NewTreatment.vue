@@ -1928,6 +1928,101 @@
 
             <v-divider class="my-10" />
 
+            <!-- <div>
+              <h2>احداثيات العقار</h2>
+              <v-row>
+                <v-col
+                  cols="12"
+                  md="12"
+                >
+                  <div id="map" />
+                </v-col>
+                <div
+                  v-if="errorCurLocation"
+                  class="text-danger"
+                >
+                  <v-alert
+                    type="error"
+                  >
+                    {{ errorCurLocation }}
+                  </v-alert>
+                </div>
+              </v-row>
+              <v-row>
+                <v-col
+                  cols="12"
+                  lg="3"
+                  md="4"
+                  sm="6"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >خط الطول</label>
+                  <v-text-field
+                    v-model="data.longitude"
+                    label="خط الطول"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  lg="3"
+                  md="4"
+                  sm="6"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >خط العرض</label>
+                  <v-text-field
+                    v-model="data.latitude"
+                    label="خط العرض"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  class="d-flex align-items-center justify-content-end"
+                  cols="12"
+                  lg="6"
+                  md="6"
+                >
+                  <div>
+                    <v-btn
+                      x-large
+                      class="ma-2"
+                      color="blue"
+                      @click="doCopy"
+                    >
+                      <v-icon left>
+                        fas fa-copy
+                      </v-icon>
+                      نسخ
+                    </v-btn>
+                    <v-btn
+                      x-large
+                      class="ma-2 orange-btn"
+                      @click.prevent="getCurrentLocation()"
+                    >
+                      <v-icon left>
+                        fas fa-map-marker-alt
+                      </v-icon>
+                      موقعى
+                    </v-btn>
+                    <v-btn
+                      x-large
+                      class="ma-2 light-green-btn"
+                      @click.prevent="getMap(data.latitude,data.longitude)"
+                    >
+                      <v-icon left>
+                        fas fa-map-marker-alt
+                      </v-icon>
+                      تحديد الموقع
+                    </v-btn>
+                  </div>
+                </v-col>
+              </v-row>
+            </div> -->
             <v-row
               class="mb-10"
               align="center"
@@ -1977,12 +2072,40 @@
         </div>
       </v-container>
     </v-card>
+
+    <v-snackbar
+      v-model="successSnackbar"
+      color="success"
+      shaped
+      absolute
+      bottom
+      left
+      :timeout="timeout"
+    >
+      {{ successMessage }}
+    </v-snackbar>
+    <v-snackbar
+      v-model="errorSnackbar"
+      color="red"
+      shaped
+      absolute
+      bottom
+      left
+      :timeout="timeout"
+    >
+      {{ errorMessage }}
+    </v-snackbar>
   </v-container>
 </template>
 
 <script>
   import { ServiceFactory } from '../../../services/ServiceFactory'
+  // import Swal from 'sweetalert2'
+  // import { copyText } from 'vue3-clipboard'
+  // import { Loader } from '@googlemaps/js-api-loader'
   import staticLists from './staticData.json'
+  // const loader = new Loader('AIzaSyACo4RXxzSABqvI3S_Q3_nQ2YIW4HfJuXI')
+
   const CustomersService = ServiceFactory.get('Customers')
   const EvaluationPurposeService = ServiceFactory.get('EvaluationPurpose')
   // ! TODO : change this later
@@ -1999,6 +2122,9 @@
     name: 'NewTreatment',
 
     data: () => ({
+      successSnackbar: false,
+      errorSnackbar: false,
+      timeout: 3000,
       staticLists: { ...staticLists },
       customersList: [],
       evaluationPurposeList: [],
@@ -3065,6 +3191,7 @@
       },
     },
     mounted () {
+      // this.getCurrentLocation()
       if (this.$route.query.edit) {
         this.fetchOneItem(this.$route.query.edit)
       }
@@ -3193,12 +3320,72 @@
         for (const key in this.data) {
           formData.append(key, this.data[key])
         }
+        let response
         // const response = TransactionsServices.addOneItem(formData)
-        TransactionsServices.addOneItem(formData)
+
         if (this.$route.query.edit) {
-          TransactionsServices.updateOneItem(this.$route.query.edit, formData)
+          response = await TransactionsServices.updateOneItem(this.$route.query.edit, formData)
+        } else {
+          response = await TransactionsServices.addOneItem(formData)
+        }
+
+        if (response.success === true) {
+          this.successMessage = 'تم التعديل بنجاح'
+          this.successSnackbar = true
+          setTimeout(() => {
+            this.$router.push('/Treatments')
+          }, 1500)
+        } else {
+          this.errorMessage = 'يوجد مشكلة في التعديل'
+          this.errorSnackbar = true
         }
       },
+      // Get Location debendes on 2 inputs
+      // getMap: function (x, y) {
+      //   loader.load().then(function (google) {
+      //     // Regular Map
+      //     const center = new google.maps.LatLng(x, y) // Center
+      //     const mapOptions = {
+      //       zoom: 13,
+      //       center: center,
+      //       mapId: '2bf1cba222371325',
+      //       scrollwheel: false, // we disable de scroll over the map, it is a really annoing when you scroll through page
+      //       disableDefaultUI: true, // a way to quickly hide all controls
+      //       zoomControl: true,
+      //     }
+      //     // eslint-disable-next-line no-new
+      //     const map = new google.maps.Map(
+      //       document.getElementById('map'),
+      //       mapOptions
+      //     )
+      //     // eslint-disable-next-line no-new
+      //     new google.maps.Marker({
+      //       position: center,
+      //       map,
+      //       title: 'Hello World!',
+      //     })
+      //   })
+      // },
+      // // Get Cureent Location
+      // getCurrentLocation: function () {
+      //   // do we support geolocation
+      //   if (!('geolocation' in navigator)) {
+      //     this.errorCurLocation = 'Geolocation is not available.'
+      //     return
+      //   }
+      //   this.gettingLocation = true
+      //   // get position
+      //   navigator.geolocation.getCurrentPosition(pos => {
+      //     this.gettingLocation = false
+      //     this.location = pos
+      //     this.data.latitude = this.location.coords.latitude
+      //     this.data.longitude = this.location.coords.longitude
+      //     this.getMap(this.location.coords.latitude, this.location.coords.longitude)
+      //   }, err => {
+      //     this.gettingLocation = false
+      //     this.errorCurLocation = err.message
+      //   })
+      // },
     },
   }
 </script>

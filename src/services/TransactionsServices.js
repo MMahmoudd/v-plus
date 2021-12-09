@@ -11,6 +11,14 @@ export default {
             }
         })
     },
+    filterItems (data) {
+        return Service.get(`${resource}/transactions`, { params: data })
+        .then((response) => {
+            if (response.status === 200) {
+                return response.data
+            }
+        })
+    },
     fetchOneItem (id) {
         return Service.get(`${resource}/transactions/${id}`)
         .then((response) => {
