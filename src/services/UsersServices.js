@@ -44,4 +44,12 @@ export default {
         }
     })
     },
+    getByType (id) {
+      return Service.get(`${resource}/get_user_by_type/${id}`)
+        .then((response) => {
+            if (response.status === 200) {
+                return response.data
+            }
+        })
+    },
 }

@@ -37,8 +37,11 @@
                   >
                     <label class="d-block mb-3 font-weight-bold">العميل</label>
                     <v-select
-                      :items="items"
+                      v-model="data.customer_id"
+                      :items="customersList"
                       label="العميل"
+                      item-text="name"
+                      item-value="id"
                       single-line
                       outlined
                     />
@@ -58,7 +61,7 @@
                     >
                       <template v-slot:activator="{ on, attrs }">
                         <v-text-field
-                          v-model="date"
+                          v-model="data.dateFrom"
                           readonly
                           v-bind="attrs"
                           single-line
@@ -67,7 +70,7 @@
                         />
                       </template>
                       <v-date-picker
-                        v-model="date"
+                        v-model="data.dateFrom"
                         @input="menu1 = false"
                       />
                     </v-menu>
@@ -95,7 +98,7 @@
                     >
                       <template v-slot:activator="{ on, attrs }">
                         <v-text-field
-                          v-model="date"
+                          v-model="data.dateTo"
                           readonly
                           v-bind="attrs"
                           single-line
@@ -104,7 +107,7 @@
                         />
                       </template>
                       <v-date-picker
-                        v-model="date"
+                        v-model="data.dateTo"
                         @input="menu2 = false"
                       />
                     </v-menu>
@@ -122,7 +125,7 @@
                 <v-row class="mt-0">
                   <div class="mr-3">
                     <v-checkbox
-                      v-model="ex1"
+                      v-model="data.filterBy['1']"
                       class="check-label"
                       label="تاريخ الإرسال"
                       color="success"
@@ -132,7 +135,7 @@
                   </div>
                   <div class="mr-3">
                     <v-checkbox
-                      v-model="ex2"
+                      v-model="data.filterBy['2']"
                       class="check-label"
                       label="تاريخ التكليف"
                       color="success"
@@ -142,7 +145,7 @@
                   </div>
                   <div class="mr-3">
                     <v-checkbox
-                      v-model="ex3"
+                      v-model="data.filterBy['3']"
                       class="check-label"
                       label="تاريخ التسليم"
                       color="success"
@@ -154,7 +157,7 @@
                 <v-row>
                   <div class="mr-3">
                     <v-checkbox
-                      v-model="ex4"
+                      v-model="data.filterBy['4']"
                       class="check-label"
                       label="تاريخ الإدخال"
                       color="success"
@@ -164,7 +167,7 @@
                   </div>
                   <div class="mr-3">
                     <v-checkbox
-                      v-model="ex5"
+                      v-model="data.filterBy['5']"
                       class="check-label"
                       label="طريقة الاستثمار رسملة الدخل"
                       color="success"
@@ -174,7 +177,7 @@
                   </div>
                   <div class="mr-3">
                     <v-checkbox
-                      v-model="ex6"
+                      v-model="data.filterBy['6']"
                       class="check-label"
                       label="ناريخ الاعتماد"
                       color="success"
@@ -190,7 +193,10 @@
                   >
                     <label class="d-block mb-3 font-weight-bold">المقيم</label>
                     <v-select
-                      :items="items"
+                      v-model="data.resident_id"
+                      :items="ResidentesList"
+                      item-text="name"
+                      item-value="id"
                       label="المقيم"
                       single-line
                       outlined
@@ -202,7 +208,10 @@
                   >
                     <label class="d-block mb-3 font-weight-bold">المراجع</label>
                     <v-select
-                      :items="items"
+                      v-model="data.reviewer_id"
+                      :items="ReviewersList"
+                      item-text="name"
+                      item-value="id"
                       label="المراجع"
                       single-line
                       outlined
@@ -214,8 +223,11 @@
                   >
                     <label class="d-block mb-3 font-weight-bold">الغرض من التقييم</label>
                     <v-select
-                      :items="items"
+                      v-model="data.evaluation_purpose_id"
+                      :items="evaluationPurposeList"
                       label="الغرض من التقييم"
+                      item-text="name"
+                      item-value="id"
                       single-line
                       outlined
                     />
@@ -228,7 +240,10 @@
                   >
                     <label class="d-block mb-3 font-weight-bold">نوع العقار</label>
                     <v-select
-                      :items="items"
+                      v-model="data.property_type_id"
+                      :items="propTypeList"
+                      item-text="name"
+                      item-value="id"
                       label="نوع العقار"
                       single-line
                       outlined
@@ -240,7 +255,10 @@
                   >
                     <label class="d-block mb-3 font-weight-bold">تصنيف العقار</label>
                     <v-select
-                      :items="items"
+                      v-model="data.property_rating_id"
+                      :items="propRatingsList"
+                      item-text="name"
+                      item-value="id"
                       label="تصنيف العقار"
                       single-line
                       outlined
@@ -251,10 +269,14 @@
                     lg="4"
                   >
                     <label class="d-block mb-3 font-weight-bold">المنطقة</label>
-                    <v-text-field
+                    <v-select
+                      v-model="data.region_id"
+                      :items="regionsList"
                       label="المنطقة"
                       single-line
                       outlined
+                      item-text="name"
+                      item-value="id"
                     />
                   </v-col>
                   <v-col
@@ -262,10 +284,14 @@
                     lg="4"
                   >
                     <label class="d-block mb-3 font-weight-bold">اسم المدينة</label>
-                    <v-text-field
+                    <v-select
+                      v-model="data.city_id"
+                      :items="updateCitesList"
                       label="اسم المدينة"
                       single-line
                       outlined
+                      item-text="name"
+                      item-value="id"
                     />
                   </v-col>
                   <v-col
@@ -273,10 +299,14 @@
                     lg="4"
                   >
                     <label class="d-block mb-3 font-weight-bold">اسم الحى</label>
-                    <v-text-field
+                    <v-select
+                      v-model="data.neighborhood_id"
+                      :items="updateNeighborhoodsList"
                       label="اسم الحى"
                       single-line
                       outlined
+                      item-text="name"
+                      item-value="id"
                     />
                   </v-col>
                 </v-row>
@@ -292,7 +322,7 @@
                 <v-row class="mt-0">
                   <div class="mr-3">
                     <v-checkbox
-                      v-model="ex7"
+                      v-model="data.statuses['2']"
                       class="check-label"
                       label="تحت التثمين"
                       color="success"
@@ -302,7 +332,7 @@
                   </div>
                   <div class="mr-3">
                     <v-checkbox
-                      v-model="ex8"
+                      v-model="data.statuses['3']"
                       class="check-label"
                       label="للتدقيق"
                       color="success"
@@ -312,7 +342,7 @@
                   </div>
                   <div class="mr-3">
                     <v-checkbox
-                      v-model="ex9"
+                      v-model="data.statuses['4']"
                       class="check-label"
                       label="للاعتماد"
                       color="success"
@@ -322,7 +352,7 @@
                   </div>
                   <div class="mr-3">
                     <v-checkbox
-                      v-model="ex10"
+                      v-model="data.statuses['5']"
                       class="check-label"
                       label="معتمدة"
                       color="success"
@@ -348,7 +378,7 @@
               <v-btn
                 x-large
                 class="ma-2 filter-bg"
-                @click="dialog = false"
+                @click="filterTransctions"
               >
                 <v-icon left>
                   fas fa-filter
@@ -425,6 +455,7 @@
       <v-container>
         <template>
           <v-data-table
+            :loading="isLoading"
             :headers="headers"
             :items="itemsTr"
             :items-per-page="5"
@@ -547,11 +578,43 @@
   import { ServiceFactory } from '../../../services/ServiceFactory'
   const SamplesService = ServiceFactory.get('Samples')
   const TransactionsServices = ServiceFactory.get('Transactions')
+  const CustomersService = ServiceFactory.get('Customers')
+  const RegionsServices = ServiceFactory.get('Regions')
+  const CitesServices = ServiceFactory.get('Cites')
+  const NeighborhoodsServices = ServiceFactory.get('Neighborhoods')
+  const PropertyRatingsServices = ServiceFactory.get('PropertyRatings')
+  const PropertyTypesServices = ServiceFactory.get('PropertyTypes')
+  const EvaluationPurposeService = ServiceFactory.get('EvaluationPurpose')
+  const UsersServices = ServiceFactory.get('Users')
 
   export default {
     name: 'NewTreatment',
 
     data: () => ({
+      data: {
+        region_id: '',
+        customer_id: '',
+        neighborhood_id: '',
+        property_type_id: '',
+        property_rating_id: '',
+        evaluation_purpose_id: '',
+        reviewer_id: '',
+        resident_id: '',
+        statuses: {},
+        filterBy: {},
+        dateFrom: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+        dateTo: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+      },
+      // lists for dialot
+      evaluationPurposeList: [],
+      customersList: [],
+      regionsList: [],
+      citesList: [],
+      neighborhoodsList: [],
+      propRatingsList: [],
+      propTypeList: [],
+      ResidentesList: [],
+      ReviewersList: [],
       statuses: {
         1: 'جديد',
         2: 'تحت التقييم',
@@ -563,7 +626,7 @@
       },
       samplesList: [],
       search: '',
-      dataLoading: false,
+      isLoading: false,
       page: 0,
       total: 0,
       numberOfPages: 0,
@@ -585,6 +648,7 @@
 
       // Dialogs
       dialog: false,
+      dialogOpen: false,
       newTratment: false,
 
       // Selectboxes
@@ -615,12 +679,53 @@
       itemsTr: [
       ],
     }),
+    computed: {
+      updateCitesList: function () {
+        // const citesList = [];
+        const data = this.citesList.filter((city) => {
+          if (city.regionId === this.data.region_id) {
+            return city
+          }
+        })
+        return data
+      },
+      updateNeighborhoodsList: function () {
+        const data = this.neighborhoodsList.filter((neighborhood) => {
+          if (neighborhood.cityId === this.data.city_id) {
+            return neighborhood
+          }
+        })
+        return data
+      },
+    },
     watch: {
       options: {
         handler () {
           this.fetchAllItems()
         },
       },
+      dialog: {
+        handler () {
+          // only fetch the data one time
+          if (!this.dialogOpen) {
+            this.getCustomers()
+            this.getRegions()
+            this.getCites()
+            this.getNeighborhoods()
+            this.getPropertyTypes()
+            this.getPropertyRatings()
+            this.getEvaluationPurpose()
+            this.getResidentes()
+            this.getReviwers()
+            this.dialogOpen = true
+          }
+        },
+      },
+      // 'data.region_id': function (val, oldVal) {
+      //   console.log(val)
+      //   console.log(oldVal)
+      //   // this.getCites()
+      // },
     },
     mounted () {
       this.getSamples()
@@ -628,7 +733,7 @@
     },
     methods: {
       fetchAllItems: async function () {
-        this.dataLoading = true
+        this.isLoading = true
         const { page, itemsPerPage } = this.options
         const pageNumber = page - 1
         const items = await TransactionsServices.getAllItems(itemsPerPage, page, pageNumber)
@@ -637,7 +742,7 @@
         })
         this.itemsTr = items.data
         this.total = items.total
-        this.dataLoading = false
+        this.isLoading = false
       },
       getSamples: async function () {
         const { data } = await SamplesService.getAllItems()
@@ -648,6 +753,80 @@
             path: `/New-Treatment/${sample.id}`,
           }
         })
+      },
+      // dialog methods
+      filterTransctions: async function () {
+        await TransactionsServices.filterItems(this.data)
+      },
+      getCustomers: async function () {
+        const { data } = await CustomersService.getAllItems()
+        this.customersList = data.data.map((customer) => {
+          return ({
+            id: customer.id,
+            name: customer.cs_name,
+          })
+        })
+      },
+      // Placess
+      getRegions: async function () {
+        const { data } = await RegionsServices.getAllItems()
+        this.regionsList = data.data.map(({ id, name }) => ({
+          id, name,
+        }))
+      },
+      getCites: async function () {
+        const { data } = await CitesServices.getAllItems()
+        this.citesList = data.data.map((city) => ({
+          id: city.id,
+          name: city.name,
+          regionId: city.region_id,
+        }))
+      },
+      getNeighborhoods: async function () {
+        const { data } = await NeighborhoodsServices.getAllItems()
+        this.neighborhoodsList = data.data.map((neighborhood) => ({
+          id: neighborhood.id,
+          name: neighborhood.name,
+          cityId: neighborhood.city_id,
+        }))
+      },
+      // property ratings
+      getPropertyRatings: async function () {
+        const { data } = await PropertyRatingsServices.getAllItems()
+        this.propRatingsList = data.data.map((pr) => {
+          return {
+            id: pr.id,
+            name: pr.name,
+          }
+        })
+      },
+      // property types
+      getPropertyTypes: async function () {
+        const { data } = await PropertyTypesServices.getAllItems()
+        this.propTypeList = data.data.map((pt) => {
+          return {
+            id: pt.id,
+            name: pt.name,
+          }
+        })
+      },
+      getEvaluationPurpose: async function () {
+        const { data } = await EvaluationPurposeService.getAllItems()
+        this.evaluationPurposeList = data.data.map(({ id, name }) => ({
+          id, name,
+        }))
+      },
+      getResidentes: async function () {
+        const { data } = await UsersServices.getByType(3)
+        this.ResidentesList = data.map(({ id, name }) => ({
+          id, name,
+        }))
+      },
+      getReviwers: async function () {
+        const { data } = await UsersServices.getByType(4)
+        this.ReviewersList = data.map(({ id, name }) => ({
+          id, name,
+        }))
       },
     },
   }

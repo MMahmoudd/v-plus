@@ -15,13 +15,18 @@ import { API_URL } from './config/index.js'
 import VueI18n from 'vue-i18n'
 import en from './locales/en.json'
 import ar from './locales/ar.json'
-
+import * as VueGoogleMaps from 'vue2-google-maps'
 // Import Style
 import './assets/main.css'
 
 Vue.use(DatetimePicker)
 Vue.use(VueI18n)
-
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: 'AIzaSyACgY2Kl1e1DAM80BgiwVUo8BKXzJ5tU7w',
+    libraries: 'places',
+  },
+})
 // Ready translated locale messages
 const language = {
   en: en,
