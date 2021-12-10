@@ -116,7 +116,15 @@ const router = new Router({
         {
           name: 'Customers',
           path: '/customers',
-          component: () => import('@/views/dashboard/Finance/Customers'),
+          component: () => import('@/views/dashboard/Finance/customers/Customers.vue'),
+          meta: { requiresAuth: true },
+        },
+        {
+          name: 'Customers Form',
+          path: '/customerForm/:id?',
+          component: () => import('@/views/dashboard/Finance/customers/form.vue'),
+          // meta: { role: 'Users.GetById' },
+          // beforeEnter: routerGuard,
           meta: { requiresAuth: true },
         },
         {
