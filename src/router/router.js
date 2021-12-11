@@ -77,18 +77,16 @@ const router = new Router({
           name: 'Users',
           path: '/Users',
           component: () => import('@/views/dashboard/users/Users.vue'),
-          // meta: { role: 'Users.GetAll' },
-          // beforeEnter: routerGuard,
           meta: { requiresAuth: true },
         },
         {
           name: 'user Form',
           path: '/userForm/:id?',
           component: () => import('@/views/dashboard/users/Form.vue'),
-          // meta: { role: 'Users.GetById' },
-          // beforeEnter: routerGuard,
           meta: { requiresAuth: true },
         },
+        // Start Finance
+        // Start Treatments
         {
           name: 'Treatments',
           path: '/Treatments',
@@ -113,6 +111,7 @@ const router = new Router({
           component: () => import('@/views/dashboard/Treatment/AccountantTreatment'),
           meta: { requiresAuth: true },
         },
+        // Start Customers
         {
           name: 'Customers',
           path: '/customers',
@@ -123,20 +122,19 @@ const router = new Router({
           name: 'Customers Form',
           path: '/customerForm/:id?',
           component: () => import('@/views/dashboard/Finance/customers/form.vue'),
-          // meta: { role: 'Users.GetById' },
-          // beforeEnter: routerGuard,
           meta: { requiresAuth: true },
         },
+        // Start Offers
         {
           name: 'PriceOffers',
           path: '/price-offers',
-          component: () => import('@/views/dashboard/Finance/PriceOffers'),
+          component: () => import('@/views/dashboard/Finance/Offers/PriceOffers.vue'),
           meta: { requiresAuth: true },
         },
         {
-          name: 'NewOffers',
-          path: '/new-offers',
-          component: () => import('@/views/dashboard/Finance/Offers/From'),
+          name: 'offers Form',
+          path: '/offersForm/:id?',
+          component: () => import('@/views/dashboard/Finance/Offers/Form.vue'),
           meta: { requiresAuth: true },
         },
         // SETTING
@@ -163,16 +161,12 @@ const router = new Router({
           name: 'Users Setting',
           path: '/users-setting',
           component: () => import('@/views/dashboard/setting/userSetting/UserSetting.vue'),
-          // meta: { role: 'Users.GetAll' },
-          // beforeEnter: routerGuard,
           meta: { requiresAuth: true },
         },
         {
           name: 'user Setting Form',
           path: '/userSettingForm/:id?',
           component: () => import('@/views/dashboard/setting/userSetting/Form.vue'),
-          // meta: { role: 'Users.GetById' },
-          // beforeEnter: routerGuard,
           meta: { requiresAuth: true },
         },
         {

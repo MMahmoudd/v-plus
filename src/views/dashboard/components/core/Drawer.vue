@@ -230,7 +230,6 @@
   font-weight: bold
 
 #core-navigation-drawer
-
   .v-list-group__header.v-list-item--active:before
     opacity: 0
     color: #000 !important
