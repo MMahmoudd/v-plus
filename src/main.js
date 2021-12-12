@@ -22,7 +22,7 @@ Vue.use(DatetimePicker)
 Vue.use(VueI18n)
 Vue.use(VueGoogleMaps, {
   load: {
-    key: 'AIzaSyACgY2Kl1e1DAM80BgiwVUo8BKXzJ5tU7w',
+    key: 'AIzaSyDQ9f-cXdHYEht98QgvEFtd2sGNA6gNYso',
     libraries: 'places',
   },
 })

@@ -1804,7 +1804,16 @@
                   cols="12"
                   md="12"
                 >
-                  <div id="map" />
+                  <gmap-map
+                    map-type-id="terrain"
+                    style="width: 100%; height: 450px"
+                  >
+                    <gmap-marker
+                      position="{lat:10, lng:10}"
+                      :clickable="true"
+                      :draggable="true"
+                    />
+                  </gmap-map>
                 </v-col>
                 <div
                   v-if="errorCurLocation"
@@ -2032,7 +2041,7 @@
                   >بطول</label>
                   <v-text-field
                     v-model="data.tall_western"
-                    label="1525"
+                    label="0"
                     single-line
                     outlined
                   />
@@ -2116,7 +2125,7 @@
                   >مساحة الارض</label>
                   <v-text-field
                     v-model="data.land_area"
-                    label="1525"
+                    label="0"
                     single-line
                     outlined
                   />
@@ -2131,7 +2140,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >مساحة المبانى</label>
                   <v-text-field
-                    label="1525"
+                    label="0"
                     single-line
                     outlined
                   />
@@ -2147,7 +2156,7 @@
                   >مساحة القبو</label>
                   <v-text-field
                     v-model="data.basement_space"
-                    label="1525"
+                    label="0"
                     single-line
                     outlined
                   />
@@ -2163,7 +2172,7 @@
                   >مساحة الملاحق</label>
                   <v-text-field
                     v-model="data.annexes_space"
-                    label="1525"
+                    label="0"
                     single-line
                     outlined
                   />
@@ -2179,7 +2188,7 @@
                   >عدد الأدوار للفلل السكنية</label>
                   <v-text-field
                     v-model="data.num_floors_residential_villas"
-                    label="5"
+                    label="0"
                     single-line
                     outlined
                   />
@@ -2269,7 +2278,7 @@
                   >مجالس</label>
                   <v-text-field
                     v-modal="data.trans_boards"
-                    label="5"
+                    label="0"
                     single-line
                     outlined
                   />
@@ -2283,7 +2292,7 @@
                   >غرف طعام</label>
                   <v-text-field
                     v-model="data.trans_dining_rooms"
-                    label="4"
+                    label="0"
                     single-line
                     outlined
                   />
@@ -2297,7 +2306,7 @@
                   >غرف نوم</label>
                   <v-text-field
                     v-model="data.trans_bed_room"
-                    label="4"
+                    label="0"
                     single-line
                     outlined
                   />
@@ -2311,7 +2320,7 @@
                   >مطابخ</label>
                   <v-text-field
                     v-model="data.trans_kitchens"
-                    label="5"
+                    label="0"
                     single-line
                     outlined
                   />
@@ -2325,7 +2334,7 @@
                   >دورات مياه</label>
                   <v-text-field
                     v-model="data.trans_toilets"
-                    label="5"
+                    label="0"
                     single-line
                     outlined
                   />
@@ -2339,7 +2348,7 @@
                   >جاكوزى</label>
                   <v-text-field
                     v-model="data.trans_jacuzzi"
-                    label="5"
+                    label="0"
                     single-line
                     outlined
                   />
@@ -2353,7 +2362,7 @@
                   >حديقة</label>
                   <v-text-field
                     v-model="data.trans_garden"
-                    label="5"
+                    label="0"
                     single-line
                     outlined
                   />
@@ -2367,7 +2376,7 @@
                   >غرفة خادمة</label>
                   <v-text-field
                     v-model="data.trans_maids_room"
-                    label="5"
+                    label="0"
                     single-line
                     outlined
                   />
@@ -2381,7 +2390,7 @@
                   >غرفة حارس</label>
                   <v-text-field
                     v-model="data.trans_guard_Room"
-                    label="5"
+                    label="0"
                     single-line
                     outlined
                   />
@@ -2395,7 +2404,7 @@
                   >قبو</label>
                   <v-text-field
                     v-model="data.trans_basement"
-                    label="5"
+                    label="0"
                     single-line
                     outlined
                   />
@@ -2409,7 +2418,7 @@
                   >الصالات</label>
                   <v-text-field
                     v-model="data.trans_halls"
-                    label="5"
+                    label="0"
                     single-line
                     outlined
                   />
@@ -2423,7 +2432,7 @@
                   >الملاحق</label>
                   <v-text-field
                     v-model="data.trans_supplements"
-                    label="5"
+                    label="0"
                     single-line
                     outlined
                   />
@@ -2437,7 +2446,7 @@
                   >مصاعد</label>
                   <v-text-field
                     v-model="data.trans_elevators"
-                    label="5"
+                    label="0"
                     single-line
                     outlined
                   />
@@ -2451,7 +2460,7 @@
                   >موقف سيارات</label>
                   <v-text-field
                     v-model="data.trans_parking"
-                    label="5"
+                    label="0"
                     single-line
                     outlined
                   />
@@ -2465,7 +2474,7 @@
                   >ملاعب أطفال</label>
                   <v-text-field
                     v-model="data.trans_children_playground"
-                    label="5"
+                    label="0"
                     single-line
                     outlined
                   />
@@ -2478,7 +2487,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >مسرح</label>
                   <v-text-field
-                    label="5"
+                    label="0"
                     single-line
                     outlined
                   />
@@ -2492,7 +2501,7 @@
                   >مستودع</label>
                   <v-text-field
                     v-model="data.trans_storehouse"
-                    label="5"
+                    label="0"
                     single-line
                     outlined
                   />
@@ -6292,7 +6301,7 @@
     //   this.getMap(this.lat, this.long)
     // },
     mounted () {
-      this.getCurrentLocation()
+      // this.getCurrentLocation()
       this.getCustomers()
       this.getEvaluationPurpose()
       // ! TODO : change this later with proper method
