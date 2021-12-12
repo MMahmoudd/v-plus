@@ -126,8 +126,8 @@
           ],
         },
         {
-          title: 'إعدادات المعاملة',
-          icon: 'fa-cog',
+          title: 'تخصيص المعاملة',
+          icon: 'fa-cogs',
           role: true,
           children: [
             {
@@ -228,34 +228,37 @@
 .theme--dark.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled)
   color: #000 !important
   font-weight: bold
-  margin-right: 15px
 
 #core-navigation-drawer
-
   .v-list-group__header.v-list-item--active:before
     opacity: 0
-    margin-right: 15px
+    color: #000 !important
+    font-weight: bold
 
   .v-list-group__items
         .v-list-item
           margin-bottom: 0 !important
-          margin: 10px 15px 10px 0
+          margin: 10px 0
+          font-size: 0px
+        .v-list-item--active
+              color: #3772ff !important
+              .v-list-item__title
+                  font-weight: 650
+                  font-size: 16px
   .v-list-group--sub-group
     .v-list-item
       padding: 0
       padding-left: 0 !important
-      margin-right: 15px
-      margin: 10px 15px 10px 0
+      color: #fff !important
+      margin: 10px 0
   .v-list-item--active
-    background-color: #FDCA40 !important
+    background-color: transparent !important
     border-radius: 15px
-    width: fit-content
-    margin-right: 15px
-    border-color: #FDCA40 !important
+    border-color: transparent !important
     color: #000 !important
-    font-weight: bold
+    font-weight: 900
     .v-icon.v-icon
-      color: #000 !important
+      color: #3772ff !important
   .v-list-item
     &__icon--text,
     &__icon:first-child

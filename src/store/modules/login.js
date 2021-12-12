@@ -53,6 +53,8 @@ const Login = {
           if (response.data.token) {
             console.log('response', response)
             localStorage.setItem('token', response.data.token)
+            localStorage.setItem('userData', JSON.stringify(response.data.user))
+            state.userData = response.data.user
             // localStorage.setItem('userDataPermission', response.data.userPolicy)
             state.userToken = response.data.token
             // state.userDataPermission = response.data.userPolicy

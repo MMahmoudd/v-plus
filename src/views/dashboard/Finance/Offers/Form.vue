@@ -6,7 +6,7 @@
   >
     <v-card class="py-5">
       <v-card-title>
-        {{ this.$route.params.id ? 'تعديل' : 'اضافة' }}
+        {{ this.$route.params.id ? 'تعديل عرض سعر' : 'اضافة عرض سعر' }}
       </v-card-title>
       <template>
         <v-form
@@ -17,22 +17,21 @@
             <v-row class="mx-md-16 px-md-16">
               <v-col
                 cols="12"
-                md="6"
+                md="4"
               >
                 <v-select
                   v-model="data.customer_id"
-                  :hint="`${select.cs_name}, ${select.id}`"
                   :items="customers"
                   item-text="cs_name"
                   item-value="id"
                   label="العميل"
-                  persistent-hint
-                  single-line
+                  outlined
+                  required
                 />
               </v-col>
               <v-col
                 cols="12"
-                md="6"
+                md="4"
               >
                 <v-text-field
                   v-model="data.of_time"
@@ -44,172 +43,139 @@
               </v-col>
 
               <v-col
-                class="d-flex"
                 cols="12"
-                sm="6"
+                sm="4"
               >
                 <v-select
                   v-model="data.of_purpose"
                   :items="purpose"
                   label="الغرض"
-                  dense
-                  solo
+                  outlined
+                  required
                 />
               </v-col>
-
-              <v-col
-                class="d-flex"
-                cols="12"
-                sm="6"
-              />
-
               <v-col
                 cols="12"
-                md="6"
               >
                 <v-textarea
                   v-model="data.own_customer"
-                  solo
+                  outlined
+                  required
                   name="input-7-4"
                   label="الشروط والاحكام"
                 />
               </v-col>
               <v-col
-                class="d-flex"
                 cols="12"
-                sm="6"
-              />
-              <v-col
-                cols="12"
-                md="6"
               >
                 <v-textarea
                   v-model="data.of_note"
-                  solo
+                  outlined
+                  required
                   name="input-7-4"
                   label="ملاحظات"
                 />
               </v-col>
-              <v-col
-                class="d-flex"
-                cols="12"
-                sm="6"
-              />
-              <v-col
-                class="d-flex"
-                cols="6"
-                sm="4"
-              >
-                <v-select
-                  v-model="data.of_signature"
-                  :items="purpose"
-                  label="التوقيع"
-                  dense
-                  solo
-                />
-              </v-col>
             </v-row>
-
+            <v-divider />
+            <br>
             <h2>نطاق العمل وتفاصيل العقار</h2>
             <br>
-            <v-row
-              v-for="(row, index) in airRows"
-              :key="index"
-              align="center"
-            >
+            <v-row>
               <v-col
-                cols="1"
-                lg="2"
-                md="2"
+                cols="12"
               >
-                <v-text-field
-                  v-model="data.saq.instrument_number"
-                  label="رقم الصك"
-                  type="number"
-                  outlined
-                  required
-                />
+                <template>
+                  <h3 class="mb-4">
+                    بيانات الصكوك
+                  </h3>
+                  <v-row
+                    class="border"
+                  >
+                    <v-col
+                      v-for="(item, index) in SAQ"
+                      :key="index"
+                      cols="12"
+                    >
+                      <v-card
+                        class="pa-2 ma-2"
+                      >
+                        <v-card-title>
+                          بيان صك جديد
+                          <v-spacer />
+                          <v-btn
+                            medium
+                            color="red"
+                            @click="deleteSaq(index)"
+                          >
+                            <v-icon
+                              aria-label="Close"
+                            >
+                              fa-trash-alt
+                            </v-icon>  حذف
+                          </v-btn>
+                        </v-card-title>
+                        <v-row class="px-5 py-5">
+                          <v-text-field
+                            v-model="item.instrument_number"
+                            label="رقم الصك"
+                            type="number"
+                            outlined
+                            required
+                            class="mx-2"
+                          />
+                          <v-text-field
+                            v-model="item.property_description"
+                            label="نوع العقار"
+                            type="text"
+                            outlined
+                            required
+                            class="mx-2"
+                          />
+                          <v-text-field
+                            v-model="item.space"
+                            label="المساحة"
+                            type="number"
+                            outlined
+                            required
+                            class="mx-2"
+                          />
+                          <v-text-field
+                            v-model="item.location"
+                            label="المدينة"
+                            type="text"
+                            outlined
+                            required
+                            class="mx-2"
+                          />
+                          <v-text-field
+                            v-model="item.of_price"
+                            label="السعر"
+                            type="number"
+                            outlined
+                            required
+                            class="mx-2"
+                          />
+                        </v-row>
+                      </v-card>
+                    </v-col>
+                  </v-row>
+                </template>
               </v-col>
               <v-col
                 cols="12"
-                lg="3"
-                md="4"
+                md="6"
               >
-                <v-text-field
-                  v-model="data.saq.property_description"
-                  label="وصف العقار"
-                  type="text"
-                  outlined
-                  required
-                />
-              </v-col>
-              <v-col
-                cols="2"
-                lg="2"
-                md="2"
-              >
-                <v-text-field
-                  v-model="data.saq.space"
-                  label="المساحة"
-                  type="number"
-                  outlined
-                  required
-                />
-              </v-col>
-              <v-col
-                cols="12"
-                lg="3"
-                md="4"
-              >
-                <v-text-field
-                  v-model="data.saq.location"
-                  label="الموقع"
-                  type="text"
-                  outlined
-                  required
-                />
-              </v-col>
-              <v-col
-                cols="12"
-                lg="2"
-                md="2"
-              >
-                <v-text-field
-                  v-model="data.saq.of_price"
-                  label="قيمة الاتعاب"
-                  type="number"
-                  outlined
-                  required
-                />
-              </v-col>
-              <v-col
-                cols="12"
-                lg="2"
-                md="2"
-              >
-                <label
-                  class="d-block font-weight-bold"
-                  @click.prevent="airRows++"
+                <v-btn
+                  medium
+                  class="mx-1 my-1"
+                  color="blue"
+                  @click="addNewSaq()"
                 >
-                  <v-icon left> mdi-plus </v-icon>
-                  إضافة
-                </label>
-              </v-col>
-              <v-col
-                cols="12"
-                lg="2"
-                md="2"
-              >
-                <label
-                  class="d-block font-weight-bold"
-                  @click.prevent="removeField(airRows)"
-                >
-                  <v-icon left> mdi-plus </v-icon>
-                  remove
-                </label>
+                  اضافة حقل جديد +
+                </v-btn>
               </v-col>
             </v-row>
-
             <v-btn
               type="submit"
               class="mx-auto my-auto d-flex"
@@ -265,19 +231,11 @@
         of_signature: '',
         of_by: 0,
         of_price: 0,
-        saq: [{
-          instrument_number: 0,
-          property_description: '',
-          space: 0,
-          location: '',
-          of_price: 0,
-        }],
+        saq: [],
       },
+      SAQ: [],
       airRows: 1,
-      customers: [
-        { cs_name: 'name', id: 1 },
-      ],
-      select: { cs_name: '', id: null },
+      customers: [],
       purpose: ['تقيم', 'بيع'],
       successSnackbar: false,
       errorSnackbar: false,
@@ -331,10 +289,6 @@
         this.disabled = false
         this.loading = false
       },
-      removeField (index) {
-        this.data.saq.splice(index, 1)
-        console.log('remove: ', index)
-      },
       async updateContent (id, data) {
         const item = await OffersService.updateOffer(id, data)
         if (item.success === true) {
@@ -350,21 +304,31 @@
         this.disabled = false
         this.loading = false
       },
+      addNewSaq () {
+        this.data.saq = this.SAQ
+        this.data.saq.push({
+          instrument_number: null,
+          property_description: '',
+          space: null,
+          location: '',
+          of_price: null,
+        })
+      },
+      deleteSaq (index) {
+        this.data.saq.splice(index, 1)
+      },
       async fetchOneItem (id) {
         this.dataLoading = true
-        const user = await OffersService.fetchOneItem(id)
-        console.log(user)
-        this.data = user.data
+        const item = await OffersService.fetchOneItem(id)
+        console.log('offer', item)
+        this.data = item.data
         this.dataLoading = false
       },
       async fetchCustomer () {
         this.dataLoading = true
         const customers = await OffersService.getCustomer()
-        console.log(customers)
-        this.customers = customers.data
-        this.customers = this.customers.data
-        console.log('resp: ', this.customers)
-        console.log('select: ', this.items)
+        console.log('customers', customers.data.data)
+        this.customers = customers.data.data
         this.dataLoading = false
       },
     },

@@ -10,6 +10,7 @@ import vuetify from './plugins/vuetify'
 import mixins from './mixins/mixins'
 import DatetimePicker from 'vuetify-datetime-picker'
 import axios from 'axios'
+import { API_URL } from './config/index.js'
 // Language Plugin
 import VueI18n from 'vue-i18n'
 import en from './locales/en.json'
@@ -37,12 +38,13 @@ if (localStorage.getItem('userLang')) {
 }
 
 // config file with base endpoint url
-// axios.defaults.baseURL = process.env.APP_URL
+axios.defaults.baseURL = `${API_URL}`
 
 // Check User Is Authorized
 axios.interceptors.response.use((response) => {
     return response
 }, function (error) {
+  console.log('error', error)
     if (error.response.status === 401) {
         localStorage.removeItem('token')
         return router.push('/login')
@@ -51,6 +53,7 @@ axios.interceptors.response.use((response) => {
 })
 const userToken = localStorage.getItem('token')
 if (userToken) {
+  console.log('error', axios.interceptors.response)
   // axios.defaults.headers.common['x-access-token'] = 'Bearer ' + userData.token
   axios.defaults.headers.common.Authorization = 'Bearer ' + userToken
   axios.defaults.headers['Content-type'] = 'application/json'
