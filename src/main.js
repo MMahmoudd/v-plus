@@ -18,7 +18,10 @@ import ar from './locales/ar.json'
 import * as VueGoogleMaps from 'vue2-google-maps'
 // Import Style
 import './assets/main.css'
+import './plugins/vuetify-money.js'
+import UUID from 'vue-uuid'
 
+Vue.use(UUID)
 Vue.use(DatetimePicker)
 Vue.use(VueI18n)
 Vue.use(VueGoogleMaps, {

@@ -32,11 +32,13 @@
     "vue-resource": "^1.5.3",
     "vue-router": "^3.5.3",
     "vue-toast-notification": "^2.0.1",
+    "vue-uuid": "^2.0.2",
     "vue2-google-maps": "^0.10.7",
     "vue3-clipboard": "^1.0.0",
     "vuelidate": "^0.7.5",
     "vuetify": "^2.6.0",
     "vuetify-datetime-picker": "^2.1.1",
+    "vuetify-money": "^1.2.0",
     "vuex": "^3.5.1"
   },
   "devDependencies": {
