@@ -153,7 +153,7 @@ const router = new Router({
         {
           name: 'Expenses',
           path: '/expenses',
-          component: () => import('@/views/dashboard/Finance/Expenses'),
+          component: () => import('@/views/dashboard/Finance/expenses/Expenses.vue'),
           meta: { requiresAuth: true },
         },
         // Users Setting

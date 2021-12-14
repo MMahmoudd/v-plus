@@ -12,6 +12,7 @@ import UserSettingServices from './UserSettingServices'
 import TransactionsServices from './TransactionsServices'
 import OffersServices from '@/services/OffersServices'
 import BillingServices from '@/services/BillingServices'
+import ExpenseServices from './ExpenseServices'
 
 const services = {
   Users: usersService,
@@ -28,6 +29,7 @@ const services = {
   Transactions: TransactionsServices,
   Offers: OffersServices,
   Bills: BillingServices,
+  Expense: ExpenseServices,
 }
 
 export const ServiceFactory = {

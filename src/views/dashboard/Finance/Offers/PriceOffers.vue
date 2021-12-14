@@ -94,6 +94,7 @@
   const OffersService = ServiceFactory.get('Offers')
 
   export default {
+    name: 'Offers',
     data: () => ({
       search: '',
       dataLoading: false,

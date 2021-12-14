@@ -99,6 +99,26 @@
             </template>
             حذف
           </v-tooltip>
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                v-if="item.status != 1"
+                small
+                fab
+                outlined
+                class="mx-2"
+                color="blue"
+                v-bind="attrs"
+                v-on="on"
+                @click="sendInvite(item)"
+              >
+                <v-icon>
+                  fa-share
+                </v-icon>
+              </v-btn>
+            </template>
+            اعادة ارسال دعوة
+          </v-tooltip>
         </template>
 
         <template
@@ -198,6 +218,7 @@
       headers: [
         { text: 'المستخدم', sortable: true, value: 'name' },
         { text: 'تاريخ الدخول', sortable: true, value: 'created_at' },
+        { text: 'المنصب', sortable: true, value: 'user_type' },
         { text: 'الحالة', sortable: true, value: 'status' },
         { text: 'الاجراءات', value: 'actions', sortable: false },
       ],
@@ -239,6 +260,25 @@
             this.editedIndex = this.items.indexOf(userDetails)
             this.items.splice(this.editedIndex, 1)
           }, 500)
+        } else {
+          this.errorMessage('يوجد مشكلة')
+          this.errorSnackbar = true
+        }
+        this.disabled = false
+        this.loading = false
+      },
+      async sendInvite (item) {
+        this.loading = true
+        this.disabled = true
+        const user = {
+          name: item.name,
+          email: item.email,
+          user_type: item.user_type,
+        }
+        const sendInvite = await UsersService.sendInvite(user)
+        if (sendInvite.success === true) {
+          this.successMessage = 'تمت الدهوة بنجاح'
+          this.successSnackbar = true
         } else {
           this.errorMessage('يوجد مشكلة')
           this.errorSnackbar = true

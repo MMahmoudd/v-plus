@@ -39,8 +39,22 @@
                 />
               </v-col>
               <v-col
-                v-if="!this.$route.params.id"
                 cols="12"
+                md="6"
+              >
+                <v-select
+                  v-model="data.user_type"
+                  :items="roles"
+                  item-text="role_name"
+                  item-value="id"
+                  label="العميل"
+                  outlined
+                  required
+                />
+              </v-col>
+              <v-col
+                cols="12"
+                md="6"
               >
                 <v-text-field
                   v-model="data.password"
@@ -91,6 +105,7 @@
 <script>
   import { ServiceFactory } from '../../../services/ServiceFactory'
   const UsersService = ServiceFactory.get('Users')
+  const UserSettingService = ServiceFactory.get('UserSetting')
   export default {
     name: 'Companies',
     data: (vm) => ({
@@ -101,7 +116,9 @@
         email: '',
         name: '',
         password: '',
+        user_type: null,
       },
+      roles: [],
       successSnackbar: false,
       errorSnackbar: false,
       timeout: 3000,
@@ -114,6 +131,7 @@
       if (this.$route.params.id) {
         this.fetchOneItem(this.$route.params.id)
       }
+      this.fetchRoles()
     },
     methods: {
       async  submitForm () {
@@ -123,6 +141,7 @@
           name: this.data.name,
           email: this.data.email,
           password: this.data.password,
+          user_type: this.data.user_type,
         }
         if (this.$route.params.id) {
           this.updateContent(this.$route.params.id, formData)
@@ -163,8 +182,14 @@
       async fetchOneItem (id) {
         this.dataLoading = true
         const user = await UsersService.fetchOneItem(id)
-        console.log(user)
         this.data = user.data
+        this.dataLoading = false
+      },
+      async fetchRoles () {
+        this.dataLoading = true
+        const roles = await UserSettingService.getAllItems()
+        console.log('roles', roles.data)
+        this.roles = roles.data
         this.dataLoading = false
       },
     },

@@ -58,7 +58,7 @@
                 cols="12"
               >
                 <v-textarea
-                  v-model="data.own_customer"
+                  v-model="data.of_terms_condition"
                   outlined
                   required
                   name="input-7-4"
@@ -218,7 +218,7 @@
 
   const OffersService = ServiceFactory.get('Offers')
   export default {
-    name: 'Companies',
+    name: 'OffersForm',
     data: (vm) => ({
       dataLoading: false,
       valid: false,
@@ -231,10 +231,9 @@
         of_signature: '',
         of_by: 0,
         of_price: 0,
-        saq: [],
+        saqs: [],
       },
       SAQ: [],
-      airRows: 1,
       customers: [],
       purpose: ['تقيم', 'بيع'],
       successSnackbar: false,
@@ -264,7 +263,7 @@
           of_signature: this.data.of_signature,
           of_by: this.data.of_by,
           of_price: this.data.of_price,
-          saq: [this.data.saq],
+          saqs: this.data.saqs,
         }
         if (this.$route.params.id) {
           await this.updateContent(this.$route.params.id, formData)
@@ -305,8 +304,8 @@
         this.loading = false
       },
       addNewSaq () {
-        this.data.saq = this.SAQ
-        this.data.saq.push({
+        this.data.saqs = this.SAQ
+        this.data.saqs.push({
           instrument_number: null,
           property_description: '',
           space: null,
@@ -315,7 +314,7 @@
         })
       },
       deleteSaq (index) {
-        this.data.saq.splice(index, 1)
+        this.data.saqs.splice(index, 1)
       },
       async fetchOneItem (id) {
         this.dataLoading = true
