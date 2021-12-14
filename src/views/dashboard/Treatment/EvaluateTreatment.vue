@@ -5195,7 +5195,7 @@
                       <thead>
                         <tr>
                           <th>
-                            #
+                            البيان
                           </th>
                           <th>
                             القيمة السوقية بطريقة البيوع المقارنة
@@ -5219,6 +5219,8 @@
                               class="mt-3"
                               single-line
                               outlined
+                              type="number"
+                              suffix="%"
                             />
                           </td>
                           <td>
@@ -5227,6 +5229,8 @@
                               class="mt-3"
                               single-line
                               outlined
+                              type="number"
+                              suffix="%"
                             />
                           </td>
                           <td>
@@ -5235,6 +5239,8 @@
                               class="mt-3"
                               single-line
                               outlined
+                              type="number"
+                              suffix="%"
                             />
                           </td>
                         </tr>
@@ -5243,27 +5249,33 @@
                             <label class="v-label theme--light">مساهمة الطرق المستخدمة حسب الوزن النسبى</label>
                           </td>
                           <td>
-                            <v-text-field
+                            <vuetify-money
                               v-model="data.relative_market_value_relative_weights_roads_used"
                               class="mt-3"
-                              single-line
                               outlined
+                              single-line
+                              :options="moneyInputOptions"
+                              disabled
                             />
                           </td>
                           <td>
-                            <v-text-field
+                            <vuetify-money
                               v-model="data.relative_market_value_income_capitalization"
                               class="mt-3"
-                              single-line
                               outlined
+                              single-line
+                              :options="moneyInputOptions"
+                              disabled
                             />
                           </td>
                           <td>
-                            <v-text-field
+                            <vuetify-money
                               v-model="data.relative_market_value_cost"
                               class="mt-3"
-                              single-line
                               outlined
+                              single-line
+                              :options="moneyInputOptions"
+                              disabled
                             />
                           </td>
                         </tr>
@@ -5272,11 +5284,13 @@
                             <label class="v-label theme--light">القيمة السوقية بعد الترجيح رقماً</label>
                           </td>
                           <td colspan="3">
-                            <v-text-field
+                            <vuetify-money
                               v-model="data.market_value_weighting_number"
                               class="mt-3"
-                              single-line
                               outlined
+                              single-line
+                              :options="moneyInputOptions"
+                              disabled
                             />
                           </td>
                         </tr>
@@ -5290,6 +5304,7 @@
                               class="mt-3"
                               single-line
                               outlined
+                              disabled
                             />
                           </td>
                         </tr>
@@ -5688,6 +5703,7 @@
   import { ServiceFactory } from '../../../services/ServiceFactory'
   import staticLists from './staticData.json'
   import { uuid } from 'vue-uuid'
+  import NumbersToWords from 'tafgeetjs'
   const loader = new Loader('AIzaSyACo4RXxzSABqvI3S_Q3_nQ2YIW4HfJuXI')
   const CustomersService = ServiceFactory.get('Customers')
   const EvaluationPurposeService = ServiceFactory.get('EvaluationPurpose')
@@ -7056,6 +7072,46 @@
         this.data.cm_total_market_value = (+this.data.cm_method_total + +this.data.cm_cost_total + +this.data.cm_developer_earnings_value) -
           (+this.data.cm_depreciation_buildings_value + +this.data.cm_depreciation_s_business_value + +this.data.cm_total_depreciation_value)
       },
+
+      // الترجيح
+      // بطريقة البيوع المقارنة
+      'data.weights_market_value_relative_weights_roads_used': function () {
+        this.data.relative_market_value_relative_weights_roads_used = (this.data.weights_market_value_relative_weights_roads_used * this.data.cm_market_v_comparative_sales_method) / 100
+      },
+      'data.cm_market_v_comparative_sales_method': function () {
+        this.data.relative_market_value_relative_weights_roads_used = (this.data.weights_market_value_relative_weights_roads_used * this.data.cm_market_v_comparative_sales_method) / 100
+      },
+      // بطريقة رسملة الدخل
+      'data.weights_market_value_income_capitalization': function () {
+        this.data.relative_market_value_income_capitalization = (this.data.weights_market_value_income_capitalization * this.data.market_v_income_c_method) / 100
+      },
+      'data.market_v_income_c_method': function () {
+        this.data.relative_market_value_income_capitalization = (this.data.weights_market_value_income_capitalization * this.data.market_v_income_c_method) / 100
+      },
+      //  بطريقة التكلفة
+      'data.weights_market_value_cost': function () {
+        this.data.relative_market_value_cost = (this.data.weights_market_value_cost * this.data.cm_total_market_value) / 100
+      },
+      'data.cm_total_market_value': function () {
+        this.data.relative_market_value_cost = (this.data.weights_market_value_cost * this.data.cm_total_market_value) / 100
+      },
+      // القيمة السوقية بعد الترجيح رقماً
+      // القيمة السوقية بعد الترجيح كتابة
+      'data.relative_market_value_cost': function () {
+        const total = +this.data.relative_market_value_cost + +this.data.relative_market_value_income_capitalization + +this.data.relative_market_value_relative_weights_roads_used
+        this.data.market_value_weighting_number = total
+        this.data.market_value_weighting_text = (isNaN(total) || total <= 0) ? '' : new NumbersToWords(total, 'SAR').parse()
+      },
+      'data.relative_market_value_income_capitalization': function () {
+        const total = +this.data.relative_market_value_cost + +this.data.relative_market_value_income_capitalization + +this.data.relative_market_value_relative_weights_roads_used
+        this.data.market_value_weighting_number = total
+        this.data.market_value_weighting_text = (isNaN(total) || total <= 0) ? '' : new NumbersToWords(total, 'SAR').parse()
+      },
+      'data.relative_market_value_relative_weights_roads_used': function () {
+        const total = +this.data.relative_market_value_cost + +this.data.relative_market_value_income_capitalization + +this.data.relative_market_value_relative_weights_roads_used
+        this.data.market_value_weighting_number = total
+        this.data.market_value_weighting_text = (isNaN(total) || total <= 0) ? '' : new NumbersToWords(total, 'SAR').parse()
+      },
     },
     // mounted () {
     //   this.getMap(this.lat, this.long)
@@ -7093,7 +7149,7 @@
           n++
         }
         console.log(n)
-        this.data.cm_space_price_average = (+this.data.cm_land_price + +this.data.cm_other_price + +this.data.cm_fences_price + +this.data.cm_building_price + +this.data.cm_basement_price + +this.data.cm_supplement_price) / 6
+        this.data.cm_space_price_average = (+this.data.cm_land_price + +this.data.cm_other_price + +this.data.cm_fences_price + +this.data.cm_building_price + +this.data.cm_basement_price + +this.data.cm_supplement_price) / n
       },
       // ! TODO : cheange this with proper endpoint
       getUsers: async function () {
