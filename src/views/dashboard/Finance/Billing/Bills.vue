@@ -6,18 +6,18 @@
   >
     <v-card>
       <v-card-title>
-        عروض الاسعار
+        الفواتير
         <v-spacer />
         <v-spacer />
         <router-link
-          :to="{ path: '/offersForm'}"
+          :to="{ path: '/billsForm'}"
           color="blue"
         >
           <v-btn
             class="mx-2"
             color="blue"
           >
-            عرض سعر جديد +
+            اضافة فاتورة +
           </v-btn>
         </router-link>
       </v-card-title>
@@ -33,6 +33,7 @@
         :options.sync="options"
         :server-items-length="total"
         :page-count="numberOfPages"
+        class="custom_table_class mt-8"
         @fetchAllItems="fetchAllItems"
       >
         <template v-slot:[`item.color_e`]="{ item }">
@@ -55,7 +56,7 @@
                 </v-icon>
               </template>
               <v-list>
-                <v-list-item :to="'/offersForm/' + item.id">
+                <v-list-item :to="'/billsForm/' + item.id">
                   <v-icon class="ml-2">
                     mdi-pencil
                   </v-icon>
@@ -63,7 +64,6 @@
                 </v-list-item>
                 <v-list-item
                   color="primary"
-                  @click="deleteItem(item)"
                 >
                   <v-icon
                     color="danger"
@@ -73,7 +73,7 @@
                   </v-icon>
                   <span class="color_danger"> حذف </span>
                 </v-list-item>
-                <v-list-item>
+                <v-list-item @click="editItem(item)">
                   <v-icon class="ml-2">
                     mdi-printer
                   </v-icon>
@@ -89,12 +89,11 @@
 </template>
 
 <script>
-  import { ServiceFactory } from '@/services/ServiceFactory'
+  import { ServiceFactory } from '../../../../services/ServiceFactory'
   import moment from 'moment'
-  const OffersService = ServiceFactory.get('Offers')
+  const BillsService = ServiceFactory.get('Bills')
 
   export default {
-    name: 'Offers',
     data: () => ({
       search: '',
       dataLoading: false,
@@ -115,16 +114,16 @@
       disabled: false,
       headers: [
         {
-          text: 'اسم العميل',
+          text: 'أسم العميل',
           align: 'start',
           sortable: false,
           value: 'customer.cs_name',
         },
-        { text: 'المبلغ', value: 'of_price' },
-        { text: 'مدة الإنجاز', value: 'of_time' },
+        { text: 'المبلغ', value: 'price' },
         { text: 'التاريخ', value: 'created_at' },
+        { text: 'الدفعات', value: 'first_batch' },
         { text: 'الحالة', value: 'status' },
-        { text: '', value: 'actions', sortable: false },
+        { text: 'الاجراءات', value: 'actions', sortable: false },
       ],
     }),
 
@@ -142,12 +141,12 @@
         this.dataLoading = true
         const { page, itemsPerPage } = this.options
         const pageNumber = page - 1
-        const items = await OffersService.getAllItems(
+        const items = await BillsService.getAllItems(
           itemsPerPage,
           page,
           pageNumber
         )
-        console.log('Offers', items)
+        console.log('Bills', items)
         items.data.data.map((item) => {
           item.created_at = moment(item.created_at).format('YYYY-MM-DD hh:mm a')
         })

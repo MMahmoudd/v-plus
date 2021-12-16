@@ -6,7 +6,7 @@
   >
     <v-card class="py-5">
       <v-card-title>
-        {{ this.$route.params.id ? 'تعديل عرض سعر' : 'اضافة عرض سعر' }}
+        {{ this.$route.params.id ? 'تعديل فاتورة' : 'اضافة فاتورة' }}
       </v-card-title>
       <template>
         <v-form
@@ -216,7 +216,7 @@
 <script>
   import { ServiceFactory } from '@/services/ServiceFactory'
 
-  const OffersService = ServiceFactory.get('Offers')
+  const BillsService = ServiceFactory.get('Bills')
   export default {
     name: 'OffersForm',
     data: (vm) => ({
@@ -275,7 +275,7 @@
       },
       async newItem (data) {
         console.log('request: ', data)
-        const item = await OffersService.addOffer(data)
+        const item = await BillsService.addBill(data)
         console.log('response: ', item)
         if (item.success === true) {
           this.successMessage = 'تمت الاضافة بنجاح'
@@ -291,7 +291,7 @@
         this.loading = false
       },
       async updateContent (id, data) {
-        const item = await OffersService.updateOffer(id, data)
+        const item = await BillsService.updateBill(id, data)
         if (item.success === true) {
           this.successMessage = 'تم التعديل بنجاح'
           this.successSnackbar = true
@@ -319,14 +319,14 @@
       },
       async fetchOneItem (id) {
         this.dataLoading = true
-        const item = await OffersService.fetchOneItem(id)
+        const item = await BillsService.fetchOneItem(id)
         console.log('offer', item)
         this.data = item.data
         this.dataLoading = false
       },
       async fetchCustomer () {
         this.dataLoading = true
-        const customers = await OffersService.getCustomer()
+        const customers = await BillsService.getCustomer()
         console.log('customers', customers.data.data)
         this.customers = customers.data.data
         this.dataLoading = false

@@ -154,7 +154,7 @@
         this.disabled = true
         const formData = {
           role_name: this.data.role_name,
-          allPermissions: this.allPermissions,
+          permissions: this.allPermissions,
         }
         if (this.$route.params.id) {
           this.updateContent(this.$route.params.id, formData)
@@ -178,7 +178,11 @@
         this.loading = false
       },
       async updateContent (id, data) {
-        const item = await UserSettingService.updateRole(id, data)
+        console.log('reS: ', data)
+        this.disabled = false
+        this.loading = false
+        const item = await UserSettingService.updatePermissions(id, data)
+        console.log('reS: ', item)
         if (item.success === true) {
           this.successMessage = 'تم التعديل بنجاح'
           this.successSnackbar = true
@@ -197,6 +201,8 @@
         const item = await UserSettingService.fetchOneItem(id)
         this.data = item.data
         this.currentPermissions = item.data.permission
+        this.allPermissions = this.currentPermissions
+        console.log(this.currentPermissions)
         this.dataLoading = false
       },
       async getAllPermission () {
@@ -205,7 +211,8 @@
         this.allPermissions = Permission.data
         setTimeout(() => {
           this.allPermissions = this.allPermissions.map((allitem, i) => {
-            const foundIt = this.currentPermissions.find(({ id }) => id === allitem.id)
+            // eslint-disable-next-line camelcase
+            const foundIt = this.currentPermissions.find(({ model_name }) => model_name === allitem.model_name)
             if (foundIt) {
               return foundIt
             } else {

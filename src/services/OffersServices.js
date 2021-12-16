@@ -38,7 +38,7 @@ export default {
     })
     },
     updateOffer (id, data) {
-      return Service.put(`${resource}/offers/${id}`, data)
+      return Service.post(`${resource}/offers/${id}`, data)
       .then((response) => {
         if (response.status === 200) {
             return response.data

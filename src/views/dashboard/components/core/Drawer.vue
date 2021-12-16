@@ -45,12 +45,12 @@
       expand: false,
       permissions: [],
       sidebarList: [
-        // {
-        //   title: 'الرئيسية',
-        //   icon: 'fa-home',
-        //   to: '/',
-        //   role: true,
-        // },
+        {
+          title: 'الرئيسية',
+          icon: 'fa-home',
+          to: '/',
+          role: true,
+        },
         {
           title: 'المعاملات',
           icon: 'fa-file-alt',
@@ -153,6 +153,11 @@
             {
               title: 'تصنيف العقارات',
               to: '/treatment-settings/propertyRatings',
+              tole: true,
+            },
+            {
+              title: 'اعدادات النماذج',
+              to: '/treatment-settings/sample',
               tole: true,
             },
           ],

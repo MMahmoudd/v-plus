@@ -6,18 +6,18 @@
   >
     <v-card>
       <v-card-title>
-        المستخدمين
+        النماذج
         <v-spacer />
         <v-spacer />
         <router-link
-          :to="{ path: '/userForm'}"
+          :to="{ path: '/treatment-settings/sampleForm'}"
           color="blue"
         >
           <v-btn
             class="mx-2"
             color="blue"
           >
-            دعوة مستخدم جديد +
+            إضافة نموذج +
           </v-btn>
         </router-link>
       </v-card-title>
@@ -35,33 +35,11 @@
         :page-count="numberOfPages"
         @fetchAllItems="fetchAllItems"
       >
-        <template
-          v-slot:[`item.name`]="{ item }"
-        >
-          <v-row>
-            <v-col md="3">
-              <v-avatar
-                size="70"
-              >
-                <img
-                  :src="item.profile_photo_url"
-                  alt="profile image"
-                >
-              </v-avatar>
-            </v-col>
-            <v-col md="9">
-              <p>
-                {{ item.name }}
-              </p>
-              <p>{{ item.email }}</p>
-            </v-col>
-          </v-row>
-        </template>
         <template v-slot:[`item.actions`]="{ item }">
           <v-tooltip bottom>
             <template v-slot:activator="{ on, attrs }">
               <router-link
-                :to="'/userForm/' + item.id"
+                :to="'/treatment-settings/sampleForm/' + item.id"
               >
                 <v-btn
                   small
@@ -98,26 +76,6 @@
               </v-btn>
             </template>
             حذف
-          </v-tooltip>
-          <v-tooltip bottom>
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn
-                v-if="item.status != 1"
-                small
-                fab
-                outlined
-                class="mx-2"
-                color="blue"
-                v-bind="attrs"
-                v-on="on"
-                @click="sendInvite(item)"
-              >
-                <v-icon>
-                  fa-share
-                </v-icon>
-              </v-btn>
-            </template>
-            اعادة ارسال دعوة
           </v-tooltip>
         </template>
 
@@ -192,9 +150,9 @@
   </v-container>
 </template>
 <script>
-  import { ServiceFactory } from '../../../services/ServiceFactory'
+  import { ServiceFactory } from '../../../../services/ServiceFactory'
   import moment from 'moment'
-  const UsersService = ServiceFactory.get('Users')
+  const SamplesService = ServiceFactory.get('Samples')
   export default {
     name: 'Users',
     data: (vm) => ({
@@ -216,9 +174,8 @@
       errorMessage: '',
       disabled: false,
       headers: [
-        { text: 'المستخدم', sortable: true, value: 'name' },
-        { text: 'تاريخ الدخول', sortable: true, value: 'created_at' },
-        { text: 'المنصب', sortable: true, value: 'user_type' },
+        { text: 'إسم النموذج', sortable: true, value: 'name' },
+        { text: 'تاريخ الإنشاء', sortable: true, value: 'created_at' },
         { text: 'الحالة', sortable: true, value: 'status' },
         { text: 'الاجراءات', value: 'actions', sortable: false },
       ],
@@ -239,19 +196,20 @@
         this.dataLoading = true
         const { page, itemsPerPage } = this.options
         const pageNumber = page - 1
-        const items = await UsersService.getAllItems(itemsPerPage, page, pageNumber)
-        console.log('Users', items)
-        items.data.data.map(item => {
+        const items = await SamplesService.getAllItems(itemsPerPage, page, pageNumber)
+        console.log('SamplesService', items.data)
+        items.data.map(item => {
           item.created_at = moment(item.created_at).format('YYYY-MM-DD hh:mm a')
+          item.status = item.status === '1' ? 'مفعل' : 'غير مفعل'
         })
-        this.items = items.data.data
+        this.items = items.data
         this.total = items.total
         this.dataLoading = false
       },
       async deleteUser (userDetails) {
         this.loading = true
         this.disabled = true
-        const deleteUsers = await UsersService.deleteUser(userDetails.id)
+        const deleteUsers = await SamplesService.deleteOneItem(userDetails.id)
         if (deleteUsers.success === true) {
           this.deleteDailog = false
           this.successMessage = 'تم الحذف بنجاح'
@@ -260,24 +218,6 @@
             this.editedIndex = this.items.indexOf(userDetails)
             this.items.splice(this.editedIndex, 1)
           }, 500)
-        } else {
-          this.errorMessage('يوجد مشكلة')
-          this.errorSnackbar = true
-        }
-        this.disabled = false
-        this.loading = false
-      },
-      async sendInvite (item) {
-        this.loading = true
-        this.disabled = true
-        const user = {
-          name: item.name,
-          email: item.email,
-        }
-        const sendInvite = await UsersService.sendInvite(user)
-        if (sendInvite.success === true) {
-          this.successMessage = 'تمت الدهوة بنجاح'
-          this.successSnackbar = true
         } else {
           this.errorMessage('يوجد مشكلة')
           this.errorSnackbar = true

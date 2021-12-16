@@ -147,13 +147,19 @@ const router = new Router({
         {
           name: 'Bills',
           path: '/bills',
-          component: () => import('@/views/dashboard/Finance/Bills'),
+          component: () => import('@/views/dashboard/Finance/Billing/Bills.vue'),
+          meta: { requiresAuth: true },
+        },
+        {
+          name: 'Bills Form',
+          path: '/billsForm/:id?',
+          component: () => import('@/views/dashboard/Finance/Billing/Form.vue'),
           meta: { requiresAuth: true },
         },
         {
           name: 'Expenses',
           path: '/expenses',
-          component: () => import('@/views/dashboard/Finance/Expenses'),
+          component: () => import('@/views/dashboard/Finance/expenses/Expenses.vue'),
           meta: { requiresAuth: true },
         },
         // Users Setting
@@ -168,11 +174,6 @@ const router = new Router({
           path: '/userSettingForm/:id?',
           component: () => import('@/views/dashboard/setting/userSetting/Form.vue'),
           meta: { requiresAuth: true },
-        },
-        {
-          path: '/notAuthorized',
-          name: 'notAuthorized',
-          component: () => import('../pages/NotAuthorized.vue'),
         },
         // treatment settings
         {
@@ -201,6 +202,17 @@ const router = new Router({
         {
           path: '/treatment-settings/citiesForm/:id?',
           component: () => import('@/views/dashboard/TreatmentSettings/City/Form.vue'),
+          meta: { requiresAuth: true },
+        },
+        // treatment settings - Sample
+        {
+          path: '/treatment-settings/sample',
+          meta: { requiresAuth: true },
+          component: () => import('@/views/dashboard/TreatmentSettings/Sample/List.vue'),
+        },
+        {
+          path: '/treatment-settings/sampleForm/:id?',
+          component: () => import('@/views/dashboard/TreatmentSettings/Sample/Form.vue'),
           meta: { requiresAuth: true },
         },
         // treatment settings - Neighborhoods
@@ -240,6 +252,11 @@ const router = new Router({
           component: () => import('@/views/dashboard/TreatmentSettings/PropertyRating/Form.vue'),
           meta: { requiresAuth: true },
 
+        },
+        {
+          path: '/notAuthorized',
+          name: 'notAuthorized',
+          component: () => import('../pages/NotAuthorized.vue'),
         },
         { path: '*', redirect: '/login' },
       ],

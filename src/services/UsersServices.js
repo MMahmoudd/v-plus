@@ -52,4 +52,12 @@ export default {
             }
         })
     },
+    sendInvite (data) {
+      return Service.post(`${resource}/send_invite`, data)
+      .then((response) => {
+        if (response.status === 200) {
+            return response.data
+        }
+    })
+    },
 }

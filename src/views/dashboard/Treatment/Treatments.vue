@@ -1,575 +1,572 @@
 
 <template>
   <v-container>
-    <v-row
-      justify="space-between"
-      align="center"
-      class="mx-0 mt-4"
-    >
-      <h1 class="font-weight-bold">
-        المعاملات
-      </h1>
-      <div>
-        <v-dialog
-          v-model="dialog"
-          max-width="800px"
-        >
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn
-              x-large
-              class="ma-2 filter-bg"
-              v-bind="attrs"
-              v-on="on"
-            >
-              <v-icon left>
-                fas fa-filter
-              </v-icon>
-              فرز
-            </v-btn>
-          </template>
-          <v-card>
-            <v-card-text>
-              <v-container>
-                <v-row>
-                  <v-col
-                    cols="12"
-                    sm="12"
-                  >
-                    <label class="d-block mb-3 font-weight-bold">العميل</label>
-                    <v-select
-                      v-model="data.customer_id"
-                      :items="customersList"
-                      label="العميل"
-                      item-text="name"
-                      item-value="id"
-                      single-line
-                      outlined
-                    />
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    sm="12"
-                    md="5"
-                  >
-                    <label class="d-block mb-3 font-weight-bold">من</label>
-                    <v-menu
-                      v-model="menu1"
-                      :close-on-content-click="false"
-                      transition="scale-transition"
-                      offset-y
-                      min-width="auto"
-                    >
-                      <template v-slot:activator="{ on, attrs }">
-                        <v-text-field
-                          v-model="data.dateFrom"
-                          readonly
-                          v-bind="attrs"
-                          single-line
-                          outlined
-                          v-on="on"
-                        />
-                      </template>
-                      <v-date-picker
-                        v-model="data.dateFrom"
-                        @input="menu1 = false"
-                      />
-                    </v-menu>
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    sm="12"
-                    md="2"
-                    class="d-flex align-center justify-center"
-                  >
-                    <v-icon>mdi-less-than</v-icon>
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    sm="12"
-                    md="5"
-                  >
-                    <label class="d-block mb-3 font-weight-bold">إلى</label>
-                    <v-menu
-                      v-model="menu2"
-                      :close-on-content-click="false"
-                      transition="scale-transition"
-                      offset-y
-                      min-width="auto"
-                    >
-                      <template v-slot:activator="{ on, attrs }">
-                        <v-text-field
-                          v-model="data.dateTo"
-                          readonly
-                          v-bind="attrs"
-                          single-line
-                          outlined
-                          v-on="on"
-                        />
-                      </template>
-                      <v-date-picker
-                        v-model="data.dateTo"
-                        @input="menu2 = false"
-                      />
-                    </v-menu>
-                  </v-col>
-                </v-row>
-                <v-row>
-                  <v-col
-                    cols="12"
-                    lg="3"
-                    md="4"
-                  >
-                    <label class="d-block font-weight-bold">فرز حسب</label>
-                  </v-col>
-                </v-row>
-                <v-row class="mt-0">
-                  <div class="mr-3">
-                    <v-checkbox
-                      v-model="data.filterBy['1']"
-                      class="check-label"
-                      label="تاريخ الإرسال"
-                      color="success"
-                      value=""
-                      hide-details
-                    />
-                  </div>
-                  <div class="mr-3">
-                    <v-checkbox
-                      v-model="data.filterBy['2']"
-                      class="check-label"
-                      label="تاريخ التكليف"
-                      color="success"
-                      value=""
-                      hide-details
-                    />
-                  </div>
-                  <div class="mr-3">
-                    <v-checkbox
-                      v-model="data.filterBy['3']"
-                      class="check-label"
-                      label="تاريخ التسليم"
-                      color="success"
-                      value=""
-                      hide-details
-                    />
-                  </div>
-                </v-row>
-                <v-row>
-                  <div class="mr-3">
-                    <v-checkbox
-                      v-model="data.filterBy['4']"
-                      class="check-label"
-                      label="تاريخ الإدخال"
-                      color="success"
-                      value=""
-                      hide-details
-                    />
-                  </div>
-                  <div class="mr-3">
-                    <v-checkbox
-                      v-model="data.filterBy['5']"
-                      class="check-label"
-                      label="طريقة الاستثمار رسملة الدخل"
-                      color="success"
-                      value=""
-                      hide-details
-                    />
-                  </div>
-                  <div class="mr-3">
-                    <v-checkbox
-                      v-model="data.filterBy['6']"
-                      class="check-label"
-                      label="ناريخ الاعتماد"
-                      color="success"
-                      value=""
-                      hide-details
-                    />
-                  </div>
-                </v-row>
-                <v-row class="mt-10">
-                  <v-col
-                    cols="12"
-                    md="6"
-                  >
-                    <label class="d-block mb-3 font-weight-bold">المقيم</label>
-                    <v-select
-                      v-model="data.resident_id"
-                      :items="ResidentesList"
-                      item-text="name"
-                      item-value="id"
-                      label="المقيم"
-                      single-line
-                      outlined
-                    />
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    md="6"
-                  >
-                    <label class="d-block mb-3 font-weight-bold">المراجع</label>
-                    <v-select
-                      v-model="data.reviewer_id"
-                      :items="ReviewersList"
-                      item-text="name"
-                      item-value="id"
-                      label="المراجع"
-                      single-line
-                      outlined
-                    />
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    md="6"
-                  >
-                    <label class="d-block mb-3 font-weight-bold">الغرض من التقييم</label>
-                    <v-select
-                      v-model="data.evaluation_purpose_id"
-                      :items="evaluationPurposeList"
-                      label="الغرض من التقييم"
-                      item-text="name"
-                      item-value="id"
-                      single-line
-                      outlined
-                    />
-                  </v-col>
-                </v-row>
-                <v-row>
-                  <v-col
-                    cols="12"
-                    md="6"
-                  >
-                    <label class="d-block mb-3 font-weight-bold">نوع العقار</label>
-                    <v-select
-                      v-model="data.property_type_id"
-                      :items="propTypeList"
-                      item-text="name"
-                      item-value="id"
-                      label="نوع العقار"
-                      single-line
-                      outlined
-                    />
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    md="6"
-                  >
-                    <label class="d-block mb-3 font-weight-bold">تصنيف العقار</label>
-                    <v-select
-                      v-model="data.property_rating_id"
-                      :items="propRatingsList"
-                      item-text="name"
-                      item-value="id"
-                      label="تصنيف العقار"
-                      single-line
-                      outlined
-                    />
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    lg="4"
-                  >
-                    <label class="d-block mb-3 font-weight-bold">المنطقة</label>
-                    <v-select
-                      v-model="data.region_id"
-                      :items="regionsList"
-                      label="المنطقة"
-                      single-line
-                      outlined
-                      item-text="name"
-                      item-value="id"
-                    />
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    lg="4"
-                  >
-                    <label class="d-block mb-3 font-weight-bold">اسم المدينة</label>
-                    <v-select
-                      v-model="data.city_id"
-                      :items="updateCitesList"
-                      label="اسم المدينة"
-                      single-line
-                      outlined
-                      item-text="name"
-                      item-value="id"
-                    />
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    lg="4"
-                  >
-                    <label class="d-block mb-3 font-weight-bold">اسم الحى</label>
-                    <v-select
-                      v-model="data.neighborhood_id"
-                      :items="updateNeighborhoodsList"
-                      label="اسم الحى"
-                      single-line
-                      outlined
-                      item-text="name"
-                      item-value="id"
-                    />
-                  </v-col>
-                </v-row>
-                <v-row>
-                  <v-col
-                    cols="12"
-                    lg="3"
-                    md="4"
-                  >
-                    <label class="d-block font-weight-bold">حالة المعاملة</label>
-                  </v-col>
-                </v-row>
-                <v-row class="mt-0">
-                  <div class="mr-3">
-                    <v-checkbox
-                      v-model="data.statuses['2']"
-                      class="check-label"
-                      label="تحت التثمين"
-                      color="success"
-                      value=""
-                      hide-details
-                    />
-                  </div>
-                  <div class="mr-3">
-                    <v-checkbox
-                      v-model="data.statuses['3']"
-                      class="check-label"
-                      label="للتدقيق"
-                      color="success"
-                      value=""
-                      hide-details
-                    />
-                  </div>
-                  <div class="mr-3">
-                    <v-checkbox
-                      v-model="data.statuses['4']"
-                      class="check-label"
-                      label="للاعتماد"
-                      color="success"
-                      value=""
-                      hide-details
-                    />
-                  </div>
-                  <div class="mr-3">
-                    <v-checkbox
-                      v-model="data.statuses['5']"
-                      class="check-label"
-                      label="معتمدة"
-                      color="success"
-                      value=""
-                      hide-details
-                    />
-                  </div>
-                </v-row>
-              </v-container>
-            </v-card-text>
-            <v-card-actions class="justify-center">
-              <v-btn
-                x-large
-                class="ma-2"
-                color="blue"
-                @click="dialog = false"
-              >
-                <v-icon left>
-                  mdi-file
-                </v-icon>
-                قائمة المعاملات
-              </v-btn>
+    <v-card class="form-container">
+      <v-card-title
+        justify="space-between"
+        align="center"
+      >
+        {{ this.$route.name === 'Treatments' ? 'المعاملات' : 'معاملاتي' }}
+        <v-spacer />
+        <v-spacer />
+        <div v-if="this.$route.name === 'Treatments'">
+          <v-dialog
+            v-model="dialog"
+            max-width="800px"
+          >
+            <template v-slot:activator="{ on, attrs }">
               <v-btn
                 x-large
                 class="ma-2 filter-bg"
-                @click="filterTransctions"
+                v-bind="attrs"
+                v-on="on"
               >
                 <v-icon left>
                   fas fa-filter
                 </v-icon>
                 فرز
               </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
-        <v-dialog
-          v-model="newTratment"
-          width="500"
-        >
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn
-              x-large
-              class="ma-2"
-              color="blue"
-              v-bind="attrs"
-              v-on="on"
-            >
-              <v-icon left>
-                mdi-file-plus-outline
-              </v-icon>
-              معاملة جديدة
-            </v-btn>
-          </template>
-
-          <v-card>
-            <v-card-title class="text-right">
-              <h3 class="card-title">
-                اختيار نوع النموذج
-              </h3>
-            </v-card-title>
-            <v-card-text>
-              <v-container>
-                <v-row>
-                  <v-col
-                    cols="12"
-                    sm="12"
-                  >
-                    <v-menu offset-y>
-                      <template v-slot:activator="{ on, attrs }">
-                        <v-btn
-                          single-line
-                          outlined
-                          v-bind="attrs"
-                          v-on="on"
-                        >
-                          اختر النموذج
-                        </v-btn>
-                      </template>
-                      <v-list>
-                        <template v-for="sample in samplesList">
-                          <v-list-item :key="sample.id">
-                            <v-list-item-title>
-                              <router-link :to="sample.path">
-                                {{ sample.name }}
-                              </router-link>
-                            </v-list-item-title>
-                          </v-list-item>
-                        </template>
-                      </v-list>
-                    </v-menu>
-                  </v-col>
-                </v-row>
-              </v-container>
-            </v-card-text>
-          </v-card>
-        </v-dialog>
-      </div>
-    </v-row>
-    <v-card class="form-container">
-      <v-container>
-        <template>
-          <v-data-table
-            :loading="isLoading"
-            :headers="headers"
-            :items="itemsTr"
-            :items-per-page="5"
-            class="elevation-1"
-          >
-            <template v-slot:[`item.status`]="{ item }">
-              <v-chip
-                class="pa-2"
-                color="yellow"
-              >
-                {{ item.status }}
-              </v-chip>
             </template>
-            <template v-slot:[`item.action`]=" {item} ">
-              <template>
-                <div class="text-center">
-                  <v-menu offset-y>
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-icon
-                        v-bind="attrs"
-                        v-on="on"
+            <v-card>
+              <v-card-text>
+                <v-container>
+                  <v-row>
+                    <v-col
+                      cols="12"
+                      sm="12"
+                    >
+                      <label class="d-block mb-3 font-weight-bold">العميل</label>
+                      <v-select
+                        v-model="data.customer_id"
+                        :items="customersList"
+                        label="العميل"
+                        item-text="name"
+                        item-value="id"
+                        single-line
+                        outlined
+                      />
+                    </v-col>
+                    <v-col
+                      cols="12"
+                      sm="12"
+                      md="5"
+                    >
+                      <label class="d-block mb-3 font-weight-bold">من</label>
+                      <v-menu
+                        v-model="menu1"
+                        :close-on-content-click="false"
+                        transition="scale-transition"
+                        offset-y
+                        min-width="auto"
                       >
-                        fas fa-ellipsis-v
-                      </v-icon>
-                    </template>
-                    <v-list>
-                      <v-list-item>
-                        <v-list-item-title>
-                          <router-link to="/">
-                            <v-icon>
-                              far fa-file-pdf
-                            </v-icon>
-                            تنزيل PDF
-                          </router-link>
-                        </v-list-item-title>
-                      </v-list-item>
-                      <v-list-item>
-                        <v-list-item-title>
-                          <router-link :to="'/New-Treatment/7?edit=' + item.id">
-                            <v-icon>
-                              far fa-edit
-                            </v-icon>
-                            تعديل
-                          </router-link>
-                        </v-list-item-title>
-                      </v-list-item>
-                      <v-list-item>
-                        <v-list-item-title>
-                          <router-link to="/">
-                            <v-icon>
-                              far fa-eye
-                            </v-icon>
-                            معاينة
-                          </router-link>
-                        </v-list-item-title>
-                      </v-list-item>
-                      <v-list-item>
-                        <v-list-item-title>
-                          <router-link to="/">
-                            <v-icon>
-                              fas fa-user-clock
-                            </v-icon>
-                            حجز موعد
-                          </router-link>
-                        </v-list-item-title>
-                      </v-list-item>
-                      <v-list-item>
-                        <v-list-item-title>
-                          <router-link to="/">
-                            <v-icon>
-                              far fa-file-alt
-                            </v-icon>
-                            الفاتورة
-                          </router-link>
-                        </v-list-item-title>
-                      </v-list-item>
-                      <v-list-item>
-                        <v-list-item-title>
-                          <router-link to="/">
-                            <v-icon>
-                              fas fa-location-arrow
-                            </v-icon>
-                            مراسلة العميل
-                          </router-link>
-                        </v-list-item-title>
-                      </v-list-item>
-                      <v-list-item>
-                        <v-list-item-title>
-                          <router-link to="/Accountant-Treatment">
-                            <v-icon>
-                              fas fa-money-bill
-                            </v-icon>
-                            تعديل الأتعاب
-                          </router-link>
-                        </v-list-item-title>
-                      </v-list-item>
-                      <v-list-item>
-                        <v-list-item-title>
-                          <router-link to="/">
-                            <v-icon>
-                              far fa-trash
-                            </v-icon>
-                            حذف
-                          </router-link>
-                        </v-list-item-title>
-                      </v-list-item>
-                    </v-list>
-                  </v-menu>
-                </div>
-              </template>
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-text-field
+                            v-model="data.dateFrom"
+                            readonly
+                            v-bind="attrs"
+                            single-line
+                            outlined
+                            v-on="on"
+                          />
+                        </template>
+                        <v-date-picker
+                          v-model="data.dateFrom"
+                          @input="menu1 = false"
+                        />
+                      </v-menu>
+                    </v-col>
+                    <v-col
+                      cols="12"
+                      sm="12"
+                      md="2"
+                      class="d-flex align-center justify-center"
+                    >
+                      <v-icon>mdi-less-than</v-icon>
+                    </v-col>
+                    <v-col
+                      cols="12"
+                      sm="12"
+                      md="5"
+                    >
+                      <label class="d-block mb-3 font-weight-bold">إلى</label>
+                      <v-menu
+                        v-model="menu2"
+                        :close-on-content-click="false"
+                        transition="scale-transition"
+                        offset-y
+                        min-width="auto"
+                      >
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-text-field
+                            v-model="data.dateTo"
+                            readonly
+                            v-bind="attrs"
+                            single-line
+                            outlined
+                            v-on="on"
+                          />
+                        </template>
+                        <v-date-picker
+                          v-model="data.dateTo"
+                          @input="menu2 = false"
+                        />
+                      </v-menu>
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col
+                      cols="12"
+                      lg="3"
+                      md="4"
+                    >
+                      <label class="d-block font-weight-bold">فرز حسب</label>
+                    </v-col>
+                  </v-row>
+                  <v-row class="mt-0">
+                    <div class="mr-3">
+                      <v-checkbox
+                        v-model="data.filterBy['1']"
+                        class="check-label"
+                        label="تاريخ الإرسال"
+                        color="success"
+                        value=""
+                        hide-details
+                      />
+                    </div>
+                    <div class="mr-3">
+                      <v-checkbox
+                        v-model="data.filterBy['2']"
+                        class="check-label"
+                        label="تاريخ التكليف"
+                        color="success"
+                        value=""
+                        hide-details
+                      />
+                    </div>
+                    <div class="mr-3">
+                      <v-checkbox
+                        v-model="data.filterBy['3']"
+                        class="check-label"
+                        label="تاريخ التسليم"
+                        color="success"
+                        value=""
+                        hide-details
+                      />
+                    </div>
+                  </v-row>
+                  <v-row>
+                    <div class="mr-3">
+                      <v-checkbox
+                        v-model="data.filterBy['4']"
+                        class="check-label"
+                        label="تاريخ الإدخال"
+                        color="success"
+                        value=""
+                        hide-details
+                      />
+                    </div>
+                    <div class="mr-3">
+                      <v-checkbox
+                        v-model="data.filterBy['5']"
+                        class="check-label"
+                        label="طريقة الاستثمار رسملة الدخل"
+                        color="success"
+                        value=""
+                        hide-details
+                      />
+                    </div>
+                    <div class="mr-3">
+                      <v-checkbox
+                        v-model="data.filterBy['6']"
+                        class="check-label"
+                        label="ناريخ الاعتماد"
+                        color="success"
+                        value=""
+                        hide-details
+                      />
+                    </div>
+                  </v-row>
+                  <v-row class="mt-10">
+                    <v-col
+                      cols="12"
+                      md="6"
+                    >
+                      <label class="d-block mb-3 font-weight-bold">المقيم</label>
+                      <v-select
+                        v-model="data.resident_id"
+                        :items="ResidentesList"
+                        item-text="name"
+                        item-value="id"
+                        label="المقيم"
+                        single-line
+                        outlined
+                      />
+                    </v-col>
+                    <v-col
+                      cols="12"
+                      md="6"
+                    >
+                      <label class="d-block mb-3 font-weight-bold">المراجع</label>
+                      <v-select
+                        v-model="data.reviewer_id"
+                        :items="ReviewersList"
+                        item-text="name"
+                        item-value="id"
+                        label="المراجع"
+                        single-line
+                        outlined
+                      />
+                    </v-col>
+                    <v-col
+                      cols="12"
+                      md="6"
+                    >
+                      <label class="d-block mb-3 font-weight-bold">الغرض من التقييم</label>
+                      <v-select
+                        v-model="data.evaluation_purpose_id"
+                        :items="evaluationPurposeList"
+                        label="الغرض من التقييم"
+                        item-text="name"
+                        item-value="id"
+                        single-line
+                        outlined
+                      />
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col
+                      cols="12"
+                      md="6"
+                    >
+                      <label class="d-block mb-3 font-weight-bold">نوع العقار</label>
+                      <v-select
+                        v-model="data.property_type_id"
+                        :items="propTypeList"
+                        item-text="name"
+                        item-value="id"
+                        label="نوع العقار"
+                        single-line
+                        outlined
+                      />
+                    </v-col>
+                    <v-col
+                      cols="12"
+                      md="6"
+                    >
+                      <label class="d-block mb-3 font-weight-bold">تصنيف العقار</label>
+                      <v-select
+                        v-model="data.property_rating_id"
+                        :items="propRatingsList"
+                        item-text="name"
+                        item-value="id"
+                        label="تصنيف العقار"
+                        single-line
+                        outlined
+                      />
+                    </v-col>
+                    <v-col
+                      cols="12"
+                      lg="4"
+                    >
+                      <label class="d-block mb-3 font-weight-bold">المنطقة</label>
+                      <v-select
+                        v-model="data.region_id"
+                        :items="regionsList"
+                        label="المنطقة"
+                        single-line
+                        outlined
+                        item-text="name"
+                        item-value="id"
+                      />
+                    </v-col>
+                    <v-col
+                      cols="12"
+                      lg="4"
+                    >
+                      <label class="d-block mb-3 font-weight-bold">اسم المدينة</label>
+                      <v-select
+                        v-model="data.city_id"
+                        :items="updateCitesList"
+                        label="اسم المدينة"
+                        single-line
+                        outlined
+                        item-text="name"
+                        item-value="id"
+                      />
+                    </v-col>
+                    <v-col
+                      cols="12"
+                      lg="4"
+                    >
+                      <label class="d-block mb-3 font-weight-bold">اسم الحى</label>
+                      <v-select
+                        v-model="data.neighborhood_id"
+                        :items="updateNeighborhoodsList"
+                        label="اسم الحى"
+                        single-line
+                        outlined
+                        item-text="name"
+                        item-value="id"
+                      />
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col
+                      cols="12"
+                      lg="3"
+                      md="4"
+                    >
+                      <label class="d-block font-weight-bold">حالة المعاملة</label>
+                    </v-col>
+                  </v-row>
+                  <v-row class="mt-0">
+                    <div class="mr-3">
+                      <v-checkbox
+                        v-model="data.statuses['2']"
+                        class="check-label"
+                        label="تحت التثمين"
+                        color="success"
+                        value=""
+                        hide-details
+                      />
+                    </div>
+                    <div class="mr-3">
+                      <v-checkbox
+                        v-model="data.statuses['3']"
+                        class="check-label"
+                        label="للتدقيق"
+                        color="success"
+                        value=""
+                        hide-details
+                      />
+                    </div>
+                    <div class="mr-3">
+                      <v-checkbox
+                        v-model="data.statuses['4']"
+                        class="check-label"
+                        label="للاعتماد"
+                        color="success"
+                        value=""
+                        hide-details
+                      />
+                    </div>
+                    <div class="mr-3">
+                      <v-checkbox
+                        v-model="data.statuses['5']"
+                        class="check-label"
+                        label="معتمدة"
+                        color="success"
+                        value=""
+                        hide-details
+                      />
+                    </div>
+                  </v-row>
+                </v-container>
+              </v-card-text>
+              <v-card-actions class="justify-center">
+                <v-btn
+                  x-large
+                  class="ma-2"
+                  color="blue"
+                  @click="dialog = false"
+                >
+                  <v-icon left>
+                    mdi-file
+                  </v-icon>
+                  قائمة المعاملات
+                </v-btn>
+                <v-btn
+                  x-large
+                  class="ma-2 filter-bg"
+                  @click="filterTransctions"
+                >
+                  <v-icon left>
+                    fas fa-filter
+                  </v-icon>
+                  فرز
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+          <v-dialog
+            v-model="newTratment"
+            width="500"
+          >
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                x-large
+                class="ma-2"
+                color="blue"
+                v-bind="attrs"
+                v-on="on"
+              >
+                <v-icon left>
+                  mdi-file-plus-outline
+                </v-icon>
+                معاملة جديدة
+              </v-btn>
             </template>
-          </v-data-table>
-        </template>
-      </v-container>
+
+            <v-card>
+              <v-card-title class="text-right">
+                <h3 class="card-title">
+                  اختيار نوع النموذج
+                </h3>
+              </v-card-title>
+              <v-card-text>
+                <v-container>
+                  <v-row>
+                    <v-col
+                      cols="12"
+                      sm="12"
+                    >
+                      <v-menu offset-y>
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-btn
+                            single-line
+                            outlined
+                            v-bind="attrs"
+                            v-on="on"
+                          >
+                            اختر النموذج
+                          </v-btn>
+                        </template>
+                        <v-list>
+                          <template v-for="sample in samplesList">
+                            <v-list-item :key="sample.id">
+                              <v-list-item-title>
+                                <router-link :to="sample.path">
+                                  {{ sample.name }}
+                                </router-link>
+                              </v-list-item-title>
+                            </v-list-item>
+                          </template>
+                        </v-list>
+                      </v-menu>
+                    </v-col>
+                  </v-row>
+                </v-container>
+              </v-card-text>
+            </v-card>
+          </v-dialog>
+        </div>
+      </v-card-title>
+      <template>
+        <v-data-table
+          :loading="isLoading"
+          :headers="headers"
+          :items="itemsTr"
+          :items-per-page="5"
+          class="elevation-1"
+        >
+          <template v-slot:[`item.status`]="{ item }">
+            <v-chip
+              class="pa-2"
+              color="yellow"
+            >
+              {{ item.status }}
+            </v-chip>
+          </template>
+          <template v-slot:[`item.action`]=" {item} ">
+            <template>
+              <div class="text-center">
+                <v-menu offset-y>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-icon
+                      v-bind="attrs"
+                      v-on="on"
+                    >
+                      fas fa-ellipsis-v
+                    </v-icon>
+                  </template>
+                  <v-list>
+                    <v-list-item>
+                      <v-list-item-title>
+                        <router-link to="/">
+                          <v-icon>
+                            far fa-file-pdf
+                          </v-icon>
+                          تنزيل PDF
+                        </router-link>
+                      </v-list-item-title>
+                    </v-list-item>
+                    <v-list-item>
+                      <v-list-item-title>
+                        <router-link :to="'/New-Treatment/7?edit=' + item.id">
+                          <v-icon>
+                            far fa-edit
+                          </v-icon>
+                          تعديل
+                        </router-link>
+                      </v-list-item-title>
+                    </v-list-item>
+                    <v-list-item>
+                      <v-list-item-title>
+                        <router-link to="/">
+                          <v-icon>
+                            far fa-eye
+                          </v-icon>
+                          معاينة
+                        </router-link>
+                      </v-list-item-title>
+                    </v-list-item>
+                    <v-list-item>
+                      <v-list-item-title>
+                        <router-link to="/">
+                          <v-icon>
+                            fas fa-user-clock
+                          </v-icon>
+                          حجز موعد
+                        </router-link>
+                      </v-list-item-title>
+                    </v-list-item>
+                    <v-list-item>
+                      <v-list-item-title>
+                        <router-link to="/">
+                          <v-icon>
+                            far fa-file-alt
+                          </v-icon>
+                          الفاتورة
+                        </router-link>
+                      </v-list-item-title>
+                    </v-list-item>
+                    <v-list-item>
+                      <v-list-item-title>
+                        <router-link to="/">
+                          <v-icon>
+                            fas fa-location-arrow
+                          </v-icon>
+                          مراسلة العميل
+                        </router-link>
+                      </v-list-item-title>
+                    </v-list-item>
+                    <v-list-item>
+                      <v-list-item-title>
+                        <router-link to="/Accountant-Treatment">
+                          <v-icon>
+                            fas fa-money-bill
+                          </v-icon>
+                          تعديل الأتعاب
+                        </router-link>
+                      </v-list-item-title>
+                    </v-list-item>
+                    <v-list-item>
+                      <v-list-item-title>
+                        <router-link to="/">
+                          <v-icon>
+                            far fa-trash
+                          </v-icon>
+                          حذف
+                        </router-link>
+                      </v-list-item-title>
+                    </v-list-item>
+                  </v-list>
+                </v-menu>
+              </div>
+            </template>
+          </template>
+        </v-data-table>
+      </template>
     </v-card>
   </v-container>
 </template>
@@ -726,6 +723,9 @@
       //   console.log(oldVal)
       //   // this.getCites()
       // },
+    },
+    created () {
+      console.log(this.$route)
     },
     mounted () {
       this.getSamples()
