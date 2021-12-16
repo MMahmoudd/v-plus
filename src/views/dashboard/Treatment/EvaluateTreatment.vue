@@ -5413,8 +5413,101 @@
             <v-divider class="my-10" />
             <div>
               <h2>الصور الفوتوغرافية</h2>
-              <v-row>
-                <v-col
+              <!-- {{ images }} -->
+              <!-- <v-row> -->
+              <draggable
+                v-model="images"
+              >
+                <transition-group
+                  tag="div"
+                  class="images-draggable-container"
+                  name="grid"
+                >
+                  <div
+                    v-for="(image,index) in images"
+                    :key="image.id"
+                    class="upload-img-container"
+                  >
+                    <div>
+                      <img
+                        :src="image.image"
+                        :class="{'hidden-img': image.hidden}"
+                      >
+                      <button
+                        class="remove-img"
+                        @click.prevent="removeImage(image,index)"
+                      >
+                        <v-icon left>
+                          fas fa-trash-alt
+                        </v-icon>
+                      </button>
+                      <button
+                        class="hide-img"
+                        @click.prevent="hideImage(image , index)"
+                      >
+                        <v-icon
+                          v-if="!image.hidden"
+                          left
+                        >
+                          far fa-eye
+                        </v-icon>
+                        <v-icon
+                          v-else
+                          left
+                        >
+                          far fa-eye-slash
+                        </v-icon>
+                      </button>
+                      <input
+                        :value="index + 1"
+                        type="text"
+                        class="img-num text-center"
+                      >
+                    </div>
+
+                  <!-- <i
+                        :class="
+                          element.fixed ? 'fa fa-anchor' : 'glyphicon glyphicon-pushpin'
+                        "
+                        aria-hidden="true"
+                        @click="element.fixed = !element.fixed"
+                      />
+                      hi -->
+                  </div>
+                </transition-group>
+                <!-- <v-col
+                  cols="12"
+                  sm="6"
+                  md="3"
+                >
+                  <div>
+                    <input
+                      type="file"
+                      @change="onFileChange(image, $event)"
+                    >
+                    <v-icon left>
+                      far fa-image
+                    </v-icon>
+                  </div>
+                </v-col> -->
+              </draggable>
+              <div
+                id="upload-input-container"
+                slot="footer"
+                key="footer"
+                class="col-sm-6 col-md-3 col-12"
+              >
+                <div>
+                  <input
+                    type="file"
+                    @change="onFileChange($event)"
+                  >
+                  <v-icon left>
+                    far fa-image
+                  </v-icon>
+                </div>
+              </div>
+              <!-- <v-col
                   v-for="(image,index) in images"
                   :key="'image'+index"
                   class="upload-img-container"
@@ -5470,7 +5563,7 @@
                     >
                   </div>
                 </v-col>
-              </v-row>
+              </v-row> -->
             </div>
             <v-divider class="my-10" />
             <div>
@@ -5704,6 +5797,7 @@
   import staticLists from './staticData.json'
   import { uuid } from 'vue-uuid'
   import NumbersToWords from 'tafgeetjs'
+  import draggable from 'vuedraggable'
   const loader = new Loader('AIzaSyACo4RXxzSABqvI3S_Q3_nQ2YIW4HfJuXI')
   const CustomersService = ServiceFactory.get('Customers')
   const EvaluationPurposeService = ServiceFactory.get('EvaluationPurpose')
@@ -5724,6 +5818,11 @@
 
   export default {
     name: 'EvaluateTreatment',
+    display: 'Transitions',
+    order: 7,
+    components: {
+      draggable,
+    },
     filters: {
       money: function (value) {
         if (!value) {
@@ -6858,10 +6957,7 @@
       long: 46.72185,
       // Images Section
       images: [
-        {
-          image: false,
-          hidden: false,
-        },
+
       ],
       imageSorting: [],
       // Map
@@ -6876,6 +6972,18 @@
       outNorm: 'الواجهات دهان، نوعية الأبواب الخارجية، نوعية أرضيات الساحات الخارجية غالباً من بلاط بلدي،',
       inNorm: 'نوعية أرضيات المداخل والمجالس وصالات الطعام تتكون من السيراميك العادي أو بلاط بلدي لفرش الموكيت، نوعية الأبواب الداخلية، لا يوجد عوازل، الشبابيك عادية جداً، نوعية التسليك والسباكة، نوعية الدهان الداخلي، لا يوجد جبس بالأسقف، نوعية التكييف شباك.',
     }),
+    // mounted () {
+    //   this.getMap(this.lat, this.long)
+    // },
+    computed: {
+      dragOptions () {
+        return {
+          animation: 200,
+          disabled: false,
+        }
+      },
+
+    },
     watch: {
       'data.cm_time_factor_adjustment': function () {
         this.setTotalFunding(1)
@@ -7113,9 +7221,6 @@
         this.data.market_value_weighting_text = (isNaN(total) || total <= 0) ? '' : new NumbersToWords(total, 'SAR').parse()
       },
     },
-    // mounted () {
-    //   this.getMap(this.lat, this.long)
-    // },
     mounted () {
       // this.getCurrentLocation()
       this.getCustomers()
@@ -7254,21 +7359,35 @@
         })
       },
       // Show Image After Upload
-      onFileChange (item, e) {
+      onFileChange (e) {
         var files = e.target.files || e.dataTransfer.files
         if (!files.length) {
           return
         }
-        this.createImage(item, files[0])
+        this.createImage(files[0])
       },
-      createImage (item, file) {
+      createImage (file) {
         // var image = new Image()
+        const item = { hidden: false, image: false, id: uuid.v4() }
+        const images = this.images
         var reader = new FileReader()
         reader.onload = (e) => {
           item.image = e.target.result
         }
         reader.readAsDataURL(file)
-        this.images.push({ image: false, hidden: false })
+        images.push(item)
+        images.sort((a, b) => {
+          if (a.hidden === true && b.hidden === false) {
+            return 1
+          } else if (b.hidden === true && a.hidden === false) {
+            return -1
+          }
+          return 0
+        })
+
+        // console.log(images.map(item => { return ({ ...item, image: '' }) }))
+
+        this.images = images
       },
       removeImage: function (item, index) {
         item.image = false
@@ -7276,9 +7395,19 @@
         // Remove sort of image
         this.imageSorting.splice(index, 1)
       },
-      // hideImage: function (item) {
-      //   item.hidden = true
-      // },
+      hideImage: function (image, index) {
+        //  const imageIndex = this.images.findIndex(image => image.id === id)
+        this.images[index].hidden = !this.images[index].hidden
+        this.images.sort((a, b) => {
+          if (a.hidden === true && b.hidden === false) {
+            return 1
+          } else if (b.hidden === true && a.hidden === false) {
+            return -1
+          }
+          return 0
+        })
+        // this.images.push(this.images.splice(index, 1)[0])
+      },
       // Adding & Remove Participant
       addParticipant: function () {
         this.participants.push({ participant: true })
@@ -7452,18 +7581,27 @@ td{
 .orange-btn{
   background-color: #FDCA40;
 }
-.upload-img-container > div{
+.images-draggable-container {
+  display: grid;
+  grid-template-columns: repeat(4, 25%);
+  grid-gap: 0.2em;
+  direction: ltr;
+}
+.upload-img-container  {
+  display: flex;
+}
+.upload-img-container > div, #upload-input-container > div{
   width: 100%;
   height: 120px;
   background: #f9f9f9;
   border-radius: 10px;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   position: relative;
   overflow: hidden;
 }
-.upload-img-container > div > i{
+.upload-img-container > div > i , #upload-input-container > div> i{
   font-size: 60px;
 }
 input[type='file']{

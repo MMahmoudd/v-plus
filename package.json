@@ -36,6 +36,7 @@
     "vue-uuid": "^2.0.2",
     "vue2-google-maps": "^0.10.7",
     "vue3-clipboard": "^1.0.0",
+    "vuedraggable": "^2.24.3",
     "vuelidate": "^0.7.5",
     "vuetify": "^2.6.0",
     "vuetify-datetime-picker": "^2.1.1",
