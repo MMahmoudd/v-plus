@@ -7,11 +7,16 @@
     <v-row>
       <v-col
         cols="12"
-        md="6"
+      >
+        <myTreatment />
+      </v-col>
+      <v-col
+        cols="12"
+        md="3"
       >
         <v-card>
           <v-card-title>
-            {{ $t('statistics.assetsStatistics') }}
+            احصائيات العملاء
           </v-card-title>
           <v-container>
             <pie-chart />
@@ -20,14 +25,40 @@
       </v-col>
       <v-col
         cols="12"
-        md="6"
+        md="3"
       >
         <v-card>
           <v-card-title>
-            {{ $t('statistics.companiesStatistics') }}
+            احصائيات المستخدمين
           </v-card-title>
           <v-container>
-            <bar-chart />
+            <pie-chart />
+          </v-container>
+        </v-card>
+      </v-col>
+      <v-col
+        cols="12"
+        md="3"
+      >
+        <v-card>
+          <v-card-title>
+            المعاملات المعلقة
+          </v-card-title>
+          <v-container>
+            <pie-chart />
+          </v-container>
+        </v-card>
+      </v-col>
+      <v-col
+        cols="12"
+        md="3"
+      >
+        <v-card>
+          <v-card-title>
+            المعاملات النقدية
+          </v-card-title>
+          <v-container>
+            <pie-chart />
           </v-container>
         </v-card>
       </v-col>
@@ -36,13 +67,15 @@
 </template>
 
 <script>
+  import myTreatment from '../dashboard/Treatment/Treatments.vue'
   import PieChart from '../../components/PieChart.vue'
-  import BarChart from '../../components/BarChart.vue'
+  // import BarChart from '../../components/BarChart.vue'
   export default {
     name: 'Dashboard',
     components: {
       PieChart,
-      BarChart,
+      // BarChart,
+      myTreatment,
     },
 
     data () {

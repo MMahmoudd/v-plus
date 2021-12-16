@@ -6,10 +6,10 @@
     mounted () {
       this.renderChart(
         {
-          labels: ['Assets', 'Companies', 'Branches'],
+          labels: ['المعاملات المدخلة', 'تحت التقييم', 'قيد الاعتماد'],
           datasets: [
             {
-              backgroundColor: ['#2d2924', '#563500', '#E9BB70'],
+              backgroundColor: ['#37A8FF', '#3772FF', '#0000AF'],
               data: [90, 20, 100],
             },
           ],
