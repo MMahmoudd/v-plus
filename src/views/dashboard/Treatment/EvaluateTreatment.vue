@@ -1805,13 +1805,18 @@
                   md="12"
                 >
                   <gmap-map
+                    ref="vPlusMap"
                     map-type-id="terrain"
                     style="width: 100%; height: 450px"
+                    :center="center"
+                    :zoom="4"
                   >
-                    <gmap-marker
-                      position="{lat:10, lng:10}"
+                    <GmapMarker
+                      :position="{lat: +data.latitude, lng: +data.longitude}"
                       :clickable="true"
                       :draggable="true"
+                      @drag="updateCoordinates"
+                      @click="updateCenter"
                     />
                   </gmap-map>
                 </v-col>
@@ -1837,10 +1842,12 @@
                     class="d-block mb-3 font-weight-bold"
                   >خط الطول</label>
                   <v-text-field
-                    v-model="long"
+                    v-model="data.longitude"
                     label="خط الطول"
                     single-line
                     outlined
+                    type="number"
+                    @change="changeLatAndLong"
                   />
                 </v-col>
                 <v-col
@@ -1853,10 +1860,12 @@
                     class="d-block mb-3 font-weight-bold"
                   >خط العرض</label>
                   <v-text-field
-                    v-model="lat"
+                    v-model="data.latitude"
                     label="خط العرض"
                     single-line
                     outlined
+                    type="number"
+                    @change="changeLatAndLong"
                   />
                 </v-col>
                 <v-col
@@ -1887,7 +1896,7 @@
                       </v-icon>
                       موقعى
                     </v-btn>
-                    <v-btn
+                    <!-- <v-btn
                       x-large
                       class="ma-2 light-green-btn"
                       @click.prevent="getMap(lat,long)"
@@ -1896,7 +1905,7 @@
                         fas fa-map-marker-alt
                       </v-icon>
                       تحديد الموقع
-                    </v-btn>
+                    </v-btn> -->
                   </div>
                 </v-col>
               </v-row>
@@ -2277,7 +2286,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >مجالس</label>
                   <v-text-field
-                    v-modal="data.trans_boards"
+                    v-model="data.trans_boards"
                     label="0"
                     single-line
                     outlined
@@ -4550,7 +4559,7 @@
                 </v-row>
                 <v-row
                   class="mt-0"
-                  align="baseline "
+                  align="baseline"
                 >
                   <v-col
                     cols="12"
@@ -4598,7 +4607,7 @@
                 </v-row>
                 <v-row
                   class="mt-0"
-                  align="baseline "
+                  align="baseline"
                 >
                   <v-col
                     cols="12"
@@ -4646,7 +4655,7 @@
                 </v-row>
                 <v-row
                   class="mt-0"
-                  align="baseline "
+                  align="baseline"
                 >
                   <v-col
                     cols="12"
@@ -4693,7 +4702,7 @@
                 </v-row>
                 <v-row
                   class="mt-0"
-                  align="baseline "
+                  align="baseline"
                 >
                   <v-col
                     cols="12"
@@ -4740,7 +4749,7 @@
                 </v-row>
                 <v-row
                   class="mt-0"
-                  align="baseline "
+                  align="baseline"
                 >
                   <v-col
                     cols="12"
@@ -4787,7 +4796,7 @@
                 </v-row>
                 <v-row
                   class="mt-4"
-                  align="baseline "
+                  align="baseline"
                 >
                   <v-col
                     cols="3"
@@ -5422,6 +5431,7 @@
                   tag="div"
                   class="images-draggable-container"
                   name="grid"
+                  type="transition"
                 >
                   <div
                     v-for="(image,index) in images"
@@ -5790,6 +5800,7 @@
 </template>
 
 <script>
+  /* eslint-disable vue/valid-v-model */
   import Swal from 'sweetalert2'
   import { copyText } from 'vue3-clipboard'
   import { Loader } from '@googlemaps/js-api-loader'
@@ -6886,6 +6897,8 @@
           },
         ],
       },
+      marker: { lat: 24.7468754, lng: 39.9600269 },
+      center: { lat: 24.7468754, lng: 39.9600269 },
       // Real Data
       ProfessionalStandards: `طريقة استخراج القيمة: عن طريق دراسة المنطقة و تحليل أسعار العقارات التجارية والسكنية والعروض المشابهة للأرض و التكلفة للمباني بعد خصم نسبة الإهلاك.
 المستندات المقدمة من طالب التقييم: هوية المالك - صك الملكية.
@@ -7306,14 +7319,40 @@
         // get position
         navigator.geolocation.getCurrentPosition(pos => {
           this.gettingLocation = false
-          this.location = pos
-          this.lat = this.location.coords.latitude
-          this.long = this.location.coords.longitude
-          this.getMap(this.location.coords.latitude, this.location.coords.longitude)
+          // this.location = pos
+          this.data.latitude = pos.coords.latitude
+          this.data.longitude = pos.coords.longitude
+          // make the center of the make equal to the lat and long of the current location
+          this.$refs.vPlusMap.$mapPromise.then((map) => {
+            map.panTo({ lat: pos.coords.latitude, lng: pos.coords.longitude })
+          })
+          this.center.lat = this.data.latitude
+          this.center.lng = this.data.longitude
+          // this.getMap(this.location.coords.latitude, this.location.coords.longitude)
         }, err => {
           this.gettingLocation = false
           this.errorCurLocation = err.message
         })
+      },
+      updateCoordinates: function (location) {
+        this.data.latitude = (location.latLng.lat() || 0).toFixed(6)
+        this.data.longitude = (location.latLng.lng() || 0).toFixed(6)
+      },
+      updateCenter: function () {
+        this.center.lng = +this.data.longitude
+        this.center.lat = +this.data.latitude
+        this.$refs.vPlusMap.$mapPromise.then((map) => {
+          map.panTo({ lat: +this.data.latitude, lng: +this.data.longitude })
+        })
+      },
+      changeLatAndLong: function () {
+        this.$refs.vPlusMap.$mapPromise.then((map) => {
+          map.panTo({ lat: +this.data.latitude, lng: +this.data.longitude })
+        })
+        this.data.latitude = (+this.data.latitude || 0).toFixed(6)
+        this.data.longitude = (+this.data.longitude || 0).toFixed(6)
+        this.center.lng = +this.data.longitude
+        this.center.lat = +this.data.latitude
       },
       // Get Location debendes on 2 inputs
       getMap: function (x, y) {
@@ -7343,18 +7382,19 @@
       },
       // Copy Lat & Long of map
       doCopy: function () {
-        copyText(this.lat + ',' + this.long, undefined, (error, event) => {
+        copyText(this.data.latitude + ',' + this.data.longitude, undefined, (error, event) => {
           if (error) {
             alert('Can not copy')
             console.log(error)
           } else {
             // alert('Copied')
             Swal.fire({
-              title: 'Copied!',
+              title: 'تم النسخ',
               icon: 'success',
-              timer: 2000,
+              timer: 1000,
+              showCancelButton: false,
+              showConfirmButton: false,
             })
-            console.log(event)
           }
         })
       },
@@ -7675,4 +7715,12 @@ img {
 .text-danger {
     color: #dc3545!important;
 }
+</style>
+<style>
+/* .grid-move {
+  transition: transform 0.5s;
+}
+.no-move {
+  transition: transform 0s;
+} */
 </style>

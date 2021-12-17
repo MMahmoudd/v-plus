@@ -26,8 +26,13 @@ Vue.use(DatetimePicker)
 Vue.use(VueI18n)
 Vue.use(VueGoogleMaps, {
   load: {
-    key: 'AIzaSyDQ9f-cXdHYEht98QgvEFtd2sGNA6gNYso',
+    // mine
+    key: 'AIzaSyCVqitAS9u-YPDAsQzPS6xomUn5Qe6-ukg',
+    // new
+    // key: 'AIzaSyAruo-VqZ_6zEgOY-4lphX-tQYQCZKOpJw',
     libraries: 'places',
+    language: 'ar',
+    region: 'SA',
   },
 })
 // Ready translated locale messages
