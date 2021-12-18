@@ -220,6 +220,36 @@
               to: '/treatment-settings/propertyRatings',
               tole: true,
             },
+            {
+              title: 'حالة البناء',
+              to: '/treatment-settings/constructionConditions',
+              tole: true,
+            },
+            {
+              title: 'عملة التقييم',
+              to: '/treatment-settings/EvaluationCurrencies',
+              tole: true,
+            },
+            {
+              title: 'انواع التقارير',
+              to: '/treatment-settings/ReportTypes',
+              tole: true,
+            },
+            {
+              title: 'فرضية القيمة',
+              to: '/treatment-settings/ValueHypothesisLists',
+              tole: true,
+            },
+            {
+              title: 'اساس القيمة',
+              to: '/treatment-settings/ValueBasiLists',
+              tole: true,
+            },
+            {
+              title: 'حالة الاشغال',
+              to: '/treatment-settings/WorkingStatuses',
+              tole: true,
+            },
           ],
         },
       ],

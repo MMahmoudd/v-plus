@@ -44,7 +44,7 @@
                 size="70"
               >
                 <img
-                  :src="item.profile_photo_url"
+                  :src="'https://taqeeem.millennium.sa/' + item.image"
                   alt="profile image"
                 >
               </v-avatar>
@@ -125,7 +125,7 @@
           v-slot:no-data
           loading
         >
-          <p>{{ $t('actions.noData') }}</p>
+          <p>لا يوجد بيانات</p>
         </template>
       </v-data-table>
     </v-card>

@@ -6,18 +6,18 @@
   >
     <v-card>
       <v-card-title>
-        الأحياء
+        فرضية القيمة
         <v-spacer />
         <v-spacer />
         <router-link
-          :to="{ path: '/treatment-settings/neighborhoodsForm/'}"
+          :to="{ path: '/treatment-settings/ValueHypothesisListsForm/'}"
           color="blue"
         >
           <v-btn
             class="mx-2"
             color="blue"
           >
-            إضافة حي جديد +
+            إضافة فرضية قيمة جديدة +
           </v-btn>
         </router-link>
       </v-card-title>
@@ -39,7 +39,7 @@
           <v-tooltip bottom>
             <template v-slot:activator="{ on, attrs }">
               <router-link
-                :to="'/treatment-settings/neighborhoodsForm/' + item.id"
+                :to="'/treatment-settings/ValueHypothesisListsForm/' + item.id"
               >
                 <v-btn
                   small
@@ -150,11 +150,9 @@
 <script>
   import { ServiceFactory } from '../../../../services/ServiceFactory'
   import moment from 'moment'
-  const CitiesService = ServiceFactory.get('Cites')
-  const NeighborhoodsService = ServiceFactory.get('Neighborhoods')
-
+  const ValueHypothesisListsService = ServiceFactory.get('ValueHypothesisLists')
   export default {
-    name: 'Users',
+    name: 'ValueHypothesisLists',
     data: (vm) => ({
       search: '',
       dataLoading: false,
@@ -174,8 +172,8 @@
       errorMessage: '',
       disabled: false,
       headers: [
-        { text: 'إسم الحي', sortable: true, value: 'name' },
-        { text: 'إسم المدينة', sortable: true, value: 'city' },
+        { text: 'إسم القيمة', sortable: true, value: 'name' },
+        { text: 'الوصف', sortable: true, value: 'description' },
         { text: 'تاريخ الإنشاء', sortable: true, value: 'created_at' },
         { text: 'الحالة', sortable: true, value: 'status' },
         { text: 'الاجراءات', value: 'actions', sortable: false },
@@ -197,23 +195,20 @@
         this.dataLoading = true
         const { page, itemsPerPage } = this.options
         const pageNumber = page - 1
-        const items = await NeighborhoodsService.getAllItems(itemsPerPage, page, pageNumber)
-        const cities = await CitiesService.getAllItems(itemsPerPage, page, pageNumber)
+        const items = await ValueHypothesisListsService.getAllItems(itemsPerPage, page, pageNumber)
+        console.log('Users', items)
         items.data.data.map(item => {
           item.created_at = moment(item.created_at).format('YYYY-MM-DD hh:mm a')
           item.status = item.status === '1' ? 'مفعل' : 'غير مفعل'
-          item.city = cities.data.data.find((city) => city.id === item.city_id)?.name || ''
         })
-        console.log('this.items', this.items)
         this.items = items.data.data
-        console.log('this.items', this.items)
         this.total = items.total
         this.dataLoading = false
       },
       async deleteUser (userDetails) {
         this.loading = true
         this.disabled = true
-        const deleteUsers = await NeighborhoodsService.deleteOneItem(userDetails.id)
+        const deleteUsers = await ValueHypothesisListsService.deleteOneItem(userDetails.id)
         if (deleteUsers.success === true) {
           this.deleteDailog = false
           this.successMessage = 'تم الحذف بنجاح'

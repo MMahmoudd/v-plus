@@ -48,7 +48,7 @@
           v-slot:no-data
           loading
         >
-          <p>{{ $t('actions.noData') }}</p>
+          <p>لا يوجد بيانات</p>
         </template>
       </v-data-table>
     </v-card>

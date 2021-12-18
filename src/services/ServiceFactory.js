@@ -13,6 +13,12 @@ import TransactionsServices from './TransactionsServices'
 import OffersServices from '@/services/OffersServices'
 import BillingServices from '@/services/BillingServices'
 import ExpenseServices from './ExpenseServices'
+import constructionConditionsService from './ConstructionConditionsService'
+import EvaluationCurrenciesServices from './EvaluationCurrenciesServices'
+import ReportTypesServices from './ReportTypesServices'
+import ValueBasiListsServices from './ValueBasiListsServices'
+import ValueHypothesisListsServices from './ValueHypothesisListsServices'
+import WorkingStatusesServices from './WorkingStatusesServices'
 
 const services = {
   Users: usersService,
@@ -30,6 +36,13 @@ const services = {
   Offers: OffersServices,
   Bills: BillingServices,
   Expense: ExpenseServices,
+  constructionConditions: constructionConditionsService,
+  EvaluationCurrencies: EvaluationCurrenciesServices,
+  ReportTypes: ReportTypesServices,
+  ValueBasiLists: ValueBasiListsServices,
+  ValueHypothesisLists: ValueHypothesisListsServices,
+  WorkingStatuses: WorkingStatusesServices,
+
 }
 
 export const ServiceFactory = {

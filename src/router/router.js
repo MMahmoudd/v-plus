@@ -177,6 +177,7 @@ const router = new Router({
         },
         // treatment settings
         {
+          name: 'treatmentSettings',
           path: '/treatment-settings',
           meta: { requiresAuth: true },
           redirect: '/treatment-settings/regions',
@@ -184,39 +185,46 @@ const router = new Router({
         },
         // treatment settings - regions
         {
+          name: 'regions',
           path: '/treatment-settings/regions',
           meta: { requiresAuth: true },
           component: () => import('@/views/dashboard/TreatmentSettings/Region/List.vue'),
         },
         {
+          name: 'regionsForm',
           path: '/treatment-settings/regionsForm/:id?',
           component: () => import('@/views/dashboard/TreatmentSettings/Region/Form.vue'),
           meta: { requiresAuth: true },
         },
         // treatment settings - cities
         {
+          name: 'cities',
           path: '/treatment-settings/cities',
           meta: { requiresAuth: true },
           component: () => import('@/views/dashboard/TreatmentSettings/City/List.vue'),
         },
         {
+          name: 'citiesForm',
           path: '/treatment-settings/citiesForm/:id?',
           component: () => import('@/views/dashboard/TreatmentSettings/City/Form.vue'),
           meta: { requiresAuth: true },
         },
         // treatment settings - Sample
         {
+          name: 'sample',
           path: '/treatment-settings/sample',
           meta: { requiresAuth: true },
           component: () => import('@/views/dashboard/TreatmentSettings/Sample/List.vue'),
         },
         // treatment settings - Neighborhoods
         {
+          name: 'neighborhoods',
           path: '/treatment-settings/neighborhoods',
           meta: { requiresAuth: true },
           component: () => import('@/views/dashboard/TreatmentSettings/Neighborhood/List.vue'),
         },
         {
+          name: 'neighborhoodsForm',
           path: '/treatment-settings/neighborhoodsForm/:id?',
           component: () => import('@/views/dashboard/TreatmentSettings/Neighborhood/Form.vue'),
           meta: { requiresAuth: true },
@@ -224,12 +232,14 @@ const router = new Router({
 
         // /treatment-settings/propertyTypes
         {
+          name: 'propertyTypes',
           path: '/treatment-settings/propertyTypes',
           component: () => import('@/views/dashboard/TreatmentSettings/PropertyType/List.vue'),
           meta: { requiresAuth: true },
 
         },
         {
+          name: 'propertyTypesForm',
           path: '/treatment-settings/propertyTypesForm/:id?',
           component: () => import('@/views/dashboard/TreatmentSettings/PropertyType/Form.vue'),
           meta: { requiresAuth: true },
@@ -237,16 +247,101 @@ const router = new Router({
         },
         // /treatment-settings/propertyRatings
         {
+          name: 'propertyRatings',
           path: '/treatment-settings/propertyRatings',
           component: () => import('@/views/dashboard/TreatmentSettings/PropertyRating/List.vue'),
           meta: { requiresAuth: true },
 
         },
         {
+          name: 'propertyRatingsForm',
           path: '/treatment-settings/propertyRatingsForm/:id?',
           component: () => import('@/views/dashboard/TreatmentSettings/PropertyRating/Form.vue'),
           meta: { requiresAuth: true },
+        },
+        // /treatment-settings/constructionConditions
+        {
+          name: 'constructionConditions',
+          path: '/treatment-settings/constructionConditions',
+          component: () => import('@/views/dashboard/TreatmentSettings/constructionConditions/List.vue'),
+          meta: { requiresAuth: true },
 
+        },
+        {
+          name: 'constructionConditionsForm',
+          path: '/treatment-settings/constructionConditionsForm/:id?',
+          component: () => import('@/views/dashboard/TreatmentSettings/constructionConditions/Form.vue'),
+          meta: { requiresAuth: true },
+        },
+        // /treatment-settings/EvaluationCurrencies
+        {
+          name: 'EvaluationCurrencies',
+          path: '/treatment-settings/EvaluationCurrencies',
+          component: () => import('@/views/dashboard/TreatmentSettings/EvaluationCurrencies/List.vue'),
+          meta: { requiresAuth: true },
+
+        },
+        {
+          name: 'EvaluationCurrenciesForm',
+          path: '/treatment-settings/EvaluationCurrenciesForm/:id?',
+          component: () => import('@/views/dashboard/TreatmentSettings/EvaluationCurrencies/Form.vue'),
+          meta: { requiresAuth: true },
+        },
+        // /treatment-settings/ReportTypes
+        {
+          name: 'ReportTypes',
+          path: '/treatment-settings/ReportTypes',
+          component: () => import('@/views/dashboard/TreatmentSettings/ReportTypes/List.vue'),
+          meta: { requiresAuth: true },
+
+        },
+        {
+          name: 'ReportTypesForm',
+          path: '/treatment-settings/ReportTypesForm/:id?',
+          component: () => import('@/views/dashboard/TreatmentSettings/ReportTypes/Form.vue'),
+          meta: { requiresAuth: true },
+        },
+        // /treatment-settings/ValueHypothesisLists
+        {
+          name: 'ValueHypothesisLists',
+          path: '/treatment-settings/ValueHypothesisLists',
+          component: () => import('@/views/dashboard/TreatmentSettings/ValueHypothesisLists/List.vue'),
+          meta: { requiresAuth: true },
+
+        },
+        {
+          name: 'ValueHypothesisListsForm',
+          path: '/treatment-settings/ValueHypothesisListsForm/:id?',
+          component: () => import('@/views/dashboard/TreatmentSettings/ValueHypothesisLists/Form.vue'),
+          meta: { requiresAuth: true },
+        },
+        // /treatment-settings/ValueBasiLists
+        {
+          name: 'ValueBasiLists',
+          path: '/treatment-settings/ValueBasiLists',
+          component: () => import('@/views/dashboard/TreatmentSettings/ValueBasiLists/List.vue'),
+          meta: { requiresAuth: true },
+
+        },
+        {
+          name: 'ValueBasiListsForm',
+          path: '/treatment-settings/ValueBasiListsForm/:id?',
+          component: () => import('@/views/dashboard/TreatmentSettings/ValueBasiLists/Form.vue'),
+          meta: { requiresAuth: true },
+        },
+        // /treatment-settings/WorkingStatuses
+        {
+          name: 'WorkingStatuses',
+          path: '/treatment-settings/WorkingStatuses',
+          component: () => import('@/views/dashboard/TreatmentSettings/WorkingStatuses/List.vue'),
+          meta: { requiresAuth: true },
+
+        },
+        {
+          name: 'WorkingStatusesForm',
+          path: '/treatment-settings/WorkingStatusesForm/:id?',
+          component: () => import('@/views/dashboard/TreatmentSettings/WorkingStatuses/Form.vue'),
+          meta: { requiresAuth: true },
         },
         {
           path: '/notAuthorized',

@@ -131,21 +131,19 @@
               </v-col>
               <v-col
                 cols="12"
-                sm="6"
-                md="4"
+                sm="3"
+                md="2"
               >
-                <v-text-field
-                  v-model="data.email"
-                  label="البريد الاليكتروني"
-                  type="email"
-                  outlined
-                  required
-                />
+                <img
+                  width="50"
+                  :src="'https://taqeeem.millennium.sa/' + data.image"
+                  alt="Image"
+                >
               </v-col>
               <v-col
                 cols="12"
-                sm="6"
-                md="4"
+                sm="5"
+                md="6"
               >
                 <v-file-input
                   show-size
@@ -156,6 +154,19 @@
                   accept="image/png, image/jpeg, image/bmp"
                   label="الصورة الشخصية"
                   @change="onNewFileSelected"
+                />
+              </v-col>
+              <v-col
+                cols="12"
+                sm="6"
+                md="4"
+              >
+                <v-text-field
+                  v-model="data.email"
+                  label="البريد الاليكتروني"
+                  type="email"
+                  outlined
+                  required
                 />
               </v-col>
             </v-row>
@@ -205,8 +216,19 @@
               </v-col>
               <v-col
                 cols="12"
-                sm="6"
-                md="4"
+                sm="3"
+                md="2"
+              >
+                <img
+                  width="50"
+                  :src="'https://taqeeem.millennium.sa/' + data.bank_statement_image"
+                  alt="Image"
+                >
+              </v-col>
+              <v-col
+                cols="12"
+                sm="5"
+                md="6"
               >
                 <v-file-input
                   show-size
@@ -228,54 +250,138 @@
               العمولات
             </h3>
             <v-row class="mx-md-16 px-md-16">
-              <v-col
-                cols="12"
-                sm="6"
-                md="4"
-              >
-                <v-text-field
-                  v-model="data.commission_input_stage"
-                  label="مرحلة إدخال العمولة"
-                  outlined
-                  required
-                />
-              </v-col>
-              <v-col
-                cols="12"
-                sm="6"
-                md="4"
-              >
-                <v-text-field
-                  v-model="data.commission_evaluation_stage"
-                  label="مرحلة تقييم العمولة"
-                  outlined
-                  required
-                />
-              </v-col>
-              <v-col
-                cols="12"
-                sm="6"
-                md="4"
-              >
-                <v-text-field
-                  v-model="data.commission_revision_stage"
-                  label="مرحلة مراجعة العمولة"
-                  outlined
-                  required
-                />
-              </v-col>
-              <v-col
-                cols="12"
-                sm="6"
-                md="4"
-              >
-                <v-text-field
-                  v-model="data.commission_accreditation_stage"
-                  label="مرحلة اعتماد العمولة"
-                  outlined
-                  required
-                />
-              </v-col>
+              <v-row>
+                <v-col
+                  cols="12"
+                  sm="4"
+                  md="4"
+                >
+                  <h3>مرحلة الادخال</h3>
+                </v-col>
+                <v-col
+                  cols="12"
+                  sm="4"
+                  md="4"
+                >
+                  <v-text-field
+                    v-model="data.commission_input_stage_amount"
+                    label="مبلغ"
+                    outlined
+                    required
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  sm="4"
+                  md="4"
+                >
+                  <v-text-field
+                    v-model="data.commission_input_stage_rate"
+                    label="النسبة"
+                    outlined
+                    required
+                  />
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col
+                  cols="12"
+                  sm="4"
+                  md="4"
+                >
+                  <h3>مرحلة التقييم</h3>
+                </v-col>
+                <v-col
+                  cols="12"
+                  sm="4"
+                  md="4"
+                >
+                  <v-text-field
+                    v-model="data.commission_evaluation_stage_amount"
+                    label="مبلغ"
+                    outlined
+                    required
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  sm="4"
+                  md="4"
+                >
+                  <v-text-field
+                    v-model="data.commission_evaluation_stage_rate"
+                    label="النسبة"
+                    outlined
+                    required
+                  />
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col
+                  cols="12"
+                  sm="4"
+                  md="4"
+                >
+                  <h3>مرحلة المراجعة</h3>
+                </v-col>
+                <v-col
+                  cols="12"
+                  sm="4"
+                  md="4"
+                >
+                  <v-text-field
+                    v-model="data.commission_revision_stage_amount"
+                    label="المبلغ"
+                    outlined
+                    required
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  sm="4"
+                  md="4"
+                >
+                  <v-text-field
+                    v-model="data.commission_revision_stage_rate"
+                    label="المبلغ"
+                    outlined
+                    required
+                  />
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col
+                  cols="12"
+                  sm="4"
+                  md="4"
+                >
+                  <h3>مرحلة الاعتماد</h3>
+                </v-col>
+                <v-col
+                  cols="12"
+                  sm="4"
+                  md="4"
+                >
+                  <v-text-field
+                    v-model="data.commission_accreditation_stage_amount"
+                    label="المبلغ"
+                    outlined
+                    required
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  sm="4"
+                  md="4"
+                >
+                  <v-text-field
+                    v-model="data.commission_accreditation_stage_rate"
+                    label="النسبة"
+                    outlined
+                    required
+                  />
+                </v-col>
+              </v-row>
             </v-row>
             <v-btn
               type="submit"
@@ -336,11 +442,17 @@
         bank_statement_image: null,
         start_membership: '',
         end_membership: '',
-        commission_input_stage: '',
-        commission_evaluation_stage: '',
-        commission_revision_stage: '',
-        commission_accreditation_stage: '',
+        commission_accreditation_stage_amount: null,
+        commission_accreditation_stage_rate: null,
+        commission_evaluation_stage_rate: null,
+        commission_evaluation_stage_amount: null,
+        commission_input_stage_amount: null,
+        commission_input_stage_rate: null,
+        commission_revision_stage_rate: null,
+        commission_revision_stage_amount: null,
       },
+      profile_image: null,
+      bank_statement_image: null,
       roles: [],
       successSnackbar: false,
       errorSnackbar: false,
@@ -358,15 +470,35 @@
     },
     methods: {
       onNewFileSelected (event) {
-        this.data.image = event
+        this.profile_image = event
       },
       onBank_statement_image (event) {
-        this.data.bank_statement_image = event
+        this.bank_statement_image = event
       },
       async submitForm () {
         this.loading = true
         this.disabled = true
-        const formData = this.data
+        const formData = new FormData()
+        this.data.name && formData.append('name', this.data.name)
+        this.data.email && formData.append('email', this.data.email)
+        this.data.password && formData.append('password', this.data.password)
+        this.data.user_type && formData.append('user_type', this.data.user_type)
+        this.profile_image && formData.append('image', this.profile_image)
+        this.data.phone && formData.append('phone', this.data.phone)
+        this.data.username && formData.append('username', this.data.username)
+        this.data.id_number && formData.append('id_number', this.data.id_number)
+        this.data.beneficiary_name && formData.append('beneficiary_name', this.data.beneficiary_name)
+        this.data.bank_number && formData.append('bank_number', this.data.bank_number)
+        this.data.bank_IBAN && formData.append('bank_IBAN', this.data.bank_IBAN)
+        this.bank_statement_image && formData.append('bank_statement_image', this.bank_statement_image)
+        this.data.commission_accreditation_stage_amount && formData.append('commission_accreditation_stage_amount', this.data.commission_accreditation_stage_amount)
+        this.data.commission_accreditation_stage_rate && formData.append('commission_accreditation_stage_rate', this.data.commission_accreditation_stage_rate)
+        this.data.commission_evaluation_stage_rate && formData.append('commission_evaluation_stage_rate', this.data.commission_evaluation_stage_rate)
+        this.data.commission_evaluation_stage_amount && formData.append('commission_evaluation_stage_amount', this.data.commission_evaluation_stage_amount)
+        this.data.commission_input_stage_amount && formData.append('commission_input_stage_amount', this.data.commission_input_stage_amount)
+        this.data.commission_input_stage_rate && formData.append('commission_input_stage_rate', this.data.commission_input_stage_rate)
+        this.data.commission_revision_stage_rate && formData.append('commission_revision_stage_rate', this.data.commission_revision_stage_rate)
+        this.data.commission_revision_stage_amount && formData.append('commission_revision_stage_amount', this.data.commission_revision_stage_amount)
         if (this.$route.params.id) {
           this.updateContent(this.$route.params.id, formData)
         } else {
@@ -374,6 +506,7 @@
         }
       },
       async newItem (data) {
+        console.log('data', data)
         const item = await UsersService.addUser(data)
         if (item.success === true) {
           this.successMessage = 'تمت الاضافة بنجاح'

@@ -40,7 +40,7 @@
             size="56"
           >
             <img
-              :src="usersData.profile_photo_url"
+              :src="'https://taqeeem.millennium.sa/' + userData.image"
               alt="profile image"
             >
           </v-avatar>
