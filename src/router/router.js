@@ -210,11 +210,6 @@ const router = new Router({
           meta: { requiresAuth: true },
           component: () => import('@/views/dashboard/TreatmentSettings/Sample/List.vue'),
         },
-        {
-          path: '/treatment-settings/sampleForm/:id?',
-          component: () => import('@/views/dashboard/TreatmentSettings/Sample/Form.vue'),
-          meta: { requiresAuth: true },
-        },
         // treatment settings - Neighborhoods
         {
           path: '/treatment-settings/neighborhoods',

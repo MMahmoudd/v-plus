@@ -61,11 +61,6 @@
               to: '/Treatments',
               role: true,
             },
-            // {
-            //   title: 'معاملة جديدة',
-            //   to: '/New-Treatment',
-            //   role: true,
-            // },
             {
               title: 'تقييم المعاملة',
               to: '/Evaluate-Treatment',
@@ -109,6 +104,66 @@
           role: true,
         },
         {
+          title: 'التقارير (Soon)',
+          icon: 'fa-book-open',
+          role: true,
+          children: [
+            {
+              title: 'تفرير المستخدمين (Soon)',
+              // to: '/customers',
+              role: true,
+            },
+            {
+              title: 'تقرير المصروفات (Soon)',
+              // to: '/price-offers',
+              role: true,
+            },
+            {
+              title: 'تقرير الايرادات (Soon)',
+              // to: '/Bills',
+              role: true,
+            },
+            {
+              title: 'تقرير الارباح (Soon)',
+              // to: '/expenses',
+              role: true,
+            },
+          ],
+        },
+        {
+          title: 'روابط هامة (Soon)',
+          icon: 'fa-link',
+          role: true,
+          children: [
+            {
+              title: 'رابط 1 (Soon)',
+              // to: '/customers',
+              role: true,
+            },
+            {
+              title: 'رابط 2 (Soon)',
+              // to: '/price-offers',
+              role: true,
+            },
+            {
+              title: 'رابط 3 (Soon)',
+              // to: '/Bills',
+              role: true,
+            },
+            {
+              title: 'رابط 4 (Soon)',
+              // to: '/expenses',
+              role: true,
+            },
+          ],
+        },
+        {
+          title: 'دليل الاستخدام (Soon)',
+          icon: 'fa-retweet',
+          // to: '/',
+          role: true,
+        },
+        {
           title: 'الاعدادات',
           icon: 'fa-cog',
           role: true,
@@ -123,6 +178,11 @@
               to: '/users-setting',
               role: true,
             },
+            {
+              title: 'الاشتراكات (Soon)',
+              // to: '/users-setting',
+              role: true,
+            },
           ],
         },
         {
@@ -130,6 +190,11 @@
           icon: 'fa-cogs',
           role: true,
           children: [
+            {
+              title: 'اعدادات النماذج',
+              to: '/treatment-settings/sample',
+              tole: true,
+            },
             {
               title: 'إعدادات المنطقة',
               to: '/treatment-settings/regions',
@@ -153,11 +218,6 @@
             {
               title: 'تصنيف العقارات',
               to: '/treatment-settings/propertyRatings',
-              tole: true,
-            },
-            {
-              title: 'اعدادات النماذج',
-              to: '/treatment-settings/sample',
               tole: true,
             },
           ],

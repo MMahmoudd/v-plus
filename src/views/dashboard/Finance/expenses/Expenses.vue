@@ -119,12 +119,12 @@
                 class="d-block mb-3 font-weight-bold"
               >أجمالي مصاريف الشهر</label>
               <v-text-field
-                v-model="dataOfYear.total_month_Jan"
-                :disabled="disabled"
+                v-model="total_month_Jan"
                 type="number"
                 label="أجمالي المصاريف الشهر"
                 single-line
                 outlined
+                disabled
               />
             </v-col>
 
@@ -199,8 +199,8 @@
                 class="d-block mb-3 font-weight-bold"
               >أجمالي مصاريف الشهر</label>
               <v-text-field
-                v-model="dataOfYear.total_month_Feb"
-                :disabled="disabled"
+                v-model="total_month_Feb"
+                disabled
                 type="number"
                 label="أجمالي المصاريف الشهر"
                 single-line
@@ -279,8 +279,8 @@
                 class="d-block mb-3 font-weight-bold"
               >أجمالي مصاريف الشهر</label>
               <v-text-field
-                v-model="dataOfYear.total_month_Mar"
-                :disabled="disabled"
+                v-model="total_month_Mar"
+                disabled
                 type="number"
                 label="أجمالي المصاريف الشهر"
                 single-line
@@ -359,8 +359,8 @@
                 class="d-block mb-3 font-weight-bold"
               >أجمالي مصاريف الشهر</label>
               <v-text-field
-                v-model="dataOfYear.total_month_Apr"
-                :disabled="disabled"
+                v-model="total_month_Apr"
+                disabled
                 type="number"
                 label="أجمالي المصاريف الشهر"
                 single-line
@@ -439,8 +439,8 @@
                 class="d-block mb-3 font-weight-bold"
               >أجمالي مصاريف الشهر</label>
               <v-text-field
-                v-model="dataOfYear.total_month_May"
-                :disabled="disabled"
+                v-model="total_month_May"
+                disabled
                 type="number"
                 label="أجمالي المصاريف الشهر"
                 single-line
@@ -519,8 +519,8 @@
                 class="d-block mb-3 font-weight-bold"
               >أجمالي مصاريف الشهر</label>
               <v-text-field
-                v-model="dataOfYear.total_month_Jun"
-                :disabled="disabled"
+                v-model="total_month_Jun"
+                disabled
                 type="number"
                 label="أجمالي المصاريف الشهر"
                 single-line
@@ -599,8 +599,8 @@
                 class="d-block mb-3 font-weight-bold"
               >أجمالي مصاريف الشهر</label>
               <v-text-field
-                v-model="dataOfYear.total_month_Jul"
-                :disabled="disabled"
+                v-model="total_month_Jul"
+                disabled
                 type="number"
                 label="أجمالي المصاريف الشهر"
                 single-line
@@ -679,8 +679,8 @@
                 class="d-block mb-3 font-weight-bold"
               >أجمالي مصاريف الشهر</label>
               <v-text-field
-                v-model="dataOfYear.total_month_Aug"
-                :disabled="disabled"
+                v-model="total_month_Aug"
+                disabled
                 type="number"
                 label="أجمالي المصاريف الشهر"
                 single-line
@@ -759,8 +759,8 @@
                 class="d-block mb-3 font-weight-bold"
               >أجمالي مصاريف الشهر</label>
               <v-text-field
-                v-model="dataOfYear.total_month_Sept"
-                :disabled="disabled"
+                v-model="total_month_Sept"
+                disabled
                 type="number"
                 label="أجمالي المصاريف الشهر"
                 single-line
@@ -839,8 +839,8 @@
                 class="d-block mb-3 font-weight-bold"
               >أجمالي مصاريف الشهر</label>
               <v-text-field
-                v-model="dataOfYear.total_month_Oct"
-                :disabled="disabled"
+                v-model="total_month_Oct"
+                disabled
                 type="number"
                 label="أجمالي المصاريف الشهر"
                 single-line
@@ -919,8 +919,8 @@
                 class="d-block mb-3 font-weight-bold"
               >أجمالي مصاريف الشهر</label>
               <v-text-field
-                v-model="dataOfYear.total_month_Nov"
-                :disabled="disabled"
+                v-model="total_month_Nov"
+                disabled
                 type="number"
                 label="أجمالي المصاريف الشهر"
                 single-line
@@ -999,8 +999,8 @@
                 class="d-block mb-3 font-weight-bold"
               >أجمالي مصاريف الشهر</label>
               <v-text-field
-                v-model="dataOfYear.total_month_Dec"
-                :disabled="disabled"
+                v-model="total_month_Dec"
+                disabled
                 type="number"
                 label="أجمالي المصاريف الشهر"
                 single-line
@@ -1202,6 +1202,42 @@
       errorMessage: '',
     }),
     computed: {
+      total_month_Jan: function () {
+        return +this.dataOfYear.total_static_Jan + +this.dataOfYear.total_fixed_Jan
+      },
+      total_month_Feb: function () {
+        return +this.dataOfYear.total_static_Feb + +this.dataOfYear.total_fixed_Feb
+      },
+      total_month_Mar: function () {
+        return +this.dataOfYear.total_static_Mar + +this.dataOfYear.total_fixed_Mar
+      },
+      total_month_Apr: function () {
+        return +this.dataOfYear.total_static_Apr + +this.dataOfYear.total_fixed_Apr
+      },
+      total_month_May: function () {
+        return +this.dataOfYear.total_static_May + +this.dataOfYear.total_fixed_May
+      },
+      total_month_Jun: function () {
+        return +this.dataOfYear.total_static_Jun + +this.dataOfYear.total_fixed_Jun
+      },
+      total_month_Jul: function () {
+        return +this.dataOfYear.total_static_Jul + +this.dataOfYear.total_fixed_Jul
+      },
+      total_month_Aug: function () {
+        return +this.dataOfYear.total_static_Aug + +this.dataOfYear.total_fixed_Aug
+      },
+      total_month_Sept: function () {
+        return +this.dataOfYear.total_static_Sept + +this.dataOfYear.total_fixed_Sept
+      },
+      total_month_Oct: function () {
+        return +this.dataOfYear.total_static_Oct + +this.dataOfYear.total_fixed_Oct
+      },
+      total_month_Nov: function () {
+        return +this.dataOfYear.total_static_Nov + +this.dataOfYear.total_fixed_Nov
+      },
+      total_month_Dec: function () {
+        return +this.dataOfYear.total_static_Dec + +this.dataOfYear.total_fixed_Dec
+      },
       totalStatic: function () {
         return +this.dataOfYear.total_static_Jan + +this.dataOfYear.total_static_Feb + +this.dataOfYear.total_static_Mar + +this.dataOfYear.total_static_Apr + +this.dataOfYear.total_static_May + +this.dataOfYear.total_static_Jun + +this.dataOfYear.total_static_Jul + +this.dataOfYear.total_static_Aug + +this.dataOfYear.total_static_Sept + +this.dataOfYear.total_static_Oct + +this.dataOfYear.total_static_Nov + +this.dataOfYear.total_static_Dec
       },
@@ -1209,20 +1245,69 @@
         return +this.dataOfYear.total_fixed_Jan + +this.dataOfYear.total_fixed_Feb + +this.dataOfYear.total_fixed_Mar + +this.dataOfYear.total_fixed_Apr + +this.dataOfYear.total_fixed_May + +this.dataOfYear.total_fixed_Jun + +this.dataOfYear.total_fixed_Jul + +this.dataOfYear.total_fixed_Aug + +this.dataOfYear.total_fixed_Sept + +this.dataOfYear.total_fixed_Oct + +this.dataOfYear.total_fixed_Nov + +this.dataOfYear.total_fixed_Dec
       },
       totalYear: function () {
-        return +this.dataOfYear.total_month_Jan + +this.dataOfYear.total_month_Feb + +this.dataOfYear.total_month_Mar + +this.dataOfYear.total_month_Apr + +this.dataOfYear.total_month_May + +this.dataOfYear.total_month_Jun + +this.dataOfYear.total_month_Jul + +this.dataOfYear.total_month_Aug + +this.dataOfYear.total_month_Sept + +this.dataOfYear.total_month_Oct + +this.dataOfYear.total_month_Nov + +this.dataOfYear.total_month_Dec
+        return +this.totalStatic + +this.totalFixed
       },
     },
     methods: {
       async  submitForm () {
         this.loading = true
         this.disabled = true
-        const formData = this.dataOfYear
+        const formData = {
+          total_static_Jan: this.dataOfYear.total_static_Jan,
+          total_fixed_Jan: this.dataOfYear.total_fixed_Jan,
+          total_month_Jan: this.total_month_Jan,
+          note_Jan: this.dataOfYear.note_Jan,
+          total_static_Feb: this.dataOfYear.total_static_Feb,
+          total_fixed_Feb: this.dataOfYear.total_fixed_Feb,
+          total_month_Feb: this.total_month_Feb,
+          note_Feb: this.dataOfYear.note_Feb,
+          total_static_Mar: this.dataOfYear.total_static_Mar,
+          total_fixed_Mar: this.dataOfYear.total_fixed_Mar,
+          total_month_Mar: this.total_month_Mar,
+          note_Mar: this.dataOfYear.note_Mar,
+          total_static_Apr: this.dataOfYear.total_static_Apr,
+          total_fixed_Apr: this.dataOfYear.total_fixed_Apr,
+          total_month_Apr: this.total_month_Apr,
+          note_Apr: this.dataOfYear.note_Apr,
+          total_static_May: this.dataOfYear.total_static_May,
+          total_fixed_May: this.dataOfYear.total_fixed_May,
+          total_month_May: this.total_month_May,
+          note_May: this.dataOfYear.note_May,
+          total_static_Jun: this.dataOfYear.total_static_Jun,
+          total_fixed_Jun: this.dataOfYear.total_fixed_Jun,
+          total_month_Jun: this.total_month_Jun,
+          note_Jun: this.dataOfYear.note_Jun,
+          total_static_Jul: this.dataOfYear.total_static_Jul,
+          total_fixed_Jul: this.dataOfYear.total_fixed_Jul,
+          total_month_Jul: this.total_month_Jul,
+          note_Jul: this.dataOfYear.note_Jul,
+          total_static_Aug: this.dataOfYear.total_static_Aug,
+          total_fixed_Aug: this.dataOfYear.total_fixed_Aug,
+          total_month_Aug: this.total_month_Aug,
+          note_Aug: this.dataOfYear.note_Aug,
+          total_static_Sept: this.dataOfYear.total_static_Sept,
+          total_fixed_Sept: this.dataOfYear.total_fixed_Sept,
+          total_month_Sept: this.total_month_Sept,
+          note_Sept: this.dataOfYear.note_Sept,
+          total_static_Oct: this.dataOfYear.total_static_Oct,
+          total_fixed_Oct: this.dataOfYear.total_fixed_Oct,
+          total_month_Oct: this.total_month_Oct,
+          note_Oct: this.dataOfYear.note_Oct,
+          total_static_Nov: this.dataOfYear.total_static_Nov,
+          total_fixed_Nov: this.dataOfYear.total_fixed_Nov,
+          total_month_Nov: this.total_month_Nov,
+          note_Nov: this.dataOfYear.note_Nov,
+          total_static_Dec: this.dataOfYear.total_static_Dec,
+          total_fixed_Dec: this.dataOfYear.total_fixed_Dec,
+          total_month_Dec: this.total_month_Dec,
+          note_Dec: this.dataOfYear.note_Dec,
+          year: this.dataOfYear.year,
+          id: this.dataOfYear.id,
+        }
         if (this.dataOfYear.id > 0) {
-          // console.log('formData', this.year, formData)
           this.updateContent(this.year, formData)
         } else {
           delete formData.id
-          // console.log('Newdata', formData)
           formData.year = this.year
           this.newItem(formData)
         }
@@ -1232,6 +1317,9 @@
         if (item.success === true) {
           this.successMessage = 'تمت الاضافة بنجاح'
           this.successSnackbar = true
+          setTimeout(() => {
+            this.$router.go('/expenses')
+          }, 1500)
         } else {
           this.errorMessage = item.message
           this.errorSnackbar = true
@@ -1246,6 +1334,9 @@
         if (item.success === true) {
           this.successMessage = 'تم التعديل بنجاح'
           this.successSnackbar = true
+          setTimeout(() => {
+            this.$router.go('/expenses')
+          }, 1500)
         } else {
           this.errorMessage('يوجد مشكلة في التعديل')
           this.errorSnackbar = true
