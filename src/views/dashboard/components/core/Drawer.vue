@@ -105,61 +105,61 @@
           role: true,
         },
         {
-          title: 'التقارير (Soon)',
+          title: 'التقارير (قريبا)',
           icon: 'fa-book-open',
           role: true,
           children: [
             {
-              title: 'تفرير المستخدمين (Soon)',
+              title: 'تفرير المستخدمين (قريبا)',
               // to: '/customers',
               role: true,
             },
             {
-              title: 'تقرير المصروفات (Soon)',
+              title: 'تقرير المصروفات (قريبا)',
               // to: '/price-offers',
               role: true,
             },
             {
-              title: 'تقرير الايرادات (Soon)',
+              title: 'تقرير الايرادات (قريبا)',
               // to: '/Bills',
               role: true,
             },
             {
-              title: 'تقرير الارباح (Soon)',
+              title: 'تقرير الارباح (قريبا)',
               // to: '/expenses',
               role: true,
             },
           ],
         },
         {
-          title: 'روابط هامة (Soon)',
+          title: 'روابط هامة (قريبا)',
           icon: 'fa-link',
           role: true,
           children: [
             {
-              title: 'رابط 1 (Soon)',
+              title: 'رابط 1 (قريبا)',
               // to: '/customers',
               role: true,
             },
             {
-              title: 'رابط 2 (Soon)',
+              title: 'رابط 2 (قريبا)',
               // to: '/price-offers',
               role: true,
             },
             {
-              title: 'رابط 3 (Soon)',
+              title: 'رابط 3 (قريبا)',
               // to: '/Bills',
               role: true,
             },
             {
-              title: 'رابط 4 (Soon)',
+              title: 'رابط 4 (قريبا)',
               // to: '/expenses',
               role: true,
             },
           ],
         },
         {
-          title: 'دليل الاستخدام (Soon)',
+          title: 'دليل الاستخدام (قريبا)',
           icon: 'fa-retweet',
           // to: '/',
           role: true,
@@ -180,7 +180,7 @@
               role: true,
             },
             {
-              title: 'الاشتراكات (Soon)',
+              title: 'الاشتراكات (قريبا)',
               // to: '/users-setting',
               role: true,
             },
@@ -192,32 +192,32 @@
           role: true,
           children: [
             {
-              title: 'اعدادات النماذج',
+              title: 'النماذج',
               to: '/treatment-settings/sample',
               tole: true,
             },
             {
-              title: 'إعدادات المنطقة',
+              title: 'المنطقة',
               to: '/treatment-settings/regions',
               role: true,
             },
             {
-              title: 'إعدادات المدينة',
+              title: 'المدينة',
               to: '/treatment-settings/cities',
               role: true,
             },
             {
-              title: 'إعدادات الحي',
+              title: 'الحي',
               to: '/treatment-settings/neighborhoods',
               role: true,
             },
             {
-              title: 'أنواع العقارات',
+              title: 'نوع العقار',
               to: '/treatment-settings/propertyTypes',
               tole: true,
             },
             {
-              title: 'تصنيف العقارات',
+              title: 'استخدام العقار',
               to: '/treatment-settings/propertyRatings',
               tole: true,
             },

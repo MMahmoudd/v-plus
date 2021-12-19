@@ -229,7 +229,6 @@
                           v-bind="attrs"
                           v-on="on"
                         />
-                        {{ data.cs_data_fount_color }}
                       </template>
                       <v-color-picker
                         v-model="data.cs_data_fount_color"
@@ -769,9 +768,34 @@
                 cols="12"
               >
                 <template>
-                  <h3 class="mb-4">
-                    بيانات الصكوك
-                  </h3>
+                  <v-row>
+                    <v-col
+                      cols="12"
+                      sm="6"
+                      md="4"
+                    >
+                      <label>سعر الارض الافتراضي</label>
+                      <v-text-field
+                        v-model="data.land_default_price"
+                        outlined
+                        required
+                      />
+                    </v-col>
+                    <v-col
+                      cols="12"
+                      sm="6"
+                      md="4"
+                    >
+                      <label>سعر المبني الافتراضي</label>
+                      <v-text-field
+                        v-model="data.building_default_price"
+                        label=""
+                        outlined
+                        required
+                      />
+                    </v-col>
+                  </v-row>
+                  <hr>
                   <v-row
                     class="border"
                   >
@@ -948,8 +972,8 @@
         review_stage_name_show: '',
         adoption_stage_name_show: '',
         facility_stamp_name: '',
-        // land_default_price: 0,
-        // building_default_price: 0,
+        land_default_price: 0,
+        building_default_price: 0,
         pricing: [],
       },
       data_fount_color: false,
