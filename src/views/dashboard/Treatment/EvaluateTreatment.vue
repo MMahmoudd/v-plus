@@ -5832,6 +5832,8 @@
                   x-large
                   class="ma-2"
                   color="blue"
+                  :loading="dataLoading"
+                  @click="save"
                 >
                   <v-icon left>
                     fas fa-save
@@ -5849,7 +5851,7 @@
                   </v-icon>
                   إرسال
                 </v-btn>
-                <v-btn
+                <!-- <v-btn
                   x-large
                   class="ma-2 light-green-btn"
                   outlined
@@ -5858,7 +5860,7 @@
                     far fa-check-circle
                   </v-icon>
                   اعتماد
-                </v-btn>
+                </v-btn> -->
               </div>
               <div>
                 <v-btn
@@ -5951,6 +5953,7 @@
       successSnackbar: false,
       errorSnackbar: false,
       timeout: 3000,
+      dataLoading: false,
       staticLists: { ...staticLists },
       customersList: [],
       evaluationPurposeList: [],
@@ -7895,6 +7898,31 @@
             name: pt.name,
           }
         })
+      },
+
+      save: async function () {
+        this.dataLoading = true
+        const formData = this.data
+        // const formData = new FormData()
+        // for (const key in this.data) {
+        //   formData.append(key, this.data[key])
+        // }
+        // let response
+        // const response = TransactionsServices.addOneItem(formData)
+
+        const response = await TransactionsServices.updateOneItem(this.data.id, formData)
+        if (response.success === true) {
+          this.successMessage = 'تم التعديل بنجاح'
+          this.successSnackbar = true
+          setTimeout(() => {
+            this.$router.push('/Treatments')
+          }, 1500)
+        } else {
+          this.errorMessage = 'يوجد مشكلة في التعديل'
+          this.errorSnackbar = true
+        }
+
+        this.dataLoading = false
       },
       // changePcOfCom: function (id) {
       //   // const index = this.data.achievement.stages.findIndex(s => s.id === id)

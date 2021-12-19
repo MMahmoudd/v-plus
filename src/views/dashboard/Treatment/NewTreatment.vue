@@ -2034,6 +2034,7 @@
                   x-large
                   class="ma-2"
                   color="blue"
+                  :loading="dataLoading"
                   @click="save"
                 >
                   <v-icon left>
@@ -2128,6 +2129,7 @@
       successSnackbar: false,
       errorSnackbar: false,
       timeout: 3000,
+      dataLoading: false,
       staticLists: { ...staticLists },
       customersList: [],
       evaluationPurposeList: [],
@@ -3190,7 +3192,14 @@
       },
       // files
       handleFileUpload: function (files, name) {
-        this.data[name] = files[0]
+        this.createImage(files[0], name)
+      },
+      createImage (file, name) {
+        const reader = new FileReader()
+        reader.onload = (e) => {
+          this.data[name] = e.target.result
+        }
+        reader.readAsDataURL(file)
       },
       // ! TODO : cheange this with proper endpoint
       getUsers: async function () {
@@ -3307,10 +3316,12 @@
       },
       // submit
       save: async function () {
-        const formData = new FormData()
-        for (const key in this.data) {
-          formData.append(key, this.data[key])
-        }
+        this.dataLoading = true
+        const formData = this.data
+        // const formData = new FormData()
+        // for (const key in this.data) {
+        //   formData.append(key, this.data[key])
+        // }
         let response
         // const response = TransactionsServices.addOneItem(formData)
 
@@ -3330,6 +3341,8 @@
           this.errorMessage = 'يوجد مشكلة في التعديل'
           this.errorSnackbar = true
         }
+
+        this.dataLoading = false
       },
       // Get Location debendes on 2 inputs
       // getMap: function (x, y) {
