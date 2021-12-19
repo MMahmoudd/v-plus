@@ -21,7 +21,11 @@ export default {
     })
     },
     addUser (data) {
-      return Service.post(`${resource}/customers`, data)
+      return Service.post(`${resource}/customers`, data, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+    })
       .then((response) => {
         if (response.status === 200) {
             return response.data
@@ -29,7 +33,11 @@ export default {
     })
     },
     updateUser (id, data) {
-      return Service.put(`${resource}/customers/${id}`, data)
+      return Service.put(`${resource}/customers/${id}`, data, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+    })
       .then((response) => {
         if (response.status === 200) {
             return response.data
