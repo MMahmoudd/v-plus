@@ -97,8 +97,23 @@
             <v-divider class="my-10" />
 
             <div>
-              <h2>نطاق العمل وتفاصيل العقار</h2>
+              <h2>نطاق العمل</h2>
               <v-row>
+                <v-col
+                  cols="12"
+                  lg="3"
+                  md="4"
+                >
+                  <label class="d-block mb-3 font-weight-bold">النموذج</label>
+                  <v-select
+                    v-model="data.sample_id"
+                    :items="samplesList"
+                    item-text="name"
+                    item-value="id"
+                    single-line
+                    outlined
+                  />
+                </v-col>
                 <v-col
                   cols="12"
                   lg="3"
@@ -370,7 +385,7 @@
               </v-row>
 
               <v-divider class="my-10" />
-
+              <h2>تفاصيل العقار</h2>
               <v-row>
                 <v-col
                   cols="12"
@@ -578,7 +593,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >رقم البلوك</label>
                   <v-text-field
-                    v-model="data.trans_part_num"
+                    v-model="data.trans_Albulk_num"
                     label="رقم البلوك"
                     single-line
                     outlined
@@ -868,8 +883,9 @@
                 </v-col>
               </v-row>
               <v-divider class="my-10" />
+              <!-- {{ isSelfBulding }} -->
               <!-- If Raghie Module -->
-              <div v-if="this.$route.params.id == 1">
+              <div v-if="isSelfBulding">
                 <v-row>
                   <v-col
                     cols="12"
@@ -993,14 +1009,18 @@
                     />
                   </v-col>
                 </v-row>
-                <div class="d-flex">
+                <v-divider class="my-10" />
+                <h2>تقييم الإنجاز</h2>
+                <div class="d-flex align-items-center">
                   <template>
                     <div class="text-center">
                       <v-btn
                         class="ma-2"
                         rounded
+                        :outlined="data.achievement.status !== '1'"
                         color="dark"
-                        dark
+                        :dark="data.achievement.status === '1'"
+                        @click.prevent="changeAchievmentStatus('1')"
                       >
                         التكلفة
                       </v-btn>
@@ -1011,14 +1031,31 @@
                       <v-btn
                         class="ma-2"
                         rounded
-                        outlined
+                        :outlined="data.achievement.status !== '2'"
                         color="dark"
+                        :dark="data.achievement.status === '2'"
+                        @click.prevent="changeAchievmentStatus('2')"
                       >
                         النسبة المئوية
                       </v-btn>
                     </div>
                   </template>
+                  <template>
+                    <div style="margin-right:auto; width:30%">
+                      <label
+                        class="d-block mb-3 font-weight-bold"
+                      >قيمة العقار الحالية</label>
+                      <v-text-field
+                        v-model="data.achievement.prop_current_price"
+                        single-line
+                        outlined
+                        hide-details
+                        :disabled="data.achievement.status === '1'"
+                      />
+                    </div>
+                  </template>
                 </div>
+                <!-- {{ data.achievement.stages }} -->
                 <div class="table-responsive mt-10">
                   <template>
                     <v-simple-table>
@@ -1038,23 +1075,25 @@
                               التكلفة
                             </th>
                             <th>
-                              نسبة الإيجار
+                              نسبة الإنجاز
                             </th>
                             <th>
-                              قيمة الإيجار
+                              قيمة الإنجاز
                             </th>
+                            <th />
                           </tr>
                         </thead>
                         <tbody>
                           <tr
-                            v-for="(participant,index) in tableParticipants"
-                            :key="'participant'+index"
+                            v-for="(p,index) in data.achievement.stages"
+                            :key="p.id"
                           >
                             <td>
                               <label class="v-label theme--light">م{{ index + 1 }}</label>
                             </td>
                             <td>
                               <v-text-field
+                                v-model="p.details"
                                 class="mt-3"
                                 single-line
                                 outlined
@@ -1062,31 +1101,59 @@
                             </td>
                             <td>
                               <v-text-field
+                                v-model="p.pc_to_cost"
+                                :error="isPcToCostError"
+                                :error-messages="isPcToCostError && 'لا يمكن أن يتجاوز المجموع 100%'"
                                 class="mt-3"
                                 single-line
                                 outlined
+                                type="number"
+                                suffix="%"
+                                :disabled="data.achievement.status === '1'"
+                                @input="changePcToCost(p.id,index)"
+                                @change="data.achievement.stages[index].pc_to_cost = (+data.achievement.stages[index].pc_to_cost).toFixed(2)"
                               />
                             </td>
                             <td>
                               <v-text-field
+                                v-model="p.cost"
                                 class="mt-3"
                                 single-line
                                 outlined
+                                :disabled="data.achievement.status === '2'"
+                                @input="changeCost(p.id)"
                               />
                             </td>
                             <td>
                               <v-text-field
+                                v-model="p.pc_of_completion"
                                 class="mt-3"
                                 single-line
                                 outlined
+                                type="number"
+                                suffix="%"
+                                @input="changeCost(p.id)"
                               />
                             </td>
                             <td>
                               <v-text-field
+                                v-model="p.achievement_value"
                                 class="mt-3"
                                 single-line
                                 outlined
+                                disabled
                               />
+                            </td>
+                            <td>
+                              <v-btn
+                                color="red"
+                                :disabled="data.achievement.stages.length === 1"
+                                @click="removeStage(p.id)"
+                              >
+                                <v-icon>
+                                  fas fa-trash-alt
+                                </v-icon>
+                              </v-btn>
                             </td>
                           </tr>
                         </tbody>
@@ -1097,7 +1164,7 @@
                 <v-btn
                   x-large
                   class="orange-btn d-block ma-auto"
-                  @click.prevent="tableParticipants++"
+                  @click.prevent="addNewStage()"
                 >
                   <v-icon left>
                     fas fa-plus
@@ -1960,7 +2027,7 @@
                   >بطول</label>
                   <v-text-field
                     v-model="data.tall_northern"
-                    label="1525"
+                    label=""
                     single-line
                     outlined
                   />
@@ -1990,7 +2057,7 @@
                   >بطول</label>
                   <v-text-field
                     v-model="data.tall_southern"
-                    label="1525"
+                    label=""
                     single-line
                     outlined
                   />
@@ -2020,7 +2087,7 @@
                   >بطول</label>
                   <v-text-field
                     v-model="data.tall_eastern"
-                    label="1525"
+                    label=""
                     single-line
                     outlined
                   />
@@ -2050,7 +2117,6 @@
                   >بطول</label>
                   <v-text-field
                     v-model="data.tall_western"
-                    label="0"
                     single-line
                     outlined
                   />
@@ -2275,7 +2341,7 @@
             </div>
             <v-divider class="my-10" />
 
-            <div>
+            <div v-show="!isSelfBulding">
               <h2>مكونات العقار</h2>
               <v-row>
                 <v-col
@@ -2531,9 +2597,12 @@
                 </v-col>
               </v-row>
             </div>
-            <v-divider class="my-10" />
+            <v-divider
+              v-show="!isSelfBulding"
+              class="my-10"
+            />
 
-            <div>
+            <div v-show="!isSelfBulding">
               <h2>تصنيف مستوى تشطيبات البناء</h2>
               <v-radio-group
                 v-model="outsideFinishing"
@@ -2694,9 +2763,12 @@
               </v-radio-group>
             </div>
 
-            <v-divider class="my-10" />
+            <v-divider
+              v-show="!isSelfBulding"
+              class="my-10"
+            />
 
-            <div>
+            <div v-show="!isSelfBulding">
               <h2>الخدمات والمرافق المتوفرة بالبناء</h2>
               <v-row>
                 <v-col
@@ -2805,9 +2877,12 @@
                 </v-col>
               </v-row>
             </div>
-            <v-divider class="my-10" />
+            <v-divider
+              v-show="!isSelfBulding"
+              class="my-10"
+            />
 
-            <div>
+            <div v-show="!isSelfBulding">
               <h2>المحيط المؤثر للعقار</h2>
               <v-row>
                 <v-col
@@ -3037,164 +3112,168 @@
               </v-row>
             </div>
 
-            <v-divider class="my-10" />
+            <v-divider
+              v-show="!isSelfBulding"
+              class="my-10"
+            />
 
-            <div>
-              <h2>أسلوب او طريقة التقييم المستخدمة</h2>
-              <v-row>
-                <v-col
-                  cols="12"
-                  sm="6"
-                  lg="4"
-                >
-                  <v-checkbox
-                    v-model="evaluateType"
-                    label="أسلوب السوق"
-                    value="evaluateType1"
-                  />
-                </v-col>
-                <v-col
-                  cols="12"
-                  sm="6"
-                  lg="4"
-                >
-                  <v-checkbox
-                    v-model="evaluateType"
-                    label="أسلوب الدخل"
-                    value="evaluateType2"
-                  />
-                </v-col>
-                <v-col
-                  cols="12"
-                  sm="6"
-                  lg="4"
-                >
-                  <v-checkbox
-                    v-model="evaluateType"
-                    label="أسلوب التكلفة (المقاول)"
-                    value="evaluateType3"
-                  />
-                </v-col>
-                <v-col
-                  cols="12"
-                  sm="6"
-                  lg="4"
-                >
-                  <v-checkbox
-                    v-model="evaluateType"
-                    label="طريقة البيوع المقارنة"
-                    value="evaluateType1"
-                  />
-                </v-col>
-                <v-col
-                  cols="12"
-                  sm="6"
-                  lg="4"
-                >
-                  <v-checkbox
-                    v-model="evaluateType"
-                    label="طريقة الاستثمار رسملة الدخل"
-                    value="evaluateType2"
-                  />
-                </v-col>
-                <v-col
-                  cols="12"
-                  sm="6"
-                  lg="4"
-                >
-                  <v-checkbox
-                    v-model="evaluateType"
-                    label="طريقة التكلفة المقاول"
-                    value="evaluateType3"
-                  />
-                </v-col>
-              </v-row>
-            </div>
-            <v-divider class="my-10" />
-            <div v-show="evaluateType.includes('evaluateType1')">
+            <template v-if="!isSelfBulding">
               <div>
-                <h2>العقارات المقارنة</h2>
-                <div class="table-responsive">
-                  <template>
-                    <v-simple-table>
-                      <template v-slot:default>
-                        <thead>
-                          <tr>
-                            <th>
-                              #
-                            </th>
-                            <th>
-                              نوع العقار
-                            </th>
-                            <th>
-                              المساحة
-                            </th>
-                            <th>
-                              نوع العملية
-                            </th>
-                            <th>
-                              تاريخ العملية
-                            </th>
-                            <th>
-                              السعر
-                            </th>
-                            <th>
-                              التواصل
-                            </th>
-                            <th>
-                              خط العرض
-                            </th>
-                            <th>
-                              خط الطول
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>
-                              <label class="v-label theme--light">المقارن 1</label>
-                            </td>
-                            <td>
-                              <v-text-field
-                                v-model="data.cm_type"
-                                class="mt-3"
-                                single-line
-                                outlined
-                              />
-                            </td>
-                            <td>
-                              <v-text-field
-                                v-model="data.cm_space"
-                                class="mt-3"
-                                single-line
-                                outlined
-                              />
-                            </td>
-                            <td>
-                              <v-select
-                                v-model="data.cm_operation_type"
-                                class="mt-3"
-                                :items="items"
-                                single-line
-                                outlined
-                              />
-                            </td>
-                            <td>
-                              <v-text-field
-                                v-model="data.operation_date"
-                                class="mt-3"
-                                single-line
-                                outlined
-                              />
-                            </td>
-                            <td>
-                              <vuetify-money
-                                v-model="data.cm_price"
-                                outlined
-                                single-line
-                                class="mt-3"
-                                :options="moneyInputOptions"
-                              />
+                <h2>أسلوب او طريقة التقييم المستخدمة</h2>
+                <v-row>
+                  <v-col
+                    cols="12"
+                    sm="6"
+                    lg="4"
+                  >
+                    <v-checkbox
+                      v-model="evaluateType"
+                      label="أسلوب السوق"
+                      value="evaluateType1"
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    sm="6"
+                    lg="4"
+                  >
+                    <v-checkbox
+                      v-model="evaluateType"
+                      label="أسلوب الدخل"
+                      value="evaluateType2"
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    sm="6"
+                    lg="4"
+                  >
+                    <v-checkbox
+                      v-model="evaluateType"
+                      label="أسلوب التكلفة (المقاول)"
+                      value="evaluateType3"
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    sm="6"
+                    lg="4"
+                  >
+                    <v-checkbox
+                      v-model="evaluateType"
+                      label="طريقة البيوع المقارنة"
+                      value="evaluateType1"
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    sm="6"
+                    lg="4"
+                  >
+                    <v-checkbox
+                      v-model="evaluateType"
+                      label="طريقة الاستثمار رسملة الدخل"
+                      value="evaluateType2"
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    sm="6"
+                    lg="4"
+                  >
+                    <v-checkbox
+                      v-model="evaluateType"
+                      label="طريقة التكلفة المقاول"
+                      value="evaluateType3"
+                    />
+                  </v-col>
+                </v-row>
+              </div>
+              <v-divider class="my-10" />
+              <div v-show="evaluateType.includes('evaluateType1')">
+                <div>
+                  <h2>العقارات المقارنة</h2>
+                  <div class="table-responsive">
+                    <template>
+                      <v-simple-table>
+                        <template v-slot:default>
+                          <thead>
+                            <tr>
+                              <th>
+                                #
+                              </th>
+                              <th>
+                                نوع العقار
+                              </th>
+                              <th>
+                                المساحة
+                              </th>
+                              <th>
+                                نوع العملية
+                              </th>
+                              <th>
+                                تاريخ العملية
+                              </th>
+                              <th>
+                                السعر
+                              </th>
+                              <th>
+                                التواصل
+                              </th>
+                              <th>
+                                خط العرض
+                              </th>
+                              <th>
+                                خط الطول
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td>
+                                <label class="v-label theme--light">المقارن 1</label>
+                              </td>
+                              <td>
+                                <v-text-field
+                                  v-model="data.cm_type"
+                                  class="mt-3"
+                                  single-line
+                                  outlined
+                                />
+                              </td>
+                              <td>
+                                <v-text-field
+                                  v-model="data.cm_space"
+                                  class="mt-3"
+                                  single-line
+                                  outlined
+                                />
+                              </td>
+                              <td>
+                                <v-select
+                                  v-model="data.cm_operation_type"
+                                  class="mt-3"
+                                  :items="items"
+                                  single-line
+                                  outlined
+                                />
+                              </td>
+                              <td>
+                                <v-text-field
+                                  v-model="data.operation_date"
+                                  class="mt-3"
+                                  single-line
+                                  outlined
+                                />
+                              </td>
+                              <td>
+                                <vuetify-money
+                                  v-model="data.cm_price"
+                                  outlined
+                                  single-line
+                                  class="mt-3"
+                                  :options="moneyInputOptions"
+                                />
                               <!-- <v-text-field
                                 type="number"
                                 :value="data.cm_price | money"
@@ -3203,183 +3282,183 @@
                                 outlined
                                 @input="value => data.cm_price = value"
                               /> -->
-                            </td>
-                            <td>
-                              <v-text-field
-                                v-model="data.cm_mobile_number"
-                                class="mt-3"
-                                single-line
-                                outlined
-                              />
-                            </td>
-                            <td>
-                              <v-text-field
-                                v-model="data.cm_latitude"
-                                class="mt-3"
-                                single-line
-                                outlined
-                              />
-                            </td>
-                            <td>
-                              <v-text-field
-                                v-model="data.cm_longitude"
-                                class="mt-3"
-                                single-line
-                                outlined
-                              />
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <label class="v-label theme--light">المقارن 2</label>
-                            </td>
-                            <td>
-                              <v-text-field
-                                v-model="data.cm_type_2"
-                                class="mt-3"
-                                single-line
-                                outlined
-                              />
-                            </td>
-                            <td>
-                              <v-text-field
-                                v-model="data.cm_space_2"
-                                class="mt-3"
-                                single-line
-                                outlined
-                              />
-                            </td>
-                            <td>
-                              <v-select
-                                v-model="data.cm_operation_type_2"
-                                class="mt-3"
-                                :items="items"
-                                single-line
-                                outlined
-                              />
-                            </td>
-                            <td>
-                              <v-text-field
-                                v-model="data.operation_date_2"
-                                class="mt-3"
-                                single-line
-                                outlined
-                              />
-                            </td>
-                            <td>
-                              <vuetify-money
-                                v-model="data.cm_price_2"
-                                outlined
-                                single-line
-                                class="mt-3"
-                                :options="moneyInputOptions"
-                              />
-                            </td>
-                            <td>
-                              <v-text-field
-                                v-model="data.cm_mobile_number_2"
-                                class="mt-3"
-                                single-line
-                                outlined
-                              />
-                            </td>
-                            <td>
-                              <v-text-field
-                                v-model="data.cm_latitude_2"
-                                class="mt-3"
-                                single-line
-                                outlined
-                              />
-                            </td>
-                            <td>
-                              <v-text-field
-                                v-model="data.cm_longitude_2"
-                                class="mt-3"
-                                single-line
-                                outlined
-                              />
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <label class="v-label theme--light">المقارن 3</label>
-                            </td>
-                            <td>
-                              <v-text-field
-                                v-model="data.cm_type_3"
-                                class="mt-3"
-                                single-line
-                                outlined
-                              />
-                            </td>
-                            <td>
-                              <v-text-field
-                                v-model="data.cm_space_3"
-                                class="mt-3"
-                                single-line
-                                outlined
-                              />
-                            </td>
-                            <td>
-                              <v-select
-                                v-model="data.cm_operation_type_3"
-                                class="mt-3"
-                                :items="items"
-                                single-line
-                                outlined
-                              />
-                            </td>
-                            <td>
-                              <v-text-field
-                                v-model="data.operation_date_3"
-                                class="mt-3"
-                                single-line
-                                outlined
-                              />
-                            </td>
-                            <td>
-                              <vuetify-money
-                                v-model="data.cm_price_3"
-                                outlined
-                                single-line
-                                class="mt-3"
-                                :options="moneyInputOptions"
-                              />
-                            </td>
-                            <td>
-                              <v-text-field
-                                v-model="data.cm_mobile_number_3"
-                                class="mt-3"
-                                single-line
-                                outlined
-                              />
-                            </td>
-                            <td>
-                              <v-text-field
-                                v-model="data.cm_latitude_3"
-                                class="mt-3"
-                                single-line
-                                outlined
-                              />
-                            </td>
-                            <td>
-                              <v-text-field
-                                v-model="data.cm_longitude_3"
-                                class="mt-3"
-                                single-line
-                                outlined
-                              />
-                            </td>
-                          </tr>
-                        </tbody>
-                      </template>
-                    </v-simple-table>
-                  </template>
+                              </td>
+                              <td>
+                                <v-text-field
+                                  v-model="data.cm_mobile_number"
+                                  class="mt-3"
+                                  single-line
+                                  outlined
+                                />
+                              </td>
+                              <td>
+                                <v-text-field
+                                  v-model="data.cm_latitude"
+                                  class="mt-3"
+                                  single-line
+                                  outlined
+                                />
+                              </td>
+                              <td>
+                                <v-text-field
+                                  v-model="data.cm_longitude"
+                                  class="mt-3"
+                                  single-line
+                                  outlined
+                                />
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <label class="v-label theme--light">المقارن 2</label>
+                              </td>
+                              <td>
+                                <v-text-field
+                                  v-model="data.cm_type_2"
+                                  class="mt-3"
+                                  single-line
+                                  outlined
+                                />
+                              </td>
+                              <td>
+                                <v-text-field
+                                  v-model="data.cm_space_2"
+                                  class="mt-3"
+                                  single-line
+                                  outlined
+                                />
+                              </td>
+                              <td>
+                                <v-select
+                                  v-model="data.cm_operation_type_2"
+                                  class="mt-3"
+                                  :items="items"
+                                  single-line
+                                  outlined
+                                />
+                              </td>
+                              <td>
+                                <v-text-field
+                                  v-model="data.operation_date_2"
+                                  class="mt-3"
+                                  single-line
+                                  outlined
+                                />
+                              </td>
+                              <td>
+                                <vuetify-money
+                                  v-model="data.cm_price_2"
+                                  outlined
+                                  single-line
+                                  class="mt-3"
+                                  :options="moneyInputOptions"
+                                />
+                              </td>
+                              <td>
+                                <v-text-field
+                                  v-model="data.cm_mobile_number_2"
+                                  class="mt-3"
+                                  single-line
+                                  outlined
+                                />
+                              </td>
+                              <td>
+                                <v-text-field
+                                  v-model="data.cm_latitude_2"
+                                  class="mt-3"
+                                  single-line
+                                  outlined
+                                />
+                              </td>
+                              <td>
+                                <v-text-field
+                                  v-model="data.cm_longitude_2"
+                                  class="mt-3"
+                                  single-line
+                                  outlined
+                                />
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <label class="v-label theme--light">المقارن 3</label>
+                              </td>
+                              <td>
+                                <v-text-field
+                                  v-model="data.cm_type_3"
+                                  class="mt-3"
+                                  single-line
+                                  outlined
+                                />
+                              </td>
+                              <td>
+                                <v-text-field
+                                  v-model="data.cm_space_3"
+                                  class="mt-3"
+                                  single-line
+                                  outlined
+                                />
+                              </td>
+                              <td>
+                                <v-select
+                                  v-model="data.cm_operation_type_3"
+                                  class="mt-3"
+                                  :items="items"
+                                  single-line
+                                  outlined
+                                />
+                              </td>
+                              <td>
+                                <v-text-field
+                                  v-model="data.operation_date_3"
+                                  class="mt-3"
+                                  single-line
+                                  outlined
+                                />
+                              </td>
+                              <td>
+                                <vuetify-money
+                                  v-model="data.cm_price_3"
+                                  outlined
+                                  single-line
+                                  class="mt-3"
+                                  :options="moneyInputOptions"
+                                />
+                              </td>
+                              <td>
+                                <v-text-field
+                                  v-model="data.cm_mobile_number_3"
+                                  class="mt-3"
+                                  single-line
+                                  outlined
+                                />
+                              </td>
+                              <td>
+                                <v-text-field
+                                  v-model="data.cm_latitude_3"
+                                  class="mt-3"
+                                  single-line
+                                  outlined
+                                />
+                              </td>
+                              <td>
+                                <v-text-field
+                                  v-model="data.cm_longitude_3"
+                                  class="mt-3"
+                                  single-line
+                                  outlined
+                                />
+                              </td>
+                            </tr>
+                          </tbody>
+                        </template>
+                      </v-simple-table>
+                    </template>
+                  </div>
                 </div>
-              </div>
-              <v-divider class="my-10" />
-              <div>
-                <!-- <h2>نوع التسوية</h2>
+                <v-divider class="my-10" />
+                <div>
+                  <!-- <h2>نوع التسوية</h2>
                 <v-row>
                   <v-col
                     cols="12"
@@ -3396,193 +3475,193 @@
                     />
                   </v-col>
                 </v-row> -->
-                <h2>جدول التسويات</h2>
-                <div class="table-responsive">
-                  <template>
-                    <v-simple-table>
-                      <template v-slot:default>
-                        <thead>
-                          <tr>
-                            <th>
-                              عناصر المقارنة
-                            </th>
-                            <th>
-                              المقارن 1
-                            </th>
-                            <th>
-                              المقارن 2
-                            </th>
-                            <th>
-                              المقارن 3
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>
-                              <label class="v-label theme--light">تسوية عامل الوقت</label>
-                            </td>
-                            <td>
-                              <v-text-field
-                                v-model="data.cm_time_factor_adjustment"
-                                :disabled="!data.cm_price"
-                                class="mt-3"
-                                single-line
-                                outlined
-                                type="number"
-                                suffix="%"
-                              />
-                            </td>
-                            <td>
-                              <v-text-field
-                                v-model="data.cm_time_factor_adjustment_2"
-                                :disabled="!data.cm_price_2"
-                                class="mt-3"
-                                single-line
-                                outlined
-                                type="number"
-                                suffix="%"
-                              />
-                            </td>
-                            <td>
-                              <v-text-field
-                                v-model="data.cm_time_factor_adjustment_3"
-                                :disabled="!data.cm_price_3"
-                                class="mt-3"
-                                single-line
-                                outlined
-                                type="number"
-                                suffix="%"
-                              />
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <label class="v-label theme--light">تسوية شروط التمويل</label>
-                            </td>
-                            <td>
-                              <v-text-field
-                                v-model="data.cm_settlement_financing_terms"
-                                :disabled="!data.cm_price"
-                                class="mt-3"
-                                single-line
-                                outlined
-                                type="number"
-                                suffix="%"
-                              />
-                            </td>
-                            <td>
-                              <v-text-field
-                                v-model="data.cm_settlement_financing_terms_2"
-                                :disabled="!data.cm_price_2"
-                                class="mt-3"
-                                single-line
-                                outlined
-                                type="number"
-                                suffix="%"
-                              />
-                            </td>
-                            <td>
-                              <v-text-field
-                                v-model="data.cm_settlement_financing_terms_3"
-                                :disabled="!data.cm_price_3"
-                                class="mt-3"
-                                single-line
-                                outlined
-                                type="number"
-                                suffix="%"
-                              />
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <label class="v-label theme--light">تسوية ظروف السوق</label>
-                            </td>
-                            <td>
-                              <v-text-field
-                                v-model="data.cm_settling_market_conditions"
-                                :disabled="!data.cm_price"
-                                class="mt-3"
-                                single-line
-                                outlined
-                                type="number"
-                                suffix="%"
-                              />
-                            </td>
-                            <td>
-                              <v-text-field
-                                v-model="data.cm_settling_market_conditions_2"
-                                :disabled="!data.cm_price_2"
-                                class="mt-3"
-                                single-line
-                                outlined
-                                type="number"
-                                suffix="%"
-                              />
-                            </td>
-                            <td>
-                              <v-text-field
-                                v-model="data.cm_settling_market_conditions_3"
-                                :disabled="!data.cm_price_3"
-                                class="mt-3"
-                                single-line
-                                outlined
-                                type="number"
-                                suffix="%"
-                              />
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <label class="v-label theme--light font-weight-bold">إجمالى</label>
-                            </td>
-                            <td>
-                              <v-text-field
-                                v-model="data.cm_total_funding_market_adjustments"
-                                disabled=""
-                                class="mt-3"
-                                single-line
-                                outlined
-                                type="number"
-                                suffix="%"
-                              />
-                            </td>
-                            <td>
-                              <v-text-field
-                                v-model="data.cm_total_funding_market_adjustments_2"
-                                disabled=""
-                                class="mt-3"
-                                single-line
-                                outlined
-                                type="number"
-                                suffix="%"
-                              />
-                            </td>
-                            <td>
-                              <v-text-field
-                                v-model="data.cm_total_funding_market_adjustments_3"
-                                disabled=""
-                                class="mt-3"
-                                single-line
-                                outlined
-                                type="number"
-                                suffix="%"
-                              />
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <label class="v-label theme--light">سعر البيع بعد تسوية شروط التمويل وظروف السوق</label>
-                            </td>
-                            <td>
-                              <vuetify-money
-                                v-model="data.cm_price_after_settling_financing_terms"
-                                outlined
-                                single-line
-                                class="mt-3"
-                                :options="moneyInputOptions"
-                                disabled
-                              />
+                  <h2>جدول التسويات</h2>
+                  <div class="table-responsive">
+                    <template>
+                      <v-simple-table>
+                        <template v-slot:default>
+                          <thead>
+                            <tr>
+                              <th>
+                                عناصر المقارنة
+                              </th>
+                              <th>
+                                المقارن 1
+                              </th>
+                              <th>
+                                المقارن 2
+                              </th>
+                              <th>
+                                المقارن 3
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td>
+                                <label class="v-label theme--light">تسوية عامل الوقت</label>
+                              </td>
+                              <td>
+                                <v-text-field
+                                  v-model="data.cm_time_factor_adjustment"
+                                  :disabled="!data.cm_price"
+                                  class="mt-3"
+                                  single-line
+                                  outlined
+                                  type="number"
+                                  suffix="%"
+                                />
+                              </td>
+                              <td>
+                                <v-text-field
+                                  v-model="data.cm_time_factor_adjustment_2"
+                                  :disabled="!data.cm_price_2"
+                                  class="mt-3"
+                                  single-line
+                                  outlined
+                                  type="number"
+                                  suffix="%"
+                                />
+                              </td>
+                              <td>
+                                <v-text-field
+                                  v-model="data.cm_time_factor_adjustment_3"
+                                  :disabled="!data.cm_price_3"
+                                  class="mt-3"
+                                  single-line
+                                  outlined
+                                  type="number"
+                                  suffix="%"
+                                />
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <label class="v-label theme--light">تسوية شروط التمويل</label>
+                              </td>
+                              <td>
+                                <v-text-field
+                                  v-model="data.cm_settlement_financing_terms"
+                                  :disabled="!data.cm_price"
+                                  class="mt-3"
+                                  single-line
+                                  outlined
+                                  type="number"
+                                  suffix="%"
+                                />
+                              </td>
+                              <td>
+                                <v-text-field
+                                  v-model="data.cm_settlement_financing_terms_2"
+                                  :disabled="!data.cm_price_2"
+                                  class="mt-3"
+                                  single-line
+                                  outlined
+                                  type="number"
+                                  suffix="%"
+                                />
+                              </td>
+                              <td>
+                                <v-text-field
+                                  v-model="data.cm_settlement_financing_terms_3"
+                                  :disabled="!data.cm_price_3"
+                                  class="mt-3"
+                                  single-line
+                                  outlined
+                                  type="number"
+                                  suffix="%"
+                                />
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <label class="v-label theme--light">تسوية ظروف السوق</label>
+                              </td>
+                              <td>
+                                <v-text-field
+                                  v-model="data.cm_settling_market_conditions"
+                                  :disabled="!data.cm_price"
+                                  class="mt-3"
+                                  single-line
+                                  outlined
+                                  type="number"
+                                  suffix="%"
+                                />
+                              </td>
+                              <td>
+                                <v-text-field
+                                  v-model="data.cm_settling_market_conditions_2"
+                                  :disabled="!data.cm_price_2"
+                                  class="mt-3"
+                                  single-line
+                                  outlined
+                                  type="number"
+                                  suffix="%"
+                                />
+                              </td>
+                              <td>
+                                <v-text-field
+                                  v-model="data.cm_settling_market_conditions_3"
+                                  :disabled="!data.cm_price_3"
+                                  class="mt-3"
+                                  single-line
+                                  outlined
+                                  type="number"
+                                  suffix="%"
+                                />
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <label class="v-label theme--light font-weight-bold">إجمالى</label>
+                              </td>
+                              <td>
+                                <v-text-field
+                                  v-model="data.cm_total_funding_market_adjustments"
+                                  disabled=""
+                                  class="mt-3"
+                                  single-line
+                                  outlined
+                                  type="number"
+                                  suffix="%"
+                                />
+                              </td>
+                              <td>
+                                <v-text-field
+                                  v-model="data.cm_total_funding_market_adjustments_2"
+                                  disabled=""
+                                  class="mt-3"
+                                  single-line
+                                  outlined
+                                  type="number"
+                                  suffix="%"
+                                />
+                              </td>
+                              <td>
+                                <v-text-field
+                                  v-model="data.cm_total_funding_market_adjustments_3"
+                                  disabled=""
+                                  class="mt-3"
+                                  single-line
+                                  outlined
+                                  type="number"
+                                  suffix="%"
+                                />
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <label class="v-label theme--light">سعر البيع بعد تسوية شروط التمويل وظروف السوق</label>
+                              </td>
+                              <td>
+                                <vuetify-money
+                                  v-model="data.cm_price_after_settling_financing_terms"
+                                  outlined
+                                  single-line
+                                  class="mt-3"
+                                  :options="moneyInputOptions"
+                                  disabled
+                                />
                               <!-- <v-text-field
                                 disabled=""
                                 :value="data.cm_price_after_settling_financing_terms | money"
@@ -3591,16 +3670,16 @@
                                 outlined
                                 @input="value => data.cm_price_after_settling_financing_terms = value"
                               /> -->
-                            </td>
-                            <td>
-                              <vuetify-money
-                                v-model="data.cm_price_after_settling_financing_terms2"
-                                outlined
-                                single-line
-                                class="mt-3"
-                                :options="moneyInputOptions"
-                                disabled
-                              />
+                              </td>
+                              <td>
+                                <vuetify-money
+                                  v-model="data.cm_price_after_settling_financing_terms2"
+                                  outlined
+                                  single-line
+                                  class="mt-3"
+                                  :options="moneyInputOptions"
+                                  disabled
+                                />
                               <!-- <v-text-field
                                 :value="data.cm_price_after_settling_financing_terms_2 | money"
                                 disabled=""
@@ -3608,16 +3687,16 @@
                                 single-line
                                 outlined
                               /> -->
-                            </td>
-                            <td>
-                              <vuetify-money
-                                v-model="data.cm_price_after_settling_financing_terms3"
-                                outlined
-                                single-line
-                                class="mt-3"
-                                :options="moneyInputOptions"
-                                disabled
-                              />
+                              </td>
+                              <td>
+                                <vuetify-money
+                                  v-model="data.cm_price_after_settling_financing_terms3"
+                                  outlined
+                                  single-line
+                                  class="mt-3"
+                                  :options="moneyInputOptions"
+                                  disabled
+                                />
                               <!-- <v-text-field
                                 :value="data.cm_price_after_settling_financing_terms_3 | money"
                                 disabled=""
@@ -3625,307 +3704,307 @@
                                 single-line
                                 outlined
                               /> -->
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <label class="v-label theme--light">تسوية المساحة</label>
-                            </td>
-                            <td>
-                              <v-text-field
-                                v-model="data.cm_space_settlement"
-                                class="mt-3"
-                                single-line
-                                outlined
-                                type="number"
-                                suffix="%"
-                              />
-                            </td>
-                            <td>
-                              <v-text-field
-                                v-model="data.cm_space_settlement2"
-                                class="mt-3"
-                                single-line
-                                outlined
-                                type="number"
-                                suffix="%"
-                              />
-                            </td>
-                            <td>
-                              <v-text-field
-                                v-model="data.cm_space_settlement3"
-                                class="mt-3"
-                                single-line
-                                outlined
-                                type="number"
-                                suffix="%"
-                              />
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <label class="v-label theme--light">تسويات أخرى</label>
-                            </td>
-                            <td>
-                              <v-text-field
-                                v-model="data.cm_other_settlement"
-                                class="mt-3"
-                                single-line
-                                outlined
-                                type="number"
-                                suffix="%"
-                              />
-                            </td>
-                            <td>
-                              <v-text-field
-                                v-model="data.cm_other_settlement2"
-                                class="mt-3"
-                                single-line
-                                outlined
-                                type="number"
-                                suffix="%"
-                              />
-                            </td>
-                            <td>
-                              <v-text-field
-                                v-model="data.cm_other_settlement3"
-                                class="mt-3"
-                                single-line
-                                outlined
-                                type="number"
-                                suffix="%"
-                              />
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <label class="v-label theme--light">مجموع نسب التسويات</label>
-                            </td>
-                            <td>
-                              <v-text-field
-                                v-model="data.cm_total_settlement"
-                                class="mt-3"
-                                single-line
-                                outlined
-                                type="number"
-                                suffix="%"
-                                disabled
-                              />
-                            </td>
-                            <td>
-                              <v-text-field
-                                v-model="data.cm_total_settlement2"
-                                class="mt-3"
-                                single-line
-                                outlined
-                                type="number"
-                                suffix="%"
-                                disabled
-                              />
-                            </td>
-                            <td>
-                              <v-text-field
-                                v-model="data.cm_total_settlement3"
-                                class="mt-3"
-                                single-line
-                                outlined
-                                type="number"
-                                suffix="%"
-                                disabled
-                              />
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <label class="v-label theme--light">سعر البيع بعد التسويات</label>
-                            </td>
-                            <td>
-                              <vuetify-money
-                                v-model="data.cm_selling_p_a_settlement"
-                                outlined
-                                single-line
-                                class="mt-3"
-                                :options="moneyInputOptions"
-                                disabled
-                              />
-                            </td>
-                            <td>
-                              <vuetify-money
-                                v-model="data.cm_selling_p_a_settlement2"
-                                outlined
-                                single-line
-                                class="mt-3"
-                                :options="moneyInputOptions"
-                                disabled
-                              />
-                            </td>
-                            <td>
-                              <vuetify-money
-                                v-model="data.cm_selling_p_a_settlement3"
-                                outlined
-                                single-line
-                                class="mt-3"
-                                :options="moneyInputOptions"
-                                disabled
-                              />
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <label class="v-label theme--light">الأوزان النسبية للعقارات المقارنة</label>
-                            </td>
-                            <td>
-                              <v-text-field
-                                v-model="data.cm_relative_w_comparable_p"
-                                class="mt-3"
-                                single-line
-                                outlined
-                                type="number"
-                                suffix="%"
-                              />
-                            </td>
-                            <td>
-                              <v-text-field
-                                v-model="data.cm_relative_w_comparable_p2"
-                                class="mt-3"
-                                single-line
-                                outlined
-                                type="number"
-                                suffix="%"
-                              />
-                            </td>
-                            <td>
-                              <v-text-field
-                                v-model="data.cm_relative_w_comparable_p3"
-                                class="mt-3"
-                                single-line
-                                outlined
-                                type="number"
-                                suffix="%"
-                              />
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <label class="v-label theme--light">مساهمة العقارات المقارنة حسب الوزن النسبى</label>
-                            </td>
-                            <td>
-                              <vuetify-money
-                                v-model="data.cm_contribution_comparative_p_relative_weight"
-                                outlined
-                                single-line
-                                class="mt-3"
-                                :options="moneyInputOptions"
-                                disabled
-                              />
-                            </td>
-                            <td>
-                              <vuetify-money
-                                v-model="data.cm_contribution_comparative_p_relative_weight2"
-                                outlined
-                                single-line
-                                class="mt-3"
-                                :options="moneyInputOptions"
-                                disabled
-                              />
-                            </td>
-                            <td>
-                              <vuetify-money
-                                v-model="data.cm_contribution_comparative_p_relative_weight3"
-                                outlined
-                                single-line
-                                class="mt-3"
-                                :options="moneyInputOptions"
-                                disabled
-                              />
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <label class="v-label theme--light font-weight-bold">القيمة السوقية بطريقة البيوع المقارنة</label>
-                            </td>
-                            <td colspan="3">
-                              <vuetify-money
-                                v-model="data.cm_market_v_comparative_sales_method"
-                                outlined
-                                single-line
-                                class="mt-3"
-                                :options="moneyInputOptions"
-                                disabled
-                              />
-                            </td>
-                          </tr>
-                        </tbody>
-                      </template>
-                    </v-simple-table>
-                  </template>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <label class="v-label theme--light">تسوية المساحة</label>
+                              </td>
+                              <td>
+                                <v-text-field
+                                  v-model="data.cm_space_settlement"
+                                  class="mt-3"
+                                  single-line
+                                  outlined
+                                  type="number"
+                                  suffix="%"
+                                />
+                              </td>
+                              <td>
+                                <v-text-field
+                                  v-model="data.cm_space_settlement2"
+                                  class="mt-3"
+                                  single-line
+                                  outlined
+                                  type="number"
+                                  suffix="%"
+                                />
+                              </td>
+                              <td>
+                                <v-text-field
+                                  v-model="data.cm_space_settlement3"
+                                  class="mt-3"
+                                  single-line
+                                  outlined
+                                  type="number"
+                                  suffix="%"
+                                />
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <label class="v-label theme--light">تسويات أخرى</label>
+                              </td>
+                              <td>
+                                <v-text-field
+                                  v-model="data.cm_other_settlement"
+                                  class="mt-3"
+                                  single-line
+                                  outlined
+                                  type="number"
+                                  suffix="%"
+                                />
+                              </td>
+                              <td>
+                                <v-text-field
+                                  v-model="data.cm_other_settlement2"
+                                  class="mt-3"
+                                  single-line
+                                  outlined
+                                  type="number"
+                                  suffix="%"
+                                />
+                              </td>
+                              <td>
+                                <v-text-field
+                                  v-model="data.cm_other_settlement3"
+                                  class="mt-3"
+                                  single-line
+                                  outlined
+                                  type="number"
+                                  suffix="%"
+                                />
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <label class="v-label theme--light">مجموع نسب التسويات</label>
+                              </td>
+                              <td>
+                                <v-text-field
+                                  v-model="data.cm_total_settlement"
+                                  class="mt-3"
+                                  single-line
+                                  outlined
+                                  type="number"
+                                  suffix="%"
+                                  disabled
+                                />
+                              </td>
+                              <td>
+                                <v-text-field
+                                  v-model="data.cm_total_settlement2"
+                                  class="mt-3"
+                                  single-line
+                                  outlined
+                                  type="number"
+                                  suffix="%"
+                                  disabled
+                                />
+                              </td>
+                              <td>
+                                <v-text-field
+                                  v-model="data.cm_total_settlement3"
+                                  class="mt-3"
+                                  single-line
+                                  outlined
+                                  type="number"
+                                  suffix="%"
+                                  disabled
+                                />
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <label class="v-label theme--light">سعر البيع بعد التسويات</label>
+                              </td>
+                              <td>
+                                <vuetify-money
+                                  v-model="data.cm_selling_p_a_settlement"
+                                  outlined
+                                  single-line
+                                  class="mt-3"
+                                  :options="moneyInputOptions"
+                                  disabled
+                                />
+                              </td>
+                              <td>
+                                <vuetify-money
+                                  v-model="data.cm_selling_p_a_settlement2"
+                                  outlined
+                                  single-line
+                                  class="mt-3"
+                                  :options="moneyInputOptions"
+                                  disabled
+                                />
+                              </td>
+                              <td>
+                                <vuetify-money
+                                  v-model="data.cm_selling_p_a_settlement3"
+                                  outlined
+                                  single-line
+                                  class="mt-3"
+                                  :options="moneyInputOptions"
+                                  disabled
+                                />
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <label class="v-label theme--light">الأوزان النسبية للعقارات المقارنة</label>
+                              </td>
+                              <td>
+                                <v-text-field
+                                  v-model="data.cm_relative_w_comparable_p"
+                                  class="mt-3"
+                                  single-line
+                                  outlined
+                                  type="number"
+                                  suffix="%"
+                                />
+                              </td>
+                              <td>
+                                <v-text-field
+                                  v-model="data.cm_relative_w_comparable_p2"
+                                  class="mt-3"
+                                  single-line
+                                  outlined
+                                  type="number"
+                                  suffix="%"
+                                />
+                              </td>
+                              <td>
+                                <v-text-field
+                                  v-model="data.cm_relative_w_comparable_p3"
+                                  class="mt-3"
+                                  single-line
+                                  outlined
+                                  type="number"
+                                  suffix="%"
+                                />
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <label class="v-label theme--light">مساهمة العقارات المقارنة حسب الوزن النسبى</label>
+                              </td>
+                              <td>
+                                <vuetify-money
+                                  v-model="data.cm_contribution_comparative_p_relative_weight"
+                                  outlined
+                                  single-line
+                                  class="mt-3"
+                                  :options="moneyInputOptions"
+                                  disabled
+                                />
+                              </td>
+                              <td>
+                                <vuetify-money
+                                  v-model="data.cm_contribution_comparative_p_relative_weight2"
+                                  outlined
+                                  single-line
+                                  class="mt-3"
+                                  :options="moneyInputOptions"
+                                  disabled
+                                />
+                              </td>
+                              <td>
+                                <vuetify-money
+                                  v-model="data.cm_contribution_comparative_p_relative_weight3"
+                                  outlined
+                                  single-line
+                                  class="mt-3"
+                                  :options="moneyInputOptions"
+                                  disabled
+                                />
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <label class="v-label theme--light font-weight-bold">القيمة السوقية بطريقة البيوع المقارنة</label>
+                              </td>
+                              <td colspan="3">
+                                <vuetify-money
+                                  v-model="data.cm_market_v_comparative_sales_method"
+                                  outlined
+                                  single-line
+                                  class="mt-3"
+                                  :options="moneyInputOptions"
+                                  disabled
+                                />
+                              </td>
+                            </tr>
+                          </tbody>
+                        </template>
+                      </v-simple-table>
+                    </template>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div v-show="evaluateType.includes('evaluateType2')">
-              <v-divider class="my-10" />
-              <div>
-                <h2>تقييم الايجارات</h2>
-                <div
-                  id="income_valuation"
-                  class="table-responsive"
-                >
-                  <template>
-                    <v-simple-table>
-                      <template v-slot:default>
-                        <thead>
-                          <tr>
-                            <th>
-                              البيان
-                            </th>
-                            <th>
-                              عدد الوحدات
-                            </th>
-                            <th>
-                              ايجار الوحدة
-                            </th>
-                            <th>
-                              مجموع الايجارات
-                            </th>
-                            <th>
-                              خسائر عدم الاشغال والتحصيل للوحدة
-                            </th>
-                            <th>
-                              اجمالي خسائر عدم الاشغال والتحصيل
-                            </th>
-                            <th>
-                              اجمالي الدخل الفعلي
-                            </th>
-                            <th />
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr
-                            v-for="(item) in data.income_valuation"
-                            :key="item.id"
-                          >
-                            <td>
-                              <v-text-field
-                                v-model="item.unit_name"
-                                label="اسم البيان"
-                                single-line
-                                outlined
-                                hide-details=""
-                              />
-                            </td>
-                            <td>
-                              <v-text-field
-                                v-model="item.unit_number"
-                                label="عدد الوحدات"
-                                single-line
-                                outlined
-                                hide-details=""
-                                type="number"
-                                @input="updateTotalRent(item.id)"
-                              />
-                            </td>
-                            <td>
-                              <!-- <v-text-field
+              <div v-show="evaluateType.includes('evaluateType2')">
+                <v-divider class="my-10" />
+                <div>
+                  <h2>تقييم الايجارات</h2>
+                  <div
+                    id="income_valuation"
+                    class="table-responsive"
+                  >
+                    <template>
+                      <v-simple-table>
+                        <template v-slot:default>
+                          <thead>
+                            <tr>
+                              <th>
+                                البيان
+                              </th>
+                              <th>
+                                عدد الوحدات
+                              </th>
+                              <th>
+                                ايجار الوحدة
+                              </th>
+                              <th>
+                                مجموع الايجارات
+                              </th>
+                              <th>
+                                خسائر عدم الاشغال والتحصيل للوحدة
+                              </th>
+                              <th>
+                                اجمالي خسائر عدم الاشغال والتحصيل
+                              </th>
+                              <th>
+                                اجمالي الدخل الفعلي
+                              </th>
+                              <th />
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr
+                              v-for="(item) in data.income_valuation"
+                              :key="item.id"
+                            >
+                              <td>
+                                <v-text-field
+                                  v-model="item.unit_name"
+                                  label="اسم البيان"
+                                  single-line
+                                  outlined
+                                  hide-details=""
+                                />
+                              </td>
+                              <td>
+                                <v-text-field
+                                  v-model="item.unit_number"
+                                  label="عدد الوحدات"
+                                  single-line
+                                  outlined
+                                  hide-details=""
+                                  type="number"
+                                  @input="updateTotalRent(item.id)"
+                                />
+                              </td>
+                              <td>
+                                <!-- <v-text-field
                                 v-model="item.unit_rent"
                                 label="إيجار الوحدة"
                                 single-line
@@ -3933,17 +4012,17 @@
                                 hide-details=""
                                 @input="updateTotalRent(item.id)"
                               /> -->
-                              <vuetify-money
-                                v-model="item.unit_rent"
-                                outlined
-                                single-line
-                                :options="moneyInputOptions"
-                                hide-details
-                                @input="updateTotalRent(item.id)"
-                              />
-                            </td>
-                            <td>
-                              <!-- <v-text-field
+                                <vuetify-money
+                                  v-model="item.unit_rent"
+                                  outlined
+                                  single-line
+                                  :options="moneyInputOptions"
+                                  hide-details
+                                  @input="updateTotalRent(item.id)"
+                                />
+                              </td>
+                              <td>
+                                <!-- <v-text-field
                                 v-model="item.total_rent"
                                 label="مجموع الإيجارات"
                                 single-line
@@ -3951,35 +4030,17 @@
                                 hide-details=""
                                 disabled
                               /> -->
-                              <vuetify-money
-                                v-model="item.total_rent"
-                                outlined
-                                single-line
-                                :options="moneyInputOptions"
-                                hide-details
-                                disabled
-                              />
-                            </td>
-                            <td>
-                              <!-- <v-text-field
-                                v-model="item.total_rent"
-                                label="مجموع الإيجارات"
-                                single-line
-                                outlined
-                                hide-details=""
-                                disabled
-                              /> -->
-                              <vuetify-money
-                                v-model="item.deduction_losses"
-                                outlined
-                                single-line
-                                :options="moneyInputOptions"
-                                hide-details
-                                @input="updateTotalRent(item.id)"
-                              />
-                            </td>
-                            <td>
-                              <!-- <v-text-field
+                                <vuetify-money
+                                  v-model="item.total_rent"
+                                  outlined
+                                  single-line
+                                  :options="moneyInputOptions"
+                                  hide-details
+                                  disabled
+                                />
+                              </td>
+                              <td>
+                                <!-- <v-text-field
                                 v-model="item.total_rent"
                                 label="مجموع الإيجارات"
                                 single-line
@@ -3987,17 +4048,17 @@
                                 hide-details=""
                                 disabled
                               /> -->
-                              <vuetify-money
-                                v-model="item.deduction_losses_total"
-                                outlined
-                                single-line
-                                :options="moneyInputOptions"
-                                hide-details
-                                disabled
-                              />
-                            </td>
-                            <td>
-                              <!-- <v-text-field
+                                <vuetify-money
+                                  v-model="item.deduction_losses"
+                                  outlined
+                                  single-line
+                                  :options="moneyInputOptions"
+                                  hide-details
+                                  @input="updateTotalRent(item.id)"
+                                />
+                              </td>
+                              <td>
+                                <!-- <v-text-field
                                 v-model="item.total_rent"
                                 label="مجموع الإيجارات"
                                 single-line
@@ -4005,41 +4066,59 @@
                                 hide-details=""
                                 disabled
                               /> -->
-                              <vuetify-money
-                                v-model="item.final_income"
-                                outlined
+                                <vuetify-money
+                                  v-model="item.deduction_losses_total"
+                                  outlined
+                                  single-line
+                                  :options="moneyInputOptions"
+                                  hide-details
+                                  disabled
+                                />
+                              </td>
+                              <td>
+                                <!-- <v-text-field
+                                v-model="item.total_rent"
+                                label="مجموع الإيجارات"
                                 single-line
-                                :options="moneyInputOptions"
-                                hide-details
+                                outlined
+                                hide-details=""
                                 disabled
-                              />
-                            </td>
-                            <td>
+                              /> -->
+                                <vuetify-money
+                                  v-model="item.final_income"
+                                  outlined
+                                  single-line
+                                  :options="moneyInputOptions"
+                                  hide-details
+                                  disabled
+                                />
+                              </td>
+                              <td>
+                                <v-btn
+                                  color="red"
+                                  :disabled="data.income_valuation.length === 1"
+                                  @click="removeItemFromIncomeValuation(item.id)"
+                                >
+                                  <v-icon>
+                                    fas fa-trash-alt
+                                  </v-icon>
+                                </v-btn>
+                              </td>
+                            </tr>
+                            <tr>
                               <v-btn
-                                color="red"
-                                :disabled="data.income_valuation.length === 1"
-                                @click="removeItemFromIncomeValuation(item.id)"
+                                color="blue"
+                                class="mx-5 my-3"
+                                @click="data.income_valuation.push({id: $uuid.v4()})"
                               >
-                                <v-icon>
-                                  fas fa-trash-alt
-                                </v-icon>
+                                +
                               </v-btn>
-                            </td>
-                          </tr>
-                          <tr>
-                            <v-btn
-                              color="blue"
-                              class="mx-5 my-3"
-                              @click="data.income_valuation.push({id: $uuid.v4()})"
-                            >
-                              +
-                            </v-btn>
-                          </tr>
-                        </tbody>
-                      </template>
-                    </v-simple-table>
-                  </template>
-                </div>
+                            </tr>
+                          </tbody>
+                        </template>
+                      </v-simple-table>
+                    </template>
+                  </div>
                 <!-- <v-row>
                   <v-col
                     cols="12"
@@ -4330,480 +4409,480 @@
                     />
                   </v-col>
                 </v-row> -->
-              </div>
-              <v-divider class="my-10" />
-              <div>
-                <h2>رسملة الدخل</h2>
-                <v-row>
-                  <v-col
-                    cols="12"
-                    lg="3"
-                    sm="4"
-                  >
-                    <label class="v-label theme--light font-weight-bold">إجمالى الدخل السنوى</label>
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    lg="9"
-                    sm="8"
-                  >
-                    <vuetify-money
-                      v-model="data.total_annual_income"
-                      outlined
-                      single-line
-                      :options="moneyInputOptions"
-                      disabled
-                    />
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    lg="3"
-                    sm="4"
-                  >
-                    <label class="v-label theme--light font-weight-bold">خصم خسائر عدم الإشغال والتحصيل</label>
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    lg="9"
-                    sm="8"
-                  >
-                    <!-- <v-text-field
+                </div>
+                <v-divider class="my-10" />
+                <div>
+                  <h2>رسملة الدخل</h2>
+                  <v-row>
+                    <v-col
+                      cols="12"
+                      lg="3"
+                      sm="4"
+                    >
+                      <label class="v-label theme--light font-weight-bold">إجمالى الدخل السنوى</label>
+                    </v-col>
+                    <v-col
+                      cols="12"
+                      lg="9"
+                      sm="8"
+                    >
+                      <vuetify-money
+                        v-model="data.total_annual_income"
+                        outlined
+                        single-line
+                        :options="moneyInputOptions"
+                        disabled
+                      />
+                    </v-col>
+                    <v-col
+                      cols="12"
+                      lg="3"
+                      sm="4"
+                    >
+                      <label class="v-label theme--light font-weight-bold">خصم خسائر عدم الإشغال والتحصيل</label>
+                    </v-col>
+                    <v-col
+                      cols="12"
+                      lg="9"
+                      sm="8"
+                    >
+                      <!-- <v-text-field
                       v-model="data.deduction_losses"
                       single-line
                       outlined
                     /> -->
-                    <vuetify-money
-                      v-model="data.deduction_losses"
-                      outlined
-                      single-line
-                      :options="moneyInputOptions"
-                      disabled
-                    />
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    lg="3"
-                    sm="4"
-                  >
-                    <label class="v-label theme--light font-weight-bold">إجمالى الدخل الفعلى</label>
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    lg="9"
-                    sm="8"
-                  >
-                    <vuetify-money
-                      v-model="data.total_actual_income"
-                      outlined
-                      single-line
-                      :options="moneyInputOptions"
-                      disabled
-                    />
+                      <vuetify-money
+                        v-model="data.deduction_losses"
+                        outlined
+                        single-line
+                        :options="moneyInputOptions"
+                        disabled
+                      />
+                    </v-col>
+                    <v-col
+                      cols="12"
+                      lg="3"
+                      sm="4"
+                    >
+                      <label class="v-label theme--light font-weight-bold">إجمالى الدخل الفعلى</label>
+                    </v-col>
+                    <v-col
+                      cols="12"
+                      lg="9"
+                      sm="8"
+                    >
+                      <vuetify-money
+                        v-model="data.total_actual_income"
+                        outlined
+                        single-line
+                        :options="moneyInputOptions"
+                        disabled
+                      />
                     <!-- <v-text-field
                       v-model="data.total_actual_income"
                       single-line
                       outlined
                     /> -->
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    lg="3"
-                    sm="4"
-                  >
-                    <label class="v-label theme--light font-weight-bold">ناقصا النفقات التشغيلية والرأسمالية</label>
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    lg="9"
-                    sm="8"
-                  >
-                    <vuetify-money
-                      v-model="data.m_operating_c_expenditures"
-                      outlined
-                      single-line
-                      :options="moneyInputOptions"
-                    />
+                    </v-col>
+                    <v-col
+                      cols="12"
+                      lg="3"
+                      sm="4"
+                    >
+                      <label class="v-label theme--light font-weight-bold">ناقصا النفقات التشغيلية والرأسمالية</label>
+                    </v-col>
+                    <v-col
+                      cols="12"
+                      lg="9"
+                      sm="8"
+                    >
+                      <vuetify-money
+                        v-model="data.m_operating_c_expenditures"
+                        outlined
+                        single-line
+                        :options="moneyInputOptions"
+                      />
                     <!-- <v-text-field
                       v-model="data.m_operating_c_expenditures"
                       single-line
                       outlined
                     /> -->
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    lg="3"
-                    sm="4"
-                  >
-                    <label class="v-label theme--light font-weight-bold">صافى الدخل التشغيلي</label>
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    lg="9"
-                    sm="8"
-                  >
-                    <!-- <v-text-field
+                    </v-col>
+                    <v-col
+                      cols="12"
+                      lg="3"
+                      sm="4"
+                    >
+                      <label class="v-label theme--light font-weight-bold">صافى الدخل التشغيلي</label>
+                    </v-col>
+                    <v-col
+                      cols="12"
+                      lg="9"
+                      sm="8"
+                    >
+                      <!-- <v-text-field
                       v-model="data.net_operating_income"
                       single-line
                       outlined
                     /> -->
-                    <vuetify-money
-                      v-model="data.net_operating_income"
-                      outlined
-                      single-line
-                      :options="moneyInputOptions"
-                      disabled
-                    />
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    lg="3"
-                    sm="4"
-                  >
-                    <label class="v-label theme--light font-weight-bold">معدل الرسملة (أ) عامل شراء السنوات</label>
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    lg="9"
-                    sm="8"
-                  >
-                    <vuetify-money
-                      v-model="data.capitalization_rate"
-                      outlined
-                      single-line
-                      :options="moneyInputOptions"
-                    />
+                      <vuetify-money
+                        v-model="data.net_operating_income"
+                        outlined
+                        single-line
+                        :options="moneyInputOptions"
+                        disabled
+                      />
+                    </v-col>
+                    <v-col
+                      cols="12"
+                      lg="3"
+                      sm="4"
+                    >
+                      <label class="v-label theme--light font-weight-bold">معدل الرسملة (أ) عامل شراء السنوات</label>
+                    </v-col>
+                    <v-col
+                      cols="12"
+                      lg="9"
+                      sm="8"
+                    >
+                      <vuetify-money
+                        v-model="data.capitalization_rate"
+                        outlined
+                        single-line
+                        :options="moneyInputOptions"
+                      />
                     <!-- <v-text-field
                       v-model="data.capitalization_rate"
                       single-line
                       outlined
                     /> -->
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    lg="3"
-                    sm="4"
-                  >
-                    <label class="v-label theme--light font-weight-bold text-danger">القيمة السوقية باستخدام طريقة رسملة الدخل</label>
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    lg="9"
-                    sm="8"
-                  >
-                    <!-- <v-text-field
+                    </v-col>
+                    <v-col
+                      cols="12"
+                      lg="3"
+                      sm="4"
+                    >
+                      <label class="v-label theme--light font-weight-bold text-danger">القيمة السوقية باستخدام طريقة رسملة الدخل</label>
+                    </v-col>
+                    <v-col
+                      cols="12"
+                      lg="9"
+                      sm="8"
+                    >
+                      <!-- <v-text-field
                       v-model="data.market_v_income_c_method"
                       single-line
                       outlined
                     /> -->
-                    <vuetify-money
-                      v-model="data.market_v_income_c_method"
-                      outlined
-                      single-line
-                      :options="moneyInputOptions"
-                      disabled
-                    />
-                  </v-col>
-                </v-row>
+                      <vuetify-money
+                        v-model="data.market_v_income_c_method"
+                        outlined
+                        single-line
+                        :options="moneyInputOptions"
+                        disabled
+                      />
+                    </v-col>
+                  </v-row>
+                </div>
               </div>
-            </div>
-            <div v-show="evaluateType.includes('evaluateType3')">
-              <div>
-                <h2>تقييم الأرض والمبانى</h2>
-                <v-row align="center">
-                  <v-col
-                    cols="12"
-                    md="3"
+              <div v-show="evaluateType.includes('evaluateType3')">
+                <div>
+                  <h2>تقييم الأرض والمبانى</h2>
+                  <v-row align="center">
+                    <v-col
+                      cols="12"
+                      md="3"
+                    >
+                      <label class="v-label theme--light font-weight-bold">الأرض</label>
+                    </v-col>
+                    <v-col
+                      cols="4"
+                      md="3"
+                    >
+                      <label class="d-block mb-3 font-weight-bold">المساحة</label>
+                      <v-text-field
+                        v-model="data.cm_land_space"
+                        value="153"
+                        single-line
+                        outlined
+                        type="number"
+                        @input="setMultiOfSpaceAndPrice('land')"
+                      />
+                    </v-col>
+                    <v-col
+                      cols="4"
+                      md="3"
+                    >
+                      <label class="d-block mb-3 font-weight-bold">سعر المتر</label>
+                      <vuetify-money
+                        v-model="data.cm_land_price"
+                        outlined
+                        single-line
+                        :options="moneyInputOptions"
+                        @input="setMultiOfSpaceAndPrice('land');getSpacePriceAverage()"
+                      />
+                    </v-col>
+                    <v-col
+                      cols="4"
+                      md="3"
+                    >
+                      <label class="d-block mb-3 font-weight-bold">المجموع</label>
+                      <vuetify-money
+                        v-model="data.cm_land_s_p_total"
+                        outlined
+                        single-line
+                        :options="moneyInputOptions"
+                        disabled
+                      />
+                    </v-col>
+                  </v-row>
+                  <v-row
+                    class="mt-0"
+                    align="baseline"
                   >
-                    <label class="v-label theme--light font-weight-bold">الأرض</label>
-                  </v-col>
-                  <v-col
-                    cols="4"
-                    md="3"
+                    <v-col
+                      cols="12"
+                      md="3"
+                    >
+                      <label class="v-label theme--light font-weight-bold">المبانى</label>
+                    </v-col>
+                    <v-col
+                      cols="4"
+                      md="3"
+                    >
+                      <v-text-field
+                        v-model="data.cm_building_space"
+                        value="153"
+                        single-line
+                        outlined
+                        type="number"
+                        @input="setMultiOfSpaceAndPrice('building');getTotalSpace()"
+                      />
+                    </v-col>
+                    <v-col
+                      cols="4"
+                      md="3"
+                    >
+                      <vuetify-money
+                        v-model="data.cm_building_price"
+                        outlined
+                        single-line
+                        :options="moneyInputOptions"
+                        @input="setMultiOfSpaceAndPrice('building');getSpacePriceAverage()"
+                      />
+                    </v-col>
+                    <v-col
+                      cols="4"
+                      md="3"
+                    >
+                      <vuetify-money
+                        v-model="data.cm_building_s_p_total"
+                        outlined
+                        single-line
+                        :options="moneyInputOptions"
+                        disabled
+                      />
+                    </v-col>
+                  </v-row>
+                  <v-row
+                    class="mt-0"
+                    align="baseline"
                   >
-                    <label class="d-block mb-3 font-weight-bold">المساحة</label>
-                    <v-text-field
-                      v-model="data.cm_land_space"
-                      value="153"
-                      single-line
-                      outlined
-                      type="number"
-                      @input="setMultiOfSpaceAndPrice('land')"
-                    />
-                  </v-col>
-                  <v-col
-                    cols="4"
-                    md="3"
+                    <v-col
+                      cols="12"
+                      md="3"
+                    >
+                      <label class="v-label theme--light font-weight-bold">القبو</label>
+                    </v-col>
+                    <v-col
+                      cols="4"
+                      md="3"
+                    >
+                      <v-text-field
+                        v-model="data.cm_basement_space"
+                        value="153"
+                        single-line
+                        outlined
+                        type="number"
+                        @input="setMultiOfSpaceAndPrice('basement');getTotalSpace()"
+                      />
+                    </v-col>
+                    <v-col
+                      cols="4"
+                      md="3"
+                    >
+                      <vuetify-money
+                        v-model="data.cm_basement_price"
+                        outlined
+                        single-line
+                        :options="moneyInputOptions"
+                        @input="setMultiOfSpaceAndPrice('basement');getSpacePriceAverage()"
+                      />
+                    </v-col>
+                    <v-col
+                      cols="4"
+                      md="3"
+                    >
+                      <vuetify-money
+                        v-model="data.cm_basement_s_p_total"
+                        outlined
+                        single-line
+                        :options="moneyInputOptions"
+                        disabled
+                      />
+                    </v-col>
+                  </v-row>
+                  <v-row
+                    class="mt-0"
+                    align="baseline"
                   >
-                    <label class="d-block mb-3 font-weight-bold">سعر المتر</label>
-                    <vuetify-money
-                      v-model="data.cm_land_price"
-                      outlined
-                      single-line
-                      :options="moneyInputOptions"
-                      @input="setMultiOfSpaceAndPrice('land');getSpacePriceAverage()"
-                    />
-                  </v-col>
-                  <v-col
-                    cols="4"
-                    md="3"
+                    <v-col
+                      cols="12"
+                      md="3"
+                    >
+                      <label class="v-label theme--light font-weight-bold">الملاحق</label>
+                    </v-col>
+                    <v-col
+                      cols="4"
+                      md="3"
+                    >
+                      <v-text-field
+                        v-model="data.cm_supplement_space"
+                        single-line
+                        outlined
+                        type="number"
+                        @input="setMultiOfSpaceAndPrice('supplement');getTotalSpace()"
+                      />
+                    </v-col>
+                    <v-col
+                      cols="4"
+                      md="3"
+                    >
+                      <vuetify-money
+                        v-model="data.cm_supplement_price"
+                        outlined
+                        single-line
+                        :options="moneyInputOptions"
+                        @input="setMultiOfSpaceAndPrice('supplement');getSpacePriceAverage()"
+                      />
+                    </v-col>
+                    <v-col
+                      cols="4"
+                      md="3"
+                    >
+                      <vuetify-money
+                        v-model="data.cm_supplement_s_p_total"
+                        outlined
+                        single-line
+                        :options="moneyInputOptions"
+                        disabled
+                      />
+                    </v-col>
+                  </v-row>
+                  <v-row
+                    class="mt-0"
+                    align="baseline"
                   >
-                    <label class="d-block mb-3 font-weight-bold">المجموع</label>
-                    <vuetify-money
-                      v-model="data.cm_land_s_p_total"
-                      outlined
-                      single-line
-                      :options="moneyInputOptions"
-                      disabled
-                    />
-                  </v-col>
-                </v-row>
-                <v-row
-                  class="mt-0"
-                  align="baseline"
-                >
-                  <v-col
-                    cols="12"
-                    md="3"
+                    <v-col
+                      cols="12"
+                      md="3"
+                    >
+                      <label class="v-label theme--light font-weight-bold">الأسوار</label>
+                    </v-col>
+                    <v-col
+                      cols="4"
+                      md="3"
+                    >
+                      <v-text-field
+                        v-model="data.cm_fences_space"
+                        type="number"
+                        single-line
+                        outlined
+                        @input="setMultiOfSpaceAndPrice('fences');getTotalSpace()"
+                      />
+                    </v-col>
+                    <v-col
+                      cols="4"
+                      md="3"
+                    >
+                      <vuetify-money
+                        v-model="data.cm_fences_price"
+                        outlined
+                        single-line
+                        :options="moneyInputOptions"
+                        @input="setMultiOfSpaceAndPrice('fences');getSpacePriceAverage()"
+                      />
+                    </v-col>
+                    <v-col
+                      cols="4"
+                      md="3"
+                    >
+                      <vuetify-money
+                        v-model="data.cm_fences_s_p_total"
+                        outlined
+                        single-line
+                        :options="moneyInputOptions"
+                        disabled
+                      />
+                    </v-col>
+                  </v-row>
+                  <v-row
+                    class="mt-0"
+                    align="baseline"
                   >
-                    <label class="v-label theme--light font-weight-bold">المبانى</label>
-                  </v-col>
-                  <v-col
-                    cols="4"
-                    md="3"
+                    <v-col
+                      cols="12"
+                      md="3"
+                    >
+                      <label class="v-label theme--light font-weight-bold">أخرى</label>
+                    </v-col>
+                    <v-col
+                      cols="4"
+                      md="3"
+                    >
+                      <v-text-field
+                        v-model="data.cm_other_space"
+                        type="number"
+                        single-line
+                        outlined
+                        @input="setMultiOfSpaceAndPrice('other');getTotalSpace()"
+                      />
+                    </v-col>
+                    <v-col
+                      cols="4"
+                      md="3"
+                    >
+                      <vuetify-money
+                        v-model="data.cm_other_price"
+                        outlined
+                        single-line
+                        :options="moneyInputOptions"
+                        @input="setMultiOfSpaceAndPrice('other');getSpacePriceAverage()"
+                      />
+                    </v-col>
+                    <v-col
+                      cols="4"
+                      md="3"
+                    >
+                      <vuetify-money
+                        v-model="data.cm_other_s_p_total"
+                        outlined
+                        single-line
+                        :options="moneyInputOptions"
+                        disabled
+                      />
+                    </v-col>
+                  </v-row>
+                  <v-row
+                    class="mt-4"
+                    align="baseline"
                   >
-                    <v-text-field
-                      v-model="data.cm_building_space"
-                      value="153"
-                      single-line
-                      outlined
-                      type="number"
-                      @input="setMultiOfSpaceAndPrice('building');getTotalSpace()"
-                    />
-                  </v-col>
-                  <v-col
-                    cols="4"
-                    md="3"
-                  >
-                    <vuetify-money
-                      v-model="data.cm_building_price"
-                      outlined
-                      single-line
-                      :options="moneyInputOptions"
-                      @input="setMultiOfSpaceAndPrice('building');getSpacePriceAverage()"
-                    />
-                  </v-col>
-                  <v-col
-                    cols="4"
-                    md="3"
-                  >
-                    <vuetify-money
-                      v-model="data.cm_building_s_p_total"
-                      outlined
-                      single-line
-                      :options="moneyInputOptions"
-                      disabled
-                    />
-                  </v-col>
-                </v-row>
-                <v-row
-                  class="mt-0"
-                  align="baseline"
-                >
-                  <v-col
-                    cols="12"
-                    md="3"
-                  >
-                    <label class="v-label theme--light font-weight-bold">القبو</label>
-                  </v-col>
-                  <v-col
-                    cols="4"
-                    md="3"
-                  >
-                    <v-text-field
-                      v-model="data.cm_basement_space"
-                      value="153"
-                      single-line
-                      outlined
-                      type="number"
-                      @input="setMultiOfSpaceAndPrice('basement');getTotalSpace()"
-                    />
-                  </v-col>
-                  <v-col
-                    cols="4"
-                    md="3"
-                  >
-                    <vuetify-money
-                      v-model="data.cm_basement_price"
-                      outlined
-                      single-line
-                      :options="moneyInputOptions"
-                      @input="setMultiOfSpaceAndPrice('basement');getSpacePriceAverage()"
-                    />
-                  </v-col>
-                  <v-col
-                    cols="4"
-                    md="3"
-                  >
-                    <vuetify-money
-                      v-model="data.cm_basement_s_p_total"
-                      outlined
-                      single-line
-                      :options="moneyInputOptions"
-                      disabled
-                    />
-                  </v-col>
-                </v-row>
-                <v-row
-                  class="mt-0"
-                  align="baseline"
-                >
-                  <v-col
-                    cols="12"
-                    md="3"
-                  >
-                    <label class="v-label theme--light font-weight-bold">الملاحق</label>
-                  </v-col>
-                  <v-col
-                    cols="4"
-                    md="3"
-                  >
-                    <v-text-field
-                      v-model="data.cm_supplement_space"
-                      single-line
-                      outlined
-                      type="number"
-                      @input="setMultiOfSpaceAndPrice('supplement');getTotalSpace()"
-                    />
-                  </v-col>
-                  <v-col
-                    cols="4"
-                    md="3"
-                  >
-                    <vuetify-money
-                      v-model="data.cm_supplement_price"
-                      outlined
-                      single-line
-                      :options="moneyInputOptions"
-                      @input="setMultiOfSpaceAndPrice('supplement');getSpacePriceAverage()"
-                    />
-                  </v-col>
-                  <v-col
-                    cols="4"
-                    md="3"
-                  >
-                    <vuetify-money
-                      v-model="data.cm_supplement_s_p_total"
-                      outlined
-                      single-line
-                      :options="moneyInputOptions"
-                      disabled
-                    />
-                  </v-col>
-                </v-row>
-                <v-row
-                  class="mt-0"
-                  align="baseline"
-                >
-                  <v-col
-                    cols="12"
-                    md="3"
-                  >
-                    <label class="v-label theme--light font-weight-bold">الأسوار</label>
-                  </v-col>
-                  <v-col
-                    cols="4"
-                    md="3"
-                  >
-                    <v-text-field
-                      v-model="data.cm_fences_space"
-                      type="number"
-                      single-line
-                      outlined
-                      @input="setMultiOfSpaceAndPrice('fences');getTotalSpace()"
-                    />
-                  </v-col>
-                  <v-col
-                    cols="4"
-                    md="3"
-                  >
-                    <vuetify-money
-                      v-model="data.cm_fences_price"
-                      outlined
-                      single-line
-                      :options="moneyInputOptions"
-                      @input="setMultiOfSpaceAndPrice('fences');getSpacePriceAverage()"
-                    />
-                  </v-col>
-                  <v-col
-                    cols="4"
-                    md="3"
-                  >
-                    <vuetify-money
-                      v-model="data.cm_fences_s_p_total"
-                      outlined
-                      single-line
-                      :options="moneyInputOptions"
-                      disabled
-                    />
-                  </v-col>
-                </v-row>
-                <v-row
-                  class="mt-0"
-                  align="baseline"
-                >
-                  <v-col
-                    cols="12"
-                    md="3"
-                  >
-                    <label class="v-label theme--light font-weight-bold">أخرى</label>
-                  </v-col>
-                  <v-col
-                    cols="4"
-                    md="3"
-                  >
-                    <v-text-field
-                      v-model="data.cm_other_space"
-                      type="number"
-                      single-line
-                      outlined
-                      @input="setMultiOfSpaceAndPrice('other');getTotalSpace()"
-                    />
-                  </v-col>
-                  <v-col
-                    cols="4"
-                    md="3"
-                  >
-                    <vuetify-money
-                      v-model="data.cm_other_price"
-                      outlined
-                      single-line
-                      :options="moneyInputOptions"
-                      @input="setMultiOfSpaceAndPrice('other');getSpacePriceAverage()"
-                    />
-                  </v-col>
-                  <v-col
-                    cols="4"
-                    md="3"
-                  >
-                    <vuetify-money
-                      v-model="data.cm_other_s_p_total"
-                      outlined
-                      single-line
-                      :options="moneyInputOptions"
-                      disabled
-                    />
-                  </v-col>
-                </v-row>
-                <v-row
-                  class="mt-4"
-                  align="baseline"
-                >
-                  <v-col
-                    cols="3"
-                  >
+                    <v-col
+                      cols="3"
+                    >
                     <!-- <label class="v-label theme--light font-weight-bold">المجموع</label> -->
-                  </v-col>
-                  <!-- <v-col
+                    </v-col>
+                    <!-- <v-col
                     cols="9"
                   >
                     <v-text-field
@@ -4812,520 +4891,523 @@
                       outlined
                     />
                   </v-col> -->
-                  <v-col
-                    cols="4"
-                    md="3"
-                  >
-                    <label class="v-label d-block mb-3 theme--light">اجمالي المساحات
-                      (باستثناء الأرض والاسوار)</label>
-                    <v-text-field
-                      v-model="data.cm_space_total"
-                      type="number"
-                      single-line
-                      outlined
-                      disabled
-                    />
-                  </v-col>
-                  <v-col
-                    cols="4"
-                    md="3"
-                  >
-                    <label class="v-label d-block mb-3 theme--light">متوسط سعر المتر</label>
-                    <vuetify-money
-                      v-model="data.cm_space_price_average"
-                      outlined
-                      single-line
-                      :options="moneyInputOptions"
-                      disabled
-                    />
-                  </v-col>
-                  <v-col
-                    cols="4"
-                    md="3"
-                  >
-                    <label class="v-label d-block mb-3 theme--light">الإجمالي</label>
-                    <vuetify-money
-                      v-model="data.cm_method_total"
-                      outlined
-                      single-line
-                      :options="moneyInputOptions"
-                      disabled
-                    />
-                  </v-col>
-                </v-row>
+                    <v-col
+                      cols="4"
+                      md="3"
+                    >
+                      <label class="v-label d-block mb-3 theme--light">اجمالي المساحات
+                        (باستثناء الأرض والاسوار)</label>
+                      <v-text-field
+                        v-model="data.cm_space_total"
+                        type="number"
+                        single-line
+                        outlined
+                        disabled
+                      />
+                    </v-col>
+                    <v-col
+                      cols="4"
+                      md="3"
+                    >
+                      <label class="v-label d-block mb-3 theme--light">متوسط سعر المتر</label>
+                      <vuetify-money
+                        v-model="data.cm_space_price_average"
+                        outlined
+                        single-line
+                        :options="moneyInputOptions"
+                        disabled
+                      />
+                    </v-col>
+                    <v-col
+                      cols="4"
+                      md="3"
+                    >
+                      <label class="v-label d-block mb-3 theme--light">الإجمالي</label>
+                      <vuetify-money
+                        v-model="data.cm_method_total"
+                        outlined
+                        single-line
+                        :options="moneyInputOptions"
+                        disabled
+                      />
+                    </v-col>
+                  </v-row>
+                </div>
+                <v-divider class="my-10" />
+                <div>
+                  <h2>طريقة التكلفة</h2>
+                  <v-row>
+                    <v-col
+                      cols="12"
+                      md="3"
+                    >
+                      <label class="v-label theme--light font-weight-bold">قيمة الاستبدال</label>
+                    </v-col>
+                    <v-col
+                      cols="6"
+                      md="3"
+                    >
+                      <label class="d-block mb-3 font-weight-bold">القيمة</label>
+                      <vuetify-money
+                        v-model="data.cm_exchange_value"
+                        outlined
+                        single-line
+                        :options="moneyInputOptions"
+                        @input="setCostTotal(index)"
+                      />
+                    </v-col>
+                    <v-col
+                      cols="6"
+                    >
+                      <label class="d-block mb-3 font-weight-bold">ملاحظات</label>
+                      <v-text-field
+                        v-model="data.cm_exchange_note"
+                        label="لا يوجد"
+                        single-line
+                        outlined
+                      />
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col
+                      cols="12"
+                      md="3"
+                    >
+                      <label class="v-label theme--light font-weight-bold">التكاليف المباشرة</label>
+                    </v-col>
+                    <v-col
+                      cols="6"
+                      md="3"
+                    >
+                      <vuetify-money
+                        v-model="data.cm_direct_costs"
+                        outlined
+                        single-line
+                        :options="moneyInputOptions"
+                        @input="setCostTotal()"
+                      />
+                    </v-col>
+                    <v-col
+                      cols="6"
+                    >
+                      <v-text-field
+                        v-model="data.cm_direct_costs_note"
+                        label="لا يوجد"
+                        single-line
+                        outlined
+                      />
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col
+                      cols="12"
+                      md="3"
+                    >
+                      <label class="v-label theme--light font-weight-bold">التكاليف الغير المباشرة</label>
+                    </v-col>
+                    <v-col
+                      cols="6"
+                      md="3"
+                    >
+                      <vuetify-money
+                        v-model="data.cm_indirect_costs"
+                        outlined
+                        single-line
+                        :options="moneyInputOptions"
+                        @input="setCostTotal()"
+                      />
+                    </v-col>
+                    <v-col
+                      cols="6"
+                    >
+                      <v-text-field
+                        v-model="data.cm_indirect_costs_note"
+                        label="لا يوجد"
+                        single-line
+                        outlined
+                      />
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col
+                      cols="12"
+                      md="3"
+                    >
+                      <label class="v-label theme--light font-weight-bold">الإجمالي</label>
+                    </v-col>
+                    <v-col
+                      cols="12"
+                      md="9"
+                    >
+                      <vuetify-money
+                        v-model="data.cm_cost_total"
+                        outlined
+                        single-line
+                        :options="moneyInputOptions"
+                        disabled
+                      />
+                    </v-col>
+                  </v-row>
+                </div>
+                <v-divider class="my-10" />
+                <h2>ناقصا الإهلاك</h2>
+                <div class="table-responsive">
+                  <template>
+                    <v-simple-table>
+                      <template v-slot:default>
+                        <thead>
+                          <tr>
+                            <th>
+                              البيان
+                            </th>
+                            <th>
+                              النسبة
+                            </th>
+                            <th>
+                              قيمة الإهلاك
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>
+                              <label class="v-label theme--light">التدهور المادى</label>
+                            </td>
+                            <td>
+                              <v-text-field
+                                v-model="data.cm_physical_deterioration_ratio"
+                                class="mt-3"
+                                single-line
+                                outlined
+                                type="number"
+                                suffix="%"
+                                @input="setDepreciationValueAndTotal('physical_deterioration')"
+                              />
+                            </td>
+                            <td>
+                              <vuetify-money
+                                v-model="data.cm_physical_deterioration_value"
+                                outlined
+                                single-line
+                                :options="moneyInputOptions"
+                                disabled
+                                class="mt-3"
+                              />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <label class="v-label theme--light">التقادم الوظيفى</label>
+                            </td>
+                            <td>
+                              <v-text-field
+                                v-model="data.cm_occupational_limitations_ratio"
+                                class="mt-3"
+                                single-line
+                                outlined
+                                type="number"
+                                suffix="%"
+                                @input="setDepreciationValueAndTotal('occupational_limitations')"
+                              />
+                            </td>
+                            <td>
+                              <vuetify-money
+                                v-model="data.cm_occupational_limitations_value"
+                                outlined
+                                single-line
+                                :options="moneyInputOptions"
+                                disabled
+                                class="mt-3"
+                              />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <label class="v-label theme--light">التقادم الاقتصادى</label>
+                            </td>
+                            <td>
+                              <v-text-field
+                                v-model="data.cm_economic_obsolescence_ratio"
+                                class="mt-3"
+                                single-line
+                                outlined
+                                type="number"
+                                suffix="%"
+                                @input="setDepreciationValueAndTotal('economic_obsolescence')"
+                              />
+                            </td>
+                            <td>
+                              <vuetify-money
+                                v-model="data.cm_economic_obsolescence_value"
+                                outlined
+                                single-line
+                                :options="moneyInputOptions"
+                                disabled
+                                class="mt-3"
+                              />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <label class="v-label theme--light">إجمالى الإهلاك</label>
+                            </td>
+                            <td>
+                              <v-text-field
+                                v-model="data.cm_total_depreciation_ratio"
+                                class="mt-3"
+                                single-line
+                                outlined
+                                type="number"
+                                suffix="%"
+                                disabled
+                              />
+                            </td>
+                            <td>
+                              <vuetify-money
+                                v-model="data.cm_total_depreciation_value"
+                                outlined
+                                single-line
+                                :options="moneyInputOptions"
+                                disabled
+                                class="mt-3"
+                              />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <label class="v-label theme--light">إهلاك المبانى</label>
+                            </td>
+                            <td>
+                              <v-text-field
+                                v-model="data.cm_depreciation_buildings_ratio"
+                                class="mt-3"
+                                single-line
+                                outlined
+                                type="number"
+                                suffix="%"
+                                @input="setDepreciationValue('depreciation_buildings')"
+                              />
+                            </td>
+                            <td>
+                              <vuetify-money
+                                v-model="data.cm_depreciation_buildings_value"
+                                outlined
+                                single-line
+                                :options="moneyInputOptions"
+                                disabled
+                                class="mt-3"
+                              />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <label class="v-label theme--light">إهلاك أعمال الموقع</label>
+                            </td>
+                            <td>
+                              <v-text-field
+                                v-model="data.cm_depreciation_s_business_ratio"
+                                class="mt-3"
+                                single-line
+                                outlined
+                                type="number"
+                                suffix="%"
+                                @input="setDepreciationValue('depreciation_s_business')"
+                              />
+                            </td>
+                            <td>
+                              <vuetify-money
+                                v-model="data.cm_depreciation_s_business_value"
+                                outlined
+                                single-line
+                                :options="moneyInputOptions"
+                                disabled
+                                class="mt-3"
+                              />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <label class="v-label theme--light">أرباح المطور</label>
+                            </td>
+                            <td>
+                              <v-text-field
+                                v-model="data.cm_developer_earnings_ratio"
+                                class="mt-3"
+                                single-line
+                                outlined
+                                type="number"
+                                suffix="%"
+                                @input="setDepreciationValue('developer_earnings')"
+                              />
+                            </td>
+                            <td>
+                              <vuetify-money
+                                v-model="data.cm_developer_earnings_value"
+                                class="mt-3"
+                                outlined
+                                single-line
+                                :options="moneyInputOptions"
+                                disabled
+                              />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <label class="v-label theme--light text-danger font-weight-bold">القيمة السوقية بأسلوب التكلفة</label>
+                            </td>
+                            <td colspan="2">
+                              <vuetify-money
+                                v-model="data.cm_total_market_value"
+                                class="mt-3"
+                                outlined
+                                single-line
+                                :options="moneyInputOptions"
+                                disabled
+                              />
+                            </td>
+                          </tr>
+                        </tbody>
+                      </template>
+                    </v-simple-table>
+                  </template>
+                </div>
               </div>
+
               <v-divider class="my-10" />
               <div>
-                <h2>طريقة التكلفة</h2>
-                <v-row>
-                  <v-col
-                    cols="12"
-                    md="3"
-                  >
-                    <label class="v-label theme--light font-weight-bold">قيمة الاستبدال</label>
-                  </v-col>
-                  <v-col
-                    cols="6"
-                    md="3"
-                  >
-                    <label class="d-block mb-3 font-weight-bold">القيمة</label>
-                    <vuetify-money
-                      v-model="data.cm_exchange_value"
-                      outlined
-                      single-line
-                      :options="moneyInputOptions"
-                      @input="setCostTotal()"
-                    />
-                  </v-col>
-                  <v-col
-                    cols="6"
-                  >
-                    <label class="d-block mb-3 font-weight-bold">ملاحظات</label>
-                    <v-text-field
-                      v-model="data.cm_exchange_note"
-                      label="لا يوجد"
-                      single-line
-                      outlined
-                    />
-                  </v-col>
-                </v-row>
-                <v-row>
-                  <v-col
-                    cols="12"
-                    md="3"
-                  >
-                    <label class="v-label theme--light font-weight-bold">التكاليف المباشرة</label>
-                  </v-col>
-                  <v-col
-                    cols="6"
-                    md="3"
-                  >
-                    <vuetify-money
-                      v-model="data.cm_direct_costs"
-                      outlined
-                      single-line
-                      :options="moneyInputOptions"
-                      @input="setCostTotal()"
-                    />
-                  </v-col>
-                  <v-col
-                    cols="6"
-                  >
-                    <v-text-field
-                      v-model="data.cm_direct_costs_note"
-                      label="لا يوجد"
-                      single-line
-                      outlined
-                    />
-                  </v-col>
-                </v-row>
-                <v-row>
-                  <v-col
-                    cols="12"
-                    md="3"
-                  >
-                    <label class="v-label theme--light font-weight-bold">التكاليف الغير المباشرة</label>
-                  </v-col>
-                  <v-col
-                    cols="6"
-                    md="3"
-                  >
-                    <vuetify-money
-                      v-model="data.cm_indirect_costs"
-                      outlined
-                      single-line
-                      :options="moneyInputOptions"
-                      @input="setCostTotal()"
-                    />
-                  </v-col>
-                  <v-col
-                    cols="6"
-                  >
-                    <v-text-field
-                      v-model="data.cm_indirect_costs_note"
-                      label="لا يوجد"
-                      single-line
-                      outlined
-                    />
-                  </v-col>
-                </v-row>
-                <v-row>
-                  <v-col
-                    cols="12"
-                    md="3"
-                  >
-                    <label class="v-label theme--light font-weight-bold">الإجمالي</label>
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    md="9"
-                  >
-                    <vuetify-money
-                      v-model="data.cm_cost_total"
-                      outlined
-                      single-line
-                      :options="moneyInputOptions"
-                      disabled
-                    />
-                  </v-col>
-                </v-row>
+                <h2>الترجيح</h2>
+                <div class="table-responsive">
+                  <template>
+                    <v-simple-table>
+                      <template v-slot:default>
+                        <thead>
+                          <tr>
+                            <th>
+                              البيان
+                            </th>
+                            <th>
+                              القيمة السوقية بطريقة البيوع المقارنة
+                            </th>
+                            <th>
+                              القيمة السوقية بطريقة رسملة الدخل
+                            </th>
+                            <th>
+                              القيمة السوقية بطريقة التكلفة
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>
+                              <label class="v-label theme--light">الأوزان النسبية للطرق المستخدمة %</label>
+                            </td>
+                            <td>
+                              <v-text-field
+                                v-model="data.weights_market_value_relative_weights_roads_used"
+                                class="mt-3"
+                                single-line
+                                outlined
+                                type="number"
+                                suffix="%"
+                              />
+                            </td>
+                            <td>
+                              <v-text-field
+                                v-model="data.weights_market_value_income_capitalization"
+                                class="mt-3"
+                                single-line
+                                outlined
+                                type="number"
+                                suffix="%"
+                              />
+                            </td>
+                            <td>
+                              <v-text-field
+                                v-model="data.weights_market_value_cost"
+                                class="mt-3"
+                                single-line
+                                outlined
+                                type="number"
+                                suffix="%"
+                              />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <label class="v-label theme--light">مساهمة الطرق المستخدمة حسب الوزن النسبى</label>
+                            </td>
+                            <td>
+                              <vuetify-money
+                                v-model="data.relative_market_value_relative_weights_roads_used"
+                                class="mt-3"
+                                outlined
+                                single-line
+                                :options="moneyInputOptions"
+                                disabled
+                              />
+                            </td>
+                            <td>
+                              <vuetify-money
+                                v-model="data.relative_market_value_income_capitalization"
+                                class="mt-3"
+                                outlined
+                                single-line
+                                :options="moneyInputOptions"
+                                disabled
+                              />
+                            </td>
+                            <td>
+                              <vuetify-money
+                                v-model="data.relative_market_value_cost"
+                                class="mt-3"
+                                outlined
+                                single-line
+                                :options="moneyInputOptions"
+                                disabled
+                              />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <label class="v-label theme--light">القيمة السوقية بعد الترجيح رقماً</label>
+                            </td>
+                            <td colspan="3">
+                              <vuetify-money
+                                v-model="data.market_value_weighting_number"
+                                class="mt-3"
+                                outlined
+                                single-line
+                                :options="moneyInputOptions"
+                                disabled
+                              />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <label class="v-label theme--light">القيمة السوقية بعد الترجيح كتابة</label>
+                            </td>
+                            <td colspan="3">
+                              <v-text-field
+                                v-model="data.market_value_weighting_text"
+                                class="mt-3"
+                                single-line
+                                outlined
+                                disabled
+                              />
+                            </td>
+                          </tr>
+                        </tbody>
+                      </template>
+                    </v-simple-table>
+                  </template>
+                </div>
               </div>
-              <v-divider class="my-10" />
-              <h2>ناقصا الإهلاك</h2>
-              <div class="table-responsive">
-                <template>
-                  <v-simple-table>
-                    <template v-slot:default>
-                      <thead>
-                        <tr>
-                          <th>
-                            البيان
-                          </th>
-                          <th>
-                            النسبة
-                          </th>
-                          <th>
-                            قيمة الإهلاك
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>
-                            <label class="v-label theme--light">التدهور المادى</label>
-                          </td>
-                          <td>
-                            <v-text-field
-                              v-model="data.cm_physical_deterioration_ratio"
-                              class="mt-3"
-                              single-line
-                              outlined
-                              type="number"
-                              suffix="%"
-                              @input="setDepreciationValueAndTotal('physical_deterioration')"
-                            />
-                          </td>
-                          <td>
-                            <vuetify-money
-                              v-model="data.cm_physical_deterioration_value"
-                              outlined
-                              single-line
-                              :options="moneyInputOptions"
-                              disabled
-                              class="mt-3"
-                            />
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <label class="v-label theme--light">التقادم الوظيفى</label>
-                          </td>
-                          <td>
-                            <v-text-field
-                              v-model="data.cm_occupational_limitations_ratio"
-                              class="mt-3"
-                              single-line
-                              outlined
-                              type="number"
-                              suffix="%"
-                              @input="setDepreciationValueAndTotal('occupational_limitations')"
-                            />
-                          </td>
-                          <td>
-                            <vuetify-money
-                              v-model="data.cm_occupational_limitations_value"
-                              outlined
-                              single-line
-                              :options="moneyInputOptions"
-                              disabled
-                              class="mt-3"
-                            />
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <label class="v-label theme--light">التقادم الاقتصادى</label>
-                          </td>
-                          <td>
-                            <v-text-field
-                              v-model="data.cm_economic_obsolescence_ratio"
-                              class="mt-3"
-                              single-line
-                              outlined
-                              type="number"
-                              suffix="%"
-                              @input="setDepreciationValueAndTotal('economic_obsolescence')"
-                            />
-                          </td>
-                          <td>
-                            <vuetify-money
-                              v-model="data.cm_economic_obsolescence_value"
-                              outlined
-                              single-line
-                              :options="moneyInputOptions"
-                              disabled
-                              class="mt-3"
-                            />
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <label class="v-label theme--light">إجمالى الإهلاك</label>
-                          </td>
-                          <td>
-                            <v-text-field
-                              v-model="data.cm_total_depreciation_ratio"
-                              class="mt-3"
-                              single-line
-                              outlined
-                              type="number"
-                              suffix="%"
-                              disabled
-                            />
-                          </td>
-                          <td>
-                            <vuetify-money
-                              v-model="data.cm_total_depreciation_value"
-                              outlined
-                              single-line
-                              :options="moneyInputOptions"
-                              disabled
-                              class="mt-3"
-                            />
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <label class="v-label theme--light">إهلاك المبانى</label>
-                          </td>
-                          <td>
-                            <v-text-field
-                              v-model="data.cm_depreciation_buildings_ratio"
-                              class="mt-3"
-                              single-line
-                              outlined
-                              type="number"
-                              suffix="%"
-                              @input="setDepreciationValue('depreciation_buildings')"
-                            />
-                          </td>
-                          <td>
-                            <vuetify-money
-                              v-model="data.cm_depreciation_buildings_value"
-                              outlined
-                              single-line
-                              :options="moneyInputOptions"
-                              disabled
-                              class="mt-3"
-                            />
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <label class="v-label theme--light">إهلاك أعمال الموقع</label>
-                          </td>
-                          <td>
-                            <v-text-field
-                              v-model="data.cm_depreciation_s_business_ratio"
-                              class="mt-3"
-                              single-line
-                              outlined
-                              type="number"
-                              suffix="%"
-                              @input="setDepreciationValue('depreciation_s_business')"
-                            />
-                          </td>
-                          <td>
-                            <vuetify-money
-                              v-model="data.cm_depreciation_s_business_value"
-                              outlined
-                              single-line
-                              :options="moneyInputOptions"
-                              disabled
-                              class="mt-3"
-                            />
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <label class="v-label theme--light">أرباح المطور</label>
-                          </td>
-                          <td>
-                            <v-text-field
-                              v-model="data.cm_developer_earnings_ratio"
-                              class="mt-3"
-                              single-line
-                              outlined
-                              type="number"
-                              suffix="%"
-                              @input="setDepreciationValue('developer_earnings')"
-                            />
-                          </td>
-                          <td>
-                            <vuetify-money
-                              v-model="data.cm_developer_earnings_value"
-                              class="mt-3"
-                              outlined
-                              single-line
-                              :options="moneyInputOptions"
-                              disabled
-                            />
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <label class="v-label theme--light text-danger font-weight-bold">القيمة السوقية بأسلوب التكلفة</label>
-                          </td>
-                          <td colspan="2">
-                            <vuetify-money
-                              v-model="data.cm_total_market_value"
-                              class="mt-3"
-                              outlined
-                              single-line
-                              :options="moneyInputOptions"
-                              disabled
-                            />
-                          </td>
-                        </tr>
-                      </tbody>
-                    </template>
-                  </v-simple-table>
-                </template>
-              </div>
-            </div>
-
-            <v-divider class="my-10" />
-            <div>
-              <h2>الترجيح</h2>
-              <div class="table-responsive">
-                <template>
-                  <v-simple-table>
-                    <template v-slot:default>
-                      <thead>
-                        <tr>
-                          <th>
-                            البيان
-                          </th>
-                          <th>
-                            القيمة السوقية بطريقة البيوع المقارنة
-                          </th>
-                          <th>
-                            القيمة السوقية بطريقة رسملة الدخل
-                          </th>
-                          <th>
-                            القيمة السوقية بطريقة التكلفة
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>
-                            <label class="v-label theme--light">الأوزان النسبية للطرق المستخدمة %</label>
-                          </td>
-                          <td>
-                            <v-text-field
-                              v-model="data.weights_market_value_relative_weights_roads_used"
-                              class="mt-3"
-                              single-line
-                              outlined
-                              type="number"
-                              suffix="%"
-                            />
-                          </td>
-                          <td>
-                            <v-text-field
-                              v-model="data.weights_market_value_income_capitalization"
-                              class="mt-3"
-                              single-line
-                              outlined
-                              type="number"
-                              suffix="%"
-                            />
-                          </td>
-                          <td>
-                            <v-text-field
-                              v-model="data.weights_market_value_cost"
-                              class="mt-3"
-                              single-line
-                              outlined
-                              type="number"
-                              suffix="%"
-                            />
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <label class="v-label theme--light">مساهمة الطرق المستخدمة حسب الوزن النسبى</label>
-                          </td>
-                          <td>
-                            <vuetify-money
-                              v-model="data.relative_market_value_relative_weights_roads_used"
-                              class="mt-3"
-                              outlined
-                              single-line
-                              :options="moneyInputOptions"
-                              disabled
-                            />
-                          </td>
-                          <td>
-                            <vuetify-money
-                              v-model="data.relative_market_value_income_capitalization"
-                              class="mt-3"
-                              outlined
-                              single-line
-                              :options="moneyInputOptions"
-                              disabled
-                            />
-                          </td>
-                          <td>
-                            <vuetify-money
-                              v-model="data.relative_market_value_cost"
-                              class="mt-3"
-                              outlined
-                              single-line
-                              :options="moneyInputOptions"
-                              disabled
-                            />
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <label class="v-label theme--light">القيمة السوقية بعد الترجيح رقماً</label>
-                          </td>
-                          <td colspan="3">
-                            <vuetify-money
-                              v-model="data.market_value_weighting_number"
-                              class="mt-3"
-                              outlined
-                              single-line
-                              :options="moneyInputOptions"
-                              disabled
-                            />
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <label class="v-label theme--light">القيمة السوقية بعد الترجيح كتابة</label>
-                          </td>
-                          <td colspan="3">
-                            <v-text-field
-                              v-model="data.market_value_weighting_text"
-                              class="mt-3"
-                              single-line
-                              outlined
-                              disabled
-                            />
-                          </td>
-                        </tr>
-                      </tbody>
-                    </template>
-                  </v-simple-table>
-                </template>
-              </div>
-            </div>
-
-            <v-divider class="my-10" />
-            <div>
+            </template>
+            <v-divider
+              v-show="!isSelfBulding"
+              class="my-10"
+            />
+            <!-- <div>
               <h2>المشاركون فى إعداد التقرير</h2>
               <div
                 v-for="(participant, index) in participants"
@@ -5419,13 +5501,13 @@
                 </v-btn>
               </v-row>
             </div>
-            <v-divider class="my-10" />
+            <v-divider class="my-10" /> -->
             <div>
               <h2>الصور الفوتوغرافية</h2>
-              <!-- {{ images }} -->
+              <!-- {{ data.images }} -->
               <!-- <v-row> -->
               <draggable
-                v-model="images"
+                v-model="data.images"
               >
                 <transition-group
                   tag="div"
@@ -5434,14 +5516,14 @@
                   type="transition"
                 >
                   <div
-                    v-for="(image,index) in images"
+                    v-for="(image,index) in data.images"
                     :key="image.id"
                     class="upload-img-container"
                   >
                     <div>
                       <img
                         :src="image.image"
-                        :class="{'hidden-img': image.hidden}"
+                        :class="{'hidden-img': image.status !== 1 }"
                       >
                       <button
                         class="remove-img"
@@ -5456,7 +5538,7 @@
                         @click.prevent="hideImage(image , index)"
                       >
                         <v-icon
-                          v-if="!image.hidden"
+                          v-if="image.status === 1"
                           left
                         >
                           far fa-eye
@@ -5592,6 +5674,7 @@
                   sm="8"
                 >
                   <v-text-field
+                    v-model="data.trans_internal_notes"
                     label="ملاحظات داخلية"
                     single-line
                     outlined
@@ -5612,6 +5695,7 @@
                   sm="8"
                 >
                   <v-select
+                    v-model="data.trans_currency"
                     :items="items"
                     label="عملة التقييم"
                     single-line
@@ -5633,7 +5717,7 @@
                   sm="8"
                 >
                   <v-textarea
-                    v-model="ProfessionalStandards"
+                    v-model="data.trans_professional_standard"
                     label="المعايير المهنية"
                     single-line
                     outlined
@@ -5675,7 +5759,7 @@
                   sm="8"
                 >
                   <v-textarea
-                    v-model="RestrictionsUsePublication"
+                    v-model="data.trans_restrictions_publication"
                     label="القيود على الاستخدام والنشر"
                     single-line
                     outlined
@@ -5696,7 +5780,7 @@
                   sm="8"
                 >
                   <v-textarea
-                    v-model="EvacuationResponsibilaty"
+                    v-model="data.trans_evacuation_responsibility"
                     label="اخلاء المسئولية"
                     single-line
                     outlined
@@ -5717,7 +5801,7 @@
                   sm="8"
                 >
                   <v-textarea
-                    v-model="Assumptions"
+                    v-model="data.trans_special_assumptions"
                     label="الافتراضات الخاصة ان وجدت"
                     single-line
                     outlined
@@ -5814,6 +5898,7 @@
   const EvaluationPurposeService = ServiceFactory.get('EvaluationPurpose')
   // ! TODO : change this later
   const UsersServices = ServiceFactory.get('Users')
+  const SamplesServices = ServiceFactory.get('Samples')
 
   // const watchUs = (array, f) => {
   //   const result = {}
@@ -5864,6 +5949,7 @@
       neighborhoodsList: [],
       appraisalFeesList: [],
       appraisalValueList: [],
+      samplesList: [],
       valuesUsedList: [
         {
           id: 'القيمة السوقية',
@@ -6531,7 +6617,7 @@
       swimming_pool_show: false,
       storehouse_show: false,
       data: {
-        sample_id: '',
+        sample_id: 11,
         customer_id: '',
         appraiser_id: 0,
         preview_id: 0,
@@ -6881,10 +6967,6 @@
         trans_commissions_amount: '',
         trans_internal_notes: '',
         trans_currency: '',
-        trans_professional_standard: '',
-        trans_restrictions_publication: '',
-        trans_evacuation_responsibility: '',
-        trans_special_assumptions: '',
         income_valuation: [
           {
             unit_name: '', // اسم الوحدة
@@ -6896,11 +6978,20 @@
             id: uuid.v4(),
           },
         ],
-      },
-      marker: { lat: 24.7468754, lng: 39.9600269 },
-      center: { lat: 24.7468754, lng: 39.9600269 },
-      // Real Data
-      ProfessionalStandards: `طريقة استخراج القيمة: عن طريق دراسة المنطقة و تحليل أسعار العقارات التجارية والسكنية والعروض المشابهة للأرض و التكلفة للمباني بعد خصم نسبة الإهلاك.
+        images: [],
+        achievement: {
+          prop_current_price: '',
+          status: '1',
+          stages: [{
+            id: uuid.v4(),
+            details: '', // تفاصيل المرحلة
+            cost: '', // التكلفه
+            pc_to_cost: '', // النسبة إلى التكلفه
+            pc_of_completion: '', // نسبة الانجاز
+            achievement_value: '',
+          }],
+        },
+        trans_professional_standard: `طريقة استخراج القيمة: عن طريق دراسة المنطقة و تحليل أسعار العقارات التجارية والسكنية والعروض المشابهة للأرض و التكلفة للمباني بعد خصم نسبة الإهلاك.
 المستندات المقدمة من طالب التقييم: هوية المالك - صك الملكية.
 نطاق البحث: أسعار البيع للأرض بالحي، مدى توفر خدمات البنية التحتية و خدمات البنية الفوقية مثل المدارس والمستشفيات والحدائق وغيرها، اكتمال العمران في المنطقة المحيطة، نظام البناء في منطقة العقار.
 طريقة اعتماد مسطحات البناء: عن طريق المستندات المقدمة من طالب التقييم.
@@ -6908,15 +6999,20 @@
 المستخدمون الآخرون بالتقرير: العميل المذكور أعلاه.
 المدخلات الرئيسية: البيانات المتوفرة في الصك و رخصة البناء.
 استنتاج القيمة والأسباب الرئيسية: تم استنتاج القيمة بالطريقة المذكورة أعلاه وذلك بت…`,
-      AcknowledgmentOfIndependence: 'الشركة غير مسؤولة عن صحة الصكوك والفسوحات والمستندات المقدمة من الطرف الثاني (العميل) صحة التراخيص الخاصة بالعقار موضع التقييم وتحت مسؤوليته .',
-      RestrictionsUsePublication: 'تعد عمليات التقييم والتقارير سرية للطرف الموجه ولمن يتم إحالتها إليه لغرض محدد مع عدم تحمل أي مسؤولية من أي نوع لأي طرف ثالث، ولا يجوز نشر هذا التقرير كاملا أو أي جزء منه أو الإشارة إليه في أي وثيقة أو بيان أو نشرة دورية أو في أي وسيلة تواصل مع أي طرف ثالث دون الحصول على موافقة مسبقة مكتوبة بالشكل والسياق الذي تظهر فيه',
-      EvacuationResponsibilaty: 'يفيد فريق عمل (اسم الشركة) بأنه تم معاينة العقار و انه ليس لدينا اي مصلحة شخصية  او مادية  او  اي اهتمامات حالية او مستقبلية بالعقار موضع التقييم و ان ما تم تقديمه بالتقرير سليم وصحيح ، حي  تم رفع جميع البيانات من واقع السوق الحالي وجميع المعادلات المحددة ونتائج الاسعار المحددة والمرفقة بالتقرير مراجعة ومدققة وتم تحليلها .',
-      Assumptions: `• نفترض بأن العقار ملكية مطلقة دون أي أعباء.
+        trans_restrictions_publication: 'تعد عمليات التقييم والتقارير سرية للطرف الموجه ولمن يتم إحالتها إليه لغرض محدد مع عدم تحمل أي مسؤولية من أي نوع لأي طرف ثالث، ولا يجوز نشر هذا التقرير كاملا أو أي جزء منه أو الإشارة إليه في أي وثيقة أو بيان أو نشرة دورية أو في أي وسيلة تواصل مع أي طرف ثالث دون الحصول على موافقة مسبقة مكتوبة بالشكل والسياق الذي تظهر فيه',
+        trans_evacuation_responsibility: 'يفيد فريق عمل (اسم الشركة) بأنه تم معاينة العقار و انه ليس لدينا اي مصلحة شخصية  او مادية  او  اي اهتمامات حالية او مستقبلية بالعقار موضع التقييم و ان ما تم تقديمه بالتقرير سليم وصحيح ، حي  تم رفع جميع البيانات من واقع السوق الحالي وجميع المعادلات المحددة ونتائج الاسعار المحددة والمرفقة بالتقرير مراجعة ومدققة وتم تحليلها .',
+        trans_special_assumptions: `• نفترض بأن العقار ملكية مطلقة دون أي أعباء.
 • تم اعتماد سعر متر الأرض بناء على العروض المشابهة المحيطة بالمنطقة وأخذ في الاعتبار ظروف السوق وعمل جدول تسويات للأرض.
 • تم اعتماد القيمة السوقية للعقار بطريقة السوق ( المقارنة ).
 • مصدر الملكية: صحة صور المستندات المقدمه لنا على مسؤولية العميل وتم افتراض صحتها.
 • تم التقييم في ظل جائجة كورونا وهذة الفترة التعامل مع عدم اليقين في اوقات اضطراب حاله وظروف السوق.
 • في 11 مارس 2020 صنفت منظمة الصحة العالمية فيروس كورونا المستجد COVID-19 بأنه وباء عالمي. مما أحدث تأثيراً واضحاً على الاقتصادات والأسواق العالمية والمحلية وبناء عليه تم اتخاذ العديد من الإجراءات الرسمية محلياً وعالمياً والتي من شأنها أن تؤثر على جميع القطاعات.`,
+
+      },
+      marker: { lat: 24.7468754, lng: 39.9600269 },
+      center: { lat: 24.7468754, lng: 39.9600269 },
+      // Real Data
+      AcknowledgmentOfIndependence: 'الشركة غير مسؤولة عن صحة الصكوك والفسوحات والمستندات المقدمة من الطرف الثاني (العميل) صحة التراخيص الخاصة بالعقار موضع التقييم وتحت مسؤوليته .',
       participants: [
         {
           participant: true,
@@ -6995,7 +7091,17 @@
           disabled: false,
         }
       },
-
+      isSelfBulding () {
+        return this.samplesList.find(sample => sample.id === this.data.sample_id)?.name.includes('البناء الذاتي')
+      },
+      isPcToCostError () {
+        if (this.data.achievement.status === '2') {
+          if (this.data.achievement.stages.reduce((s, a) => +a.pc_to_cost + +s, 0) > 100) {
+            return true
+          }
+        }
+        return false
+      },
     },
     watch: {
       'data.cm_time_factor_adjustment': function () {
@@ -7233,9 +7339,32 @@
         this.data.market_value_weighting_number = total
         this.data.market_value_weighting_text = (isNaN(total) || total <= 0) ? '' : new NumbersToWords(total, 'SAR').parse()
       },
+
+      // تقييم الانجاز
+      'data.achievement.stages': {
+        handler: function (n, m) {
+          if (n.length !== m.length) {
+            if (this.data.achievement.status === '1') {
+              this.changeCost()
+            }
+          }
+        },
+        deep: true,
+      },
+      'data.achievement.prop_current_price': function () {
+        if (this.data.achievement.status === '2') {
+          this.data.achievement.stages = this.data.achievement.stages.map(s => ({
+            ...s,
+            cost: (this.data.achievement.prop_current_price * s.pc_to_cost) / 100,
+          // pc_to_cost: ((s.cost / this.data.achievement.prop_current_price) * 100).toFixed(2),
+          // achievement_value: (s.pc_of_completion * s.cost) / 100,
+          }))
+        }
+      },
     },
     mounted () {
       // this.getCurrentLocation()
+      this.getSamples()
       this.getCustomers()
       this.getEvaluationPurpose()
       // ! TODO : change this later with proper method
@@ -7266,13 +7395,18 @@
         if (+this.data.cm_other_price > 0) {
           n++
         }
-        console.log(n)
+        // console.log(n)
         this.data.cm_space_price_average = (+this.data.cm_land_price + +this.data.cm_other_price + +this.data.cm_fences_price + +this.data.cm_building_price + +this.data.cm_basement_price + +this.data.cm_supplement_price) / n
+      },
+      // samples List
+      getSamples: async function () {
+        const { data } = await SamplesServices.getAllItems()
+        this.samplesList = data.filter(sample => sample.status === '1')
       },
       // ! TODO : cheange this with proper endpoint
       getUsers: async function () {
         const { data } = await UsersServices.getAllItems()
-        console.log(data)
+        // console.log(data)
         // appraisersList: [],
         // previewsList: [],
         // coordinatorsList: [],
@@ -7408,40 +7542,38 @@
       },
       createImage (file) {
         // var image = new Image()
-        const item = { hidden: false, image: false, id: uuid.v4() }
-        const images = this.images
-        var reader = new FileReader()
+        const item = { status: 1, image: false, id: uuid.v4() }
+        const images = this.data.images
+        const reader = new FileReader()
         reader.onload = (e) => {
           item.image = e.target.result
+          images.push(item)
+          images.sort((a, b) => {
+            if (a.status === 0 && b.status === 1) {
+              return 1
+            } else if (b.status === 0 && a.status === 1) {
+              return -1
+            }
+            return 0
+          })
+
+          this.data.images = images
         }
         reader.readAsDataURL(file)
-        images.push(item)
-        images.sort((a, b) => {
-          if (a.hidden === true && b.hidden === false) {
-            return 1
-          } else if (b.hidden === true && a.hidden === false) {
-            return -1
-          }
-          return 0
-        })
-
-        // console.log(images.map(item => { return ({ ...item, image: '' }) }))
-
-        this.images = images
       },
       removeImage: function (item, index) {
-        item.image = false
-        this.images.splice(index, 1)
+        // item.image = false
+        this.data.images.splice(index, 1)
         // Remove sort of image
-        this.imageSorting.splice(index, 1)
+        // this.imageSorting.splice(index, 1)
       },
       hideImage: function (image, index) {
         //  const imageIndex = this.images.findIndex(image => image.id === id)
-        this.images[index].hidden = !this.images[index].hidden
-        this.images.sort((a, b) => {
-          if (a.hidden === true && b.hidden === false) {
+        this.data.images[index].status = this.data.images[index].status === 1 ? 0 : 1
+        this.data.images.sort((a, b) => {
+          if (a.status === 0 && b.status === 1) {
             return 1
-          } else if (b.hidden === true && a.hidden === false) {
+          } else if (b.status === 0 && a.status === 1) {
             return -1
           }
           return 0
@@ -7538,8 +7670,6 @@
       setCostTotal: function () {
         this.data.cm_cost_total = +this.data.cm_exchange_value + +this.data.cm_direct_costs + +this.data.cm_indirect_costs
       },
-
-      //
       setDepreciationValueAndTotal: function (name) {
         this.data[`cm_${name}_value`] = (this.data[`cm_${name}_ratio`] * this.data.cm_cost_total) / 100
 
@@ -7550,6 +7680,65 @@
       setDepreciationValue: function (name) {
         this.data[`cm_${name}_value`] = (this.data[`cm_${name}_ratio`] * this.data.cm_cost_total) / 100
       },
+
+      // تقييم الانجز
+      changeAchievmentStatus: function (id) {
+        const needToChange = id !== this.data.achievement.status
+        if (needToChange) {
+          this.data.achievement.status = this.data.achievement.status === '1' ? '2' : '1'
+          this.data.achievement.stages = [{
+            id: uuid.v4(),
+            details: '',
+            cost: '',
+            pc_to_cost: '',
+            pc_of_completion: '',
+            achievement_value: '',
+          }]
+          this.data.achievement.prop_current_price = ''
+        }
+      },
+      addNewStage: function () {
+        this.data.achievement.stages.push({
+          id: uuid.v4(),
+          details: '',
+          cost: '',
+          pc_to_cost: '',
+          pc_of_completion: '',
+          achievement_value: '',
+        })
+      },
+      removeStage: function (id) {
+        this.data.achievement.stages = this.data.achievement.stages.filter(s => s.id !== id)
+      },
+      changeCost: function (id) {
+        if (this.data.achievement.status === '1') {
+          this.data.achievement.prop_current_price = this.data.achievement.stages.reduce((p, c) => +p + +c.cost, 0)
+        }
+        this.data.achievement.stages = this.data.achievement.stages.map(s => ({
+          ...s,
+          pc_to_cost: ((s.cost / this.data.achievement.prop_current_price) * 100).toFixed(2),
+          achievement_value: (s.pc_of_completion * s.cost) / 100,
+        }))
+      },
+      changePcToCost: function (id, index) {
+        // this.data.achievement.stages[index].pc_to_cost = (+this.data.achievement.stages[index].pc_to_cost || 0).toFixed(2)
+        // console.log(this.data.achievement.stages[index].pc_to_cost)
+        this.data.achievement.stages = this.data.achievement.stages.map(s => ({
+          ...s,
+          cost: (this.data.achievement.prop_current_price * s.pc_to_cost) / 100,
+          // pc_to_cost: ((s.cost / this.data.achievement.prop_current_price) * 100).toFixed(2),
+          // achievement_value: (s.pc_of_completion * s.cost) / 100,
+        }))
+      },
+      // changePcOfCom: function (id) {
+      //   // const index = this.data.achievement.stages.findIndex(s => s.id === id)
+      //   // this.data.achievement.stages[index].achievement_value = (this.data.achievement.stages[index].pc_of_completion * this.data.achievement.stages[index].cost) / 100
+      //   this.data.achievement.stages = this.data.achievement.stages.map(s => ({
+      //     ...s,
+      //     pc_to_cost: ((s.cost / this.data.achievement.prop_current_price) * 100).toFixed(2),
+      //     achievement_value: (s.pc_of_completion * s.cost) / 100,
+      //   }))
+      // },
     },
   }
 </script>

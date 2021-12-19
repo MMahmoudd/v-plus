@@ -228,7 +228,7 @@
             <v-divider class="my-10" />
 
             <div>
-              <h2>نطاق العمل وتفاصيل العقار</h2>
+              <h2>نطاق العمل</h2>
               <v-row>
                 <v-col
                   cols="12"
@@ -502,6 +502,7 @@
 
               <v-divider class="my-10" />
 
+              <h2>نفاصيل العقار</h2>
               <v-row>
                 <v-col
                   cols="12"
@@ -960,7 +961,7 @@
                   </v-menu>
                 </v-col>
 
-                <v-col
+                <!-- <v-col
                   cols="12"
                   lg="3"
                   md="4"
@@ -977,8 +978,8 @@
                     single-line
                     outlined
                   />
-                </v-col>
-
+                </v-col> -->
+                <!--
                 <v-col
                   cols="12"
                   lg="3"
@@ -996,11 +997,11 @@
                     single-line
                     outlined
                   />
-                </v-col>
+                </v-col> -->
               </v-row>
-              <v-divider class="my-10" />
+              <!-- <v-divider class="my-10" /> -->
               <!-- If Raghie Module -->
-              <div v-if="this.$route.params.id == 1">
+              <!-- <div v-if="this.$route.params.id == 1">
                 <v-row>
                   <v-col
                     cols="12"
@@ -1235,9 +1236,9 @@
                   </v-icon>
                   اضافة مرحلة جديدة
                 </v-btn>
-              </div>
+              </div> -->
               <!-- If Not Raghie Module -->
-              <div v-else>
+              <!-- <div v-else>
                 <v-row>
                   <v-col
                     cols="12"
@@ -1923,7 +1924,7 @@
                     </label>
                   </v-col>
                 </v-row>
-              </div>
+              </div> -->
             </div>
 
             <v-divider class="my-10" />
@@ -2054,6 +2055,7 @@
               </div>
               <div>
                 <v-btn
+                  x-large
                   class="ma-2"
                   color="black"
                 >

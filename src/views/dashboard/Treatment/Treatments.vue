@@ -433,7 +433,10 @@
                         </template>
                         <v-list>
                           <template v-for="sample in samplesList">
-                            <v-list-item :key="sample.id">
+                            <v-list-item
+                              v-show="sample.status === '1'"
+                              :key="sample.id"
+                            >
                               <v-list-item-title>
                                 <router-link :to="sample.path">
                                   {{ sample.name }}
@@ -751,8 +754,10 @@
             name: sample.name,
             id: sample.id,
             path: `/New-Treatment/${sample.id}`,
+            status: sample.status,
           }
         })
+        // console.log(this.samplesList)
       },
       // dialog methods
       filterTransctions: async function () {
