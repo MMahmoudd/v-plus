@@ -462,6 +462,11 @@
           :items-per-page="5"
           class="elevation-1"
         >
+          <template v-slot:[`item.transaction_id`]="{ item }">
+            <router-link :to="'/Evaluate-Treatment/' + item.id + '?edit=' + item.id">
+              {{ item.transaction_id }}
+            </router-link>
+          </template>
           <template v-slot:[`item.status`]="{ item }">
             <v-chip
               class="pa-2"

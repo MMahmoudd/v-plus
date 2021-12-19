@@ -710,7 +710,7 @@
                     class="d-block mb-3 font-weight-bold"
                   >رقم البلوك</label>
                   <v-text-field
-                    v-model="data.trans_part_num"
+                    v-model="data.trans_Albulk_num"
                     label="رقم البلوك"
                     single-line
                     outlined
@@ -2117,6 +2117,9 @@
   const PropertyTypesServices = ServiceFactory.get('PropertyTypes')
 
   const TransactionsServices = ServiceFactory.get('Transactions')
+  const ReportTypesServices = ServiceFactory.get('ReportTypes')
+  const ValueHypothesisListsServices = ServiceFactory.get('ValueHypothesisLists')
+  const ValueBasiListsServices = ServiceFactory.get('ValueBasiLists')
 
   export default {
     name: 'NewTreatment',
@@ -2137,42 +2140,6 @@
       appraisalFeesList: [],
       appraisalValueList: [],
       valuesUsedList: [
-        {
-          id: 'القيمة السوقية',
-          name: 'القيمة السوقية',
-        },
-        {
-          id: 'الإيجار السوقي',
-          name: 'الإيجار السوقي',
-        },
-        {
-          id: 'القيمة المنصفة',
-          name: 'القيمة المنصفة',
-        },
-        {
-          id: 'القيمة الاستثمارية',
-          name: 'القيمة الاستثمارية',
-        },
-        {
-          id: 'القيمة التكاملية',
-          name: 'القيمة التكاملية',
-        },
-        {
-          id: 'قيمة التصفية',
-          name: 'قيمة التصفية',
-        },
-        {
-          id: 'القيمة العادلة',
-          name: 'القيمة العادلة',
-        },
-        {
-          id: 'القيمة السوقية العادلة',
-          name: 'القيمة السوقية العادلة',
-        },
-        {
-          id: 'أخرى',
-          name: 'أخرى',
-        },
       ],
       feesUsedValuesList: [
         {
@@ -3207,6 +3174,9 @@
 
       this.getPropertyRatings()
       this.getPropertyTypes()
+      this.getReportTypes()
+      this.getValueHypothesis()
+      this.getBasiLists()
     },
     created () {
       console.log(this.$route.query.edit)
@@ -3313,6 +3283,27 @@
             name: pt.name,
           }
         })
+      },
+      // نوع التقرير
+      getReportTypes: async function () {
+        const { data } = await ReportTypesServices.getAllItems()
+        this.staticLists.trans_Report_type = data.data.map(({ id, name }) => ({
+          id, name,
+        }))
+      },
+      // فرضية القيمة
+      getValueHypothesis: async function () {
+        const { data } = await ValueHypothesisListsServices.getAllItems()
+        this.feesUsedValuesList = data.data.map(({ id, name }) => ({
+          id, name,
+        }))
+      },
+      // أساس القيمة
+      getBasiLists: async function () {
+        const { data } = await ValueBasiListsServices.getAllItems()
+        this.valuesUsedList = data.data.map(({ id, name }) => ({
+          id, name,
+        }))
       },
       // submit
       save: async function () {

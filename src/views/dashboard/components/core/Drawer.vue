@@ -55,18 +55,19 @@
           title: 'المعاملات',
           icon: 'fa-file-alt',
           role: true,
-          children: [
-            {
-              title: 'المعاملات',
-              to: '/Treatments',
-              role: true,
-            },
-            {
-              title: 'تقييم المعاملة',
-              to: '/Evaluate-Treatment',
-              role: true,
-            },
-          ],
+          to: '/Treatments',
+          // children: [
+          //   {
+          //     title: 'المعاملات',
+          //     to: '/Treatments',
+          //     role: true,
+          //   },
+          //   {
+          //     title: 'تقييم المعاملة',
+          //     to: '/Evaluate-Treatment',
+          //     role: true,
+          //   },
+          // ],
         },
         {
           title: 'المالية',

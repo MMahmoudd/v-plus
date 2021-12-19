@@ -6,7 +6,7 @@
       class="mx-0 mt-4"
     >
       <h1 class="font-weight-bold">
-        معاملة رقم 1920215841
+        معاملة رقم {{ data.transaction_id }}
       </h1>
       <v-chip
         class="ma-2 time-chip"
@@ -334,7 +334,6 @@
                     outlined
                   />
                 </v-col>
-
                 <v-col
                   cols="12"
                   lg="3"
@@ -5696,7 +5695,9 @@
                 >
                   <v-select
                     v-model="data.trans_currency"
-                    :items="items"
+                    :items="transCurrencyList"
+                    item-text="name"
+                    item-value="id"
                     label="عملة التقييم"
                     single-line
                     outlined
@@ -5898,7 +5899,19 @@
   const EvaluationPurposeService = ServiceFactory.get('EvaluationPurpose')
   // ! TODO : change this later
   const UsersServices = ServiceFactory.get('Users')
+  const RegionsServices = ServiceFactory.get('Regions')
+  const CitesServices = ServiceFactory.get('Cites')
+  const NeighborhoodsServices = ServiceFactory.get('Neighborhoods')
+  const PropertyRatingsServices = ServiceFactory.get('PropertyRatings')
+  const PropertyTypesServices = ServiceFactory.get('PropertyTypes')
   const SamplesServices = ServiceFactory.get('Samples')
+  const TransactionsServices = ServiceFactory.get('Transactions')
+  const ReportTypesServices = ServiceFactory.get('ReportTypes')
+  const ValueHypothesisListsServices = ServiceFactory.get('ValueHypothesisLists')
+  const ValueBasiListsServices = ServiceFactory.get('ValueBasiLists')
+  const constructionConditionsService = ServiceFactory.get('constructionConditions')
+  const WorkingStatusesServices = ServiceFactory.get('WorkingStatuses')
+  const EvaluationCurrenciesServices = ServiceFactory.get('EvaluationCurrencies')
 
   // const watchUs = (array, f) => {
   //   const result = {}
@@ -5989,22 +6002,7 @@
         },
       ],
       feesUsedValuesList: [
-        {
-          id: 'الاستخدام الأعلى والأفضل',
-          name: 'الاستخدام الأعلى والأفضل',
-        },
-        {
-          id: 'الاستخدام الحالي',
-          name: 'الاستخدام الحالي',
-        },
-        {
-          id: 'التصفية المنظمة',
-          name: 'التصفية المنظمة',
-        },
-        {
-          id: 'البيع القسري',
-          name: 'البيع القسري',
-        },
+
       ],
       propTypeList: [
         {
@@ -6590,6 +6588,7 @@
           name: 'سكني تجاري مكتبي',
         },
       ],
+      transCurrencyList: [],
       cityName: '',
       neighborhoodName: '',
       trans_assignment_date: false,
@@ -7096,11 +7095,28 @@
       },
       isPcToCostError () {
         if (this.data.achievement.status === '2') {
-          if (this.data.achievement.stages.reduce((s, a) => +a.pc_to_cost + +s, 0) > 100) {
+          if (this.data.achievement.stages?.reduce((s, a) => +a.pc_to_cost + +s, 0) > 100) {
             return true
           }
         }
         return false
+      },
+      updateCitesList: function () {
+        // const citesList = [];
+        const data = this.citesList.filter((city) => {
+          if (city.regionId === this.data.region_id) {
+            return city
+          }
+        })
+        return data
+      },
+      updateNeighborhoodsList: function () {
+        const data = this.neighborhoodsList.filter((neighborhood) => {
+          if (neighborhood.cityId === this.data.city_id) {
+            return neighborhood
+          }
+        })
+        return data
       },
     },
     watch: {
@@ -7221,8 +7237,8 @@
       // تقييم الايجارات
       'data.income_valuation': {
         handler: function (val, oldVal) {
-          this.data.total_annual_income = this.data.income_valuation.reduce((p, c) => p + c.total_rent, 0)
-          this.data.deduction_losses = this.data.income_valuation.reduce((p, c) => p + c.deduction_losses_total, 0)
+          this.data.total_annual_income = this.data.income_valuation?.reduce((p, c) => p + c.total_rent, 0)
+          this.data.deduction_losses = this.data.income_valuation?.reduce((p, c) => p + c.deduction_losses_total, 0)
         },
         deep: true,
       },
@@ -7363,14 +7379,79 @@
       },
     },
     mounted () {
+      if (this.$route.params.id) {
+        this.fetchOneItem(this.$route.params.id)
+      }
+      // this.fetchOneItem(this.$route.params.id)
       // this.getCurrentLocation()
+      // this.getUsers()
+      this.getRegions()
+      // ! TODO : move these to "watch" when get cites by region id id avaliable
+      this.getCites()
+      // ! TODO : move these to "watch" when get Neighborhoods by city id id avaliable
+      this.getNeighborhoods()
+
+      this.getPropertyRatings()
+      this.getPropertyTypes()
       this.getSamples()
       this.getCustomers()
       this.getEvaluationPurpose()
+      // new
+      this.getReportTypes()
+      this.getValueHypothesis()
+      this.getBasiLists()
+      this.getConstructionCondition()
+      this.getWorkingStatuses()
+      this.getCurrencyList()
       // ! TODO : change this later with proper method
       this.getUsers()
     },
     methods: {
+      fetchOneItem: async function (id) {
+        const { data } = await TransactionsServices.fetchOneItem(id)
+        for (const key in data) {
+          if (data[key] === null) {
+            this.data[key] = this.data[key]
+          } else {
+            this.data[key] = data[key]
+          }
+        }
+
+        //         data.achievement = !data.achievement ? {
+        //           prop_current_price: '',
+        //           status: '1',
+        //           stages: [
+        //             {
+        //               id: '123123-c213-123c123',
+        //               details: '',
+        //               cost: '',
+        //               pc_to_cost: '',
+        //               pc_of_completion: '',
+        //               achievement_value: '',
+        //             },
+        //           ],
+        //         } : data.achievement
+
+        //         this.data = {
+        //           ...data,
+        //           trans_professional_standard: `طريقة استخراج القيمة: عن طريق دراسة المنطقة و تحليل أسعار العقارات التجارية والسكنية والعروض المشابهة للأرض و التكلفة للمباني بعد خصم نسبة الإهلاك.
+        // المستندات المقدمة من طالب التقييم: هوية المالك - صك الملكية.
+        // نطاق البحث: أسعار البيع للأرض بالحي، مدى توفر خدمات البنية التحتية و خدمات البنية الفوقية مثل المدارس والمستشفيات والحدائق وغيرها، اكتمال العمران في المنطقة المحيطة، نظام البناء في منطقة العقار.
+        // طريقة اعتماد مسطحات البناء: عن طريق المستندات المقدمة من طالب التقييم.
+        // مدة التقرير: تقرير التقييم صالح لمدة 90 يوما من تاريخ الاعتماد ما لم يطرأ أي تغير في منطقة العقار.
+        // المستخدمون الآخرون بالتقرير: العميل المذكور أعلاه.
+        // المدخلات الرئيسية: البيانات المتوفرة في الصك و رخصة البناء.
+        // استنتاج القيمة والأسباب الرئيسية: تم استنتاج القيمة بالطريقة المذكورة أعلاه وذلك بت…`,
+        //           trans_restrictions_publication: 'تعد عمليات التقييم والتقارير سرية للطرف الموجه ولمن يتم إحالتها إليه لغرض محدد مع عدم تحمل أي مسؤولية من أي نوع لأي طرف ثالث، ولا يجوز نشر هذا التقرير كاملا أو أي جزء منه أو الإشارة إليه في أي وثيقة أو بيان أو نشرة دورية أو في أي وسيلة تواصل مع أي طرف ثالث دون الحصول على موافقة مسبقة مكتوبة بالشكل والسياق الذي تظهر فيه',
+        //           trans_evacuation_responsibility: 'يفيد فريق عمل (اسم الشركة) بأنه تم معاينة العقار و انه ليس لدينا اي مصلحة شخصية  او مادية  او  اي اهتمامات حالية او مستقبلية بالعقار موضع التقييم و ان ما تم تقديمه بالتقرير سليم وصحيح ، حي  تم رفع جميع البيانات من واقع السوق الحالي وجميع المعادلات المحددة ونتائج الاسعار المحددة والمرفقة بالتقرير مراجعة ومدققة وتم تحليلها .',
+        //           trans_special_assumptions: `• نفترض بأن العقار ملكية مطلقة دون أي أعباء.
+        // • تم اعتماد سعر متر الأرض بناء على العروض المشابهة المحيطة بالمنطقة وأخذ في الاعتبار ظروف السوق وعمل جدول تسويات للأرض.
+        // • تم اعتماد القيمة السوقية للعقار بطريقة السوق ( المقارنة ).
+        // • مصدر الملكية: صحة صور المستندات المقدمه لنا على مسؤولية العميل وتم افتراض صحتها.
+        // • تم التقييم في ظل جائجة كورونا وهذة الفترة التعامل مع عدم اليقين في اوقات اضطراب حاله وظروف السوق.
+        // • في 11 مارس 2020 صنفت منظمة الصحة العالمية فيروس كورونا المستجد COVID-19 بأنه وباء عالمي. مما أحدث تأثيراً واضحاً على الاقتصادات والأسواق العالمية والمحلية وبناء عليه تم اتخاذ العديد من الإجراءات الرسمية محلياً وعالمياً والتي من شأنها أن تؤثر على جميع القطاعات.`,
+        //         }
+      },
       // test
       getTotalSpace: function () {
         this.data.cm_space_total = Number.parseFloat(+this.data.cm_building_space + +this.data.cm_basement_space + +this.data.cm_supplement_space + +this.data.cm_other_space).toFixed(2)
@@ -7439,6 +7520,48 @@
       getEvaluationPurpose: async function () {
         const { data } = await EvaluationPurposeService.getAllItems()
         this.evaluationPurposeList = data.data.map(({ id, name }) => ({
+          id, name,
+        }))
+      },
+
+      getReportTypes: async function () {
+        const { data } = await ReportTypesServices.getAllItems()
+        this.staticLists.trans_Report_type = data.data.map(({ id, name }) => ({
+          id, name,
+        }))
+      },
+      // فرضية القيمة
+      getValueHypothesis: async function () {
+        const { data } = await ValueHypothesisListsServices.getAllItems()
+        this.feesUsedValuesList = data.data.map(({ id, name }) => ({
+          id, name,
+        }))
+      },
+      // أساس القيمة
+      getBasiLists: async function () {
+        const { data } = await ValueBasiListsServices.getAllItems()
+        this.valuesUsedList = data.data.map(({ id, name }) => ({
+          id, name,
+        }))
+      },
+      // staticLists.trans_construction_condition
+      getConstructionCondition: async function () {
+        const { data } = await constructionConditionsService.getAllItems()
+        this.staticLists.trans_construction_condition = data.data.map(({ id, name }) => ({
+          id, name,
+        }))
+      },
+      // staticLists.trans_occupancy_status
+      getWorkingStatuses: async function () {
+        const { data } = await WorkingStatusesServices.getAllItems()
+        this.staticLists.trans_occupancy_status = data.data.map(({ id, name }) => ({
+          id, name,
+        }))
+      },
+
+      getCurrencyList: async function () {
+        const { data } = await EvaluationCurrenciesServices.getAllItems()
+        this.transCurrencyList = data.data.map(({ id, name }) => ({
           id, name,
         }))
       },
@@ -7683,9 +7806,10 @@
 
       // تقييم الانجز
       changeAchievmentStatus: function (id) {
-        const needToChange = id !== this.data.achievement.status
+        const needToChange = id !== this.data.achievement?.status
         if (needToChange) {
-          this.data.achievement.status = this.data.achievement.status === '1' ? '2' : '1'
+          // this.data.achievement?.status = this.data.achievement?.status === '1' ? '2' : '1'
+          this.data.achievement.status = id
           this.data.achievement.stages = [{
             id: uuid.v4(),
             details: '',
@@ -7729,6 +7853,48 @@
           // pc_to_cost: ((s.cost / this.data.achievement.prop_current_price) * 100).toFixed(2),
           // achievement_value: (s.pc_of_completion * s.cost) / 100,
         }))
+      },
+      getRegions: async function () {
+        const { data } = await RegionsServices.getAllItems()
+        this.regionsList = data.data.map(({ id, name }) => ({
+          id, name,
+        }))
+      },
+      getCites: async function () {
+        const { data } = await CitesServices.getAllItems()
+        this.citesList = data.data.map((city) => ({
+          id: city.id,
+          name: city.name,
+          regionId: city.region_id,
+        }))
+      },
+      getNeighborhoods: async function () {
+        const { data } = await NeighborhoodsServices.getAllItems()
+        this.neighborhoodsList = data.data.map((neighborhood) => ({
+          id: neighborhood.id,
+          name: neighborhood.name,
+          cityId: neighborhood.city_id,
+        }))
+      },
+      // property ratings
+      getPropertyRatings: async function () {
+        const { data } = await PropertyRatingsServices.getAllItems()
+        this.propRatingsList = data.data.map((pr) => {
+          return {
+            id: pr.id,
+            name: pr.name,
+          }
+        })
+      },
+      // property types
+      getPropertyTypes: async function () {
+        const { data } = await PropertyTypesServices.getAllItems()
+        this.propTypeList = data.data.map((pt) => {
+          return {
+            id: pt.id,
+            name: pt.name,
+          }
+        })
       },
       // changePcOfCom: function (id) {
       //   // const index = this.data.achievement.stages.findIndex(s => s.id === id)
