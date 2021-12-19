@@ -6,7 +6,7 @@
   >
     <v-card class="py-5">
       <v-card-title>
-        {{ this.$route.params.id ? 'تعديل' : 'اضافة' }}
+        {{ this.$route.params.id ? 'تعديل حالة الاشغال' : 'اضافة حالة اشغال' }}
       </v-card-title>
       <template>
         <v-form
@@ -29,7 +29,7 @@
                 />
               </v-col>
             </v-row>
-            <!-- <v-row class="mx-md-16 px-md-16">
+            <v-row class="mx-md-16 px-md-16">
               <v-col
                 cols="12"
                 md="6"
@@ -53,7 +53,7 @@
                   />
                 </v-radio-group>
               </v-col>
-            </v-row> -->
+            </v-row>
             <v-btn
               type="submit"
               class="mx-auto my-auto d-flex"
@@ -91,16 +91,17 @@
 </template>
 <script>
   import { ServiceFactory } from '../../../../services/ServiceFactory'
-  const PropertyTypesService = ServiceFactory.get('PropertyTypes')
+  const WorkingStatusesService = ServiceFactory.get('WorkingStatuses')
   export default {
-    name: 'Companies',
+    name: 'ValueHypothesisListsForm',
     data: (vm) => ({
       dataLoading: false,
       valid: false,
       data: {
         id: null,
         name: '',
-        status: '1',
+        description: '',
+        status: '',
       },
       successSnackbar: false,
       errorSnackbar: false,
@@ -130,12 +131,12 @@
         }
       },
       async newItem (data) {
-        const item = await PropertyTypesService.addOneItem(data)
+        const item = await WorkingStatusesService.addOneItem(data)
         if (item.success === true) {
           this.successMessage = 'تمت الاضافة بنجاح'
           this.successSnackbar = true
           setTimeout(() => {
-            this.$router.push('/treatment-settings/propertyTypes')
+            this.$router.push('/treatment-settings/WorkingStatuses')
           }, 1500)
         } else {
           this.errorMessage = item.message
@@ -145,12 +146,12 @@
         this.loading = false
       },
       async updateContent (id, data) {
-        const item = await PropertyTypesService.updateOneItem(id, data)
+        const item = await WorkingStatusesService.updateOneItem(id, data)
         if (item.success === true) {
           this.successMessage = 'تم التعديل بنجاح'
           this.successSnackbar = true
           setTimeout(() => {
-            this.$router.push('/treatment-settings/propertyTypes')
+            this.$router.push('/treatment-settings/WorkingStatuses')
           }, 1500)
         } else {
           this.errorMessage('يوجد مشكلة في التعديل')
@@ -161,7 +162,7 @@
       },
       async fetchOneItem (id) {
         this.dataLoading = true
-        const user = await PropertyTypesService.fetchOneItem(id)
+        const user = await WorkingStatusesService.fetchOneItem(id)
         console.log(user)
         this.data = user.data
         this.dataLoading = false

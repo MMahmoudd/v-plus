@@ -28,8 +28,21 @@
                   required
                 />
               </v-col>
+              <v-col
+                cols="12"
+                md="6"
+              >
+                <label
+                  class="d-block mb-3 font-weight-bold"
+                >الوصف</label>
+                <v-text-field
+                  v-model="data.description"
+                  outlined
+                  required
+                />
+              </v-col>
             </v-row>
-            <!-- <v-row class="mx-md-16 px-md-16">
+            <v-row class="mx-md-16 px-md-16">
               <v-col
                 cols="12"
                 md="6"
@@ -53,7 +66,7 @@
                   />
                 </v-radio-group>
               </v-col>
-            </v-row> -->
+            </v-row>
             <v-btn
               type="submit"
               class="mx-auto my-auto d-flex"
@@ -91,7 +104,7 @@
 </template>
 <script>
   import { ServiceFactory } from '../../../../services/ServiceFactory'
-  const PropertyTypesService = ServiceFactory.get('PropertyTypes')
+  const constructionConditionsService = ServiceFactory.get('constructionConditions')
   export default {
     name: 'Companies',
     data: (vm) => ({
@@ -100,7 +113,8 @@
       data: {
         id: null,
         name: '',
-        status: '1',
+        description: '',
+        status: '',
       },
       successSnackbar: false,
       errorSnackbar: false,
@@ -121,6 +135,7 @@
         this.disabled = true
         const formData = {
           name: this.data.name,
+          description: this.data.description,
           status: this.data.status,
         }
         if (this.$route.params.id) {
@@ -130,12 +145,12 @@
         }
       },
       async newItem (data) {
-        const item = await PropertyTypesService.addOneItem(data)
+        const item = await constructionConditionsService.addOneItem(data)
         if (item.success === true) {
           this.successMessage = 'تمت الاضافة بنجاح'
           this.successSnackbar = true
           setTimeout(() => {
-            this.$router.push('/treatment-settings/propertyTypes')
+            this.$router.push('/treatment-settings/constructionConditions')
           }, 1500)
         } else {
           this.errorMessage = item.message
@@ -145,12 +160,12 @@
         this.loading = false
       },
       async updateContent (id, data) {
-        const item = await PropertyTypesService.updateOneItem(id, data)
+        const item = await constructionConditionsService.updateOneItem(id, data)
         if (item.success === true) {
           this.successMessage = 'تم التعديل بنجاح'
           this.successSnackbar = true
           setTimeout(() => {
-            this.$router.push('/treatment-settings/propertyTypes')
+            this.$router.push('/treatment-settings/constructionConditions')
           }, 1500)
         } else {
           this.errorMessage('يوجد مشكلة في التعديل')
@@ -161,7 +176,7 @@
       },
       async fetchOneItem (id) {
         this.dataLoading = true
-        const user = await PropertyTypesService.fetchOneItem(id)
+        const user = await constructionConditionsService.fetchOneItem(id)
         console.log(user)
         this.data = user.data
         this.dataLoading = false

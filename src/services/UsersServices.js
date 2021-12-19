@@ -29,8 +29,11 @@ export default {
     })
     },
     updateUser (id, data) {
-      return Service.put(`${resource}/users/${id}`, data)
-      .then((response) => {
+      return Service.put(`${resource}/users/${id}`, data, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+    }).then((response) => {
         if (response.status === 200) {
             return response.data
         }
@@ -53,7 +56,7 @@ export default {
         })
     },
     sendInvite (data) {
-      return Service.post(`${resource}/send_invite`, data)
+      return Service.post(`${resource}/resend_invite`, data)
       .then((response) => {
         if (response.status === 200) {
             return response.data

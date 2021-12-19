@@ -37,7 +37,7 @@ export default {
     })
     },
     updateBill (id, data) {
-      return Service.put(`${resource}/bills/${id}`, data)
+      return Service.post(`${resource}/bills/${id}`, data)
       .then((response) => {
         if (response.status === 200) {
             return response.data

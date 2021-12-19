@@ -6,7 +6,7 @@
   >
     <v-card class="py-5">
       <v-card-title>
-        {{ this.$route.params.id ? 'تعديل النموذج' : 'اضافة نموذج' }}
+        {{ this.$route.params.id ? 'تعديل التقرير' : 'اضافة تقرير' }}
       </v-card-title>
       <template>
         <v-form
@@ -71,7 +71,6 @@
       v-model="successSnackbar"
       color="success"
       shaped
-      absolute
       bottom
       left
       :timeout="timeout"
@@ -82,7 +81,6 @@
       v-model="errorSnackbar"
       color="red"
       shaped
-      absolute
       bottom
       left
       :timeout="timeout"
@@ -93,7 +91,7 @@
 </template>
 <script>
   import { ServiceFactory } from '../../../../services/ServiceFactory'
-  const SamplesService = ServiceFactory.get('Samples')
+  const ReportTypesService = ServiceFactory.get('ReportTypes')
   export default {
     name: 'Companies',
     data: (vm) => ({
@@ -132,12 +130,12 @@
         }
       },
       async newItem (data) {
-        const item = await SamplesService.addOneItem(data)
+        const item = await ReportTypesService.addOneItem(data)
         if (item.success === true) {
           this.successMessage = 'تمت الاضافة بنجاح'
           this.successSnackbar = true
           setTimeout(() => {
-            this.$router.push('/treatment-settings/sample')
+            this.$router.push('/treatment-settings/ReportTypes')
           }, 1500)
         } else {
           this.errorMessage = item.message
@@ -147,12 +145,12 @@
         this.loading = false
       },
       async updateContent (id, data) {
-        const item = await SamplesService.updateOneItem(id, data)
+        const item = await ReportTypesService.updateOneItem(id, data)
         if (item.success === true) {
           this.successMessage = 'تم التعديل بنجاح'
           this.successSnackbar = true
           setTimeout(() => {
-            this.$router.push('/treatment-settings/sample')
+            this.$router.push('/treatment-settings/ReportTypes')
           }, 1500)
         } else {
           this.errorMessage('يوجد مشكلة في التعديل')
@@ -163,9 +161,9 @@
       },
       async fetchOneItem (id) {
         this.dataLoading = true
-        const item = await SamplesService.fetchOneItem(id)
-        console.log(item)
-        this.data = item.data
+        const user = await ReportTypesService.fetchOneItem(id)
+        console.log(user)
+        this.data = user.data
         this.dataLoading = false
       },
     },

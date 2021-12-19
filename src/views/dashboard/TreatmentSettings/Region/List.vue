@@ -35,17 +35,6 @@
         :page-count="numberOfPages"
         @fetchAllItems="fetchAllItems"
       >
-        <template
-          v-slot:[`item.name`]="{ item }"
-        >
-          <v-row>
-            <v-col md="12">
-              <p>
-                {{ item.name }}
-              </p>
-            </v-col>
-          </v-row>
-        </template>
         <template v-slot:[`item.actions`]="{ item }">
           <v-tooltip bottom>
             <template v-slot:activator="{ on, attrs }">
@@ -94,7 +83,7 @@
           v-slot:no-data
           loading
         >
-          <p>{{ $t('actions.noData') }}</p>
+          <p>لا يوجد بيانات</p>
         </template>
       </v-data-table>
     </v-card>
@@ -140,7 +129,6 @@
       v-model="successSnackbar"
       color="success"
       shaped
-      absolute
       bottom
       left
       :timeout="timeout"
@@ -151,7 +139,6 @@
       v-model="errorSnackbar"
       color="red"
       shaped
-      absolute
       bottom
       left
       :timeout="timeout"

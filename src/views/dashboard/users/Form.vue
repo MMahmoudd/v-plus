@@ -6,7 +6,7 @@
   >
     <v-card class="py-5">
       <v-card-title>
-        {{ this.$route.params.id ? 'تعديل' : 'اضافة' }}
+        {{ this.$route.params.id ? 'تعديل المستخدم' : 'اضافة مستخدم' }}
       </v-card-title>
       <template>
         <v-form
@@ -14,9 +14,15 @@
           @submit.prevent="submitForm()"
         >
           <v-container fluid>
+            <h3
+              class="mx-7 my-5 blue1"
+            >
+              بيانات الدخول
+            </h3>
             <v-row class="mx-md-16 px-md-16">
               <v-col
                 cols="12"
+                sm="6"
                 md="6"
               >
                 <v-text-field
@@ -28,32 +34,7 @@
               </v-col>
               <v-col
                 cols="12"
-                md="6"
-              >
-                <v-text-field
-                  v-model="data.email"
-                  label="البريد الاليكتروني"
-                  type="email"
-                  outlined
-                  required
-                />
-              </v-col>
-              <v-col
-                cols="12"
-                md="6"
-              >
-                <v-select
-                  v-model="data.user_type"
-                  :items="roles"
-                  item-text="role_name"
-                  item-value="id"
-                  label="العميل"
-                  outlined
-                  required
-                />
-              </v-col>
-              <v-col
-                cols="12"
+                sm="6"
                 md="6"
               >
                 <v-text-field
@@ -64,6 +45,343 @@
                   type="password"
                 />
               </v-col>
+            </v-row>
+            <v-spacer />
+            <hr>
+            <h3
+              class="mx-7 my-5 blue1"
+            >
+              بيانات التواصل
+            </h3>
+            <v-row class="mx-md-16 px-md-16">
+              <v-col
+                cols="12"
+                sm="6"
+                md="8"
+              >
+                <v-text-field
+                  v-model="data.username"
+                  label="الاسم بالكامل"
+                  outlined
+                  required
+                />
+              </v-col>
+              <v-col
+                cols="12"
+                sm="6"
+                md="4"
+              >
+                <v-select
+                  v-model="data.user_type"
+                  :items="roles"
+                  item-text="role_name"
+                  item-value="id"
+                  label="المنصب"
+                  outlined
+                  required
+                />
+              </v-col>
+              <v-col
+                cols="12"
+                sm="6"
+                md="4"
+              >
+                <v-text-field
+                  v-model="data.phone"
+                  label="رقم الهاتف"
+                  outlined
+                  required
+                />
+              </v-col>
+              <v-col
+                cols="12"
+                sm="6"
+                md="4"
+              >
+                <v-text-field
+                  v-model="data.start_membership"
+                  label="بدء العضوية"
+                  outlined
+                  required
+                />
+              </v-col>
+              <v-col
+                cols="12"
+                sm="6"
+                md="4"
+              >
+                <v-text-field
+                  v-model="data.end_membership"
+                  label="نهاية العضوية"
+                  outlined
+                  required
+                />
+              </v-col>
+              <v-col
+                cols="12"
+                sm="6"
+                md="4"
+              >
+                <v-text-field
+                  v-model="data.id_number"
+                  label="رقم الهوية"
+                  outlined
+                  required
+                />
+              </v-col>
+              <v-col
+                cols="12"
+                sm="3"
+                md="2"
+              >
+                <img
+                  width="50"
+                  :src="'https://taqeeem.millennium.sa/' + data.image"
+                  alt="Image"
+                >
+              </v-col>
+              <v-col
+                cols="12"
+                sm="5"
+                md="6"
+              >
+                <v-file-input
+                  show-size
+                  chips
+                  required
+                  outlined
+                  prepend-icon="mdi-camera"
+                  accept="image/png, image/jpeg, image/bmp"
+                  label="الصورة الشخصية"
+                  @change="onNewFileSelected"
+                />
+              </v-col>
+              <v-col
+                cols="12"
+                sm="6"
+                md="4"
+              >
+                <v-text-field
+                  v-model="data.email"
+                  label="البريد الاليكتروني"
+                  type="email"
+                  outlined
+                  required
+                />
+              </v-col>
+            </v-row>
+            <v-spacer />
+            <hr>
+            <h3
+              class="mx-7 my-5 blue1"
+            >
+              البيانات المالية
+            </h3>
+            <v-row class="mx-md-16 px-md-16">
+              <v-col
+                cols="12"
+                sm="6"
+                md="8"
+              >
+                <v-text-field
+                  v-model="data.beneficiary_name"
+                  label="أسم المستفيد"
+                  outlined
+                  required
+                />
+              </v-col>
+              <v-col
+                cols="12"
+                sm="6"
+                md="4"
+              >
+                <v-text-field
+                  v-model="data.bank_number"
+                  label="رقم البنك"
+                  outlined
+                  required
+                />
+              </v-col>
+              <v-col
+                cols="12"
+                sm="6"
+                md="4"
+              >
+                <v-text-field
+                  v-model="data.bank_IBAN"
+                  label="بنك IBAN"
+                  outlined
+                  required
+                />
+              </v-col>
+              <v-col
+                cols="12"
+                sm="3"
+                md="2"
+              >
+                <img
+                  width="50"
+                  :src="'https://taqeeem.millennium.sa/' + data.bank_statement_image"
+                  alt="Image"
+                >
+              </v-col>
+              <v-col
+                cols="12"
+                sm="5"
+                md="6"
+              >
+                <v-file-input
+                  show-size
+                  chips
+                  required
+                  outlined
+                  prepend-icon="mdi-camera"
+                  accept="image/png, image/jpeg, image/bmp"
+                  label="صورة كشف حساب بنكي"
+                  @change="onBank_statement_image"
+                />
+              </v-col>
+            </v-row>
+            <v-spacer />
+            <hr>
+            <h3
+              class="mx-7 my-5 blue1"
+            >
+              العمولات
+            </h3>
+            <v-row class="mx-md-16 px-md-16">
+              <v-row>
+                <v-col
+                  cols="12"
+                  sm="4"
+                  md="4"
+                >
+                  <h3>مرحلة الادخال</h3>
+                </v-col>
+                <v-col
+                  cols="12"
+                  sm="4"
+                  md="4"
+                >
+                  <v-text-field
+                    v-model="data.commission_input_stage_amount"
+                    label="مبلغ"
+                    outlined
+                    required
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  sm="4"
+                  md="4"
+                >
+                  <v-text-field
+                    v-model="data.commission_input_stage_rate"
+                    label="النسبة"
+                    outlined
+                    required
+                  />
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col
+                  cols="12"
+                  sm="4"
+                  md="4"
+                >
+                  <h3>مرحلة التقييم</h3>
+                </v-col>
+                <v-col
+                  cols="12"
+                  sm="4"
+                  md="4"
+                >
+                  <v-text-field
+                    v-model="data.commission_evaluation_stage_amount"
+                    label="مبلغ"
+                    outlined
+                    required
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  sm="4"
+                  md="4"
+                >
+                  <v-text-field
+                    v-model="data.commission_evaluation_stage_rate"
+                    label="النسبة"
+                    outlined
+                    required
+                  />
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col
+                  cols="12"
+                  sm="4"
+                  md="4"
+                >
+                  <h3>مرحلة المراجعة</h3>
+                </v-col>
+                <v-col
+                  cols="12"
+                  sm="4"
+                  md="4"
+                >
+                  <v-text-field
+                    v-model="data.commission_revision_stage_amount"
+                    label="المبلغ"
+                    outlined
+                    required
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  sm="4"
+                  md="4"
+                >
+                  <v-text-field
+                    v-model="data.commission_revision_stage_rate"
+                    label="المبلغ"
+                    outlined
+                    required
+                  />
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col
+                  cols="12"
+                  sm="4"
+                  md="4"
+                >
+                  <h3>مرحلة الاعتماد</h3>
+                </v-col>
+                <v-col
+                  cols="12"
+                  sm="4"
+                  md="4"
+                >
+                  <v-text-field
+                    v-model="data.commission_accreditation_stage_amount"
+                    label="المبلغ"
+                    outlined
+                    required
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  sm="4"
+                  md="4"
+                >
+                  <v-text-field
+                    v-model="data.commission_accreditation_stage_rate"
+                    label="النسبة"
+                    outlined
+                    required
+                  />
+                </v-col>
+              </v-row>
             </v-row>
             <v-btn
               type="submit"
@@ -82,7 +400,6 @@
       v-model="successSnackbar"
       color="success"
       shaped
-      absolute
       bottom
       left
       :timeout="timeout"
@@ -93,7 +410,6 @@
       v-model="errorSnackbar"
       color="red"
       shaped
-      absolute
       bottom
       left
       :timeout="timeout"
@@ -112,12 +428,31 @@
       dataLoading: false,
       valid: false,
       data: {
-        id: null,
-        email: '',
         name: '',
+        email: '',
         password: '',
-        user_type: null,
+        user_type: '',
+        image: null,
+        phone: '',
+        username: '',
+        id_number: '',
+        beneficiary_name: '',
+        bank_number: '',
+        bank_IBAN: '',
+        bank_statement_image: null,
+        start_membership: '',
+        end_membership: '',
+        commission_accreditation_stage_amount: null,
+        commission_accreditation_stage_rate: null,
+        commission_evaluation_stage_rate: null,
+        commission_evaluation_stage_amount: null,
+        commission_input_stage_amount: null,
+        commission_input_stage_rate: null,
+        commission_revision_stage_rate: null,
+        commission_revision_stage_amount: null,
       },
+      profile_image: null,
+      bank_statement_image: null,
       roles: [],
       successSnackbar: false,
       errorSnackbar: false,
@@ -134,15 +469,36 @@
       this.fetchRoles()
     },
     methods: {
-      async  submitForm () {
+      onNewFileSelected (event) {
+        this.profile_image = event
+      },
+      onBank_statement_image (event) {
+        this.bank_statement_image = event
+      },
+      async submitForm () {
         this.loading = true
         this.disabled = true
-        const formData = {
-          name: this.data.name,
-          email: this.data.email,
-          password: this.data.password,
-          user_type: this.data.user_type,
-        }
+        const formData = new FormData()
+        this.data.name && formData.append('name', this.data.name)
+        this.data.email && formData.append('email', this.data.email)
+        this.data.password && formData.append('password', this.data.password)
+        this.data.user_type && formData.append('user_type', this.data.user_type)
+        this.profile_image && formData.append('image', this.profile_image)
+        this.data.phone && formData.append('phone', this.data.phone)
+        this.data.username && formData.append('username', this.data.username)
+        this.data.id_number && formData.append('id_number', this.data.id_number)
+        this.data.beneficiary_name && formData.append('beneficiary_name', this.data.beneficiary_name)
+        this.data.bank_number && formData.append('bank_number', this.data.bank_number)
+        this.data.bank_IBAN && formData.append('bank_IBAN', this.data.bank_IBAN)
+        this.bank_statement_image && formData.append('bank_statement_image', this.bank_statement_image)
+        this.data.commission_accreditation_stage_amount && formData.append('commission_accreditation_stage_amount', this.data.commission_accreditation_stage_amount)
+        this.data.commission_accreditation_stage_rate && formData.append('commission_accreditation_stage_rate', this.data.commission_accreditation_stage_rate)
+        this.data.commission_evaluation_stage_rate && formData.append('commission_evaluation_stage_rate', this.data.commission_evaluation_stage_rate)
+        this.data.commission_evaluation_stage_amount && formData.append('commission_evaluation_stage_amount', this.data.commission_evaluation_stage_amount)
+        this.data.commission_input_stage_amount && formData.append('commission_input_stage_amount', this.data.commission_input_stage_amount)
+        this.data.commission_input_stage_rate && formData.append('commission_input_stage_rate', this.data.commission_input_stage_rate)
+        this.data.commission_revision_stage_rate && formData.append('commission_revision_stage_rate', this.data.commission_revision_stage_rate)
+        this.data.commission_revision_stage_amount && formData.append('commission_revision_stage_amount', this.data.commission_revision_stage_amount)
         if (this.$route.params.id) {
           this.updateContent(this.$route.params.id, formData)
         } else {
@@ -150,6 +506,7 @@
         }
       },
       async newItem (data) {
+        console.log('data', data)
         const item = await UsersService.addUser(data)
         if (item.success === true) {
           this.successMessage = 'تمت الاضافة بنجاح'
@@ -195,7 +552,10 @@
     },
   }
 </script>
-<style>
+<style lang="scss" scoped>
+.blue1{
+  color: #48afff;
+}
 a{
   text-decoration: none;
 }

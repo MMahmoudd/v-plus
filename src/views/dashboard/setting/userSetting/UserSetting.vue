@@ -83,7 +83,7 @@
           v-slot:no-data
           loading
         >
-          <p>{{ $t('actions.noData') }}</p>
+          <p>لا يوجد بيانات</p>
         </template>
       </v-data-table>
     </v-card>
@@ -129,7 +129,6 @@
       v-model="successSnackbar"
       color="success"
       shaped
-      absolute
       bottom
       left
       :timeout="timeout"
@@ -140,7 +139,6 @@
       v-model="errorSnackbar"
       color="red"
       shaped
-      absolute
       bottom
       left
       :timeout="timeout"

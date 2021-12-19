@@ -44,7 +44,7 @@
                 size="70"
               >
                 <img
-                  :src="item.profile_photo_url"
+                  :src="'https://taqeeem.millennium.sa/' + item.image"
                   alt="profile image"
                 >
               </v-avatar>
@@ -102,7 +102,7 @@
           <v-tooltip bottom>
             <template v-slot:activator="{ on, attrs }">
               <v-btn
-                v-if="item.status != 1"
+                v-if="item.status = 'قيد انتظار قبول الدعوة'"
                 small
                 fab
                 outlined
@@ -125,7 +125,7 @@
           v-slot:no-data
           loading
         >
-          <p>{{ $t('actions.noData') }}</p>
+          <p>لا يوجد بيانات</p>
         </template>
       </v-data-table>
     </v-card>
@@ -171,7 +171,6 @@
       v-model="successSnackbar"
       color="success"
       shaped
-      absolute
       bottom
       left
       :timeout="timeout"
@@ -182,7 +181,6 @@
       v-model="errorSnackbar"
       color="red"
       shaped
-      absolute
       bottom
       left
       :timeout="timeout"
@@ -218,7 +216,7 @@
       headers: [
         { text: 'المستخدم', sortable: true, value: 'name' },
         { text: 'تاريخ الدخول', sortable: true, value: 'created_at' },
-        { text: 'المنصب', sortable: true, value: 'user_type' },
+        { text: 'المنصب', sortable: true, value: 'role.role_name' },
         { text: 'الحالة', sortable: true, value: 'status' },
         { text: 'الاجراءات', value: 'actions', sortable: false },
       ],
@@ -243,6 +241,13 @@
         console.log('Users', items)
         items.data.data.map(item => {
           item.created_at = moment(item.created_at).format('YYYY-MM-DD hh:mm a')
+          if (item.status === '1') {
+            item.status = 'مفعل'
+          } else if (item.status === '2') {
+            item.status = 'قيد انتظار قبول الدعوة'
+          } else if (item.status === '3') {
+            item.status = 'غير مفعل '
+          }
         })
         this.items = items.data.data
         this.total = items.total
@@ -275,8 +280,9 @@
           email: item.email,
         }
         const sendInvite = await UsersService.sendInvite(user)
-        if (sendInvite.success === true) {
-          this.successMessage = 'تمت الدهوة بنجاح'
+        console.log('sendInvite', sendInvite)
+        if (sendInvite.message === 'email send') {
+          this.successMessage = 'تمت الدعوة بنجاح'
           this.successSnackbar = true
         } else {
           this.errorMessage('يوجد مشكلة')

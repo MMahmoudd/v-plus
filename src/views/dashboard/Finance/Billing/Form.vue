@@ -17,7 +17,7 @@
             <v-row class="mx-md-16 px-md-16">
               <v-col
                 cols="12"
-                md="4"
+                md="6"
               >
                 <v-select
                   v-model="data.customer_id"
@@ -31,10 +31,10 @@
               </v-col>
               <v-col
                 cols="12"
-                md="4"
+                md="6"
               >
                 <v-text-field
-                  v-model="data.of_time"
+                  v-model="data.time"
                   label="مدة الانجاز"
                   type="text"
                   outlined
@@ -44,12 +44,24 @@
 
               <v-col
                 cols="12"
-                sm="4"
+                sm="6"
               >
                 <v-select
-                  v-model="data.of_purpose"
+                  v-model="data.purpose"
                   :items="purpose"
                   label="الغرض"
+                  outlined
+                  required
+                />
+              </v-col>
+              <v-col
+                cols="12"
+                md="6"
+              >
+                <v-text-field
+                  v-model="data.first_batch"
+                  label="الدفعات"
+                  type="text"
                   outlined
                   required
                 />
@@ -69,11 +81,22 @@
                 cols="12"
               >
                 <v-textarea
-                  v-model="data.of_note"
+                  v-model="data.note"
                   outlined
                   required
                   name="input-7-4"
                   label="ملاحظات"
+                />
+              </v-col>
+              <v-col
+                cols="12"
+              >
+                <v-text-field
+                  v-model="bill_price"
+                  outlined
+                  disabled
+                  name="input-7-4"
+                  label="اجمالي السعر"
                 />
               </v-col>
             </v-row>
@@ -193,7 +216,6 @@
       v-model="successSnackbar"
       color="success"
       shaped
-      absolute
       bottom
       left
       :timeout="timeout"
@@ -204,7 +226,6 @@
       v-model="errorSnackbar"
       color="red"
       shaped
-      absolute
       bottom
       left
       :timeout="timeout"
@@ -223,12 +244,17 @@
       dataLoading: false,
       valid: false,
       data: {
-        customer_id: 0,
-        of_time: '',
+        id: null,
+        customer_id: null,
         of_terms_condition: '',
-        of_purpose: '',
-        of_note: '',
-        offer_number: 0,
+        time: '',
+        bill_price: null,
+        bill_number: '',
+        first_batch: '',
+        purpose: '',
+        note: '',
+        bill_by: null,
+        status: '',
         saqs: [],
       },
       SAQ: [],
@@ -243,7 +269,7 @@
       disabled: false,
     }),
     computed: {
-      of_price: function () {
+      bill_price: function () {
         return this.data.saqs.reduce((p, item) => p + +item.price, 0)
       },
     },
@@ -259,12 +285,13 @@
         this.disabled = true
         const formData = {
           customer_id: this.data.customer_id,
-          of_time: this.data.of_time,
-          of_price: this.of_price,
+          time: this.data.time,
+          bill_price: this.bill_price,
           of_terms_condition: this.data.of_terms_condition,
-          of_purpose: this.data.of_purpose,
-          of_note: this.data.of_note,
-          offer_number: this.data.offer_number,
+          first_batch: this.data.first_batch,
+          purpose: this.data.purpose,
+          note: this.data.note,
+          bill_number: this.data.bill_number,
           saqs: this.data.saqs,
         }
         if (this.$route.params.id) {
@@ -281,7 +308,7 @@
           this.successMessage = 'تمت الاضافة بنجاح'
           this.successSnackbar = true
           setTimeout(() => {
-            this.$router.push('/price-offers')
+            this.$router.push('/Bills')
           }, 1500)
         } else {
           this.errorMessage = item.message
@@ -296,7 +323,7 @@
           this.successMessage = 'تم التعديل بنجاح'
           this.successSnackbar = true
           setTimeout(() => {
-            this.$router.push('/price-offers')
+            this.$router.push('/Bills')
           }, 1500)
         } else {
           this.errorMessage('يوجد مشكلة في التعديل')
@@ -320,7 +347,7 @@
       async fetchOneItem (id) {
         this.dataLoading = true
         const item = await BillsService.fetchOneItem(id)
-        console.log('offer', item)
+        console.log('bills', item)
         this.data = item.data
         this.dataLoading = false
       },
