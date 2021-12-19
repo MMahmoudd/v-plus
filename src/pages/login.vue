@@ -15,7 +15,7 @@
               alt="logo"
               class="logo"
             >
-            <span>Valuation Plus</span>
+            <span>Valuation Plus <small style="font-size:12px">إصدار تجريبي</small></span>
           </div>
           <v-form @submit.prevent="loginSubmit()">
             <v-text-field

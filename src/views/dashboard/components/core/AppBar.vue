@@ -66,7 +66,7 @@
     <v-spacer />
     <div class="mx-3" />
     <div class="header">
-      <span>Valuation Plus</span>
+      <span><small style="font-size:12px">إصدار تجريبي</small> Valuation Plus</span>
       <img
         src="../../../../assets/logos.png"
         alt="logo"
