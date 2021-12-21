@@ -3192,7 +3192,8 @@
       },
       // files
       handleFileUpload: function (files, name) {
-        this.createImage(files[0], name)
+        this.data[name] = files[0]
+        // this.createImage(files[0], name)
       },
       createImage (file, name) {
         const reader = new FileReader()
@@ -3204,7 +3205,6 @@
       // ! TODO : cheange this with proper endpoint
       getUsers: async function () {
         const { data } = await UsersServices.getAllItems()
-        console.log(data)
         // appraisersList: [],
         // previewsList: [],
         // coordinatorsList: [],
@@ -3317,11 +3317,11 @@
       // submit
       save: async function () {
         this.dataLoading = true
-        const formData = this.data
-        // const formData = new FormData()
-        // for (const key in this.data) {
-        //   formData.append(key, this.data[key])
-        // }
+        // const formData = this.data
+        const formData = new FormData()
+        for (const key in this.data) {
+          formData.append(key, this.data[key])
+        }
         let response
         // const response = TransactionsServices.addOneItem(formData)
 

@@ -28,7 +28,11 @@ export default {
       })
     },
     addOneItem (data) {
-        return Service.post(`${resource}/transactions`, data)
+        return Service.post(`${resource}/transactions`, data, {
+headers: {
+            'content-type': 'multipart/form-data',
+        },
+})
         .then((response) => {
             if (response.status === 200) {
                 return response.data
