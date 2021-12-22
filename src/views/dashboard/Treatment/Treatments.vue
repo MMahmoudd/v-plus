@@ -455,6 +455,29 @@
         </div>
       </v-card-title>
       <template>
+        <div>
+          <vue-html2pdf
+            ref="html2Pdf"
+            :show-layout="false"
+            :float-layout="true"
+            :enable-download="true"
+            :preview-modal="false"
+            :paginate-elements-by-height="1400"
+            filename="hee hee"
+            :pdf-quality="2"
+            :manual-pagination="true"
+            pdf-format="a4"
+            pdf-orientation="portrait"
+            pdf-content-width="100%"
+          >
+            <pdf-content
+              slot="pdf-content"
+              :data="pdfData"
+            />
+          </vue-html2pdf>
+        </div>
+      </template>
+      <template>
         <v-data-table
           :loading="isLoading"
           :headers="headers"
@@ -475,7 +498,7 @@
               {{ item.status }}
             </v-chip>
           </template>
-          <template v-slot:[`item.action`]=" {item} ">
+          <template v-slot:[`item.action`]="{item}">
             <template>
               <div class="text-center">
                 <v-menu offset-y>
@@ -490,15 +513,15 @@
                   <v-list>
                     <v-list-item>
                       <v-list-item-title>
-                        <router-link to="/">
+                        <a @click="generateReport(item.id)">
                           <v-icon>
                             far fa-file-pdf
                           </v-icon>
                           تنزيل PDF
-                        </router-link>
+                        </a>
                       </v-list-item-title>
                     </v-list-item>
-                    <v-list-item>
+                    <!-- <v-list-item>
                       <v-list-item-title>
                         <router-link :to="'/New-Treatment/7?edit=' + item.id">
                           <v-icon>
@@ -507,8 +530,8 @@
                           تعديل
                         </router-link>
                       </v-list-item-title>
-                    </v-list-item>
-                    <v-list-item>
+                    </v-list-item> -->
+                    <!-- <v-list-item>
                       <v-list-item-title>
                         <router-link to="/">
                           <v-icon>
@@ -517,8 +540,8 @@
                           معاينة
                         </router-link>
                       </v-list-item-title>
-                    </v-list-item>
-                    <v-list-item>
+                    </v-list-item> -->
+                    <!-- <v-list-item>
                       <v-list-item-title>
                         <router-link to="/">
                           <v-icon>
@@ -527,7 +550,7 @@
                           حجز موعد
                         </router-link>
                       </v-list-item-title>
-                    </v-list-item>
+                    </v-list-item> -->
                     <v-list-item>
                       <v-list-item-title>
                         <router-link to="/">
@@ -538,7 +561,7 @@
                         </router-link>
                       </v-list-item-title>
                     </v-list-item>
-                    <v-list-item>
+                    <!-- <v-list-item>
                       <v-list-item-title>
                         <router-link to="/">
                           <v-icon>
@@ -547,14 +570,14 @@
                           مراسلة العميل
                         </router-link>
                       </v-list-item-title>
-                    </v-list-item>
+                    </v-list-item> -->
                     <v-list-item>
                       <v-list-item-title>
                         <router-link to="/Accountant-Treatment">
                           <v-icon>
                             fas fa-money-bill
                           </v-icon>
-                          تعديل الأتعاب
+                          تعديل السعر
                         </router-link>
                       </v-list-item-title>
                     </v-list-item>
@@ -581,6 +604,10 @@
 
 <script>
   import { ServiceFactory } from '../../../services/ServiceFactory'
+  // import pdf from './Pdf.vue'
+  import VueHtml2pdf from 'vue-html2pdf'
+  import PdfContent from './PdfContent.vue'
+  import defaultValuesForPdf from './defaultValuesForPdf'
   const SamplesService = ServiceFactory.get('Samples')
   const TransactionsServices = ServiceFactory.get('Transactions')
   const CustomersService = ServiceFactory.get('Customers')
@@ -591,11 +618,19 @@
   const PropertyTypesServices = ServiceFactory.get('PropertyTypes')
   const EvaluationPurposeService = ServiceFactory.get('EvaluationPurpose')
   const UsersServices = ServiceFactory.get('Users')
+  const SettingService = ServiceFactory.get('Setting')
+  const ReportTypesServices = ServiceFactory.get('ReportTypes')
 
   export default {
     name: 'NewTreatment',
-
+    components: {
+      VueHtml2pdf,
+      PdfContent,
+    },
     data: () => ({
+      pdfData: {
+        ...defaultValuesForPdf,
+      },
       data: {
         region_id: '',
         customer_id: '',
@@ -740,6 +775,50 @@
       this.fetchAllItems()
     },
     methods: {
+      // pdf
+      generateReport: async function (id) {
+        this.pdfDataLoading = true
+        const pdfData = this.itemsTr.find(item => item.id === id)
+        const facility = await this.getFacility()
+        const transReportTypeName = await this.getReportType(pdfData.trans_Report_type)
+        await this.getPropertyTypes()
+
+        pdfData.trans_Report_type = transReportTypeName
+        pdfData.facility = facility
+        pdfData.propTypeList = []
+        /**
+         * ? this is done to only get 4 items including the selected one
+         */
+        let propertyTypeSelected = 0
+        let selectedPropertyTypeFound = false
+        let counter = 0
+        this.propTypeList.forEach(value => {
+          if (propertyTypeSelected >= 4 && selectedPropertyTypeFound) {
+            return
+          }
+          if (value.id === pdfData.property_type_id) {
+            pdfData.propTypeList[counter] = value
+            selectedPropertyTypeFound = true
+          } else {
+            pdfData.propTypeList[counter] = value
+            propertyTypeSelected++
+          }
+          counter++
+          if (counter > 3) counter = 0
+        })
+        // const propertyTypeIdIndex = this.propTypeList.findIndex(pt => pt.id === pdfData.property_type_id)
+        // pdfData.propTypeList = this.propTypeList.slice(propertyTypeIdIndex, propertyTypeIdIndex + 4)
+        this.pdfData = pdfData
+        this.$refs.html2Pdf.generatePdf()
+      },
+      getFacility: async function () {
+        const { data } = await SettingService.getFacility()
+        return data
+      },
+      getReportType: async function (id) {
+        const { data: { name } } = await ReportTypesServices.fetchOneItem(id)
+        return name
+      },
       fetchAllItems: async function () {
         this.isLoading = true
         const { page, itemsPerPage } = this.options

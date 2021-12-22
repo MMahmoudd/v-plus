@@ -1077,7 +1077,14 @@
       async fetchOneItem (id) {
         this.dataLoading = true
         const user = await CustomersService.fetchOneItem(id)
-        this.data = user.data
+        for (const key in user.data) {
+          if (user.data[key] === null) {
+            this.data[key] = this.data[key]
+          } else {
+            this.data[key] = user.data[key]
+          }
+        }
+        // this.data = user.data
         this.dataLoading = false
       },
       async getRegions () {

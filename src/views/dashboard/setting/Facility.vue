@@ -482,7 +482,7 @@
     },
     methods: {
       async updateContent () {
-        const item = await SettingService.updateFacility(this.data)
+        const item = await SettingService.updateFacility(this.data, this.data.id)
         if (item.success === true) {
           this.successMessage = 'Successful'
           this.successSnackbar = true
