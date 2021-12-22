@@ -784,6 +784,7 @@
         await this.getPropertyTypes()
 
         pdfData.trans_Report_type = transReportTypeName
+        pdfData.imageBase = 'https://taqeeem.millennium.sa/'
         pdfData.facility = facility
         pdfData.propTypeList = []
         /**

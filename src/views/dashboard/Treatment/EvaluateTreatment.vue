@@ -2775,9 +2775,10 @@
                   sm="6"
                 >
                   <v-checkbox
-                    v-model="selected"
+                    v-model="data.is_telephone"
                     label="هاتف"
-                    value="هاتف"
+                    true-value="1"
+                    false-value="0"
                   />
                 </v-col>
                 <v-col
@@ -2785,9 +2786,10 @@
                   sm="6"
                 >
                   <v-checkbox
-                    v-model="selected"
+                    v-model="data.sanitation"
                     label="صرف صحى"
-                    value="صرف صحى"
+                    true-value="1"
+                    false-value="0"
                   />
                 </v-col>
                 <v-col
@@ -2795,14 +2797,30 @@
                   sm="6"
                 >
                   <v-checkbox
-                    v-model="selected"
+                    v-model="data.water_meter"
                     label="مياه"
-                    value="مياه"
+                    true-value="1"
+                    false-value="0"
                   />
                   <v-row
                     align="center"
                   >
                     <v-col
+                      cols="12"
+                      sm="6"
+                    >
+                      <label
+                        class="d-block mb-3 font-weight-bold"
+                      >رقم العداد</label>
+                      <v-text-field
+                        v-model="data.water_meter_number"
+                        class="d-inline"
+                        label="رقم العداد"
+                        single-line
+                        outlined
+                      />
+                    </v-col>
+                    <!-- <v-col
                       v-for="(row, index) in airRows5"
                       :key="'row5'+index"
                       cols="12"
@@ -2817,8 +2835,8 @@
                         single-line
                         outlined
                       />
-                    </v-col>
-                    <v-col
+                    </v-col> -->
+                    <!-- <v-col
                       cols="12"
                       sm="6"
                     >
@@ -2829,7 +2847,7 @@
                         <v-icon left> mdi-plus </v-icon>
                         إضافة رقم عداد جديد
                       </label>
-                    </v-col>
+                    </v-col> -->
                   </v-row>
                 </v-col>
                 <v-col
@@ -2837,14 +2855,30 @@
                   sm="6"
                 >
                   <v-checkbox
-                    v-model="selected"
+                    v-model="data.electric_meter"
                     label="كهرباء"
-                    value="كهرباء"
+                    true-value="1"
+                    false-value="0"
                   />
                   <v-row
                     align="center"
                   >
                     <v-col
+                      cols="12"
+                      sm="6"
+                    >
+                      <label
+                        class="d-block mb-3 font-weight-bold"
+                      >رقم العداد</label>
+                      <v-text-field
+                        v-model="data.electric_meter_number"
+                        class="d-inline"
+                        label="رقم العداد"
+                        single-line
+                        outlined
+                      />
+                    </v-col>
+                    <!-- <v-col
                       v-for="(row, index) in airRows6"
                       :key="'row6'+index"
                       cols="12"
@@ -2859,8 +2893,8 @@
                         single-line
                         outlined
                       />
-                    </v-col>
-                    <v-col
+                    </v-col> -->
+                    <!-- <v-col
                       cols="12"
                       sm="6"
                     >
@@ -2871,7 +2905,7 @@
                         <v-icon left> mdi-plus </v-icon>
                         إضافة رقم عداد جديد
                       </label>
-                    </v-col>
+                    </v-col> -->
                   </v-row>
                 </v-col>
               </v-row>

@@ -1,5 +1,24 @@
 <template>
   <div id="pdf-content">
+    <div class="container-header">
+      <h1>
+        نموذج
+        <span class="color">تقرير التقييم</span>
+      </h1>
+
+      <div class="sub-header d-flex justify-content-between align-items-start">
+        <div>
+          <h2>الرقم المرجعي للتقرير</h2>
+          <h3>رقم الهاتف:</h3>
+          <h3>المملكة العربية السعودية،</h3>
+        </div>
+        <div>
+          <h2>تاريخ إصدار التقرير</h2>
+          <h3>رمز إيداع التقرير:</h3>
+        </div>
+      </div>
+    </div>
+    <div class="divider" />
     <table class="colspan">
       <thead>
         <tr>
@@ -28,7 +47,7 @@
         <tr><td>تاريخ الترخيص</td><td>{{ data.facility.license_date || '' }}</td></tr>
       </tbody>
     </table>
-    <table>
+    <table class="table-fixed">
       <thead>
         <tr>
           <th colspan="4">
@@ -142,8 +161,12 @@
       </thead>
       <tbody>
         <tr>
-          <td colspan="4">
-            {{ data.trans_professional_standard || '' }}
+          <td
+            colspan="4"
+          >
+            <p class="not-empty">
+              {{ data.trans_professional_standard || '' }}
+            </p>
           </td>
         </tr>
       </tbody>
@@ -168,17 +191,22 @@
       </thead>
       <tbody>
         <tr>
-          <td colspan="4">
-            {{ data.acknowledgment_independence || '' }}
+          <td
+            colspan="4"
+          >
+            <p class="not-empty">
+              {{ data.acknowledgment_independence || '' }}
+            </p>
           </td>
         </tr>
       </tbody>
     </table>
     <!-- الأصل محل التقييم -->
-    <table>
+    <div class="html2pdf__page-break" />
+    <table class="table-fixed first">
       <thead>
         <tr>
-          <th colspan="100">
+          <th colspan="4">
             <div class="header">
               <div class="header-text">
                 الأصل محل التقييم
@@ -198,7 +226,17 @@
             v-for="type in data.propTypeList"
             :key="type.id"
           >
-            {{ type.name }}
+            <v-checkbox
+              v-model="data.property_type_id"
+              :value="type.id"
+              hide-details
+            >
+              <template v-slot:label>
+                <div class="checkbox-label">
+                  {{ type.name }}
+                </div>
+              </template>
+            </v-checkbox>
           </td>
         </tr>
         <tr>
@@ -318,8 +356,6 @@
       </tbody>
     </table>
     <!-- وصف العقار-->
-    <div class="html2pdf__page-break" />
-
     <table>
       <thead class="diff">
         <tr>
@@ -340,13 +376,15 @@
       <tbody>
         <tr>
           <td colspan="4">
-            ريال سعودي
+            <p style="min-height:150px">
+              {{ data.property_notes || '' }}
+            </p>
           </td>
         </tr>
       </tbody>
     </table>
     <!-- حدود وأطوال العقار -->
-    <table>
+    <table class="first">
       <thead>
         <tr>
           <th colspan="6">
@@ -398,29 +436,49 @@
           <td
             class="field"
             rowspan="2"
+            style="padding:0px;"
           >
             غربي
           </td>
-          <td rowspan="2">
+          <td
+            rowspan="2"
+            style="padding:0px;"
+          >
             مثال
           </td>
-          <td rowspan="2">
+          <td
+            rowspan="2"
+            style="padding:0px;"
+          >
             مثال
           </td>
-          <td rowspan="2">
+          <td
+            rowspan="2"
+            style="padding:0px;"
+          >
             {{ data.western_facade || '' }}
           </td>
-          <td rowspan="1">
+          <td
+            rowspan="1"
+            style="padding:0px;"
+          >
             مساحة المباني
           </td>
 
-          <td>مثال</td>
+          <td style="padding:0px;">
+            مثال
+          </td>
         </tr>
         <tr>
-          <td rowspan="1">
+          <td
+            rowspan="1"
+            style="padding:0px;"
+          >
             عدد األدوار للفلل السكنية
           </td>
-          <td>{{ data.num_floors_residential_villas || '' }}</td>
+          <td style="padding:0px;">
+            {{ data.num_floors_residential_villas || '' }}
+          </td>
         </tr>
         <tr>
           <td class="field">
@@ -444,8 +502,10 @@
         </tr>
       </tbody>
     </table>
+    <div class="html2pdf__page-break" />
+
     <!--معلومة رخصة البناء-->
-    <table>
+    <table class="first">
       <thead>
         <tr>
           <th colspan="6">
@@ -536,13 +596,14 @@
         </tr>
         <tr>
           <td colspan="4">
-            {{data.review_note || ''}}
+            {{ data.review_note || '' }}
           </td>
         </tr>
       </tbody>
     </table>
+
     <!-- مكونات العقار-->
-    <table>
+    <table class="first">
       <thead>
         <tr>
           <th colspan="6">
@@ -583,11 +644,11 @@
           <td class="field">
             العدد
           </td>
-          <td>{{data.trans_boards || ''}}</td>
-          <td>{{data.trans_dining_rooms || ''}}</td>
-          <td>{{data.trans_bed_room || ''}}</td>
-          <td>{{data.trans_kitchens || ''}}</td>
-          <td>{{data.trans_toilets || ''}}</td>
+          <td>{{ data.trans_boards || '' }}</td>
+          <td>{{ data.trans_dining_rooms || '' }}</td>
+          <td>{{ data.trans_bed_room || '' }}</td>
+          <td>{{ data.trans_kitchens || '' }}</td>
+          <td>{{ data.trans_toilets || '' }}</td>
         </tr>          <tr>
           <td class="field">
             الوصف
@@ -611,11 +672,11 @@
           <td class="field">
             العدد
           </td>
-          <td>{{data.trans_jacuzzi || ''}}</td>
-          <td>{{data.trans_garden || ''}}</td>
-          <td>{{data.trans_maids_room || ''}}</td>
-          <td>{{data.trans_guard_Room || ''}}</td>
-          <td>{{data.trans_basement || ''}}</td>
+          <td>{{ data.trans_jacuzzi || '' }}</td>
+          <td>{{ data.trans_garden || '' }}</td>
+          <td>{{ data.trans_maids_room || '' }}</td>
+          <td>{{ data.trans_guard_Room || '' }}</td>
+          <td>{{ data.trans_basement || '' }}</td>
         </tr>          <tr>
           <td class="field">
             الوصف
@@ -639,11 +700,11 @@
           <td class="field">
             العدد
           </td>
-          <td>{{data.trans_halls || ''}}</td>
-          <td>{{data.trans_supplements || ''}}</td>
-          <td>{{data.trans_elevators || ''}}</td>
-          <td>{{data.trans_parking || ''}}</td>
-          <td>{{data.trans_children_playground || ''}}</td>
+          <td>{{ data.trans_halls || '' }}</td>
+          <td>{{ data.trans_supplements || '' }}</td>
+          <td>{{ data.trans_elevators || '' }}</td>
+          <td>{{ data.trans_parking || '' }}</td>
+          <td>{{ data.trans_children_playground || '' }}</td>
         </tr>          <tr>
           <td class="field">
             الوصف
@@ -665,14 +726,14 @@
           <td class="field">
             العدد
           </td>
-          <td>{{data.trans_swimming_pool | ''}}</td>
-          <td>{{data.trans_storehouse || ''}}</td>
+          <td>{{ data.trans_swimming_pool | '' }}</td>
+          <td>{{ data.trans_storehouse || '' }}</td>
         </tr>
       </tbody>
     </table>
     <!-- تصنيف مستوى تشطيبات البناء-->
     <div class="html2pdf__page-break" />
-    <table>
+    <table class="first">
       <thead>
         <tr>
           <th colspan="6">
@@ -691,20 +752,62 @@
       </thead>
       <tbody class="has-fields">
         <tr>
-          <td>تشطيب فاخر</td>
-          <td>تشطيب متوسط</td>
-          <td>تشطيب عادي</td>
+          <td class="text-align-center">
+            <v-checkbox
+              v-model="data.trans_finishing_status"
+              hide-details
+              value="1"
+            >
+              <template v-slot:label>
+                <div class="checkbox-label">
+                  تشطيب فاخر
+                </div>
+              </template>
+            </v-checkbox>
+          </td>
+          <td class="text-align-center">
+            <v-checkbox
+              v-model="data.trans_finishing_status"
+              hide-details
+              value="2"
+            >
+              <template v-slot:label>
+                <div class="checkbox-label">
+                  تشطيب متوسط
+                </div>
+              </template>
+            </v-checkbox>
+          </td>
+          <td class="text-align-center">
+            <v-checkbox
+              v-model="data.trans_finishing_status"
+              hide-details
+              value="3"
+            >
+              <template v-slot:label>
+                <div class="checkbox-label">
+                  تشطيب عادي
+                </div>
+              </template>
+            </v-checkbox>
+          </td>
         </tr>
         <tr>
           <td class="field">
             <div>
-              <span class="font-weight-bold">تشطيبات خارجية:</span>
+              <span
+                class="font-weight-bold"
+                style="font-size:17px;"
+              >تشطيبات خارجية:</span>
               <p>
                 الواجهات من حجر طبيعي أو دهان
                 ذو جودة عالية، نوعية األبواب الخارجية،
                 نوعية أرضيات الساحات الخارجية،
               </p>
-              <span class="font-weight-bold">تشطيبات داخلية:</span>
+              <span
+                class="font-weight-bold"
+                style="font-size:17px;"
+              >تشطيبات داخلية:</span>
               <p>
                 نوعية أرضيات المداخل والمجالس
                 وصاالت الطعام تتكون من رخام فاخر،
@@ -720,13 +823,19 @@
           </td>
           <td class="field">
             <div>
-              <span class="font-weight-bold">تشطيبات خارجية:</span>
+              <span
+                class="font-weight-bold"
+                style="font-size:17px;"
+              >تشطيبات خارجية:</span>
               <p>
                 الواجهات من حجر طبيعي أو دهان
                 ذو جودة عالية، نوعية األبواب الخارجية،
                 نوعية أرضيات الساحات الخارجية،
               </p>
-              <span class="font-weight-bold">تشطيبات داخلية:</span>
+              <span
+                class="font-weight-bold"
+                style="font-size:17px;"
+              >تشطيبات داخلية:</span>
               <p>
                 نوعية أرضيات المداخل والمجالس
                 وصاالت الطعام تتكون من رخام فاخر،
@@ -741,13 +850,19 @@
             </div>
           </td> <td class="field">
             <div>
-              <span class="font-weight-bold">تشطيبات خارجية:</span>
+              <span
+                class="font-weight-bold"
+                style="font-size:17px;"
+              >تشطيبات خارجية:</span>
               <p>
                 الواجهات من حجر طبيعي أو دهان
                 ذو جودة عالية، نوعية األبواب الخارجية،
                 نوعية أرضيات الساحات الخارجية،
               </p>
-              <span class="font-weight-bold">تشطيبات داخلية:</span>
+              <span
+                class="font-weight-bold"
+                style="font-size:17px;"
+              >تشطيبات داخلية:</span>
               <p>
                 نوعية أرضيات المداخل والمجالس
                 وصاالت الطعام تتكون من رخام فاخر،
@@ -763,17 +878,30 @@
           </td>
         </tr>
         <tr>
-          <td colspan="3">
-            بدون تشطيب
+          <td
+            colspan="3"
+            class="text-align-center"
+          >
+            <v-checkbox
+              v-model="data.trans_finishing_status"
+              hide-details
+              value="4"
+            >
+              <template v-slot:label>
+                <div class="checkbox-label">
+                  بدون شتطيب
+                </div>
+              </template>
+            </v-checkbox>
           </td>
         </tr>
       </tbody>
     </table>
     <!-- الخدمات والمرافق المتوفرة بالعقار -->
-    <table>
+    <table class="table-fixed">
       <thead>
         <tr>
-          <th colspan="6">
+          <th colspan="4">
             <div class="header ">
               <div class="header-text">
                 الخدمات والمرافق المتوفرة بالعقار
@@ -789,18 +917,66 @@
       </thead>
       <tbody>
         <tr>
-          <td>هاتف</td>
-          <td>صرف صحي</td>
-          <td>مياة</td>
-          <td>الكهرباء</td>
+          <td>
+            <v-checkbox
+              v-model="data.is_telephone"
+              hide-details
+              true-value="1"
+            >
+              <template v-slot:label>
+                <div class="checkbox-label">
+                  هاتف
+                </div>
+              </template>
+            </v-checkbox>
+          </td>
+          <td>
+            <v-checkbox
+              v-model="data.sanitation"
+              hide-details
+              true-value="1"
+            >
+              <template v-slot:label>
+                <div class="checkbox-label">
+                  صرف صحي
+                </div>
+              </template>
+            </v-checkbox>
+          </td>
+          <td>
+            <v-checkbox
+              v-model="data.water_meter"
+              hide-details
+              true-value="1"
+            >
+              <template v-slot:label>
+                <div class="checkbox-label">
+                  مياة
+                </div>
+              </template>
+            </v-checkbox>
+          </td>
+          <td>
+            <v-checkbox
+              v-model="data.electric_meter"
+              hide-details
+              true-value="1"
+            >
+              <template v-slot:label>
+                <div class="checkbox-label">
+                  الكهرباء
+                </div>
+              </template>
+            </v-checkbox>
+          </td>
         </tr>
       </tbody>
     </table>
     <!-- المحيط المؤثر للعقار -->
-    <table>
+    <table class="table-fixed">
       <thead>
         <tr>
-          <th colspan="6">
+          <th colspan="5">
             <div class="header ">
               <div class="header-text">
                 المحيط المؤثر للعقار
@@ -816,10 +992,113 @@
       </thead>
       <tbody>
         <tr>
-          <td>هاتف</td>
-          <td>صرف صحي</td>
-          <td>مياة</td>
-          <td>الكهرباء</td>
+          <td class="text-align-center">
+            <v-checkbox
+              v-model="data.masjid"
+              hide-details
+              true-value="1"
+            >
+              <template v-slot:label>
+                <div class="checkbox-label">
+                  جامع
+                </div>
+              </template>
+            </v-checkbox>
+            <p>{{ join([data.masjid_note , data.masjid_distance]) }}</p>
+
+            <v-checkbox
+              v-model="data.public_garden"
+              hide-details
+              true-value="1"
+            >
+              <template v-slot:label>
+                <div class="checkbox-label">
+                  حديقة
+                </div>
+              </template>
+            </v-checkbox>
+            <p>{{ join([data.public_garden_note , data.public_garden_distance]) }}</p>
+          </td>
+          <td class="text-align-center">
+            <v-checkbox
+              v-model="data.medical_facility"
+              hide-details
+              true-value="1"
+            >
+              <template v-slot:label>
+                <div class="checkbox-label">
+                  مرفق طبي
+                </div>
+              </template>
+            </v-checkbox>
+            <p>{{ join([data.medical_facility_note , data.medical_facility_distance]) }}</p>
+
+            <v-checkbox
+              v-model="data.educational_facility"
+              hide-details
+              true-value="1"
+            >
+              <template v-slot:label>
+                <div class="checkbox-label">
+                  مرفق تعليمي
+                </div>
+              </template>
+            </v-checkbox>
+            <p>{{ join([data.educational_facility_note , data.educational_facility_distance]) }}</p>
+          </td>
+          <td class="text-align-center">
+            <v-checkbox
+              v-model="data.security_facility"
+              hide-details
+              true-value="1"
+            >
+              <template v-slot:label>
+                <div class="checkbox-label">
+                  مرفق أمنى
+                </div>
+              </template>
+            </v-checkbox>
+            <p>{{ join([data.security_facility_note , data.security_facility_distance]) }}</p>
+            <v-checkbox
+              v-model="data.government_office"
+              hide-details
+              true-value="1"
+            >
+              <template v-slot:label>
+                <div class="checkbox-label">
+                  مقر حكومي
+                </div>
+              </template>
+            </v-checkbox>
+            <p>{{ join([data.government_office_note , data.government_office_distance]) }}</p>
+          </td>
+          <td class="text-align-center">
+            <v-checkbox
+              v-model="data.market"
+              hide-details
+              true-value="1"
+            >
+              <template v-slot:label>
+                <div class="checkbox-label">
+                  سوق تجاري
+                </div>
+              </template>
+            </v-checkbox>
+            <p>{{ join([data.market_note , data.market_distance]) }}</p>
+            <v-checkbox
+              v-model="data.highway"
+              hide-details
+              true-value="1"
+            >
+              <template v-slot:label>
+                <div class="checkbox-label">
+                  طريق سريع
+                </div>
+              </template>
+            </v-checkbox>
+            <p>{{ join([data.highway_note , data.highway_distance]) }}</p>
+          </td>
+          <td>أخرى:</td>
         </tr>
       </tbody>
     </table>
@@ -843,12 +1122,17 @@
       </thead>
       <tbody>
         <tr>
-          <td>مثال</td>
+          <td>
+            <p class="c-empty">
+              {{ data.scope_research_sources_information }}
+            </p>
+          </td>
         </tr>
       </tbody>
     </table>
     <!-- أسلوب أو طريقة التقييم المستخدمة -->
-    <table>
+    <div class="html2pdf__page-break" />
+    <table class="first">
       <thead>
         <tr>
           <th colspan="6">
@@ -887,7 +1171,7 @@
           <th colspan="6">
             <div class="header ">
               <div class="header-text">
-                أسلوب أو طريقة التقييم المستخدمة
+                العقارات المقارنة
               </div>
               <div class="header-icon">
                 <v-icon>
@@ -923,35 +1207,34 @@
           <td class="field">
             1 العقار المقارن
           </td>
-          <td>داتا</td>
-          <td>داتا</td>
-          <td>داتا</td>
-          <td>داتا</td>
+          <td>{{ data.cm_operation_type || '' }}</td>
+          <td>{{ data.cm_space || '' }}</td>
+          <td>{{ formatDate(data.operation_date) }}</td>
+          <td>{{ data.cm_price || '' }}</td>
           <td>داتا</td>
         </tr>
         <tr>
           <td class="field">
             2 العقار المقارن
           </td>
-          <td>داتا</td>
-          <td>داتا</td>
-          <td>داتا</td>
-          <td>داتا</td>
+          <td>{{ data.cm_operation_type_2 || '' }}</td>
+          <td>{{ data.cm_space_2 || '' }}</td>
+          <td>{{ formatDate(data.operation_date_2) }}</td>
+          <td>{{ data.cm_price_2 || '' }}</td>
           <td>داتا</td>
         </tr>
         <tr>
           <td class="field">
             3 العقار المقارن
           </td>
-          <td>داتا</td>
-          <td>داتا</td>
-          <td>داتا</td>
-          <td>داتا</td>
+          <td>{{ data.cm_operation_type_3 || '' }}</td>
+          <td>{{ data.cm_space_3 || '' }}</td>
+          <td>{{ formatDate(data.operation_date_3) }}</td>
+          <td>{{ data.cm_price_3 || '' }}</td>
           <td>داتا</td>
         </tr>
       </tbody>
     </table>
-    <div class="html2pdf__page-break" />
     <!--جدول التسويات-->
     <table>
       <thead>
@@ -989,97 +1272,116 @@
           <td class="field">
             تسوية عامل الوقت
           </td>
-          <td>مثال</td>
-          <td>مثال</td>
-          <td>مثال</td>
+          <td>{{ addPercentage(data.cm_time_factor_adjustment) }}</td>
+          <td>{{ addPercentage(data.cm_time_factor_adjustment_2) }}</td>
+          <td>{{ addPercentage(data.cm_time_factor_adjustment_3) }}</td>
         </tr>
         <tr>
           <td class="field">
             تسوية شروط التمويل
           </td>
-          <td>مثال</td>
-          <td>مثال</td>
-          <td>مثال</td>
+          <td>{{ addPercentage(data.cm_settlement_financing_terms) }}</td>
+          <td>{{ addPercentage(data.cm_settlement_financing_terms_2) }}</td>
+          <td>{{ addPercentage(data.cm_settlement_financing_terms_3) }}</td>
         </tr>
         <tr>
           <td class="field">
             تسوية ظروف السوق
           </td>
-          <td>مثال</td>
-          <td>مثال</td>
-          <td>مثال</td>
+          <td>{{ addPercentage(data.cm_settling_market_conditions) }}</td>
+          <td>{{ addPercentage(data.cm_settling_market_conditions_2) }}</td>
+          <td>{{ addPercentage(data.cm_settling_market_conditions_3) }}</td>
         </tr>
         <tr>
           <td class="field">
             إجمالي تسويات التمويل والسوق
           </td>
-          <td>مثال</td>
-          <td>مثال</td>
-          <td>مثال</td>
+          <td>{{ addPercentage(data.cm_total_funding_market_adjustments) }}</td>
+          <td>{{ addPercentage(data.cm_total_funding_market_adjustments_2) }}</td>
+          <td>{{ addPercentage(data.cm_total_funding_market_adjustments_3) }}</td>
         </tr>
         <tr>
           <td class="field">
             سعر البيع بعد تسوية شروط التمويل وظروف السوق
           </td>
-          <td>مثال</td>
-          <td>مثال</td>
-          <td>مثال</td>
+          <td>{{ formatCurrency(data.cm_price_after_settling_financing_terms) }}</td>
+          <td>{{ formatCurrency(data.cm_price_after_settling_financing_terms2) }}</td>
+          <td>{{ formatCurrency(data.cm_price_after_settling_financing_terms3) }}</td>
         </tr>
         <tr>
           <td class="field">
             تسوية المساحة
           </td>
-          <td>مثال</td>
-          <td>مثال</td>
-          <td>مثال</td>
+          <td>{{ addPercentage(data.cm_space_settlement) }}</td>
+          <td>{{ addPercentage(data.cm_space_settlement2) }}</td>
+          <td>{{ addPercentage(data.cm_space_settlement3) }}</td>
         </tr>
         <tr>
           <td class="field">
             تسويات أخرى
           </td>
-          <td>مثال</td>
-          <td>مثال</td>
-          <td>مثال</td>
+          <td>{{ addPercentage(data.cm_other_settlement) }}</td>
+          <td>{{ addPercentage(data.cm_other_settlement2) }}</td>
+          <td>{{ addPercentage(data.cm_other_settlement3) }}</td>
         </tr>
         <tr>
           <td class="field">
             مجموع نسب التسويات )%(
           </td>
-          <td>مثال</td>
-          <td>مثال</td>
-          <td>مثال</td>
+          <td>{{ addPercentage(data.cm_total_settlement) }}</td>
+          <td>{{ addPercentage(data.cm_total_settlement2) }}</td>
+          <td>{{ addPercentage(data.cm_total_settlement3) }}</td>
         </tr>
         <tr>
           <td class="field">
             سعر البيع بعد التسويات
           </td>
-          <td>مثال</td>
-          <td>مثال</td>
-          <td>مثال</td>
+          <td>{{ formatCurrency(data.cm_selling_p_a_settlement) }}</td>
+          <td>{{ formatCurrency(data.cm_selling_p_a_settlement2) }}</td>
+          <td>{{ formatCurrency(data.cm_selling_p_a_settlement3) }}</td>
         </tr>
         <tr>
           <td class="field">
             األوزان النسبية للعقارات المقارنة
           </td>
-          <td>مثال</td>
-          <td>مثال</td>
-          <td>مثال</td>
+          <td>{{ addPercentage(data.cm_relative_w_comparable_p) }}</td>
+          <td>{{ addPercentage(data.cm_relative_w_comparable_p2) }}</td>
+          <td>{{ addPercentage(data.cm_relative_w_comparable_p3) }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="html2pdf__page-break" />
+    <table class="first">
+      <tbody class="has-fields">
+        <tr style="visibility: collapse;">
+          <td class="field">
+            سعر البيع بعد تسوية شروط التمويل وظروف السوق
+          </td>
+          <td class="field">
+            العقار المقارن 1
+          </td>
+          <td class="field">
+            العقار المقارن 2
+          </td>
+          <td class="field">
+            العقار المقارن 3
+          </td>
         </tr>
         <tr>
           <td class="field">
             مساهمة العقارات المقارنة حسب الوزن النسبي
           </td>
-          <td>مثال</td>
-          <td>مثال</td>
-          <td>مثال</td>
+          <td>{{ formatCurrency(data.cm_contribution_comparative_p_relative_weight) }}</td>
+          <td>{{ formatCurrency(data.cm_contribution_comparative_p_relative_weight2) }}</td>
+          <td>{{ formatCurrency(data.cm_contribution_comparative_p_relative_weight3) }}</td>
         </tr>
         <tr>
           <td class="field">
             القيمة السوقية بطريقة البيوع المقارنة
           </td>
-          <td>مثال</td>
-          <td>مثال</td>
-          <td>مثال</td>
+          <td colspan="3">
+            {{ formatCurrency(data.cm_market_v_comparative_sales_method) }}
+          </td>
         </tr>
       </tbody>
     </table>
@@ -1106,43 +1408,43 @@
           <td class="field">
             إجمالي الدخل السنوي
           </td>
-          <td>مثال</td>
+          <td>{{ formatCurrency(data.total_annual_income) }}</td>
         </tr>
         <tr>
           <td class="field">
             خصم خسائر عدم اإلشغال والتحصيل
           </td>
-          <td>مثال</td>
+          <td>{{ formatCurrency(data.deduction_losses) }}</td>
         </tr>
         <tr>
           <td class="field">
             إجمالي الدخل الفعلي
           </td>
-          <td>مثال</td>
+          <td>{{ formatCurrency(data.total_actual_income) }}</td>
         </tr>
         <tr>
           <td class="field">
             ناقصا النفقات التشغيلية والرأسمالية
           </td>
-          <td>مثال</td>
+          <td>{{ formatCurrency(data.m_operating_c_expenditures) }}</td>
         </tr>
         <tr>
           <td class="field">
             صافي الدخل التشغيلي
           </td>
-          <td>مثال</td>
+          <td>{{ formatCurrency(data.net_operating_income) }}</td>
         </tr>
         <tr>
           <td class="field">
             معدل الرسملة عامل شراء السنوات
           </td>
-          <td>مثال</td>
+          <td>{{ addPercentage(data.capitalization_rate) }}</td>
         </tr>
         <tr>
           <td class="field">
             القيمة السوقية باستخدام طريقة رسملة الدخل
           </td>
-          <td>مثال</td>
+          <td>{{ formatCurrency(data.market_v_income_c_method) }}</td>
         </tr>
       </tbody>
     </table>
@@ -1169,22 +1471,22 @@
           <td class="field">
             قيمة الاستبدال
           </td>
-          <td>مثال</td>
-          <td>مثال</td>
+          <td>{{ formatCurrency(data.cm_exchange_value) }}</td>
+          <td>{{ data.cm_exchange_note || '' }}</td>
         </tr>
         <tr>
           <td class="field">
             التكاليف المباشرة
           </td>
-          <td>مثال</td>
-          <td>مثال</td>
+          <td>{{ formatCurrency(data.cm_direct_costs) }}</td>
+          <td>{{ data.cm_direct_costs_note || '' }}</td>
         </tr>
         <tr>
           <td class="field">
             التكاليف غير المباشرة
           </td>
-          <td>مثال</td>
-          <td>مثال</td>
+          <td>{{ formatCurrency(data.cm_indirect_costs) }}</td>
+          <td>{{ data.cm_indirect_costs_note || '' }}</td>
         </tr>
         <tr>
           <td colspan="3">
@@ -1195,43 +1497,43 @@
           <td class="field">
             1-التدهور المادي
           </td>
-          <td>مثال</td>
-          <td>مثال</td>
+          <td>{{ addPercentage(data.cm_physical_deterioration_ratio) }}</td>
+          <td>{{ formatCurrency(data.cm_physical_deterioration_value) }}</td>
         </tr>
         <tr>
           <td class="field">
             2-التقادم الوظيفي
           </td>
-          <td>مثال</td>
-          <td>مثال</td>
+          <td>{{ addPercentage(data.cm_occupational_limitations_ratio) }}</td>
+          <td>{{ formatCurrency(data.cm_occupational_limitations_value) }}</td>
         </tr>
         <tr>
           <td class="field">
             3-التقادم االقتصادي
           </td>
-          <td>مثال</td>
-          <td>مثال</td>
+          <td>{{ addPercentage(data.cm_economic_obsolescence_ratio) }}</td>
+          <td>{{ formatCurrency(data.cm_economic_obsolescence_value) }}</td>
         </tr>
         <tr>
           <td class="field">
             إحمالي الإهلاك (1+2+3)
           </td>
-          <td>مثال</td>
-          <td>مثال</td>
+          <td>{{ addPercentage(data.cm_total_depreciation_ratio) }}</td>
+          <td>{{ formatCurrency(data.cm_total_depreciation_value) }}</td>
         </tr>
         <tr>
           <td class="field">
             القيمة المهلكة للمباني
           </td>
-          <td>مثال</td>
-          <td>مثال</td>
+          <td>{{ addPercentage(data.cm_depreciation_buildings_ratio) }}</td>
+          <td>{{ formatCurrency(data.cm_depreciation_buildings_value) }}</td>
         </tr>
         <tr>
           <td class="field">
             القيمة المهلكة ألعمال الموقع
           </td>
-          <td>مثال</td>
-          <td>مثال</td>
+          <td>{{ addPercentage(data.cm_depreciation_s_business_ratio) }}</td>
+          <td>{{ formatCurrency(data.cm_depreciation_s_business_value) }}</td>
         </tr>
         <tr>
           <td class="field">
@@ -1240,19 +1542,28 @@
           <td>مثال</td>
           <td>مثال</td>
         </tr>
+      </tbody>
+    </table>
+    <div class="html2pdf__page-break" />
+    <table class="first">
+      <tbody class="has-fields">
+        <tr style="visibility: collapse">
+          <td>القيمة المهلكة ألعمال الموقع</td><td />
+        </tr>
         <tr>
           <td class="field">
             أرباح المطور
           </td>
-          <td>مثال</td>
-          <td>مثال</td>
+          <td>{{ addPercentage(data.cm_developer_earnings_ratio) }}</td>
+          <td>{{ formatCurrency(data.cm_developer_earnings_value) }}</td>
         </tr>
         <tr>
           <td class="field">
             القيمة السوقية بأسلوب التكلفة
           </td>
-          <td>مثال</td>
-          <td>مثال</td>
+          <td colspan="2">
+            {{ formatCurrency(data.cm_total_market_value) }}
+          </td>
         </tr>
       </tbody>
     </table>
@@ -1277,17 +1588,17 @@
           <td class="field">
             األوزان النسبية للطرق المستخدمة %
           </td>
-          <td>مثال</td>
-          <td>مثال</td>
-          <td>مثال</td>
+          <td>{{ addPercentage(data.weights_market_value_relative_weights_roads_used) }}</td>
+          <td>{{ addPercentage(data.weights_market_value_income_capitalization) }}</td>
+          <td>{{ addPercentage(data.weights_market_value_cost) }}</td>
         </tr>
         <tr>
           <td class="field">
             مساهمة الطرق المستخدمة حسب الوزن النسبي
           </td>
-          <td>مثال</td>
-          <td>مثال</td>
-          <td>مثال</td>
+          <td>{{ formatCurrency(data.relative_market_value_relative_weights_roads_used) }}</td>
+          <td>{{ formatCurrency(data.relative_market_value_income_capitalization) }}</td>
+          <td>{{ formatCurrency(data.relative_market_value_cost) }}</td>
         </tr>
       </tbody>
     </table>
@@ -1312,11 +1623,11 @@
       <tbody>
         <tr>
           <td>القيمة رقمًا</td>
-          <td />
+          <td>{{ formatCurrency(data.market_value_weighting_number) }}</td>
         </tr>
         <tr>
           <td>القيمة كتابة</td>
-          <td />
+          <td>{{ data.market_value_weighting_text || '' }}</td>
         </tr>
       </tbody>
     </table>
@@ -1340,7 +1651,9 @@
       </thead>
       <tbody>
         <tr>
-          <td>مثال</td>
+          <td>
+            <p>{{ data.trans_restrictions_publication }}</p>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -1364,7 +1677,7 @@
       </thead>
       <tbody>
         <tr>
-          <td>مثال</td>
+          <p>{{ data.trans_evacuation_responsibility }}</p>
         </tr>
       </tbody>
     </table>
@@ -1388,12 +1701,15 @@
       </thead>
       <tbody>
         <tr>
-          <td>مثال</td>
+          <td>
+            <p>{{ data.trans_special_assumptions }}</p>
+          </td>
         </tr>
       </tbody>
     </table>
+    <div class="html2pdf__page-break" />
     <!--المشاركون في إعداد التقرير-->
-    <table>
+    <table class="first">
       <thead>
         <tr>
           <th colspan="6">
@@ -1439,27 +1755,27 @@
           <td class="field">
             الاسم
           </td>
-          <td>مثال</td>
+          <td>{{ data.facility.resident_name || '' }}</td>
           <td class="field">
             رقم الترخيص
           </td>
-          <td>مثال</td>
+          <td>{{ data.facility.license_number || '' }}</td>
         </tr>
         <tr>
           <td class="field">
             فرع التقييم
           </td>
-          <td>مثال</td>
+          <td>{{ data.facility.evaluation_branch || '' }}</td>
           <td class="field">
             فئة العضوية
           </td>
-          <td>مثال</td>
+          <td>{{ data.facility.membership_category || '' }}</td>
         </tr>
         <tr>
           <td class="field">
             صفته
           </td>
-          <td>مثال</td>
+          <td>{{ data.facility.resident_adjective || '' }}</td>
           <td class="field">
             التوقيع
           </td>
@@ -1478,7 +1794,10 @@
       </tbody>
     </table>
     <!--المالحق والصور الفوتوغرافية-->
-    <table>
+    <div
+      class="html2pdf__page-break"
+    />
+    <table class="first">
       <thead>
         <tr>
           <th colspan="6">
@@ -1496,6 +1815,58 @@
         </tr>
       </thead>
     </table>
+    <!-- الصك -->
+    <div v-show="data.instrument_file">
+      <img :src="data.imageBase + data.instrument_file">
+      <!-- <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Circle_-_black_simple.svg/800px-Circle_-_black_simple.svg.png"> -->
+    </div>
+    <div
+      v-show="data.instrument_file"
+      class="html2pdf__page-break"
+    />
+    <!-- المخطط -->
+    <div v-show="data.attached_file">
+      <img :src="data.imageBase +data.attached_file">
+    </div>
+    <div
+      v-show="data.attached_file"
+      class="html2pdf__page-break"
+    />
+    <!-- خطاب التكليف -->
+    <div v-show="data.assignment_letter_file">
+      <img :src="data.imageBase + data.assignment_letter_file">
+    </div>
+    <div
+      v-show="data.assignment_letter_file"
+      class="html2pdf__page-break"
+    />
+
+    <!--خريطة المقارنات-->
+    <div>
+      <gmap-map
+        ref="vPlusMap"
+        map-type-id="terrain"
+        style="width: 100%; height: 450px"
+        :center="{lat: +data.cm_latitude || 23, lng: +data.cm_longitude || 24}"
+        :zoom="7"
+      >
+        <GmapMarker
+          :position="{lat: +data.cm_latitude || 22, lng: +data.cm_longitude || 22}"
+          :icon="{ url: require('../../../assets/marker-red.png'),size: {width: 60, height: 90, f: 'px', b: 'px',},
+                   scaledSize: {width: 30, height: 30, f: 'px', b: 'px',},}"
+        />
+        <GmapMarker
+          :position="{lat: +data.cm_latitude_2 || 23, lng: +data.cm_longitude_2 || 23}"
+          :icon="{ url: require('../../../assets/marker-blue.png'),size: {width: 60, height: 90, f: 'px', b: 'px',},
+                   scaledSize: {width: 30, height: 30, f: 'px', b: 'px',},}"
+        />
+        <GmapMarker
+          :position="{lat: +data.cm_latitude_3 || 23, lng: +data.cm_longitude_3 || 24}"
+          :icon="{ url: require('../../../assets/marker-yellow.png'),size: {width: 60, height: 90, f: 'px', b: 'px',},
+                   scaledSize: {width: 30, height: 30, f: 'px', b: 'px',},}"
+        />
+      </gmap-map>
+    </div>
   </div>
 </template>
 <script>
@@ -1509,6 +1880,38 @@
         default: () => ({}),
       },
     },
+    methods: {
+      join: function (array) {
+        return array.filter(item => typeof item !== 'undefined').join(', ')
+      },
+      addPercentage: function (number) {
+        if (number) {
+          return number + '%'
+        }
+
+        return ''
+      },
+      formatCurrency: function (number) {
+        const formatter = new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'USD',
+
+        })
+
+        if (number) {
+          return formatter.format(+number)
+        }
+
+        return ''
+      },
+      formatDate: function (date) {
+        if (date) {
+          return new Date(date).toLocaleDateString('en-GB').split('/').reverse().join('-')
+        } else {
+          return ''
+        }
+      },
+    },
     // data: () => ({
     //   pdfDefaultData: { ...defaultValues },
     // }),
@@ -1519,6 +1922,45 @@
 #pdf-content {
   width: 90%;
   margin: 30px auto;
+}
+.first {
+  margin-top: 30px;
+}
+.container-header {
+  width:97%;
+  margin: auto;
+  direction: rtl;
+  text-align: right;
+}
+.container-header h1 {
+  font-size: 28px;
+}
+.container-header .color {
+  color: #187F7B;
+}
+.container-header .sub-header {
+  direction: rtl;
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  margin-top:10px;
+  margin-bottom:10px;
+}
+.container-header .sub-header h2 {
+  font-size: 20px;
+}
+.container-header .sub-header h3 {
+  font-size: 16px;
+  color: #57585A;
+}
+.not-empty {
+  min-height: 60px;
+}
+.divider {
+  width: 100%;
+  height: 1px;
+  background-color: #57585A;
+  margin-bottom: 30px;
 }
 *:not(.v-icon){
     font-family: 'Baloo Bhaijaan 2', cursive;
@@ -1572,6 +2014,10 @@ table tbody.has-fields tr td.field {
 .v-input--selection-controls {
   margin-top: 0px !important;
   padding-top: 0px !important;
+}
+
+.text-align-center .v-input--checkbox {
+  display: inline-block;
 }
 
 .checkbox-label {
