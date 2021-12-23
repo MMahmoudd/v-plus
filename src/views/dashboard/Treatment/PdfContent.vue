@@ -164,7 +164,10 @@
           <td
             colspan="4"
           >
-            <p class="not-empty">
+            <p
+              class="not-empty"
+              style="min-height:123px;"
+            >
               {{ data.trans_professional_standard || '' }}
             </p>
           </td>
@@ -178,7 +181,7 @@
           <th colspan="4">
             <div class="header">
               <div class="header-text">
-                اقرار باالستقاللية وعدم تضارب المصالح
+                اقرار بالاستقلالية وعدم تضارب المصالح
               </div>
               <div class="header-icon">
                 <v-icon>
@@ -194,7 +197,10 @@
           <td
             colspan="4"
           >
-            <p class="not-empty">
+            <p
+              class="not-empty"
+              style="min-height:123px;"
+            >
               {{ data.acknowledgment_independence || '' }}
             </p>
           </td>
@@ -376,7 +382,7 @@
       <tbody>
         <tr>
           <td colspan="4">
-            <p style="min-height:150px">
+            <p style="min-height:250px">
               {{ data.property_notes || '' }}
             </p>
           </td>
@@ -384,7 +390,7 @@
       </tbody>
     </table>
     <!-- حدود وأطوال العقار -->
-    <table class="first">
+    <table>
       <thead>
         <tr>
           <th colspan="6">
@@ -596,14 +602,16 @@
         </tr>
         <tr>
           <td colspan="4">
-            {{ data.review_note || '' }}
+            <p style="min-height:450px;">
+              {{ data.review_note || '' }}
+            </p>
           </td>
         </tr>
       </tbody>
     </table>
 
     <!-- مكونات العقار-->
-    <table class="first">
+    <table>
       <thead>
         <tr>
           <th colspan="6">
@@ -1123,7 +1131,10 @@
       <tbody>
         <tr>
           <td>
-            <p class="c-empty">
+            <p
+              class="c-empty"
+              style="min-height:230px;"
+            >
               {{ data.scope_research_sources_information }}
             </p>
           </td>
@@ -1319,6 +1330,8 @@
         <tr>
           <td class="field">
             تسويات أخرى
+
+            (الحيازة، التنظيم<br> (سكني), الموقع، طبيعة الأرض،عدد  <br>الشوارع)
           </td>
           <td>{{ addPercentage(data.cm_other_settlement) }}</td>
           <td>{{ addPercentage(data.cm_other_settlement2) }}</td>
@@ -1326,7 +1339,7 @@
         </tr>
         <tr>
           <td class="field">
-            مجموع نسب التسويات )%(
+            مجموع نسب التسويات (%)
           </td>
           <td>{{ addPercentage(data.cm_total_settlement) }}</td>
           <td>{{ addPercentage(data.cm_total_settlement2) }}</td>
@@ -1537,10 +1550,10 @@
         </tr>
         <tr>
           <td class="field">
-            قيمة األرض
+            قيمة الأرض
           </td>
-          <td>مثال</td>
-          <td>مثال</td>
+          <td />
+          <td />
         </tr>
       </tbody>
     </table>
@@ -1652,7 +1665,9 @@
       <tbody>
         <tr>
           <td>
-            <p>{{ data.trans_restrictions_publication }}</p>
+            <p style="min-height:150px;">
+              {{ data.trans_restrictions_publication || '' }}
+            </p>
           </td>
         </tr>
       </tbody>
@@ -1677,7 +1692,9 @@
       </thead>
       <tbody>
         <tr>
-          <p>{{ data.trans_evacuation_responsibility }}</p>
+          <p style="min-height:150px;">
+            {{ data.trans_evacuation_responsibility || '' }}
+          </p>
         </tr>
       </tbody>
     </table>
@@ -1702,7 +1719,9 @@
       <tbody>
         <tr>
           <td>
-            <p>{{ data.trans_special_assumptions }}</p>
+            <p style="min-height:150px;">
+              {{ data.trans_special_assumptions || '' }}
+            </p>
           </td>
         </tr>
       </tbody>
@@ -1728,13 +1747,48 @@
       </thead>
       <tbody>
         <tr>
-          <td>مثال</td>
+          <td>الإسم</td>
+          <td>1</td>
+          <td>الإسم</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>
+            المسمى
+            <br>
+            الوظيفي
+          </td>
+          <td>z</td>
+          <td>
+            المسمى
+            <br>
+            الوظيفي
+          </td>
+          <td>z</td>
+        </tr>
+        <tr>
+          <td>فئة العضوية</td>
+          <td>1</td>
+          <td>فئة العضوية</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>فئة العضوية</td>
+          <td>1</td>
+          <td>رقم العضوية</td>
+          <td />
+        </tr>
+        <tr>
+          <td>التوقيع</td>
+          <td>ء</td>
+          <td>التوقيع</td>
+          <td>ء</td>
         </tr>
       </tbody>
     </table>
     <!--هذا التقرير تم مراجعته واعتماده من قبل المقيم المعتمد-->
     <table>
-      <thead>
+      <thead style="background:#A7181C;">
         <tr>
           <th colspan="6">
             <div class="header ">
@@ -1816,7 +1870,10 @@
       </thead>
     </table>
     <!-- الصك -->
-    <div v-show="data.instrument_file">
+    <div
+      v-show="data.instrument_file"
+      class="last"
+    >
       <img :src="data.imageBase + data.instrument_file">
       <!-- <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Circle_-_black_simple.svg/800px-Circle_-_black_simple.svg.png"> -->
     </div>
@@ -1825,7 +1882,10 @@
       class="html2pdf__page-break"
     />
     <!-- المخطط -->
-    <div v-show="data.attached_file">
+    <div
+      v-show="data.attached_file"
+      class="first"
+    >
       <img :src="data.imageBase +data.attached_file">
     </div>
     <div
@@ -1833,7 +1893,10 @@
       class="html2pdf__page-break"
     />
     <!-- خطاب التكليف -->
-    <div v-show="data.assignment_letter_file">
+    <div
+      v-show="data.assignment_letter_file"
+      class="first"
+    >
       <img :src="data.imageBase + data.assignment_letter_file">
     </div>
     <div
@@ -1842,7 +1905,7 @@
     />
 
     <!--خريطة المقارنات-->
-    <div>
+    <div class="first last">
       <gmap-map
         ref="vPlusMap"
         map-type-id="terrain"
@@ -1925,6 +1988,9 @@
 }
 .first {
   margin-top: 30px;
+}
+.last {
+  margin-bottom: 30px;
 }
 .container-header {
   width:97%;

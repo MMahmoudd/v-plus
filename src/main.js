@@ -20,6 +20,9 @@ import * as VueGoogleMaps from 'vue2-google-maps'
 import './assets/main.css'
 import './plugins/vuetify-money.js'
 import UUID from 'vue-uuid'
+import VueEllipseProgress from 'vue-ellipse-progress'
+
+Vue.use(VueEllipseProgress)
 
 Vue.use(UUID)
 Vue.use(DatetimePicker)

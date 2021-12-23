@@ -469,12 +469,17 @@
             pdf-format="a4"
             pdf-orientation="portrait"
             pdf-content-width="100%"
+            @progress="onProgressPdf($event)"
           >
             <pdf-content
               slot="pdf-content"
               :data="pdfData"
             />
           </vue-html2pdf>
+          <custom-progress
+            v-show="showProgress"
+            :progress="progressNumber"
+          />
         </div>
       </template>
       <template>
@@ -607,7 +612,9 @@
   // import pdf from './Pdf.vue'
   import VueHtml2pdf from 'vue-html2pdf'
   import PdfContent from './PdfContent.vue'
+  import CustomProgress from '../component/progress.vue'
   import defaultValuesForPdf from './defaultValuesForPdf'
+
   const SamplesService = ServiceFactory.get('Samples')
   const TransactionsServices = ServiceFactory.get('Transactions')
   const CustomersService = ServiceFactory.get('Customers')
@@ -626,8 +633,11 @@
     components: {
       VueHtml2pdf,
       PdfContent,
+      CustomProgress,
     },
     data: () => ({
+      progressNumber: 0,
+      showProgress: false,
       pdfData: {
         ...defaultValuesForPdf,
       },
@@ -775,13 +785,30 @@
       this.fetchAllItems()
     },
     methods: {
+      onProgressPdf: function (data) {
+        this.progressNumber = data
+        if (data === 100) {
+          setTimeout(() => {
+            this.showProgress = false
+          }, 1000)
+        }
+      },
+      onHasPaginated: async function () {
+        this.showProgress = false
+      },
       // pdf
       generateReport: async function (id) {
+        this.progressNumber = 0
         this.pdfDataLoading = true
+        this.showProgress = true
         const pdfData = this.itemsTr.find(item => item.id === id)
+        this.progressNumber = 10
         const facility = await this.getFacility()
+        this.progressNumber = 20
         const transReportTypeName = await this.getReportType(pdfData.trans_Report_type)
+        this.progressNumber = 30
         await this.getPropertyTypes()
+        this.progressNumber = 40
 
         pdfData.trans_Report_type = transReportTypeName
         pdfData.imageBase = 'https://taqeeem.millennium.sa/'
