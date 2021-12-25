@@ -143,9 +143,10 @@
                 md="2"
               >
                 <label>صورة العميل</label>
+                <br>
                 <img
                   width="50"
-                  :src="'https://taqeeem.millennium.sa/' + data.cs_logo"
+                  :src="data.cs_logo"
                   alt="Image"
                 >
               </v-col>
@@ -704,57 +705,6 @@
                   </v-col>
                 </v-row>
               </v-col>
-              <v-col
-                cols="12"
-              >
-                <v-row>
-                  <v-col
-                    cols="12"
-                    sm="6"
-                    md="4"
-                  >
-                    <p class="mt-5">
-                      ختم المنشأة
-                    </p>
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    sm="6"
-                    md="4"
-                  >
-                    <v-radio-group
-                      v-model="data.facility_stamp_show"
-                      row
-                    >
-                      <v-radio
-                        label="اظهار"
-                        color="blue"
-                        value="1"
-                      />
-                      <v-radio
-                        label="اخفاء"
-                        color="red"
-                        value="2"
-                      />
-                    </v-radio-group>
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    sm="6"
-                    md="4"
-                  >
-                    <label>الاسم الذي سيظهر في التوقيع</label>
-                    <v-select
-                      v-model="data.facility_stamp_name"
-                      :items="ListUsers"
-                      item-text="name"
-                      item-value="id"
-                      outlined
-                      required
-                    />
-                  </v-col>
-                </v-row>
-              </v-col>
             </v-row>
             <v-spacer />
             <hr>
@@ -768,34 +718,6 @@
                 cols="12"
               >
                 <template>
-                  <v-row>
-                    <v-col
-                      cols="12"
-                      sm="6"
-                      md="4"
-                    >
-                      <label>سعر الارض الافتراضي</label>
-                      <v-text-field
-                        v-model="data.land_default_price"
-                        outlined
-                        required
-                      />
-                    </v-col>
-                    <v-col
-                      cols="12"
-                      sm="6"
-                      md="4"
-                    >
-                      <label>سعر المبني الافتراضي</label>
-                      <v-text-field
-                        v-model="data.building_default_price"
-                        label=""
-                        outlined
-                        required
-                      />
-                    </v-col>
-                  </v-row>
-                  <hr>
                   <v-row
                     class="border"
                   >

@@ -29,7 +29,7 @@ export default {
     })
     },
     updateUser (id, data) {
-      return Service.put(`${resource}/users/${id}`, data, {
+      return Service.post(`${resource}/users/${id}`, data, {
         headers: {
             'Content-Type': 'multipart/form-data',
         },
