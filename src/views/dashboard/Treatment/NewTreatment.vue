@@ -368,7 +368,7 @@
                   </v-menu>
                 </v-col>
 
-                <v-col
+                <!-- <v-col
                   cols="12"
                   lg="3"
                   md="4"
@@ -398,9 +398,9 @@
                       @input="menu2 = false"
                     />
                   </v-menu>
-                </v-col>
+                </v-col> -->
 
-                <v-col
+                <!-- <v-col
                   cols="12"
                   lg="3"
                   md="4"
@@ -430,7 +430,7 @@
                       @input="trans_inspection_date = false"
                     />
                   </v-menu>
-                </v-col>
+                </v-col> -->
 
                 <v-col
                   cols="12"
@@ -450,7 +450,7 @@
                     outlined
                   />
                 </v-col>
-
+                <!--
                 <v-col
                   cols="12"
                   lg="3"
@@ -465,7 +465,7 @@
                     single-line
                     outlined
                   />
-                </v-col>
+                </v-col> -->
 
                 <v-col
                   cols="12"
@@ -483,7 +483,7 @@
                   />
                 </v-col>
 
-                <v-col
+                <!-- <v-col
                   cols="12"
                   lg="3"
                   md="4"
@@ -497,13 +497,135 @@
                     single-line
                     outlined
                   />
-                </v-col>
+                </v-col> -->
               </v-row>
 
               <v-divider class="my-10" />
 
-              <h2>نفاصيل العقار</h2>
+              <h2>تفاصيل العقار</h2>
               <v-row>
+                <v-col
+                  cols="12"
+                  lg="3"
+                  md="4"
+                >
+                  <label class="d-block mb-3 font-weight-bold">رقم الصك</label>
+                  <v-text-field
+                    v-model="data.trans_instrument_num"
+                    label="رقم الصك"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  lg="3"
+                  md="4"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >تاريخ الصك</label>
+                  <v-menu
+                    v-model="trans_instrument_date"
+                    :close-on-content-click="false"
+                    transition="scale-transition"
+                    offset-y
+                    min-width="auto"
+                  >
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-text-field
+                        v-model="data.trans_instrument_date"
+                        readonly
+                        v-bind="attrs"
+                        single-line
+                        outlined
+                        v-on="on"
+                      />
+                    </template>
+                    <v-date-picker
+                      v-model="data.trans_instrument_date"
+                      @input="trans_instrument_date = false"
+                    />
+                  </v-menu>
+                </v-col>
+                <v-col
+                  cols="12"
+                  lg="3"
+                  md="4"
+                >
+                  <label class="d-block mb-3 font-weight-bold">جهة الإصدار</label>
+                  <v-text-field
+                    v-model="data.issuer"
+                    label="رقم الصك"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  lg="3"
+                  md="4"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >رقم القطعة</label>
+                  <v-text-field
+                    v-model="data.trans_part_num"
+                    label="رقم القطعة"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  lg="3"
+                  md="4"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >رقم البلوك</label>
+                  <v-text-field
+                    v-model="data.trans_Albulk_num"
+                    label="رقم البلوك"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  lg="3"
+                  md="4"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >رقم المخطط</label>
+                  <v-text-field
+                    v-model="data.residential_plan_no"
+                    label="رقم المخطط"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  lg="3"
+                  md="4"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >اسم المخطط</label>
+                  <v-text-field
+                    v-model="data.residential_plan_name"
+                    label="اسم المخطط"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  lg="3"
+                  md="4"
+                />
                 <v-col
                   cols="12"
                   lg="3"
@@ -676,10 +798,10 @@
                 >
                   <label
                     class="d-block mb-3 font-weight-bold"
-                  >اسم المخطط</label>
+                  >اسم المالك</label>
                   <v-text-field
-                    v-model="data.residential_plan_name"
-                    label="اسم المخطط"
+                    v-model="data.trans_owner_name"
+                    label="اسم المالك"
                     single-line
                     outlined
                   />
@@ -692,47 +814,14 @@
                 >
                   <label
                     class="d-block mb-3 font-weight-bold"
-                  >رقم المخطط</label>
+                  >جوال المالك</label>
                   <v-text-field
-                    v-model="data.residential_plan_no"
-                    label="رقم المخطط"
+                    v-model="data.trans_owner_phone"
+                    label="جوال المالك"
                     single-line
                     outlined
                   />
                 </v-col>
-
-                <v-col
-                  cols="12"
-                  lg="3"
-                  md="4"
-                >
-                  <label
-                    class="d-block mb-3 font-weight-bold"
-                  >رقم البلوك</label>
-                  <v-text-field
-                    v-model="data.trans_Albulk_num"
-                    label="رقم البلوك"
-                    single-line
-                    outlined
-                  />
-                </v-col>
-
-                <v-col
-                  cols="12"
-                  lg="3"
-                  md="4"
-                >
-                  <label
-                    class="d-block mb-3 font-weight-bold"
-                  >رقم القطعة</label>
-                  <v-text-field
-                    v-model="data.trans_part_num"
-                    label="رقم القطعة"
-                    single-line
-                    outlined
-                  />
-                </v-col>
-
                 <v-col
                   cols="12"
                   lg="3"
@@ -770,85 +859,276 @@
                     outlined
                   />
                 </v-col>
-
                 <v-col
-                  cols="12"
-                  lg="3"
-                  md="4"
+                  cols="8"
+                  sm="4"
+                  lg="2"
                 >
                   <label
                     class="d-block mb-3 font-weight-bold"
-                  >اسم المالك</label>
+                  >الحد الشمالى</label>
                   <v-text-field
-                    v-model="data.trans_owner_name"
-                    label="اسم المالك"
+                    v-model="data.northern_border"
+                    label="الحد الشمالى"
                     single-line
                     outlined
                   />
                 </v-col>
-
                 <v-col
-                  cols="12"
-                  lg="3"
-                  md="4"
+                  cols="4"
+                  sm="2"
+                  lg="1"
                 >
                   <label
                     class="d-block mb-3 font-weight-bold"
-                  >جوال المالك</label>
+                  >بطول</label>
                   <v-text-field
-                    v-model="data.trans_owner_phone"
-                    label="جوال المالك"
+                    v-model="data.tall_northern"
+                    label=""
                     single-line
                     outlined
                   />
                 </v-col>
-
                 <v-col
-                  cols="12"
-                  lg="3"
-                  md="4"
+                  cols="8"
+                  sm="4"
+                  lg="2"
                 >
-                  <label class="d-block mb-3 font-weight-bold">رقم الصك</label>
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >الحد الجنوبى</label>
                   <v-text-field
-                    v-model="data.trans_instrument_num"
-                    label="رقم الصك"
+                    v-model="data.southern_border"
+                    label="الحد الجنوبى"
                     single-line
                     outlined
                   />
                 </v-col>
-
+                <v-col
+                  cols="4"
+                  sm="2"
+                  lg="1"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >بطول</label>
+                  <v-text-field
+                    v-model="data.tall_southern"
+                    label=""
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="8"
+                  sm="4"
+                  lg="2"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >الحد الشرقى</label>
+                  <v-text-field
+                    v-model="data.eastern_border"
+                    label="الحد الشرقى"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="4"
+                  sm="2"
+                  lg="1"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >بطول</label>
+                  <v-text-field
+                    v-model="data.tall_eastern"
+                    label=""
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="8"
+                  sm="4"
+                  lg="2"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >الحد الغربى</label>
+                  <v-text-field
+                    v-model="data.western_border"
+                    label="الحد الغربى"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="4"
+                  sm="2"
+                  lg="1"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >بطول</label>
+                  <v-text-field
+                    v-model="data.tall_western"
+                    single-line
+                    outlined
+                  />
+                </v-col>
                 <v-col
                   cols="12"
                   lg="3"
                   md="4"
+                  sm="6"
+                  style="padding-top:0px;"
+                >
+                  <label class="d-block mb-3 font-weight-bold">الواجهة الشمالية</label>
+                  <v-select
+                    v-model="data.north_facade"
+                    item-text="name"
+                    item-value="id"
+                    :items="staticLists.north_facade"
+                    label="الواجهة الشمالية"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  lg="3"
+                  md="4"
+                  sm="6"
+                  style="padding-top:0px;"
+                >
+                  <label class="d-block mb-3 font-weight-bold">الواجهة الجنوبية</label>
+                  <v-select
+                    v-model="data.south_facade"
+                    item-text="name"
+                    item-value="id"
+                    :items="staticLists.south_facade"
+                    label="الواجهة الجنوبية"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  lg="3"
+                  md="4"
+                  sm="6"
+                  style="padding-top:0px;"
+                >
+                  <label class="d-block mb-3 font-weight-bold">الواجهة الشرقية</label>
+                  <v-select
+                    v-model="data.eastern_facade"
+                    item-text="name"
+                    item-value="id"
+                    :items="staticLists.eastern_facade"
+                    label="الواجهة الشرقية"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  lg="3"
+                  md="4"
+                  sm="6"
+                  style="padding-top:0px;"
+                >
+                  <label class="d-block mb-3 font-weight-bold">الواجهة الغربية</label>
+                  <v-select
+                    v-model="data.western_facade"
+                    item-text="name"
+                    item-value="id"
+                    :items="staticLists.western_facade"
+                    label="الواجهة الغربية"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  lg="3"
+                  md="4"
+                  sm="6"
                 >
                   <label
                     class="d-block mb-3 font-weight-bold"
-                  >تاريخ الصك</label>
-                  <v-menu
-                    v-model="trans_instrument_date"
-                    :close-on-content-click="false"
-                    transition="scale-transition"
-                    offset-y
-                    min-width="auto"
-                  >
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-text-field
-                        v-model="data.trans_instrument_date"
-                        readonly
-                        v-bind="attrs"
-                        single-line
-                        outlined
-                        v-on="on"
-                      />
-                    </template>
-                    <v-date-picker
-                      v-model="data.trans_instrument_date"
-                      @input="trans_instrument_date = false"
-                    />
-                  </v-menu>
+                  >مساحة الارض</label>
+                  <v-text-field
+                    v-model="data.land_area"
+                    label="0"
+                    single-line
+                    outlined
+                  />
                 </v-col>
-
+                <!-- <v-col
+                  cols="12"
+                  lg="3"
+                  md="4"
+                  sm="6"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >مساحة المبانى</label>
+                  <v-text-field
+                    label="0"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  lg="3"
+                  md="4"
+                  sm="6"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >مساحة القبو</label>
+                  <v-text-field
+                    v-model="data.basement_space"
+                    label="0"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  lg="3"
+                  md="4"
+                  sm="6"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >مساحة الملاحق</label>
+                  <v-text-field
+                    v-model="data.annexes_space"
+                    label="0"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  lg="3"
+                  md="4"
+                  sm="6"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >عدد الأدوار للفلل السكنية</label>
+                  <v-text-field
+                    v-model="data.num_floors_residential_villas"
+                    label="0"
+                    single-line
+                    outlined
+                  />
+                </v-col> -->
                 <v-col
                   cols="12"
                   lg="3"
@@ -897,7 +1177,7 @@
                   </v-menu>
                 </v-col>
 
-                <v-col
+                <!-- <v-col
                   cols="12"
                   lg="3"
                   md="4"
@@ -911,7 +1191,7 @@
                     single-line
                     outlined
                   />
-                </v-col>
+                </v-col> -->
 
                 <v-col
                   cols="12"
@@ -3194,6 +3474,15 @@
       handleFileUpload: function (files, name) {
         this.data[name] = files[0]
         // this.createImage(files[0], name)
+      },
+      addDropFile (e, name) {
+        /**
+         * ? الصك غير محدد instrument_file
+         * ? خطاب التكليف 4 assignment_letter_file
+         * ? المخطط صورة attached_file
+         * ? الارشيف ملف واحد
+         */
+        this.files = Array.from(e.dataTransfer.files)
       },
       createImage (file, name) {
         const reader = new FileReader()
