@@ -1029,14 +1029,31 @@
       async submitForm () {
         this.loading = true
         this.disabled = true
+
         const formData = new FormData()
-        for (const key in this.data) {
-          if (Array.isArray(this.data[key])) {
-            formData.append(key, JSON.stringify(this.data[key]))
+        /**
+         * ? converting the json object to a form-data format
+         */
+        function buildFormData (formData, data, parentKey) {
+          if (data && typeof data === 'object' && !(data instanceof Date) && !(data instanceof File)) {
+            Object.keys(data).forEach(key => {
+              buildFormData(formData, data[key], parentKey ? `${parentKey}[${key}]` : key)
+            })
           } else {
-            formData.append(key, this.data[key])
+            const value = data == null ? '' : data
+
+            formData.append(parentKey, value)
           }
         }
+
+        buildFormData(formData, this.data)
+        // for (const key in this.data) {
+        //   if (Array.isArray(this.data[key])) {
+        //     formData.append(key, JSON.stringify(this.data[key]))
+        //   } else {
+        //     formData.append(key, this.data[key])
+        //   }
+        // }
 
         if (this.$route.params.id) {
           this.updateContent(this.$route.params.id, formData)

@@ -388,7 +388,8 @@
               </v-card-actions>
             </v-card>
           </v-dialog>
-          <v-dialog
+          <select-sample />
+          <!-- <v-dialog
             v-model="newTratment"
             width="500"
           >
@@ -451,7 +452,7 @@
                 </v-container>
               </v-card-text>
             </v-card>
-          </v-dialog>
+          </v-dialog> -->
         </div>
       </v-card-title>
       <template>
@@ -609,13 +610,20 @@
 
 <script>
   import { ServiceFactory } from '../../../services/ServiceFactory'
-  // import pdf from './Pdf.vue'
+  /**
+   * ? components
+   */
   import VueHtml2pdf from 'vue-html2pdf'
   import PdfContent from './PdfContent.vue'
   import CustomProgress from '../component/progress.vue'
+  import SelectSample from './SelectSample.vue'
+  /**
+   * ? static data
+   */
   import defaultValuesForPdf from './defaultValuesForPdf'
-
-  const SamplesService = ServiceFactory.get('Samples')
+  /**
+   * ? services
+   */
   const TransactionsServices = ServiceFactory.get('Transactions')
   const CustomersService = ServiceFactory.get('Customers')
   const RegionsServices = ServiceFactory.get('Regions')
@@ -634,6 +642,7 @@
       VueHtml2pdf,
       PdfContent,
       CustomProgress,
+      SelectSample,
     },
     data: () => ({
       progressNumber: 0,
@@ -699,7 +708,6 @@
       // Dialogs
       dialog: false,
       dialogOpen: false,
-      newTratment: false,
 
       // Selectboxes
       items: [
@@ -781,7 +789,6 @@
       console.log(this.$route)
     },
     mounted () {
-      this.getSamples()
       this.fetchAllItems()
     },
     methods: {
@@ -834,8 +841,6 @@
           counter++
           if (counter > 3) counter = 0
         })
-        // const propertyTypeIdIndex = this.propTypeList.findIndex(pt => pt.id === pdfData.property_type_id)
-        // pdfData.propTypeList = this.propTypeList.slice(propertyTypeIdIndex, propertyTypeIdIndex + 4)
         this.pdfData = pdfData
         this.$refs.html2Pdf.generatePdf()
       },
@@ -858,18 +863,6 @@
         this.itemsTr = items.data
         this.total = items.total
         this.isLoading = false
-      },
-      getSamples: async function () {
-        const { data } = await SamplesService.getAllItems()
-        this.samplesList = data.map(sample => {
-          return {
-            name: sample.name,
-            id: sample.id,
-            path: `/New-Treatment/${sample.id}`,
-            status: sample.status,
-          }
-        })
-        // console.log(this.samplesList)
       },
       // dialog methods
       filterTransctions: async function () {
