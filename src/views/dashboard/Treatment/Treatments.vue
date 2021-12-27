@@ -579,7 +579,7 @@
                     </v-list-item> -->
                     <v-list-item>
                       <v-list-item-title>
-                        <router-link to="/Accountant-Treatment">
+                        <router-link :to="'/Accountant-Treatment/'+ item.id ">
                           <v-icon>
                             fas fa-money-bill
                           </v-icon>

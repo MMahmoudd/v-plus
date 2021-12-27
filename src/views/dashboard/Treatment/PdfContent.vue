@@ -20,7 +20,7 @@
     </div>
     <div class="divider" />
     <table class="colspan">
-      <thead>
+      <thead :style="styleData">
         <tr>
           <th colspan="4">
             <div class="header">
@@ -1941,6 +1941,15 @@
       data: {
         type: Object,
         default: () => ({}),
+      },
+    },
+    computed: {
+      styleData () {
+        return ({
+          backgroundColor: this.data.customer.cs_subdata_background_color,
+          color: this.data.customer.cs_data_fount_color,
+          borderColor: this.data.customer.cs_data_frame_color,
+        })
       },
     },
     methods: {
