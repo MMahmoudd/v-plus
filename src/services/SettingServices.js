@@ -13,7 +13,7 @@ export default {
         })
     },
     updateFacility (data, id) {
-      return Service.put(`${resource}/facilities/${id}`, data)
+      return Service.post(`${resource}/facilities/${id}`, data)
       .then((response) => {
         if (response.status === 200) {
             return response.data

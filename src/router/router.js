@@ -44,6 +44,12 @@ const router = new Router({
       component: () => import('@/pages/login'),
     },
     {
+      name: 'pdf',
+      path: '/pdf',
+      component: () => import('@/views/dashboard/Finance/PdfContent.vue'),
+      meta: { requiresAuth: true },
+    },
+    {
       name: 'Inter Phone Number',
       path: '/ResetPassword',
       component: () => import('@/pages/ResetPassword/EnterPhone'),

@@ -43,7 +43,7 @@
           <v-row>
             <v-col
               cols="12"
-              md="6"
+              md="4"
             >
               <v-card class="image-card py-2 px-3">
                 <h3 class="head-card">
@@ -90,7 +90,125 @@
             </v-col>
             <v-col
               cols="12"
-              md="6"
+              md="4"
+            >
+              <v-card class="image-card py-2 px-3">
+                <h3 class="head-card">
+                  بيانات ضريبية
+                </h3>
+                <v-row>
+                  <v-col
+                    cols="12"
+                    md="3"
+                  >
+                    <v-subheader>رقم السجل التجاري:</v-subheader>
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    md="9"
+                  >
+                    <v-text-field
+                      v-model="data.Commercial_Registration_number"
+                      outlined
+                      dense
+                    />
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col
+                    cols="12"
+                    md="3"
+                  >
+                    <v-subheader>الرقم الضريبي:</v-subheader>
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    md="9"
+                  >
+                    <v-text-field
+                      v-model="data.Tax_Number"
+                      outlined
+                      dense
+                    />
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col
+                    cols="12"
+                    md="3"
+                  >
+                    <v-subheader>تاريخ السجل التجاري:</v-subheader>
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    md="9"
+                  >
+                    <v-menu
+                      v-model="Commercial_Registration_date"
+                      :close-on-content-click="false"
+                      :nudge-right="40"
+                      transition="scale-transition"
+                      offset-y
+                      min-width="auto"
+                    >
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-text-field
+                          v-model="data.Commercial_Registration_date"
+                          prepend-icon="mdi-calendar"
+                          readonly
+                          outlined
+                          v-bind="attrs"
+                          v-on="on"
+                        />
+                      </template>
+                      <v-date-picker
+                        v-model="data.Commercial_Registration_date"
+                        @input="Commercial_Registration_date = false"
+                      />
+                    </v-menu>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col
+                    cols="12"
+                    md="3"
+                  >
+                    <v-subheader>تاريخ السجل التجاري:</v-subheader>
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    md="9"
+                  >
+                    <v-menu
+                      v-model="Commercial_Registration_expiry_date"
+                      :close-on-content-click="false"
+                      :nudge-right="40"
+                      transition="scale-transition"
+                      offset-y
+                      min-width="auto"
+                    >
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-text-field
+                          v-model="data.Commercial_Registration_expiry_date"
+                          prepend-icon="mdi-calendar"
+                          readonly
+                          outlined
+                          v-bind="attrs"
+                          v-on="on"
+                        />
+                      </template>
+                      <v-date-picker
+                        v-model="data.Commercial_Registration_expiry_date"
+                        @input="Commercial_Registration_expiry_date = false"
+                      />
+                    </v-menu>
+                  </v-col>
+                </v-row>
+              </v-card>
+            </v-col>
+            <v-col
+              cols="12"
+              md="4"
             >
               <v-card class="image-card py-2 px-3">
                 <h3 class="head-card">
@@ -440,6 +558,8 @@
       valid: false,
       show1: false,
       license_date: false,
+      Commercial_Registration_date: false,
+      Commercial_Registration_expiry_date: false,
       data: {
         name: '',
         logo: '',
@@ -468,6 +588,10 @@
         license_number: '',
         license_date: null,
         user_id: 0,
+        Commercial_Registration_number: '',
+        Commercial_Registration_date: '',
+        Commercial_Registration_expiry_date: '',
+        Tax_Number: '',
       },
       successSnackbar: false,
       errorSnackbar: false,

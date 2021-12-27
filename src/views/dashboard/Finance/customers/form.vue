@@ -143,9 +143,10 @@
                 md="2"
               >
                 <label>صورة العميل</label>
+                <br>
                 <img
                   width="50"
-                  :src="'https://taqeeem.millennium.sa/' + data.cs_logo"
+                  :src="data.cs_logo"
                   alt="Image"
                 >
               </v-col>
@@ -704,57 +705,6 @@
                   </v-col>
                 </v-row>
               </v-col>
-              <v-col
-                cols="12"
-              >
-                <v-row>
-                  <v-col
-                    cols="12"
-                    sm="6"
-                    md="4"
-                  >
-                    <p class="mt-5">
-                      ختم المنشأة
-                    </p>
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    sm="6"
-                    md="4"
-                  >
-                    <v-radio-group
-                      v-model="data.facility_stamp_show"
-                      row
-                    >
-                      <v-radio
-                        label="اظهار"
-                        color="blue"
-                        value="1"
-                      />
-                      <v-radio
-                        label="اخفاء"
-                        color="red"
-                        value="2"
-                      />
-                    </v-radio-group>
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    sm="6"
-                    md="4"
-                  >
-                    <label>الاسم الذي سيظهر في التوقيع</label>
-                    <v-select
-                      v-model="data.facility_stamp_name"
-                      :items="ListUsers"
-                      item-text="name"
-                      item-value="id"
-                      outlined
-                      required
-                    />
-                  </v-col>
-                </v-row>
-              </v-col>
             </v-row>
             <v-spacer />
             <hr>
@@ -768,34 +718,6 @@
                 cols="12"
               >
                 <template>
-                  <v-row>
-                    <v-col
-                      cols="12"
-                      sm="6"
-                      md="4"
-                    >
-                      <label>سعر الارض الافتراضي</label>
-                      <v-text-field
-                        v-model="data.land_default_price"
-                        outlined
-                        required
-                      />
-                    </v-col>
-                    <v-col
-                      cols="12"
-                      sm="6"
-                      md="4"
-                    >
-                      <label>سعر المبني الافتراضي</label>
-                      <v-text-field
-                        v-model="data.building_default_price"
-                        label=""
-                        outlined
-                        required
-                      />
-                    </v-col>
-                  </v-row>
-                  <hr>
                   <v-row
                     class="border"
                   >
@@ -846,7 +768,7 @@
                             chips
                           />
                           <v-select
-                            v-model="item.use_property_id"
+                            v-model="item.use_property"
                             :items="propertyList"
                             class="mx-2"
                             item-text="name"
@@ -854,9 +776,11 @@
                             label="استخدام العقار"
                             outlined
                             required
+                            multiple
+                            chips
                           />
                           <v-select
-                            v-model="item.customer_id"
+                            v-model="item.property_type"
                             :items="propertyTypeList"
                             class="mx-2"
                             item-text="name"
@@ -864,6 +788,8 @@
                             label="نوع العقار"
                             outlined
                             required
+                            multiple
+                            chips
                           />
                           <v-text-field
                             v-model="item.custom_price"
@@ -966,7 +892,6 @@
         evaluation_stage_sign_show: '',
         review_stage_sign_show: '',
         adoption_stage_sign_show: '',
-        facility_stamp_show: '',
         input_stage_name_show: '',
         evaluation_stage_name_show: '',
         review_stage_name_show: '',
@@ -1018,7 +943,8 @@
         this.data.pricing.push({
           customer_id: null,
           region_id: null,
-          use_property_id: null,
+          use_property: [],
+          property_type: [],
           city_list: [],
           custom_price: null,
         })
@@ -1067,7 +993,7 @@
           this.successMessage = 'تمت الاضافة بنجاح'
           this.successSnackbar = true
           setTimeout(() => {
-            this.$router.push('/Users')
+            this.$router.push('/customers')
           }, 1500)
         } else {
           this.errorMessage = item.message
@@ -1082,7 +1008,7 @@
           this.successMessage = 'تم التعديل بنجاح'
           this.successSnackbar = true
           setTimeout(() => {
-            this.$router.push('/Users')
+            this.$router.push('/customers')
           }, 1500)
         } else {
           this.errorMessage('يوجد مشكلة في التعديل')
@@ -1094,6 +1020,9 @@
       async fetchOneItem (id) {
         this.dataLoading = true
         const user = await CustomersService.fetchOneItem(id)
+        /**
+         * overding the nul data with default data
+         */
         for (const key in user.data) {
           if (user.data[key] === null) {
             this.data[key] = this.data[key]
@@ -1101,6 +1030,7 @@
             this.data[key] = user.data[key]
           }
         }
+        console.log('user :>> ', user.data)
         // this.data = user.data
         this.dataLoading = false
       },
@@ -1150,7 +1080,6 @@
         this.loading = true
         const { data } = await ReportTypesServices.getAllItems()
         this.reportList = data.data
-        console.log('ListUsers', data.data)
         this.loading = false
       },
     },

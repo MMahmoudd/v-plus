@@ -36,6 +36,7 @@ export default {
       return Service.post(`${resource}/customers/${id}`, data, {
         headers: {
             'Content-Type': 'multipart/form-data',
+            Accept: 'application/json',
         },
     })
       .then((response) => {
