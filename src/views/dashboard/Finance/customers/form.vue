@@ -768,7 +768,7 @@
                             chips
                           />
                           <v-select
-                            v-model="item.use_property_id"
+                            v-model="item.use_property"
                             :items="propertyList"
                             class="mx-2"
                             item-text="name"
@@ -776,9 +776,11 @@
                             label="استخدام العقار"
                             outlined
                             required
+                            multiple
+                            chips
                           />
                           <v-select
-                            v-model="item.customer_id"
+                            v-model="item.property_type"
                             :items="propertyTypeList"
                             class="mx-2"
                             item-text="name"
@@ -786,6 +788,8 @@
                             label="نوع العقار"
                             outlined
                             required
+                            multiple
+                            chips
                           />
                           <v-text-field
                             v-model="item.custom_price"
@@ -888,7 +892,6 @@
         evaluation_stage_sign_show: '',
         review_stage_sign_show: '',
         adoption_stage_sign_show: '',
-        facility_stamp_show: '',
         input_stage_name_show: '',
         evaluation_stage_name_show: '',
         review_stage_name_show: '',
@@ -940,7 +943,8 @@
         this.data.pricing.push({
           customer_id: null,
           region_id: null,
-          use_property_id: null,
+          use_property: [],
+          property_type: [],
           city_list: [],
           custom_price: null,
         })
@@ -989,7 +993,7 @@
           this.successMessage = 'تمت الاضافة بنجاح'
           this.successSnackbar = true
           setTimeout(() => {
-            this.$router.push('/Users')
+            this.$router.push('/customers')
           }, 1500)
         } else {
           this.errorMessage = item.message
@@ -1004,7 +1008,7 @@
           this.successMessage = 'تم التعديل بنجاح'
           this.successSnackbar = true
           setTimeout(() => {
-            this.$router.push('/Users')
+            this.$router.push('/customers')
           }, 1500)
         } else {
           this.errorMessage('يوجد مشكلة في التعديل')
@@ -1016,6 +1020,9 @@
       async fetchOneItem (id) {
         this.dataLoading = true
         const user = await CustomersService.fetchOneItem(id)
+        /**
+         * overding the nul data with default data
+         */
         for (const key in user.data) {
           if (user.data[key] === null) {
             this.data[key] = this.data[key]
@@ -1023,6 +1030,7 @@
             this.data[key] = user.data[key]
           }
         }
+        console.log('user :>> ', user.data)
         // this.data = user.data
         this.dataLoading = false
       },
@@ -1072,7 +1080,6 @@
         this.loading = true
         const { data } = await ReportTypesServices.getAllItems()
         this.reportList = data.data
-        console.log('ListUsers', data.data)
         this.loading = false
       },
     },

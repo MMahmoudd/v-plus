@@ -172,6 +172,14 @@
                             class="mx-2"
                           />
                           <v-text-field
+                            v-model="item.vat_rate"
+                            label="الضريبة"
+                            type="number"
+                            outlined
+                            required
+                            class="mx-2"
+                          />
+                          <v-text-field
                             v-model="item.price"
                             label="السعر"
                             type="number"
@@ -338,6 +346,7 @@
           property_description: '',
           space: null,
           location: '',
+          vat_rate: null,
           price: null,
         })
       },

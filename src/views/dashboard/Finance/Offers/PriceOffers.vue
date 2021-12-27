@@ -84,6 +84,34 @@
           </div>
         </template>
       </v-data-table>
+      <template>
+        <div>
+          <vue-html2pdf
+            ref="html2Pdf"
+            :show-layout="false"
+            :float-layout="true"
+            :enable-download="true"
+            :preview-modal="false"
+            :paginate-elements-by-height="1400"
+            filename="hee hee"
+            :pdf-quality="2"
+            :manual-pagination="true"
+            pdf-format="a4"
+            pdf-orientation="portrait"
+            pdf-content-width="100%"
+            @progress="onProgressPdf($event)"
+          >
+            <pdf-content
+              slot="pdf-content"
+              :data="pdfData"
+            />
+          </vue-html2pdf>
+          <custom-progress
+            v-show="showProgress"
+            :progress="progressNumber"
+          />
+        </div>
+      </template>
     </v-card>
   </v-container>
 </template>
@@ -91,10 +119,16 @@
 <script>
   import { ServiceFactory } from '@/services/ServiceFactory'
   import moment from 'moment'
+  import VueHtml2pdf from 'vue-html2pdf'
+  import PdfContent from '../PdfContent.vue'
   const OffersService = ServiceFactory.get('Offers')
 
   export default {
     name: 'Offers',
+    components: {
+      VueHtml2pdf,
+      PdfContent,
+    },
     data: () => ({
       search: '',
       dataLoading: false,
