@@ -46,6 +46,7 @@
                       single-line
                       outlined
                       :items="usersList"
+                      :loading="userListLoading"
                       item-text="name"
                       item-value="id"
                       return-object
@@ -263,6 +264,26 @@
         </div>
       </v-container>
     </v-card>
+    <v-snackbar
+      v-model="successSnackbar"
+      color="success"
+      shaped
+      bottom
+      left
+      :timeout="timeout"
+    >
+      {{ successMessage }}
+    </v-snackbar>
+    <v-snackbar
+      v-model="errorSnackbar"
+      color="red"
+      shaped
+      bottom
+      left
+      :timeout="timeout"
+    >
+      {{ errorMessage }}
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -280,6 +301,11 @@
     name: 'NewTreatment',
 
     data: () => ({
+      successSnackbar: false,
+      errorSnackbar: false,
+      timeout: 3000,
+      successMessage: '',
+      errorMessage: '',
       price: '',
       moneyInputOptions: {
         locale: 'en-US',
@@ -295,6 +321,10 @@
        * * lists
        */
       usersList: [],
+      /**
+       * * loading
+       */
+      userListLoading: false,
       data: {
         participantscommissions: [{
           user_id: { name: 'a' },
@@ -739,10 +769,12 @@
       // },
     },
     mounted () {
-      if (this.$route.params.id) {
-        this.fetchOneItem(this.$route.params.id)
-      }
-      this.fetchUsers()
+      (async () => {
+        await this.fetchUsers()
+        if (this.$route.params.id) {
+          await this.fetchOneItem(this.$route.params.id)
+        }
+      })()
     },
     methods: {
       fetchOneItem: async function (id) {
@@ -754,6 +786,11 @@
             this.data[key] = data[key]
           }
         }
+
+        this.data.participantscommissions = this.data.participantscommissions.map(p => ({
+          ...p,
+          name: this.usersList.find(user => user.id === p.user_id).name || '',
+        }))
       },
       // * fetching items for the page
       /**
@@ -766,9 +803,11 @@
         const { data: { pricing } } = await CustomersServices.fetchOneItem(this.data.customer_id)
         const customerPriceObject = pricing.find(item => {
           if (item.region_id === this.data.region_id) {
-            if (item.cities && item.cities.find(city => city.id === this.data.city_id)) {
-              if (item.use_property_id === this.data.property_rating_id) {
-                return item
+            if (item.city_list.includes(this.data.city_id)) {
+              if (item.use_property.includes(this.data.property_rating_id)) {
+                if (item.property_type.includes(this.data.property_type_id)) {
+                  return item
+                }
               }
             }
           }
@@ -783,8 +822,10 @@
        * ? and adding them to the list
        */
       fetchUsers: async function () {
+        this.userListLoading = true
         const { data: { data } } = await UsersServices.getAllItems()
         this.usersList = data
+        this.userListLoading = false
       },
       /**
        * ? DOM methods
@@ -794,7 +835,7 @@
         this.data.participantscommissions.push({ other_amount: 0 })
       },
       hideParticipant: function (item) {
-        item.status = item.status === 1 ? 0 : 1
+        item.status = item.status === 1 ? 2 : 1
       },
       removeParticipant: function (item, index) {
         this.data.participatingmembers.splice(index, 1)
@@ -835,10 +876,28 @@
         // }
 
         // buildFormData(formData, this.data)
-        this.data.participatingmembers = this.data.participatingmembers.map(p => ({ ...p, user_id: p.user_id.id }))
-        console.log(this.data.participantscommissions)
-        console.log(this.data.participatingmembers)
-        // const response = await TransactionsServices.updateOneItem(this.data.id, this.data)
+        // console.log(this.data.participatingmembers)
+
+        this.data.participatingmembers = this.data.participatingmembers.map(p => {
+          if (typeof p.user_id !== 'number') {
+            return ({ ...p, user_id: p.user_id.id })
+          } else {
+            return p
+          }
+        })
+        // console.log(this.data.participantscommissions)
+        // console.log(this.data.participatingmembers)
+        const response = await TransactionsServices.updateOneItem(this.data.id, this.data)
+        if (response.success === true) {
+          this.successMessage = 'تم التعديل بنجاح'
+          this.successSnackbar = true
+          setTimeout(() => {
+            this.$router.push('/Treatments')
+          }, 1500)
+        } else {
+          this.errorMessage = 'يوجد مشكلة في التعديل'
+          this.errorSnackbar = true
+        }
         // console.log(response)
       },
     },
