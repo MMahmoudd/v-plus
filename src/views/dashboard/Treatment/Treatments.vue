@@ -461,7 +461,7 @@
             ref="html2Pdf"
             :show-layout="false"
             :float-layout="true"
-            :enable-download="true"
+            :enable-download="false"
             :preview-modal="true"
             :paginate-elements-by-height="1400"
             filename="نموذج التقرير"
@@ -821,6 +821,26 @@
         pdfData.imageBase = 'https://taqeeem.millennium.sa/'
         pdfData.facility = facility
         pdfData.propTypeList = []
+
+        /**
+         * ?
+         */
+
+        pdfData.images = [{ image: 'https://via.placeholder.com/640x480.png/00ffff?text=image1' }, { image: 'https://via.placeholder.com/640x480.png/00ffff?text=image1' }, { image: 'https://via.placeholder.com/640x480.png/00ffff?text=image1' }, { image: 'https://via.placeholder.com/640x480.png/00ffff?text=image1' }, { image: 'https://via.placeholder.com/640x480.png/00ffff?text=image1' }]
+        /**
+         * ? formating the water_meter_number & electric_meter_number to be an array
+         */
+        function split (string) {
+          if (!string) {
+            return []
+          } else {
+            return string.split(';')
+          }
+        }
+
+        pdfData.water_meter_number = split(pdfData.water_meter_number)
+        pdfData.electric_meter_number = split(pdfData.electric_meter_number)
+
         /**
          * ? this is done to only get 4 items including the selected one
          */
@@ -843,6 +863,7 @@
         })
         this.pdfData = pdfData
         this.$refs.html2Pdf.generatePdf()
+        this.pdfData = defaultValuesForPdf
       },
       getFacility: async function () {
         const { data } = await SettingService.getFacility()

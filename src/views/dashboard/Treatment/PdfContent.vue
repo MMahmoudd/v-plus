@@ -298,8 +298,8 @@
             احداثيات الموقع
           </td>
           <td>
-            {{ data.latitude || '' }}
-            {{ data.longitude || '' }}
+            <!-- {{ data.latitude || '' }}
+            {{ data.longitude || '' }} -->
           </td>
         </tr>
         <tr>
@@ -520,7 +520,7 @@
       </tbody>
     </table> -->
     <!--تفاصيل إضافيه-->
-    <table>
+    <table class="table-fixed">
       <thead :style="styleData">
         <tr>
           <th colspan="6">
@@ -545,21 +545,21 @@
           >
             الموقع العام
           </td>
-          <td>{{ data.city.name || '' }}</td>
+          <td>{{ data.trans_general_site || '' }}</td>
           <td
             class="field"
             :style="styleSubData"
           >
             التصميم
           </td>
-          <td>{{ data.city.name || '' }}</td>
+          <td>{{ data.trans_the_design || '' }}</td>
           <td
             class="field"
             :style="styleSubData"
           >
             المنسوب
           </td>
-          <td>{{ data.city.name || '' }}</td>
+          <td>{{ data.trans_attributable || '' }}</td>
         </tr>
         <tr>
           <td
@@ -568,21 +568,21 @@
           >
             الجار
           </td>
-          <td>{{ data.city.name || '' }}</td>
+          <td>{{ data.trans_neighbor || '' }}</td>
           <td
             class="field"
             :style="styleSubData"
           >
             الشوارع
           </td>
-          <td>{{ data.city.name || '' }}</td>
+          <td>{{ data.trans_streets || '' }}</td>
           <td
             class="field"
             :style="styleSubData"
           >
             اضاءة السوارع
           </td>
-          <td>{{ data.city.name || '' }}</td>
+          <td>{{ data.trans_Street_lighting || '' }}</td>
         </tr>
         <tr>
           <td
@@ -591,21 +591,21 @@
           >
             التيار الكهربائي
           </td>
-          <td>{{ data.city.name || '' }}</td>
+          <td>{{ data.trans_electric_current || '' }}</td>
           <td
             class="field"
             :style="styleSubData"
           >
             نوع العزل
           </td>
-          <td>{{ data.city.name || '' }}</td>
+          <td>{{ data.trans_insulation_type || '' }}</td>
           <td
             class="field"
             :style="styleSubData"
           >
             نوع أرضية الأحواش
           </td>
-          <td>{{ data.city.name || '' }}</td>
+          <td>{{ data.trans_the_type_of_yard_floor || '' }}</td>
         </tr>
         <tr>
           <td
@@ -614,21 +614,21 @@
           >
             نوع أرضية الاستقبال
           </td>
-          <td>{{ data.city.name || '' }}</td>
+          <td>{{ data.trans_reception_floor_type || '' }}</td>
           <td
             class="field"
             :style="styleSubData"
           >
             نوع أرضية المدخل
           </td>
-          <td>{{ data.city.name || '' }}</td>
+          <td>{{ data.trans_entrance_floor || '' }}</td>
           <td
             class="field"
             :style="styleSubData"
           >
             نوع أرضية الغرف
           </td>
-          <td>{{ data.city.name || '' }}</td>
+          <td>{{ data.trans_room_floor_type || '' }}</td>
         </tr>
         <tr>
           <td
@@ -637,21 +637,21 @@
           >
             وصف الأبواب الخارجية
           </td>
-          <td>{{ data.city.name || '' }}</td>
+          <td>{{ data.trans_bolt_the_outer_doors || '' }}</td>
           <td
             class="field"
             :style="styleSubData"
           >
             وصف الأبواب الداخلية
           </td>
-          <td>{{ data.city.name || '' }}</td>
+          <td>{{ data.trans_wool_interior_doors || '' }}</td>
           <td
             class="field"
             :style="styleSubData"
           >
             الهيكل الإنشائي
           </td>
-          <td>{{ data.city.name || '' }}</td>
+          <td>{{ data.trans_structural_structure || '' }}</td>
         </tr>
         <tr>
           <td
@@ -660,21 +660,11 @@
           >
             نوع السقف
           </td>
-          <td>{{ data.city.name || '' }}</td>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            اسم المدينة
-          </td>
-          <td>{{ data.city.name || '' }}</td>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            اسم المدينة
-          </td>
-          <td>{{ data.city.name || '' }}</td>
+          <td>{{ data.trans_bishop_type || '' }}</td>
+          <td />
+          <td />
+          <td />
+          <td />
         </tr>
       </tbody>
     </table>
@@ -835,8 +825,8 @@
           >
             شمالي
           </td>
+          <td>{{ data.tall_northern || '' }}</td>
           <td>{{ data.northern_border || '' }}</td>
-          <td>مثال</td>
           <td>{{ data.north_facade || '' }}</td>
           <!-- <td>مساحة الأرض</td>
           <td>{{ data.land_area || '' }}</td> -->
@@ -848,21 +838,9 @@
           >
             غربي
           </td>
-          <td
-            style="padding:0px;"
-          >
-            مثال
-          </td>
-          <td
-            style="padding:0px;"
-          >
-            مثال
-          </td>
-          <td
-            style="padding:0px;"
-          >
-            {{ data.western_facade || '' }}
-          </td>
+          <td>{{ data.tall_western || '' }}</td>
+          <td>{{ data.western_border || '' }}</td>
+          <td>{{ data.western_facade || '' }}</td>
           <!-- <td
             rowspan="1"
             style="padding:0px;"
@@ -881,8 +859,8 @@
           >
             جنوبي
           </td>
-          <td>مثال</td>
-          <td>مثال</td>
+          <td>{{ data.tall_northern || '' }}</td>
+          <td>{{ data.southern_border || '' }}</td>
           <td>{{ data.south_facade || '' }}</td>
         </tr>
         <tr>
@@ -892,9 +870,9 @@
           >
             شرقي
           </td>
-          <td>مثال</td>
-          <td>مثال</td>
-          <td>{{ data.eastern_facade || '' }}</td>
+          <td>{{ data.tall_eastern || '' }}</td>
+          <td>{{ data.eastern_border || '' }}</td>
+          <td>{{ data.north_facade || '' }}</td>
         </tr>
       </tbody>
     </table>
@@ -1226,6 +1204,144 @@
       </thead>
       <tbody class="has-fields">
         <tr>
+          <td
+            rowspan="2"
+            class="field"
+            :style="styleSubData"
+          >
+            خارجي
+          </td>
+          <td class="text-align-center">
+            <v-checkbox
+              v-model="data.trans_finishing_status_external"
+              hide-details
+              value="1"
+            >
+              <template v-slot:label>
+                <div class="checkbox-label">
+                  تشطيب فاخر
+                </div>
+              </template>
+            </v-checkbox>
+          </td>
+          <td class="text-align-center">
+            <v-checkbox
+              v-model="data.trans_finishing_status_external"
+              hide-details
+              value="2"
+            >
+              <template v-slot:label>
+                <div class="checkbox-label">
+                  تشطيب متوسط
+                </div>
+              </template>
+            </v-checkbox>
+          </td>
+          <td class="text-align-center">
+            <v-checkbox
+              v-model="data.trans_finishing_status_external"
+              hide-details
+              value="3"
+            >
+              <template v-slot:label>
+                <div class="checkbox-label">
+                  تشطيب عادي
+                </div>
+              </template>
+            </v-checkbox>
+          </td>
+          <td>
+            <v-checkbox
+              v-model="data.trans_finishing_status"
+              hide-details
+              value="4"
+            >
+              <template v-slot:label>
+                <div class="checkbox-label">
+                  بدون
+                </div>
+              </template>
+            </v-checkbox>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            الواجهات من حجر طبيعي أو دهان
+            ذو جودة عالية، نوعية األبواب الخارجية،
+            نوعية أرضيات الساحات الخارجية،
+          </td>
+          <td>الواجهات من حجر أو دهان، نوعية الأبواب الخارجية، نوعية أرضيات الساحات الخارجية غالباً من السيراميك، مكونات الجدران الخارجية تكون مزدوجة</td>
+          <td>الواجهات دهان، نوعية الأبواب الخارجية، نوعية أرضيات الساحات الخارجية غالباً من بلاط بلدي،</td>
+          <td />
+        </tr>
+        <tr>
+          <td
+            rowspan="2"
+            class="field"
+            :style="styleSubData"
+          >
+            داخلي
+          </td>
+          <td class="text-align-center">
+            <v-checkbox
+              v-model="data.trans_finishing_status"
+              hide-details
+              value="1"
+            >
+              <template v-slot:label>
+                <div class="checkbox-label">
+                  تشطيب فاخر
+                </div>
+              </template>
+            </v-checkbox>
+          </td>
+          <td class="text-align-center">
+            <v-checkbox
+              v-model="data.trans_finishing_status"
+              hide-details
+              value="2"
+            >
+              <template v-slot:label>
+                <div class="checkbox-label">
+                  تشطيب متوسط
+                </div>
+              </template>
+            </v-checkbox>
+          </td>
+          <td class="text-align-center">
+            <v-checkbox
+              v-model="data.trans_finishing_status"
+              hide-details
+              value="3"
+            >
+              <template v-slot:label>
+                <div class="checkbox-label">
+                  تشطيب عادي
+                </div>
+              </template>
+            </v-checkbox>
+          </td>
+          <td>
+            <v-checkbox
+              v-model="data.trans_finishing_status"
+              hide-details
+              value="4"
+            >
+              <template v-slot:label>
+                <div class="checkbox-label">
+                  بدون
+                </div>
+              </template>
+            </v-checkbox>
+          </td>
+        </tr>
+        <tr>
+          <td>نوعية أرضيات المداخل والمجالس وصالات الطعام تتكون من رخام فاخر، نوعية الأبواب الداخلية، نوعية العزل، نوعية الشبابيك، مكونات الجدران الخارجية تكون مزدوجة، نوعية التسليك والسباكة، نوعية الدهان الداخلي، أعمال الجبس بأشكال هندسية وجودتها، تكييف مركزي، مصعد، جودة عمال التشطيب.</td>
+          <td>نوعية أرضيات المداخل والمجالس وصالات الطعام تتكون من السيراميك، نوعية الأبواب الداخلية، نوعية العزل، نوعية الشبابيك، ، نوعية التسليك والسباكة، نوعية الدهان الداخلي، أعمال الجبس وجودتها، التكييف منفصل (سبيلت).</td>
+          <td>نوعية أرضيات المداخل والمجالس وصالات الطعام تتكون من السيراميك العادي أو بلاط بلدي لفرش الموكيت، نوعية الأبواب الداخلية، لا يوجد عوازل، الشبابيك عادية جداً، نوعية التسليك والسباكة، نوعية الدهان الداخلي، لا يوجد جبس بالأسقف، نوعية التكييف شباك.</td>
+          <td />
+        </tr>
+        <!-- <tr>
           <td class="text-align-center">
             <v-checkbox
               v-model="data.trans_finishing_status"
@@ -1377,14 +1493,14 @@
               </template>
             </v-checkbox>
           </td>
-        </tr>
+        </tr> -->
       </tbody>
     </table>
     <!-- الخدمات والمرافق المتوفرة بالعقار -->
     <table class="table-fixed">
       <thead :style="styleData">
         <tr>
-          <th colspan="4">
+          <th colspan="6">
             <div class="header ">
               <div class="header-text">
                 الخدمات والمرافق المتوفرة بالعقار
@@ -1401,57 +1517,87 @@
       <tbody>
         <tr>
           <td>
-            <v-checkbox
+            <!-- <v-checkbox
               v-model="data.is_telephone"
               hide-details
               true-value="1"
             >
               <template v-slot:label>
-                <div class="checkbox-label">
-                  هاتف
-                </div>
+                <div class="checkbox-label"> -->
+            هاتف
+            <!-- </div>
               </template>
-            </v-checkbox>
+            </v-checkbox> -->
           </td>
           <td>
-            <v-checkbox
+            <!-- <v-checkbox
               v-model="data.sanitation"
               hide-details
               true-value="1"
             >
               <template v-slot:label>
-                <div class="checkbox-label">
-                  صرف صحي
-                </div>
+                <div class="checkbox-label"> -->
+            صرف صحي
+            <!-- </div>
               </template>
-            </v-checkbox>
+            </v-checkbox> -->
           </td>
-          <td>
-            <v-checkbox
+          <td colspan="2">
+            <!-- <v-checkbox
               v-model="data.water_meter"
               hide-details
               true-value="1"
             >
               <template v-slot:label>
-                <div class="checkbox-label">
-                  مياة
-                </div>
+                <div class="checkbox-label"> -->
+            مياة
+            <!-- </div>
               </template>
-            </v-checkbox>
+            </v-checkbox> -->
           </td>
-          <td>
-            <v-checkbox
+          <td colspan="2">
+            <!-- <v-checkbox
               v-model="data.electric_meter"
               hide-details
               true-value="1"
             >
               <template v-slot:label>
-                <div class="checkbox-label">
-                  الكهرباء
-                </div>
+                <div class="checkbox-label"> -->
+            الكهرباء
+            <!-- </div>
               </template>
-            </v-checkbox>
+            </v-checkbox> -->
           </td>
+        </tr>
+        <tr>
+          <td>{{ data.is_telephone ? 'يوجد' : 'لا يوجد' }}</td>
+          <td>{{ data.sanitation ? 'يوجد' : 'لا يوجد' }}</td>
+          <!--water-->
+          <td>{{ data.water_meter_number[0] || '' }}</td>
+          <td>{{ data.water_meter_number[1] || '' }}</td>
+          <!--electric-->
+          <td>{{ data.electric_meter_number[0] || '' }}</td>
+          <td>{{ data.electric_meter_number[1] || '' }}</td>
+        </tr>
+        <tr>
+          <td
+            rowspan="2"
+            colspan="2"
+          />
+          <!--water-->
+          <td>{{ data.water_meter_number[2] || '' }}</td>
+          <td>{{ data.water_meter_number[3] || '' }}</td>
+          <!--electric-->
+          <td>{{ data.electric_meter_number[2] || '' }}</td>
+          <td>{{ data.electric_meter_number[3] || '' }}</td>
+        </tr>
+        <tr>
+          <!--water-->
+          <td>{{ data.water_meter_number[4] || '' }}</td>
+          <td>{{ data.water_meter_number[5] || '' }}</td>
+          <!--electric-->
+          <td>{{ data.electric_meter_number[4] || '' }}</td>
+          <td>{{ data.electric_meter_number[5] || '' }}</td>
         </tr>
       </tbody>
     </table>
@@ -1459,7 +1605,7 @@
     <table class="table-fixed">
       <thead :style="styleData">
         <tr>
-          <th colspan="5">
+          <th colspan="6">
             <div class="header ">
               <div class="header-text">
                 المحيط المؤثر للعقار
@@ -1475,113 +1621,50 @@
       </thead>
       <tbody>
         <tr>
-          <td class="text-align-center">
-            <v-checkbox
-              v-model="data.masjid"
-              hide-details
-              true-value="1"
-            >
-              <template v-slot:label>
-                <div class="checkbox-label">
-                  جامع
-                </div>
-              </template>
-            </v-checkbox>
-            <p>{{ join([data.masjid_note , data.masjid_distance]) }}</p>
-
-            <v-checkbox
-              v-model="data.public_garden"
-              hide-details
-              true-value="1"
-            >
-              <template v-slot:label>
-                <div class="checkbox-label">
-                  حديقة
-                </div>
-              </template>
-            </v-checkbox>
-            <p>{{ join([data.public_garden_note , data.public_garden_distance]) }}</p>
-          </td>
-          <td class="text-align-center">
-            <v-checkbox
-              v-model="data.medical_facility"
-              hide-details
-              true-value="1"
-            >
-              <template v-slot:label>
-                <div class="checkbox-label">
-                  مرفق طبي
-                </div>
-              </template>
-            </v-checkbox>
-            <p>{{ join([data.medical_facility_note , data.medical_facility_distance]) }}</p>
-
-            <v-checkbox
-              v-model="data.educational_facility"
-              hide-details
-              true-value="1"
-            >
-              <template v-slot:label>
-                <div class="checkbox-label">
-                  مرفق تعليمي
-                </div>
-              </template>
-            </v-checkbox>
-            <p>{{ join([data.educational_facility_note , data.educational_facility_distance]) }}</p>
-          </td>
-          <td class="text-align-center">
-            <v-checkbox
-              v-model="data.security_facility"
-              hide-details
-              true-value="1"
-            >
-              <template v-slot:label>
-                <div class="checkbox-label">
-                  مرفق أمنى
-                </div>
-              </template>
-            </v-checkbox>
-            <p>{{ join([data.security_facility_note , data.security_facility_distance]) }}</p>
-            <v-checkbox
-              v-model="data.government_office"
-              hide-details
-              true-value="1"
-            >
-              <template v-slot:label>
-                <div class="checkbox-label">
-                  مقر حكومي
-                </div>
-              </template>
-            </v-checkbox>
-            <p>{{ join([data.government_office_note , data.government_office_distance]) }}</p>
-          </td>
-          <td class="text-align-center">
-            <v-checkbox
-              v-model="data.market"
-              hide-details
-              true-value="1"
-            >
-              <template v-slot:label>
-                <div class="checkbox-label">
-                  سوق تجاري
-                </div>
-              </template>
-            </v-checkbox>
-            <p>{{ join([data.market_note , data.market_distance]) }}</p>
-            <v-checkbox
-              v-model="data.highway"
-              hide-details
-              true-value="1"
-            >
-              <template v-slot:label>
-                <div class="checkbox-label">
-                  طريق سريع
-                </div>
-              </template>
-            </v-checkbox>
-            <p>{{ join([data.highway_note , data.highway_distance]) }}</p>
-          </td>
-          <td>أخرى:</td>
+          <td>النوع</td>
+          <td>الوصف</td>
+          <td>يبعد</td>
+          <td>النوع</td>
+          <td>الوصف</td>
+          <td>يبعد</td>
+        </tr>
+        <tr>
+          <td>جامع</td>
+          <td>{{ data.masjid_note || '' }}</td>
+          <td>{{ data.masjid_distance || '' }}</td>
+          <td>مرفق طبي</td>
+          <td>{{ data.medical_facility_note || '' }}</td>
+          <td>{{ data.medical_facility_distance || '' }}</td>
+        </tr>
+        <tr>
+          <td>مرفق أمني</td>
+          <td>{{ data.security_facility_note || '' }}</td>
+          <td>{{ data.security_facility_distance || '' }}</td>
+          <td>سوق تجاري</td>
+          <td>{{ data.market_note || '' }}</td>
+          <td>{{ data.market_distance || '' }}</td>
+        </tr>
+        <tr>
+          <td>حديقة</td>
+          <td>{{ data.public_garden_note || '' }}</td>
+          <td>{{ data.public_garden_distance || '' }}</td>
+          <td>مرفق تعليمي</td>
+          <td>{{ data.educational_facility_note || '' }}</td>
+          <td>{{ data.educational_facility_distance || '' }}</td>
+        </tr>
+        <tr>
+          <td>مقر حكومي</td>
+          <td>{{ data.government_office_note || '' }}</td>
+          <td>{{ data.government_office_distance || '' }}</td>
+          <td>طريق سريع</td>
+          <td>{{ data.highway_note || '' }}</td>
+          <td>{{ data.highway_distance || '' }}</td>
+        </tr>
+        <tr>
+          <td>أخرى</td>
+          <td />
+          <td />
+          <td colspan="3" />
         </tr>
       </tbody>
     </table>
@@ -1644,8 +1727,8 @@
         </tr>
         <tr>
           <td><div>طريقة البيوع المقارنة</div></td>
-          <td><div>طريقة االستثمار )رسملة الدخل(</div></td>
-          <td><div>طريقة التكلفة )المقاول(</div></td>
+          <td><div>طريقة الاستثمار (رسملة الدخل)</div></td>
+          <td><div>طريقة التكلفة (المقاول)</div></td>
         </tr>
       </tbody>
     </table>
@@ -1654,7 +1737,7 @@
     <table class="first">
       <thead :style="styleData">
         <tr>
-          <th colspan="6">
+          <th colspan="8">
             <div class="header ">
               <div class="header-text">
                 العقارات المقارنة
@@ -1680,7 +1763,7 @@
             class="field"
             :style="styleSubData"
           >
-            نوع العملية)تنفيذ/ حد/سوم(
+            نوع العملية
           </td>
           <td
             class="field"
@@ -1698,13 +1781,25 @@
             class="field"
             :style="styleSubData"
           >
-            السعر )ر.س(
+            السعر
           </td>
           <td
             class="field"
             :style="styleSubData"
           >
-            السعر لكل متر
+            سعر المتر
+          </td>
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            خط الطول
+          </td>
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            خط العرض
           </td>
         </tr>
         <tr>
@@ -1718,7 +1813,9 @@
           <td>{{ data.cm_space || '' }}</td>
           <td>{{ formatDate(data.operation_date) }}</td>
           <td>{{ data.cm_price || '' }}</td>
-          <td>داتا</td>
+          <td>{{ priceFromMeter(data.cm_price, data.cm_space) || '' }}</td>
+          <td>{{ data.cm_latitude }}</td>
+          <td>{{ data.cm_longitude }}</td>
         </tr>
         <tr>
           <td
@@ -1731,7 +1828,9 @@
           <td>{{ data.cm_space_2 || '' }}</td>
           <td>{{ formatDate(data.operation_date_2) }}</td>
           <td>{{ data.cm_price_2 || '' }}</td>
-          <td>داتا</td>
+          <td>{{ priceFromMeter(data.cm_price, data.cm_space) || '' }}</td>
+          <td>{{ data.cm_latitude_2 }}</td>
+          <td>{{ data.cm_longitude_2 }}</td>
         </tr>
         <tr>
           <td
@@ -1744,7 +1843,9 @@
           <td>{{ data.cm_space_3 || '' }}</td>
           <td>{{ formatDate(data.operation_date_3) }}</td>
           <td>{{ data.cm_price_3 || '' }}</td>
-          <td>داتا</td>
+          <td>{{ priceFromMeter(data.cm_price, data.cm_space) || '' }}</td>
+          <td>{{ data.cm_latitude_3 }}</td>
+          <td>{{ data.cm_longitude_3 }}</td>
         </tr>
       </tbody>
     </table>
@@ -1905,9 +2006,31 @@
           <td>{{ addPercentage(data.cm_relative_w_comparable_p2) }}</td>
           <td>{{ addPercentage(data.cm_relative_w_comparable_p3) }}</td>
         </tr>
+        <tr>
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            مساهمة العقارات المقارنة حسب الوزن النسبي
+          </td>
+          <td>{{ formatCurrency(data.cm_contribution_comparative_p_relative_weight) }}</td>
+          <td>{{ formatCurrency(data.cm_contribution_comparative_p_relative_weight2) }}</td>
+          <td>{{ formatCurrency(data.cm_contribution_comparative_p_relative_weight3) }}</td>
+        </tr>
+        <tr>
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            القيمة السوقية بطريقة البيوع المقارنة
+          </td>
+          <td colspan="3">
+            {{ formatCurrency(data.cm_market_v_comparative_sales_method) }}
+          </td>
+        </tr>
       </tbody>
     </table>
-    <div class="html2pdf__page-break" />
+    <!-- <div class="html2pdf__page-break" />
     <table class="first">
       <tbody class="has-fields">
         <tr style="visibility: collapse;">
@@ -1959,7 +2082,8 @@
           </td>
         </tr>
       </tbody>
-    </table>
+    </table> -->
+    <!-- <div class="html2pdf__page-break" /> -->
     <!--أسلوب الدخل-->
     <table>
       <thead :style="styleData">
@@ -2045,7 +2169,8 @@
       </tbody>
     </table>
     <!--طريقة التكلفة-->
-    <table>
+    <div class="html2pdf__page-break" />
+    <table class="first">
       <thead :style="styleData">
         <tr>
           <th colspan="6">
@@ -2306,13 +2431,11 @@
         <tr>
           <td>
             المسمى
-            <br>
             الوظيفي
           </td>
           <td>z</td>
           <td>
             المسمى
-            <br>
             الوظيفي
           </td>
           <td>z</td>
@@ -2422,17 +2545,15 @@
         </tr>
       </tbody>
     </table>
-    <!--المالحق والصور الفوتوغرافية-->
-    <div
-      class="html2pdf__page-break"
-    />
+    <!--إحداثيات الموقع-->
+    <div class="html2pdf__page-break" />
     <table class="first">
       <thead :style="styleData">
         <tr>
           <th colspan="6">
             <div class="header ">
               <div class="header-text">
-                المالحق والصور الفوتوغرافية
+                إحداثيات الموقع
               </div>
               <div class="header-icon">
                 <v-icon>
@@ -2443,6 +2564,122 @@
           </th>
         </tr>
       </thead>
+      <tbody class="has-fields">
+        <tr>
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            الموقع
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <gmap-map
+              ref="vPlusMap"
+              map-type-id="terrain"
+              style="width: 100%; height: 300px"
+              :center="{lat: +data.latitude || 23, lng: +data.longitude || 24}"
+              :zoom="7"
+            >
+              <GmapMarker
+                :position="{lat: +data.latitude || 22, lng: +data.longitude || 22}"
+                :icon="{ url: require('../../../assets/marker-red.png'),size: {width: 60, height: 90, f: 'px', b: 'px',},
+                         scaledSize: {width: 30, height: 30, f: 'px', b: 'px',},}"
+              />
+            </gmap-map>
+          </td>
+        </tr>
+        <tr>
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            المخطط
+          </td>
+        </tr>
+        <tr />
+      </tbody>
+    </table>
+    <!--خريطة المقارنات-->
+    <table>
+      <thead :style="styleData">
+        <tr>
+          <th colspan="6">
+            <div class="header ">
+              <div class="header-text">
+                خريطة المقارنات
+              </div>
+              <div class="header-icon">
+                <v-icon>
+                  far fa-file-pdf
+                </v-icon>
+              </div>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <gmap-map
+              ref="vPlusMap"
+              map-type-id="terrain"
+              style="width: 100%; height: 300px"
+              :center="{lat: +data.cm_latitude || 23, lng: +data.cm_longitude || 24}"
+              :zoom="7"
+            >
+              <GmapMarker
+                :position="{lat: +data.cm_latitude || 22, lng: +data.cm_longitude || 22}"
+                :icon="{ url: require('../../../assets/marker-red.png'),size: {width: 60, height: 90, f: 'px', b: 'px',},
+                         scaledSize: {width: 30, height: 30, f: 'px', b: 'px',},}"
+              />
+              <GmapMarker
+                :position="{lat: +data.cm_latitude_2 || 23, lng: +data.cm_longitude_2 || 23}"
+                :icon="{ url: require('../../../assets/marker-blue.png'),size: {width: 60, height: 90, f: 'px', b: 'px',},
+                         scaledSize: {width: 30, height: 30, f: 'px', b: 'px',},}"
+              />
+              <GmapMarker
+                :position="{lat: +data.cm_latitude_3 || 23, lng: +data.cm_longitude_3 || 24}"
+                :icon="{ url: require('../../../assets/marker-yellow.png'),size: {width: 60, height: 90, f: 'px', b: 'px',},
+                         scaledSize: {width: 30, height: 30, f: 'px', b: 'px',},}"
+              />
+            </gmap-map>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <!--المالحق والصور الفوتوغرافية-->
+    <div
+      class="html2pdf__page-break"
+    />
+    <table class="first">
+      <thead :style="styleData">
+        <tr>
+          <th colspan="6">
+            <div class="header ">
+              <div class="header-text">
+                الصور الفوتوغرافية
+              </div>
+              <div class="header-icon">
+                <v-icon>
+                  far fa-file-pdf
+                </v-icon>
+              </div>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <img
+          v-for="(img, index) in data.images"
+          :key="index"
+          :src="img.image"
+          width="350"
+          height="340"
+          style="margin:1px"
+        >
+      </tbody>
     </table>
     <!-- الصك -->
     <div
@@ -2479,34 +2716,11 @@
       class="html2pdf__page-break"
     />
 
-    <!--خريطة المقارنات-->
-    <div class="first last">
-      <gmap-map
-        ref="vPlusMap"
-        map-type-id="terrain"
-        style="width: 100%; height: 450px"
-        :center="{lat: +data.cm_latitude || 23, lng: +data.cm_longitude || 24}"
-        :zoom="7"
-      >
-        <GmapMarker
-          :position="{lat: +data.cm_latitude || 22, lng: +data.cm_longitude || 22}"
-          :icon="{ url: require('../../../assets/marker-red.png'),size: {width: 60, height: 90, f: 'px', b: 'px',},
-                   scaledSize: {width: 30, height: 30, f: 'px', b: 'px',},}"
-        />
-        <GmapMarker
-          :position="{lat: +data.cm_latitude_2 || 23, lng: +data.cm_longitude_2 || 23}"
-          :icon="{ url: require('../../../assets/marker-blue.png'),size: {width: 60, height: 90, f: 'px', b: 'px',},
-                   scaledSize: {width: 30, height: 30, f: 'px', b: 'px',},}"
-        />
-        <GmapMarker
-          :position="{lat: +data.cm_latitude_3 || 23, lng: +data.cm_longitude_3 || 24}"
-          :icon="{ url: require('../../../assets/marker-yellow.png'),size: {width: 60, height: 90, f: 'px', b: 'px',},
-                   scaledSize: {width: 30, height: 30, f: 'px', b: 'px',},}"
-        />
-      </gmap-map>
-    </div>
     <!--القيود على االستخدام والنشر-->
-    <table>
+    <div
+      class="html2pdf__page-break"
+    />
+    <table class="first">
       <thead :style="styleData">
         <tr>
           <th colspan="6">
@@ -2727,7 +2941,7 @@
         })
 
         if (number) {
-          return formatter.format(+number)
+          return formatter.format(+number).replace('$', '')
         }
 
         return ''
@@ -2737,6 +2951,13 @@
           return new Date(date).toLocaleDateString('en-GB').split('/').reverse().join('-')
         } else {
           return ''
+        }
+      },
+      priceFromMeter: function (price, space) {
+        if (!price || !space) {
+          return ''
+        } else {
+          return this.formatCurrency(space / price)
         }
       },
     },

@@ -2439,7 +2439,7 @@
             <div v-show="!isSelfBulding">
               <h2>تصنيف مستوى تشطيبات البناء</h2>
               <v-radio-group
-                v-model="outsideFinishing"
+                v-model="data.trans_finishing_status_external"
                 row
               >
                 <v-col
@@ -2453,7 +2453,7 @@
                   <v-radio
                     class="mr-0"
                     label="تشطيبات خارجية فاخرة"
-                    value="outLux"
+                    :value="1"
                     name="outsideFinishing"
                   />
                   <v-textarea
@@ -2474,7 +2474,7 @@
                   <v-radio
                     class="mr-0"
                     label="تشطيبات خارجية متوسطة"
-                    value="outMed"
+                    :value="2"
                     name="outsideFinishing"
                   />
                   <v-textarea
@@ -2495,7 +2495,7 @@
                   <v-radio
                     class="mr-0"
                     label="تشطيبات خارجية عادية"
-                    value="outNorm"
+                    :value="3"
                     name="outsideFinishing"
                   />
                   <v-textarea
@@ -2514,16 +2514,15 @@
                     class="d-block mb-3 font-weight-bold text-right"
                   >بدون تشطيب</label>
                   <v-radio
-                    v-model="selected"
                     class="mr-0"
                     label="بدون تشطيب خارجى"
-                    value="without"
+                    :value="4"
                     name="outsideFinishing"
                   />
                 </v-col>
               </v-radio-group>
               <v-radio-group
-                v-model="outsideFinishing"
+                v-model="data.trans_finishing_status"
                 class="mt-0"
                 row
               >
@@ -2535,7 +2534,8 @@
                   <v-radio
                     class="mr-0"
                     label="تشطيبات داخلية فاخرة"
-                    value="inLux"
+                    :value="1"
+
                     name="insideFinishing"
                   />
                   <v-textarea
@@ -2553,7 +2553,7 @@
                   <v-radio
                     class="mr-0"
                     label="تشطيبات داخلية متوسطة"
-                    value="inMed"
+                    :value="2"
                     name="insideFinishing"
                   />
                   <v-textarea
@@ -2571,7 +2571,7 @@
                   <v-radio
                     class="mr-0"
                     label="تشطيبات داخلية عادية"
-                    value="inNorm"
+                    :value="3"
                     name="insideFinishing"
                   />
                   <v-textarea
@@ -2590,7 +2590,7 @@
                     v-model="selected"
                     class="mr-0"
                     label="بدون تشطيب داخلى"
-                    value="without"
+                    :value="4"
                     name="insideFinishing"
                   />
                 </v-col>
@@ -2638,9 +2638,11 @@
                     false-value="0"
                   />
                   <v-row
-                    align="center"
+                    v-for="(item, index) in data.water_meter_number"
+                    :key="item.id"
+                    align="end"
                   >
-                    <v-col
+                    <!-- <v-col
                       cols="12"
                       sm="6"
                     >
@@ -2654,10 +2656,8 @@
                         single-line
                         outlined
                       />
-                    </v-col>
-                    <!-- <v-col
-                      v-for="(row, index) in airRows5"
-                      :key="'row5'+index"
+                    </v-col> -->
+                    <v-col
                       cols="12"
                       sm="6"
                     >
@@ -2665,12 +2665,29 @@
                         class="d-block mb-3 font-weight-bold"
                       >رقم العداد</label>
                       <v-text-field
+                        v-model="item.number"
                         class="d-inline"
                         label="رقم العداد"
                         single-line
                         outlined
+                        hide-details=""
                       />
-                    </v-col> -->
+                    </v-col>
+                    <v-col
+                      cols="12"
+                      sm="6"
+                    >
+                      <v-btn
+                        color="error"
+                        depressed
+                        @click.prevent="delete_meter('water' , index)"
+                      >
+                        <v-icon left>
+                          mdi-plus
+                        </v-icon>
+                        حذف
+                      </v-btn>
+                    </v-col>
                     <!-- <v-col
                       cols="12"
                       sm="6"
@@ -2684,6 +2701,18 @@
                       </label>
                     </v-col> -->
                   </v-row>
+                  <v-col
+                    cols="12"
+                    sm="6"
+                  >
+                    <label
+                      class="d-block font-weight-bold"
+                      @click.prevent="add_meter('water')"
+                    >
+                      <v-icon left> mdi-plus </v-icon>
+                      إضافة رقم عداد جديد
+                    </label>
+                  </v-col>
                 </v-col>
                 <v-col
                   cols="12"
@@ -2696,8 +2725,25 @@
                     false-value="0"
                   />
                   <v-row
-                    align="center"
+                    v-for="(item, index) in data.electric_meter_number"
+                    :key="item.id"
+                    align="end"
                   >
+                    <!-- <v-col
+                      cols="12"
+                      sm="6"
+                    >
+                      <label
+                        class="d-block mb-3 font-weight-bold"
+                      >رقم العداد</label>
+                      <v-text-field
+                        v-model="data.water_meter_number"
+                        class="d-inline"
+                        label="رقم العداد"
+                        single-line
+                        outlined
+                      />
+                    </v-col> -->
                     <v-col
                       cols="12"
                       sm="6"
@@ -2706,42 +2752,54 @@
                         class="d-block mb-3 font-weight-bold"
                       >رقم العداد</label>
                       <v-text-field
-                        v-model="data.electric_meter_number"
+                        v-model="item.number"
                         class="d-inline"
                         label="رقم العداد"
                         single-line
                         outlined
+                        hide-details=""
                       />
                     </v-col>
-                    <!-- <v-col
-                      v-for="(row, index) in airRows6"
-                      :key="'row6'+index"
+                    <v-col
                       cols="12"
                       sm="6"
                     >
-                      <label
-                        class="d-block mb-3 font-weight-bold"
-                      >رقم العداد</label>
-                      <v-text-field
-                        class="d-inline"
-                        label="رقم العداد"
-                        single-line
-                        outlined
-                      />
-                    </v-col> -->
+                      <v-btn
+                        color="error"
+                        depressed
+                        @click.prevent="delete_meter('electric' , index)"
+                      >
+                        <v-icon left>
+                          mdi-plus
+                        </v-icon>
+                        حذف
+                      </v-btn>
+                    </v-col>
                     <!-- <v-col
                       cols="12"
                       sm="6"
                     >
                       <label
                         class="d-block font-weight-bold"
-                        @click.prevent="airRows6++"
+                        @click.prevent="airRows5++"
                       >
                         <v-icon left> mdi-plus </v-icon>
                         إضافة رقم عداد جديد
                       </label>
                     </v-col> -->
                   </v-row>
+                  <v-col
+                    cols="12"
+                    sm="6"
+                  >
+                    <label
+                      class="d-block font-weight-bold"
+                      @click.prevent="add_meter('electric')"
+                    >
+                      <v-icon left> mdi-plus </v-icon>
+                      إضافة رقم عداد جديد
+                    </label>
+                  </v-col>
                 </v-col>
               </v-row>
             </div>
@@ -5809,13 +5867,6 @@
           return ''
         }
         return (+value).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')
-        // eslint-disable-next-line no-new
-        // const formater = new Intl.NumberFormat('en-US', {
-        //   style: 'currency',
-        //   currency: 'SAR',
-        // })
-
-        // return formater.format(value)
       },
     },
     data: () => ({
@@ -7313,6 +7364,26 @@
             this.data[key] = data[key]
           }
         }
+        /**
+         * * formating the water_meter_number & electric_meter_number to be an array
+         */
+        function split (string) {
+          if (!string) {
+            return ['']
+          } else {
+            return string.split(';')
+          }
+        }
+
+        function addIdAndString (arrayOfString) {
+          return arrayOfString.map(item => ({
+            number: item,
+            id: uuid.v4(),
+          }))
+        }
+
+        this.data.water_meter_number = addIdAndString(split(this.data.water_meter_number))
+        this.data.electric_meter_number = addIdAndString(split(this.data.electric_meter_number))
 
         //         data.achievement = !data.achievement ? {
         //           prop_current_price: '',
@@ -7562,7 +7633,7 @@
       },
       createImage (file) {
         // var image = new Image()
-        const item = { status: 1, image: false, id: uuid.v4() }
+        const item = { status: 1, image: false, id: uuid.v4(), sort_number: 1 }
         const images = this.data.images
         const reader = new FileReader()
         reader.onload = (e) => {
@@ -7796,6 +7867,11 @@
 
       save: async function () {
         this.dataLoading = true
+        /**
+         * ? converting meters array to string
+         */
+        this.data.water_meter_number = this.data.water_meter_number.map(item => item.number).join(';')
+        this.data.electric_meter_number = this.data.electric_meter_number.map(item => item.number).join(';')
         const formData = this.data
         // const formData = new FormData()
         // for (const key in this.data) {
@@ -7817,6 +7893,21 @@
         }
 
         this.dataLoading = false
+      },
+      /**
+       * ? meter methods
+       */
+      // * delete
+      delete_meter: function (type, index) {
+        this.data[`${type}_meter_number`].splice(index, 1)
+      },
+
+      // * add
+      add_meter: function (type) {
+        this.data[`${type}_meter_number`].push({
+          number: '',
+          id: uuid.v4(),
+        })
       },
       // changePcOfCom: function (id) {
       //   // const index = this.data.achievement.stages.findIndex(s => s.id === id)
