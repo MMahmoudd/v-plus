@@ -624,7 +624,6 @@
         if (data.data.license_date) {
           data.data.license_date = moment(data.data.license_date).format('YYYY-MM-DD')
         }
-        console.log('assets', data.data)
         this.dataLoading = false
       },
     },

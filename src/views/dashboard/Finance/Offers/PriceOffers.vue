@@ -73,11 +73,13 @@
                   </v-icon>
                   <span class="color_danger"> حذف </span>
                 </v-list-item>
-                <v-list-item>
+                <v-list-item
+                  @click="generateReport(item.id)"
+                >
                   <v-icon class="ml-2">
                     mdi-printer
                   </v-icon>
-                  <span>طباعة </span>
+                  <span>تنزيل PDF</span>
                 </v-list-item>
               </v-list>
             </v-menu>
@@ -93,7 +95,7 @@
             :enable-download="true"
             :preview-modal="false"
             :paginate-elements-by-height="1400"
-            filename="hee hee"
+            filename="Quotation"
             :pdf-quality="2"
             :manual-pagination="true"
             pdf-format="a4"
@@ -103,7 +105,7 @@
           >
             <pdf-content
               slot="pdf-content"
-              :data="pdfData"
+              :pdf-data="pdfData"
             />
           </vue-html2pdf>
           <custom-progress
@@ -113,6 +115,26 @@
         </div>
       </template>
     </v-card>
+    <v-snackbar
+      v-model="successSnackbar"
+      color="success"
+      shaped
+      bottom
+      left
+      :timeout="timeout"
+    >
+      {{ successMessage }}
+    </v-snackbar>
+    <v-snackbar
+      v-model="errorSnackbar"
+      color="red"
+      shaped
+      bottom
+      left
+      :timeout="timeout"
+    >
+      {{ errorMessage }}
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -120,14 +142,18 @@
   import { ServiceFactory } from '@/services/ServiceFactory'
   import moment from 'moment'
   import VueHtml2pdf from 'vue-html2pdf'
+  import CustomProgress from '../../component/progress.vue'
   import PdfContent from '../PdfContent.vue'
+  // import defaultValuesForPdf from '../defaultValuesForPdf'
   const OffersService = ServiceFactory.get('Offers')
+  const SettingService = ServiceFactory.get('Setting')
 
   export default {
     name: 'Offers',
     components: {
       VueHtml2pdf,
       PdfContent,
+      CustomProgress,
     },
     data: () => ({
       search: '',
@@ -147,6 +173,15 @@
       successMessage: '',
       errorMessage: '',
       disabled: false,
+      FacilityData: {},
+      progressNumber: 0,
+      showProgress: false,
+      pdfDataLoading: false,
+      pdfData: {
+        Name: 'عرض سعر',
+        FacilityData: {},
+        tableData: {},
+      },
       headers: [
         {
           text: 'اسم العميل',
@@ -172,6 +207,35 @@
     },
 
     methods: {
+      onProgressPdf: function (data) {
+        this.progressNumber = data
+        if (data === 100) {
+          setTimeout(() => {
+            this.showProgress = false
+          }, 1000)
+        }
+      },
+      generateReport: async function (id) {
+        this.progressNumber = 0
+        this.pdfDataLoading = true
+        this.showProgress = true
+        this.progressNumber = 40
+        await this.fetchFacilityData()
+        this.progressNumber = 40
+        await this.fetchOneItem(id)
+        if (Object.keys(this.pdfData.FacilityData).length > 1 || Object.keys(this.pdfData.tableData).length > 1) {
+          this.progressNumber = 20
+          await this.$refs.html2Pdf.generatePdf()
+          this.pdfData.tableData = {}
+          this.pdfData.FacilityData = {}
+          this.successMessage = 'تمت تحميل الملف بنجاح'
+          this.successSnackbar = true
+        } else {
+          this.errorMessage = 'يوجد مشكلة في تحميل الملف برجاء المحاولة مرة اخري'
+          this.errorSnackbar = true
+        }
+        console.log('this.pdfData.FacilityData.length :>> ', this.pdfData.FacilityData)
+      },
       async fetchAllItems () {
         this.dataLoading = true
         const { page, itemsPerPage } = this.options
@@ -187,6 +251,24 @@
         })
         this.items = items.data.data
         this.total = items.total
+        this.dataLoading = false
+      },
+      async fetchOneItem (id) {
+        this.dataLoading = true
+        const item = await OffersService.fetchOneItem(id)
+        if (item.data.created_at) {
+          item.data.created_at = moment(item.data.created_at).format('YYYY-MM-DD')
+        }
+        this.pdfData.tableData = item.data
+        this.dataLoading = false
+      },
+      async fetchFacilityData () {
+        this.dataLoading = true
+        const data = await SettingService.getFacility()
+        if (data.data.license_date) {
+          data.data.license_date = moment(data.data.license_date).format('YYYY-MM-DD')
+        }
+        this.pdfData.FacilityData = data.data
         this.dataLoading = false
       },
     },
