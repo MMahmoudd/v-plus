@@ -1,6 +1,10 @@
 <template>
   <div id="pdf-content">
     <div class="container-header">
+      <div style="display:none;">
+        {{ styleData }}
+        {{ styleSubData }}
+      </div>
       <h1>
         نموذج
         <span class="color">تقرير التقييم</span>
@@ -20,7 +24,7 @@
     </div>
     <div class="divider" />
     <table class="colspan">
-      <thead>
+      <thead :style="styleData">
         <tr>
           <th colspan="4">
             <div class="header">
@@ -48,9 +52,9 @@
       </tbody>
     </table>
     <table class="table-fixed">
-      <thead>
+      <thead :style="styleData">
         <tr>
-          <th colspan="4">
+          <th colspan="6">
             <div class="header">
               <div class="header-text">
                 نطاق العمل
@@ -66,153 +70,83 @@
       </thead>
       <tbody class="has-fields">
         <tr>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             إسم العميل
           </td>
           <td>{{ data.customer.cs_name || '' }}</td>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             إسم مستخدم التقرير
           </td>
           <td>{{ data.trans_report_name || '' }}</td>
-        </tr>
-        <tr>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             الغرض من التقييم
           </td>
           <td>{{ data.evaluationpurpose.name || '' }}</td>
-          <td class="field">
+        </tr>
+        <tr>
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             أساس القيمة
           </td>
           <td>محمد أحمد</td>
-        </tr>
-        <tr>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             تاريخ التقييم
           </td>
           <td>{{ data.trans_evaluation_date || '' }}</td>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             تاريخ المعاينة
           </td>
           <td>{{ data.trans_inspection_date || '' }}</td>
         </tr>
         <tr>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             الرقم المرجعي
           </td>
           <td>{{ data.trans_reference_number || '' }}</td>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             تاريخ التكليف
           </td>
           <td>{{ data.trans_assignment_date || '' }}</td>
-        </tr>
-        <tr>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             نوع التقرير
           </td>
-          <td colspan="3">
+          <td>
             {{ data.trans_Report_type || '' }}
           </td>
         </tr>
       </tbody>
     </table>
-    <!-- عملة التقييم -->
-    <table>
-      <thead>
-        <tr>
-          <th colspan="4">
-            <div class="header">
-              <div class="header-text">
-                عملة التقييم
-              </div>
-              <div class="header-icon">
-                <v-icon>
-                  far fa-file-pdf
-                </v-icon>
-              </div>
-            </div>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td colspan="4">
-            ريال سعودي
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <!-- المعايير المهنية -->
-    <table>
-      <thead>
-        <tr>
-          <th colspan="4">
-            <div class="header">
-              <div class="header-text">
-                المعايير المهنية
-              </div>
-              <div class="header-icon">
-                <v-icon>
-                  far fa-file-pdf
-                </v-icon>
-              </div>
-            </div>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td
-            colspan="4"
-          >
-            <p
-              class="not-empty"
-              style="min-height:123px;"
-            >
-              {{ data.trans_professional_standard || '' }}
-            </p>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <!-- اقرار باالستقاللية وعدم تضارب المصالح -->
-    <table>
-      <thead>
-        <tr>
-          <th colspan="4">
-            <div class="header">
-              <div class="header-text">
-                اقرار بالاستقلالية وعدم تضارب المصالح
-              </div>
-              <div class="header-icon">
-                <v-icon>
-                  far fa-file-pdf
-                </v-icon>
-              </div>
-            </div>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td
-            colspan="4"
-          >
-            <p
-              class="not-empty"
-              style="min-height:123px;"
-            >
-              {{ data.acknowledgment_independence || '' }}
-            </p>
-          </td>
-        </tr>
-      </tbody>
-    </table>
     <!-- الأصل محل التقييم -->
-    <div class="html2pdf__page-break" />
-    <table class="table-fixed first">
-      <thead>
+    <table class="table-fixed">
+      <thead :style="styleData">
         <tr>
-          <th colspan="4">
+          <th colspan="5">
             <div class="header">
               <div class="header-text">
                 الأصل محل التقييم
@@ -226,8 +160,14 @@
           </th>
         </tr>
       </thead>
-      <tbody>
+      <tbody class="has-fields">
         <tr>
+          <td
+            :style="styleSubData"
+            class="field"
+          >
+            نوع العقار
+          </td>
           <td
             v-for="type in data.propTypeList"
             :key="type.id"
@@ -246,16 +186,34 @@
           </td>
         </tr>
         <tr>
-          <td>مثال</td>
-          <td>مثال</td>
-          <td>مثال</td>
-          <td>مثال</td>
+          <td
+            :style="styleSubData"
+            class="field"
+          >
+            حالة العقار
+          </td>
+          <td
+            v-for="type in data.propTypeList"
+            :key="type.id"
+          >
+            <v-checkbox
+              v-model="data.property_type_id"
+              :value="type.id"
+              hide-details
+            >
+              <template v-slot:label>
+                <div class="checkbox-label">
+                  {{ type.name }}
+                </div>
+              </template>
+            </v-checkbox>
+          </td>
         </tr>
       </tbody>
     </table>
     <!-- تفاصيل موقع العقار-->
     <table class="table-fixed">
-      <thead>
+      <thead :style="styleData">
         <tr>
           <th colspan="6">
             <div class="header">
@@ -273,43 +231,70 @@
       </thead>
       <tbody class="has-fields">
         <tr>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             اسم المدينة
           </td>
           <td>{{ data.city.name || '' }}</td>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             اسم الحي
           </td>
           <td>{{ data.neighborhood.name || '' }}</td>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             اسم الشارع
           </td>
           <td>{{ data.trans_street_name|| '' }}</td>
         </tr>
         <tr>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             اسم المخطط
           </td>
           <td>{{ data.residential_plan_name || '' }}</td>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             رقم المخطط
           </td>
           <td>{{ data.residential_plan_no || '' }}</td>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             رقم البلوك
           </td>
           <td>{{ data.trans_Albulk_num || '' }}</td>
         </tr>
         <tr>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             رقم القطعة
           </td>
           <td>{{ data.trans_part_num || '' }}</td>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             استخدام العقار
           </td>
           <td>{{ data.propertyrating.name || '' }}</td>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             احداثيات الموقع
           </td>
           <td>
@@ -318,46 +303,455 @@
           </td>
         </tr>
         <tr>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             اسم المالك
           </td>
           <td>{{ data.trans_owner_name || '' }}</td>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             رقم الصك
           </td>
           <td>{{ data.trans_instrument_num|| '' }}</td>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             تاريخ الصك
           </td>
           <td>{{ data.trans_instrument_date|| '' }}</td>
         </tr>
         <tr>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             رقم رخصة البناء
           </td>
           <td>{{ data.trans_building_permit_number|| '' }}</td>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             تاريخ رخصة البناء
           </td>
           <td>{{ new Date(data.trans_building_permit_date).toLocaleDateString('en-GB').split('/').reverse().join('-') }}</td>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             عمر البناء
           </td>
           <td>{{ data.trans_construction_age || '' }}</td>
         </tr>
         <tr>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             رقم محضر التجزئة
           </td>
           <td>{{ data.trans_retail_record_num || '' }}</td>
-          <td class="field">
-            حالة البناء
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            حالة العقار
           </td>
           <td>مثال</td>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             حالة الإشغال
           </td>
           <td>مثال</td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- <div class="html2pdf__page-break" />
+    <table class="first">
+      <tbody class="has-fields">
+        <tr class="collapse">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            اسم المدينة
+          </td>
+          <td>{{ data.city.name || '' }}</td>
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            اسم الحي
+          </td>
+          <td>{{ data.neighborhood.name || '' }}</td>
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            اسم الشارع
+          </td>
+          <td>{{ data.trans_street_name|| '' }}</td>
+        </tr>
+        <tr class="collapse">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            اسم المخطط
+          </td>
+          <td>{{ data.residential_plan_name || '' }}</td>
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            رقم المخطط
+          </td>
+          <td>{{ data.residential_plan_no || '' }}</td>
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            رقم البلوك
+          </td>
+          <td>{{ data.trans_Albulk_num || '' }}</td>
+        </tr>
+        <tr class="collapse">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            رقم القطعة
+          </td>
+          <td>{{ data.trans_part_num || '' }}</td>
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            استخدام العقار
+          </td>
+          <td>{{ data.propertyrating.name || '' }}</td>
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            احداثيات الموقع
+          </td>
+          <td class="collapse">
+            {{ data.latitude || '' }}
+            {{ data.longitude || '' }}
+          </td>
+        </tr>
+        <tr class="collapse">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            اسم المالك
+          </td>
+          <td>{{ data.trans_owner_name || '' }}</td>
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            رقم الصك
+          </td>
+          <td>{{ data.trans_instrument_num|| '' }}</td>
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            تاريخ الصك
+          </td>
+          <td>{{ data.trans_instrument_date|| '' }}</td>
+        </tr>
+        <tr>
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            رقم رخصة البناء
+          </td>
+          <td>{{ data.trans_building_permit_number|| '' }}</td>
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            تاريخ رخصة البناء
+          </td>
+          <td>{{ new Date(data.trans_building_permit_date).toLocaleDateString('en-GB').split('/').reverse().join('-') }}</td>
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            عمر البناء
+          </td>
+          <td>{{ data.trans_construction_age || '' }}</td>
+        </tr>
+        <tr>
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            رقم محضر التجزئة
+          </td>
+          <td>{{ data.trans_retail_record_num || '' }}</td>
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            حالة العقار
+          </td>
+          <td>مثال</td>
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            حالة الإشغال
+          </td>
+          <td>مثال</td>
+        </tr>
+      </tbody>
+    </table> -->
+    <!--تفاصيل إضافيه-->
+    <table>
+      <thead :style="styleData">
+        <tr>
+          <th colspan="6">
+            <div class="header">
+              <div class="header-text">
+                تفاصيل إضافيه
+              </div>
+              <div class="header-icon">
+                <v-icon>
+                  far fa-file-pdf
+                </v-icon>
+              </div>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody class="has-fields">
+        <tr>
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            الموقع العام
+          </td>
+          <td>{{ data.city.name || '' }}</td>
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            التصميم
+          </td>
+          <td>{{ data.city.name || '' }}</td>
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            المنسوب
+          </td>
+          <td>{{ data.city.name || '' }}</td>
+        </tr>
+        <tr>
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            الجار
+          </td>
+          <td>{{ data.city.name || '' }}</td>
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            الشوارع
+          </td>
+          <td>{{ data.city.name || '' }}</td>
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            اضاءة السوارع
+          </td>
+          <td>{{ data.city.name || '' }}</td>
+        </tr>
+        <tr>
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            التيار الكهربائي
+          </td>
+          <td>{{ data.city.name || '' }}</td>
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            نوع العزل
+          </td>
+          <td>{{ data.city.name || '' }}</td>
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            نوع أرضية الأحواش
+          </td>
+          <td>{{ data.city.name || '' }}</td>
+        </tr>
+        <tr>
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            نوع أرضية الاستقبال
+          </td>
+          <td>{{ data.city.name || '' }}</td>
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            نوع أرضية المدخل
+          </td>
+          <td>{{ data.city.name || '' }}</td>
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            نوع أرضية الغرف
+          </td>
+          <td>{{ data.city.name || '' }}</td>
+        </tr>
+        <tr>
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            وصف الأبواب الخارجية
+          </td>
+          <td>{{ data.city.name || '' }}</td>
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            وصف الأبواب الداخلية
+          </td>
+          <td>{{ data.city.name || '' }}</td>
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            الهيكل الإنشائي
+          </td>
+          <td>{{ data.city.name || '' }}</td>
+        </tr>
+        <tr>
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            نوع السقف
+          </td>
+          <td>{{ data.city.name || '' }}</td>
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            اسم المدينة
+          </td>
+          <td>{{ data.city.name || '' }}</td>
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            اسم المدينة
+          </td>
+          <td>{{ data.city.name || '' }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="html2pdf__page-break" />
+    <!--تكملة تفاصيل إضافيه-->
+    <table class="first">
+      <tbody class="has-fields">
+        <tr>
+          <td
+            class="field"
+            :style="styleSubData"
+            rowspan="5"
+          >
+            نوع التكييف
+          </td>
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            النوع
+          </td>
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            مركب
+          </td>
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            غير مركب
+          </td>
+        </tr>
+        <tr>
+          <td>
+            مركزي
+          </td>
+          <td>
+            1
+          </td>
+          <td>
+            3
+          </td>
+        </tr>
+        <tr>
+          <td>
+            شباك
+          </td>
+          <td>
+            1
+          </td>
+          <td>
+            2
+          </td>
+        </tr>
+        <tr>
+          <td>
+            كونسيلد
+          </td>
+          <td>
+            23
+          </td>
+          <td>
+            23
+          </td>
+        </tr>
+        <tr>
+          <td>
+            منفصل
+          </td>
+          <td>
+            1
+          </td>
+          <td>
+            2
+          </td>
         </tr>
       </tbody>
     </table>
@@ -382,7 +776,7 @@
       <tbody>
         <tr>
           <td colspan="4">
-            <p style="min-height:250px">
+            <p style="min-height:100px">
               {{ data.property_notes || '' }}
             </p>
           </td>
@@ -391,7 +785,7 @@
     </table>
     <!-- حدود وأطوال العقار -->
     <table>
-      <thead>
+      <thead :style="styleData">
         <tr>
           <th colspan="6">
             <div class="header ">
@@ -409,62 +803,67 @@
       </thead>
       <tbody class="has-fields">
         <tr>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             الجهة
           </td>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             طول ضلع الأرض
           </td>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             الوصف
           </td>
-          <td class="field">
-            الواجهات
-          </td>
           <td
-            colspan="2"
             class="field"
+            :style="styleSubData"
           >
-            المساحات
+            الواجهات
           </td>
         </tr>
         <tr>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             شمالي
           </td>
           <td>{{ data.northern_border || '' }}</td>
           <td>مثال</td>
           <td>{{ data.north_facade || '' }}</td>
-          <td>مساحة الأرض</td>
-          <td>{{ data.land_area || '' }}</td>
+          <!-- <td>مساحة الأرض</td>
+          <td>{{ data.land_area || '' }}</td> -->
         </tr>
         <tr>
           <td
             class="field"
-            rowspan="2"
-            style="padding:0px;"
+            :style="styleSubData"
           >
             غربي
           </td>
           <td
-            rowspan="2"
             style="padding:0px;"
           >
             مثال
           </td>
           <td
-            rowspan="2"
             style="padding:0px;"
           >
             مثال
           </td>
           <td
-            rowspan="2"
             style="padding:0px;"
           >
             {{ data.western_facade || '' }}
           </td>
-          <td
+          <!-- <td
             rowspan="1"
             style="padding:0px;"
           >
@@ -473,46 +872,35 @@
 
           <td style="padding:0px;">
             مثال
-          </td>
+          </td> -->
         </tr>
         <tr>
           <td
-            rowspan="1"
-            style="padding:0px;"
+            class="field"
+            :style="styleSubData"
           >
-            عدد األدوار للفلل السكنية
-          </td>
-          <td style="padding:0px;">
-            {{ data.num_floors_residential_villas || '' }}
-          </td>
-        </tr>
-        <tr>
-          <td class="field">
             جنوبي
           </td>
           <td>مثال</td>
           <td>مثال</td>
           <td>{{ data.south_facade || '' }}</td>
-          <td>مساحة القبو</td>
-          <td>{{ data.basement_space || '' }}</td>
         </tr>
         <tr>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             شرقي
           </td>
           <td>مثال</td>
           <td>مثال</td>
           <td>{{ data.eastern_facade || '' }}</td>
-          <td>مساحة الملاحق</td>
-          <td>{{ data.annexes_space || '' }}</td>
         </tr>
       </tbody>
     </table>
-    <div class="html2pdf__page-break" />
-
     <!--معلومة رخصة البناء-->
-    <table class="first">
-      <thead>
+    <table>
+      <thead :style="styleData">
         <tr>
           <th colspan="6">
             <div class="header ">
@@ -533,6 +921,7 @@
           <td
             style="width:25%;"
             class="field"
+            :style="styleSubData"
           >
             هل العقار على الطبيعة
             مطابق لرخصة البناء
@@ -564,6 +953,7 @@
           <td
             style="width:25%;"
             class="field"
+            :style="styleSubData"
           >
             حدود المعاينة
           </td>
@@ -590,19 +980,31 @@
                 </div>
               </template>
             </v-checkbox>
+            <v-checkbox
+              v-model="data.internal_preview"
+              value="1"
+              hide-details
+            >
+              <template v-slot:label>
+                <div class="checkbox-label">
+                  من داخل وخارج العقار
+                </div>
+              </template>
+            </v-checkbox>
           </td>
         </tr>
         <tr>
           <td
             colspan="4"
             class="field"
+            :style="styleSubData"
           >
             في حال عدم مطابقة العقار لرخصة البناء، الرجاء توضيح المخالفات أو أي مالحظات:
           </td>
         </tr>
         <tr>
           <td colspan="4">
-            <p style="min-height:450px;">
+            <p style="min-height:50px;">
               {{ data.review_note || '' }}
             </p>
           </td>
@@ -612,7 +1014,7 @@
 
     <!-- مكونات العقار-->
     <table>
-      <thead>
+      <thead :style="styleData">
         <tr>
           <th colspan="6">
             <div class="header ">
@@ -630,119 +1032,183 @@
       </thead>
       <tbody class="has-fields">
         <tr>
-          <td class="field">
+          <!-- <td
+            class="field"
+            :style="styleSubData"
+          >
             الوصف
-          </td>
-          <td class="field">
+          </td> -->
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             مجالس
           </td>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             غرف طعام
           </td>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             غرف نوم
           </td>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             مطابخ
           </td>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             دورات مياه
           </td>
-        </tr>        <tr>
-          <td class="field">
-            العدد
-          </td>
-          <td>{{ data.trans_boards || '' }}</td>
-          <td>{{ data.trans_dining_rooms || '' }}</td>
-          <td>{{ data.trans_bed_room || '' }}</td>
-          <td>{{ data.trans_kitchens || '' }}</td>
-          <td>{{ data.trans_toilets || '' }}</td>
-        </tr>          <tr>
-          <td class="field">
-            الوصف
-          </td>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             جاكوزي
           </td>
-          <td class="field">
+        </tr>        <tr>
+          <!-- <td
+            class="field"
+            :style="styleSubData"
+          >
+            العدد
+          </td> -->
+          <td>{{ data.trans_boards || '0' }}</td>
+          <td>{{ data.trans_dining_rooms || '0' }}</td>
+          <td>{{ data.trans_bed_room || '0' }}</td>
+          <td>{{ data.trans_kitchens || '0' }}</td>
+          <td>{{ data.trans_toilets || '0' }}</td>
+          <td>{{ data.trans_jacuzzi || '0' }}</td>
+        </tr>          <tr>
+          <!-- <td
+            class="field"
+            :style="styleSubData"
+          >
+            الوصف
+          </td> -->
+
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             حديقة
           </td>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             غرفة خادمة
           </td>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             غرفة حارس
           </td>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             قبو
           </td>
-        </tr>        <tr>
-          <td class="field">
-            العدد
-          </td>
-          <td>{{ data.trans_jacuzzi || '' }}</td>
-          <td>{{ data.trans_garden || '' }}</td>
-          <td>{{ data.trans_maids_room || '' }}</td>
-          <td>{{ data.trans_guard_Room || '' }}</td>
-          <td>{{ data.trans_basement || '' }}</td>
-        </tr>          <tr>
-          <td class="field">
-            الوصف
-          </td>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             الصالات
           </td>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             الملاحق
           </td>
-          <td class="field">
+        </tr>        <tr>
+          <!-- <td
+            class="field"
+            :style="styleSubData"
+          >
+            العدد
+          </td> -->
+          <td>{{ data.trans_garden || '0' }}</td>
+          <td>{{ data.trans_maids_room || '0' }}</td>
+          <td>{{ data.trans_guard_Room || '0' }}</td>
+          <td>{{ data.trans_basement || '0' }}</td>
+          <td>{{ data.trans_halls || '0' }}</td>
+          <td>{{ data.trans_supplements || '0' }}</td>
+        </tr>          <tr>
+          <!-- <td
+            class="field"
+            :style="styleSubData"
+          >
+            الوصف
+          </td> -->
+
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             مصاعد
           </td>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             موقف سيارات
           </td>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             ملاعب أطفال
           </td>
-        </tr>        <tr>
-          <td class="field">
-            العدد
-          </td>
-          <td>{{ data.trans_halls || '' }}</td>
-          <td>{{ data.trans_supplements || '' }}</td>
-          <td>{{ data.trans_elevators || '' }}</td>
-          <td>{{ data.trans_parking || '' }}</td>
-          <td>{{ data.trans_children_playground || '' }}</td>
-        </tr>          <tr>
-          <td class="field">
-            الوصف
-          </td>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             مسبح
           </td>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             مستودع
           </td>
           <td
             class="field"
-            colspan="3"
-            rowspan="2"
+            :style="styleSubData"
           >
             أخرى
           </td>
         </tr>        <tr>
-          <td class="field">
+          <!-- <td
+            class="field"
+            :style="styleSubData"
+          >
             العدد
-          </td>
-          <td>{{ data.trans_swimming_pool | '' }}</td>
-          <td>{{ data.trans_storehouse || '' }}</td>
+          </td> -->
+
+          <td>{{ data.trans_elevators || '0' }}</td>
+          <td>{{ data.trans_parking || '0' }}</td>
+          <td>{{ data.trans_children_playground || '0' }}</td>
+          <td>{{ data.trans_swimming_pool || '0' }}</td>
+          <td>{{ data.trans_storehouse || '0' }}</td>
+          <td>{{ data.trans_storehouse || '0' }}</td>
         </tr>
       </tbody>
     </table>
     <!-- تصنيف مستوى تشطيبات البناء-->
     <div class="html2pdf__page-break" />
     <table class="first">
-      <thead>
+      <thead :style="styleData">
         <tr>
           <th colspan="6">
             <div class="header ">
@@ -801,7 +1267,10 @@
           </td>
         </tr>
         <tr>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             <div>
               <span
                 class="font-weight-bold"
@@ -829,7 +1298,10 @@
               </p>
             </div>
           </td>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             <div>
               <span
                 class="font-weight-bold"
@@ -856,7 +1328,10 @@
                 مصعد، جودة عمال التشطيب.
               </p>
             </div>
-          </td> <td class="field">
+          </td> <td
+            class="field"
+            :style="styleSubData"
+          >
             <div>
               <span
                 class="font-weight-bold"
@@ -907,7 +1382,7 @@
     </table>
     <!-- الخدمات والمرافق المتوفرة بالعقار -->
     <table class="table-fixed">
-      <thead>
+      <thead :style="styleData">
         <tr>
           <th colspan="4">
             <div class="header ">
@@ -982,7 +1457,7 @@
     </table>
     <!-- المحيط المؤثر للعقار -->
     <table class="table-fixed">
-      <thead>
+      <thead :style="styleData">
         <tr>
           <th colspan="5">
             <div class="header ">
@@ -1112,7 +1587,7 @@
     </table>
     <!-- نطاق البحث ومصادر معلومات المقيم -->
     <table>
-      <thead>
+      <thead :style="styleData">
         <tr>
           <th colspan="6">
             <div class="header ">
@@ -1133,7 +1608,7 @@
           <td>
             <p
               class="c-empty"
-              style="min-height:230px;"
+              style="min-height:60px;"
             >
               {{ data.scope_research_sources_information }}
             </p>
@@ -1142,9 +1617,8 @@
       </tbody>
     </table>
     <!-- أسلوب أو طريقة التقييم المستخدمة -->
-    <div class="html2pdf__page-break" />
-    <table class="first">
-      <thead>
+    <table>
+      <thead :style="styleData">
         <tr>
           <th colspan="6">
             <div class="header ">
@@ -1176,8 +1650,9 @@
       </tbody>
     </table>
     <!--العقارات المقارنة-->
-    <table>
-      <thead>
+    <div class="html2pdf__page-break" />
+    <table class="first">
+      <thead :style="styleData">
         <tr>
           <th colspan="6">
             <div class="header ">
@@ -1195,27 +1670,48 @@
       </thead>
       <tbody class="has-fields">
         <tr>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             العقار المقارن
           </td>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             نوع العملية)تنفيذ/ حد/سوم(
           </td>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             المساحة
           </td>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             تاريخ العملية
           </td>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             السعر )ر.س(
           </td>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             السعر لكل متر
           </td>
         </tr>
         <tr>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             1 العقار المقارن
           </td>
           <td>{{ data.cm_operation_type || '' }}</td>
@@ -1225,7 +1721,10 @@
           <td>داتا</td>
         </tr>
         <tr>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             2 العقار المقارن
           </td>
           <td>{{ data.cm_operation_type_2 || '' }}</td>
@@ -1235,7 +1734,10 @@
           <td>داتا</td>
         </tr>
         <tr>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             3 العقار المقارن
           </td>
           <td>{{ data.cm_operation_type_3 || '' }}</td>
@@ -1248,7 +1750,7 @@
     </table>
     <!--جدول التسويات-->
     <table>
-      <thead>
+      <thead :style="styleData">
         <tr>
           <th colspan="6">
             <div class="header ">
@@ -1266,21 +1768,36 @@
       </thead>
       <tbody class="has-fields">
         <tr>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             عناصر المقارنة
           </td>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             العقار المقارن 1
           </td>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             العقار المقارن 2
           </td>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             العقار المقارن 3
           </td>
         </tr>
         <tr>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             تسوية عامل الوقت
           </td>
           <td>{{ addPercentage(data.cm_time_factor_adjustment) }}</td>
@@ -1288,7 +1805,10 @@
           <td>{{ addPercentage(data.cm_time_factor_adjustment_3) }}</td>
         </tr>
         <tr>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             تسوية شروط التمويل
           </td>
           <td>{{ addPercentage(data.cm_settlement_financing_terms) }}</td>
@@ -1296,7 +1816,10 @@
           <td>{{ addPercentage(data.cm_settlement_financing_terms_3) }}</td>
         </tr>
         <tr>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             تسوية ظروف السوق
           </td>
           <td>{{ addPercentage(data.cm_settling_market_conditions) }}</td>
@@ -1304,7 +1827,10 @@
           <td>{{ addPercentage(data.cm_settling_market_conditions_3) }}</td>
         </tr>
         <tr>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             إجمالي تسويات التمويل والسوق
           </td>
           <td>{{ addPercentage(data.cm_total_funding_market_adjustments) }}</td>
@@ -1312,7 +1838,10 @@
           <td>{{ addPercentage(data.cm_total_funding_market_adjustments_3) }}</td>
         </tr>
         <tr>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             سعر البيع بعد تسوية شروط التمويل وظروف السوق
           </td>
           <td>{{ formatCurrency(data.cm_price_after_settling_financing_terms) }}</td>
@@ -1320,7 +1849,10 @@
           <td>{{ formatCurrency(data.cm_price_after_settling_financing_terms3) }}</td>
         </tr>
         <tr>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             تسوية المساحة
           </td>
           <td>{{ addPercentage(data.cm_space_settlement) }}</td>
@@ -1328,7 +1860,10 @@
           <td>{{ addPercentage(data.cm_space_settlement3) }}</td>
         </tr>
         <tr>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             تسويات أخرى
 
             (الحيازة، التنظيم<br> (سكني), الموقع، طبيعة الأرض،عدد  <br>الشوارع)
@@ -1338,7 +1873,10 @@
           <td>{{ addPercentage(data.cm_other_settlement3) }}</td>
         </tr>
         <tr>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             مجموع نسب التسويات (%)
           </td>
           <td>{{ addPercentage(data.cm_total_settlement) }}</td>
@@ -1346,7 +1884,10 @@
           <td>{{ addPercentage(data.cm_total_settlement3) }}</td>
         </tr>
         <tr>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             سعر البيع بعد التسويات
           </td>
           <td>{{ formatCurrency(data.cm_selling_p_a_settlement) }}</td>
@@ -1354,7 +1895,10 @@
           <td>{{ formatCurrency(data.cm_selling_p_a_settlement3) }}</td>
         </tr>
         <tr>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             األوزان النسبية للعقارات المقارنة
           </td>
           <td>{{ addPercentage(data.cm_relative_w_comparable_p) }}</td>
@@ -1367,21 +1911,36 @@
     <table class="first">
       <tbody class="has-fields">
         <tr style="visibility: collapse;">
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             سعر البيع بعد تسوية شروط التمويل وظروف السوق
           </td>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             العقار المقارن 1
           </td>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             العقار المقارن 2
           </td>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             العقار المقارن 3
           </td>
         </tr>
         <tr>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             مساهمة العقارات المقارنة حسب الوزن النسبي
           </td>
           <td>{{ formatCurrency(data.cm_contribution_comparative_p_relative_weight) }}</td>
@@ -1389,7 +1948,10 @@
           <td>{{ formatCurrency(data.cm_contribution_comparative_p_relative_weight3) }}</td>
         </tr>
         <tr>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             القيمة السوقية بطريقة البيوع المقارنة
           </td>
           <td colspan="3">
@@ -1400,7 +1962,7 @@
     </table>
     <!--أسلوب الدخل-->
     <table>
-      <thead>
+      <thead :style="styleData">
         <tr>
           <th colspan="6">
             <div class="header ">
@@ -1418,43 +1980,64 @@
       </thead>
       <tbody class="has-fields">
         <tr>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             إجمالي الدخل السنوي
           </td>
           <td>{{ formatCurrency(data.total_annual_income) }}</td>
         </tr>
         <tr>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             خصم خسائر عدم اإلشغال والتحصيل
           </td>
           <td>{{ formatCurrency(data.deduction_losses) }}</td>
         </tr>
         <tr>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             إجمالي الدخل الفعلي
           </td>
           <td>{{ formatCurrency(data.total_actual_income) }}</td>
         </tr>
         <tr>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             ناقصا النفقات التشغيلية والرأسمالية
           </td>
           <td>{{ formatCurrency(data.m_operating_c_expenditures) }}</td>
         </tr>
         <tr>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             صافي الدخل التشغيلي
           </td>
           <td>{{ formatCurrency(data.net_operating_income) }}</td>
         </tr>
         <tr>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             معدل الرسملة عامل شراء السنوات
           </td>
           <td>{{ addPercentage(data.capitalization_rate) }}</td>
         </tr>
         <tr>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             القيمة السوقية باستخدام طريقة رسملة الدخل
           </td>
           <td>{{ formatCurrency(data.market_v_income_c_method) }}</td>
@@ -1463,7 +2046,7 @@
     </table>
     <!--طريقة التكلفة-->
     <table>
-      <thead>
+      <thead :style="styleData">
         <tr>
           <th colspan="6">
             <div class="header ">
@@ -1481,21 +2064,30 @@
       </thead>
       <tbody class="has-fields">
         <tr>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             قيمة الاستبدال
           </td>
           <td>{{ formatCurrency(data.cm_exchange_value) }}</td>
           <td>{{ data.cm_exchange_note || '' }}</td>
         </tr>
         <tr>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             التكاليف المباشرة
           </td>
           <td>{{ formatCurrency(data.cm_direct_costs) }}</td>
           <td>{{ data.cm_direct_costs_note || '' }}</td>
         </tr>
         <tr>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             التكاليف غير المباشرة
           </td>
           <td>{{ formatCurrency(data.cm_indirect_costs) }}</td>
@@ -1507,49 +2099,70 @@
           </td>
         </tr>
         <tr>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             1-التدهور المادي
           </td>
           <td>{{ addPercentage(data.cm_physical_deterioration_ratio) }}</td>
           <td>{{ formatCurrency(data.cm_physical_deterioration_value) }}</td>
         </tr>
         <tr>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             2-التقادم الوظيفي
           </td>
           <td>{{ addPercentage(data.cm_occupational_limitations_ratio) }}</td>
           <td>{{ formatCurrency(data.cm_occupational_limitations_value) }}</td>
         </tr>
         <tr>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             3-التقادم االقتصادي
           </td>
           <td>{{ addPercentage(data.cm_economic_obsolescence_ratio) }}</td>
           <td>{{ formatCurrency(data.cm_economic_obsolescence_value) }}</td>
         </tr>
         <tr>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             إحمالي الإهلاك (1+2+3)
           </td>
           <td>{{ addPercentage(data.cm_total_depreciation_ratio) }}</td>
           <td>{{ formatCurrency(data.cm_total_depreciation_value) }}</td>
         </tr>
         <tr>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             القيمة المهلكة للمباني
           </td>
           <td>{{ addPercentage(data.cm_depreciation_buildings_ratio) }}</td>
           <td>{{ formatCurrency(data.cm_depreciation_buildings_value) }}</td>
         </tr>
         <tr>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             القيمة المهلكة ألعمال الموقع
           </td>
           <td>{{ addPercentage(data.cm_depreciation_s_business_ratio) }}</td>
           <td>{{ formatCurrency(data.cm_depreciation_s_business_value) }}</td>
         </tr>
         <tr>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             قيمة الأرض
           </td>
           <td />
@@ -1564,14 +2177,20 @@
           <td>القيمة المهلكة ألعمال الموقع</td><td />
         </tr>
         <tr>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             أرباح المطور
           </td>
           <td>{{ addPercentage(data.cm_developer_earnings_ratio) }}</td>
           <td>{{ formatCurrency(data.cm_developer_earnings_value) }}</td>
         </tr>
         <tr>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             القيمة السوقية بأسلوب التكلفة
           </td>
           <td colspan="2">
@@ -1587,18 +2206,30 @@
           <td class="thead">
             الترجيح
           </td>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             القيمة السوقية بطريقة البيوع المقارنة
           </td>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             القيمة السوقية بطريقة رسملة الدخل
           </td>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             القيمة السوقية بطريقة التكلفة
           </td>
         </tr>
         <tr>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             األوزان النسبية للطرق المستخدمة %
           </td>
           <td>{{ addPercentage(data.weights_market_value_relative_weights_roads_used) }}</td>
@@ -1606,7 +2237,10 @@
           <td>{{ addPercentage(data.weights_market_value_cost) }}</td>
         </tr>
         <tr>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             مساهمة الطرق المستخدمة حسب الوزن النسبي
           </td>
           <td>{{ formatCurrency(data.relative_market_value_relative_weights_roads_used) }}</td>
@@ -1617,7 +2251,7 @@
     </table>
     <!--القيمة السوقية بعد الترجيح-->
     <table>
-      <thead>
+      <thead :style="styleData">
         <tr>
           <th colspan="6">
             <div class="header ">
@@ -1644,92 +2278,9 @@
         </tr>
       </tbody>
     </table>
-    <!--القيود على االستخدام والنشر-->
-    <table>
-      <thead>
-        <tr>
-          <th colspan="6">
-            <div class="header ">
-              <div class="header-text">
-                القيود على االستخدام والنشر
-              </div>
-              <div class="header-icon">
-                <v-icon>
-                  far fa-file-pdf
-                </v-icon>
-              </div>
-            </div>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>
-            <p style="min-height:150px;">
-              {{ data.trans_restrictions_publication || '' }}
-            </p>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <!--إخالء المسؤولية-->
-    <table>
-      <thead>
-        <tr>
-          <th colspan="6">
-            <div class="header ">
-              <div class="header-text">
-                إخلاء المسؤولية
-              </div>
-              <div class="header-icon">
-                <v-icon>
-                  far fa-file-pdf
-                </v-icon>
-              </div>
-            </div>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <p style="min-height:150px;">
-            {{ data.trans_evacuation_responsibility || '' }}
-          </p>
-        </tr>
-      </tbody>
-    </table>
-    <!--الافتراضات والافتراضات الخاصة (إن وجدت)-->
-    <table>
-      <thead>
-        <tr>
-          <th colspan="6">
-            <div class="header ">
-              <div class="header-text">
-                الافتراضات والافتراضات الخاصة (إن وجدت)
-              </div>
-              <div class="header-icon">
-                <v-icon>
-                  far fa-file-pdf
-                </v-icon>
-              </div>
-            </div>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>
-            <p style="min-height:150px;">
-              {{ data.trans_special_assumptions || '' }}
-            </p>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <div class="html2pdf__page-break" />
     <!--المشاركون في إعداد التقرير-->
-    <table class="first">
-      <thead>
+    <table>
+      <thead :style="styleData">
         <tr>
           <th colspan="6">
             <div class="header ">
@@ -1806,41 +2357,65 @@
       </thead>
       <tbody class="has-fields">
         <tr>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             الاسم
           </td>
           <td>{{ data.facility.resident_name || '' }}</td>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             رقم الترخيص
           </td>
           <td>{{ data.facility.license_number || '' }}</td>
         </tr>
         <tr>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             فرع التقييم
           </td>
           <td>{{ data.facility.evaluation_branch || '' }}</td>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             فئة العضوية
           </td>
           <td>{{ data.facility.membership_category || '' }}</td>
         </tr>
         <tr>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             صفته
           </td>
           <td>{{ data.facility.resident_adjective || '' }}</td>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             التوقيع
           </td>
           <td>مثال</td>
         </tr>
         <tr>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             تاريخ التقرير
           </td>
           <td>مثال</td>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             ختم المنشأة
           </td>
           <td>مثال</td>
@@ -1852,7 +2427,7 @@
       class="html2pdf__page-break"
     />
     <table class="first">
-      <thead>
+      <thead :style="styleData">
         <tr>
           <th colspan="6">
             <div class="header ">
@@ -1930,6 +2505,180 @@
         />
       </gmap-map>
     </div>
+    <!--القيود على االستخدام والنشر-->
+    <table>
+      <thead :style="styleData">
+        <tr>
+          <th colspan="6">
+            <div class="header ">
+              <div class="header-text">
+                القيود على االستخدام والنشر
+              </div>
+              <div class="header-icon">
+                <v-icon>
+                  far fa-file-pdf
+                </v-icon>
+              </div>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <p style="min-height:150px;">
+              {{ data.trans_restrictions_publication || '' }}
+            </p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <!--إخالء المسؤولية-->
+    <table>
+      <thead :style="styleData">
+        <tr>
+          <th colspan="6">
+            <div class="header ">
+              <div class="header-text">
+                إخلاء المسؤولية
+              </div>
+              <div class="header-icon">
+                <v-icon>
+                  far fa-file-pdf
+                </v-icon>
+              </div>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <p style="min-height:150px;">
+            {{ data.trans_evacuation_responsibility || '' }}
+          </p>
+        </tr>
+      </tbody>
+    </table>
+    <!--الافتراضات والافتراضات الخاصة (إن وجدت)-->
+    <table>
+      <thead :style="styleData">
+        <tr>
+          <th colspan="6">
+            <div class="header ">
+              <div class="header-text">
+                الافتراضات والافتراضات الخاصة (إن وجدت)
+              </div>
+              <div class="header-icon">
+                <v-icon>
+                  far fa-file-pdf
+                </v-icon>
+              </div>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <p style="min-height:150px;">
+              {{ data.trans_special_assumptions || '' }}
+            </p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- عملة التقييم -->
+    <table>
+      <thead :style="styleData">
+        <tr>
+          <th colspan="4">
+            <div class="header">
+              <div class="header-text">
+                عملة التقييم
+              </div>
+              <div class="header-icon">
+                <v-icon>
+                  far fa-file-pdf
+                </v-icon>
+              </div>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td colspan="4">
+            ريال سعودي
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- المعايير المهنية -->
+    <table>
+      <thead :style="styleData">
+        <tr>
+          <th colspan="4">
+            <div class="header">
+              <div class="header-text">
+                المعايير المهنية
+              </div>
+              <div class="header-icon">
+                <v-icon>
+                  far fa-file-pdf
+                </v-icon>
+              </div>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td
+            colspan="4"
+          >
+            <p
+              class="not-empty"
+              style="min-height:123px;"
+            >
+              {{ data.trans_professional_standard || '' }}
+            </p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- اقرار باالستقاللية وعدم تضارب المصالح -->
+    <table>
+      <thead :style="styleData">
+        <tr>
+          <th colspan="4">
+            <div class="header">
+              <div class="header-text">
+                اقرار بالاستقلالية وعدم تضارب المصالح
+              </div>
+              <div class="header-icon">
+                <v-icon>
+                  far fa-file-pdf
+                </v-icon>
+              </div>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td
+            colspan="4"
+          >
+            <p
+              class="not-empty"
+              style="min-height:123px;"
+            >
+              {{ data.acknowledgment_independence || '' }}
+            </p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 <script>
@@ -1941,6 +2690,22 @@
       data: {
         type: Object,
         default: () => ({}),
+      },
+    },
+    computed: {
+      styleData () {
+        return ({
+          'background-color': this.data.customer.cs_data_background_color,
+          color: this.data.customer.cs_data_fount_color,
+          'border-color': this.data.customer.cs_data_frame_color,
+        })
+      },
+      styleSubData () {
+        return ({
+          'background-color': this.data.customer.cs_subdata_background_color,
+          color: this.data.customer.cs_subdata_fount_color,
+          'border-color': this.data.customer.cs_subdata_frame_color,
+        })
       },
     },
     methods: {
@@ -1991,6 +2756,9 @@
 }
 .last {
   margin-bottom: 30px;
+}
+.collapse {
+  visibility: collapse;
 }
 .container-header {
   width:97%;
@@ -2051,7 +2819,7 @@ table:not(:first-child), table:not(:first-child) th {
   padding: 3px;
 }
 td {
-  padding: 10px;
+  padding: 7px 5px;
 }
 tbody td {
   text-align: center;
@@ -2067,11 +2835,14 @@ table thead.diff {
 table thead .header {
   display: flex;
   justify-content: space-between;
-  padding: 10px 15px;
+  padding: 8px 15px;
 }
 table thead th {
   text-align: right;
-  font-size:18px;
+  font-size:14px;
+}
+table tbody td {
+  font-size: 12px !important;
 }
 table tbody.has-fields tr td.field {
   background: #F3F5F5;

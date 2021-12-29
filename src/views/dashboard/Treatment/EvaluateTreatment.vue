@@ -259,70 +259,6 @@
                 >
                   <label
                     class="d-block mb-3 font-weight-bold"
-                  >تاريخ التقييم</label>
-                  <v-menu
-                    v-model="trans_evaluation_date"
-                    :close-on-content-click="false"
-                    transition="scale-transition"
-                    offset-y
-                    min-width="auto"
-                  >
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-text-field
-                        v-model="data.trans_evaluation_date"
-                        readonly
-                        v-bind="attrs"
-                        single-line
-                        outlined
-                        v-on="on"
-                      />
-                    </template>
-                    <v-date-picker
-                      v-model="data.trans_evaluation_date"
-                      @input="menu2 = false"
-                    />
-                  </v-menu>
-                </v-col>
-
-                <v-col
-                  cols="12"
-                  lg="3"
-                  md="4"
-                >
-                  <label
-                    class="d-block mb-3 font-weight-bold"
-                  >تاريخ المعاينة</label>
-                  <v-menu
-                    v-model="trans_inspection_date"
-                    :close-on-content-click="false"
-                    transition="scale-transition"
-                    offset-y
-                    min-width="auto"
-                  >
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-text-field
-                        v-model="data.trans_inspection_date"
-                        readonly
-                        v-bind="attrs"
-                        single-line
-                        outlined
-                        v-on="on"
-                      />
-                    </template>
-                    <v-date-picker
-                      v-model="data.trans_inspection_date"
-                      @input="trans_inspection_date = false"
-                    />
-                  </v-menu>
-                </v-col>
-
-                <v-col
-                  cols="12"
-                  lg="3"
-                  md="4"
-                >
-                  <label
-                    class="d-block mb-3 font-weight-bold"
                   >نوع التقرير</label>
                   <v-select
                     v-model="data.trans_Report_type"
@@ -361,22 +297,6 @@
                   <v-text-field
                     v-model="data.trans_reference_number"
                     label="الرقم المرجعى"
-                    single-line
-                    outlined
-                  />
-                </v-col>
-
-                <v-col
-                  cols="12"
-                  lg="3"
-                  md="4"
-                >
-                  <label
-                    class="d-block mb-3 font-weight-bold"
-                  >رمز العقار / رقم الموقع / رقم العميل</label>
-                  <v-text-field
-                    v-model="data.trans_deposit_code_site_num_customer_num"
-                    label="رمز العقار / رقم الموقع / رقم العميل"
                     single-line
                     outlined
                   />
@@ -842,7 +762,83 @@
                     />
                   </v-menu>
                 </v-col>
-
+                <v-col
+                  cols="12"
+                  lg="3"
+                  md="4"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >تاريخ التقييم</label>
+                  <v-menu
+                    v-model="trans_evaluation_date"
+                    :close-on-content-click="false"
+                    transition="scale-transition"
+                    offset-y
+                    min-width="auto"
+                  >
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-text-field
+                        v-model="data.trans_evaluation_date"
+                        readonly
+                        v-bind="attrs"
+                        single-line
+                        outlined
+                        v-on="on"
+                      />
+                    </template>
+                    <v-date-picker
+                      v-model="data.trans_evaluation_date"
+                      @input="menu2 = false"
+                    />
+                  </v-menu>
+                </v-col>
+                <v-col
+                  cols="12"
+                  lg="3"
+                  md="4"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >تاريخ المعاينة</label>
+                  <v-menu
+                    v-model="trans_inspection_date"
+                    :close-on-content-click="false"
+                    transition="scale-transition"
+                    offset-y
+                    min-width="auto"
+                  >
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-text-field
+                        v-model="data.trans_inspection_date"
+                        readonly
+                        v-bind="attrs"
+                        single-line
+                        outlined
+                        v-on="on"
+                      />
+                    </template>
+                    <v-date-picker
+                      v-model="data.trans_inspection_date"
+                      @input="trans_inspection_date = false"
+                    />
+                  </v-menu>
+                </v-col>
+                <v-col
+                  cols="12"
+                  lg="3"
+                  md="4"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >رمز العقار / رقم الموقع / رقم العميل</label>
+                  <v-text-field
+                    v-model="data.trans_deposit_code_site_num_customer_num"
+                    label="رمز العقار / رقم الموقع / رقم العميل"
+                    single-line
+                    outlined
+                  />
+                </v-col>
                 <v-col
                   cols="12"
                   lg="3"
@@ -1462,7 +1458,7 @@
                     />
                   </v-col>
                 </v-row>
-                <v-row>
+                <!-- <v-row>
                   <v-col
                     cols="12"
                     lg="3"
@@ -1470,8 +1466,8 @@
                   >
                     <label class="d-block font-weight-bold">مميزات العقار</label>
                   </v-col>
-                </v-row>
-                <v-row class="mt-0">
+                </v-row> -->
+                <!-- <v-row class="mt-0">
                   <div class="mr-3">
                     <v-checkbox
                       v-model="data.glass_walls_status"
@@ -1603,7 +1599,7 @@
                       hide-details
                     />
                   </div>
-                </v-row>
+                </v-row> -->
 
                 <v-row class="mt-10">
                   <v-col
@@ -1614,248 +1610,74 @@
                     <label class="d-block font-weight-bold">نوع التكييف</label>
                   </v-col>
                 </v-row>
-
-                <v-row class="mt-0 mb-5">
-                  <div class="mr-3">
-                    <v-checkbox
-                      v-model="ex13"
-                      class="check-label"
-                      label="مركزى"
-                      color="info"
-                      value=""
-                      hide-details
-                    />
-                  </div>
+                <v-row>
+                  <v-col
+                    cols="12"
+                    lg="3"
+                    md="4"
+                  >
+                    <label class="d-block">النوع</label>
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    lg="3"
+                    md="4"
+                  >
+                    <label class="d-block ">مركب</label>
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    lg="3"
+                    md="4"
+                  >
+                    <label class="d-block">غير مركب</label>
+                  </v-col>
                 </v-row>
                 <v-row
-                  v-for="(row, index) in airRows"
-                  :key="index"
-                  align="center"
+                  v-for="t in data.conditioner_type"
+                  :key="t.name"
                 >
                   <v-col
                     cols="12"
                     lg="3"
                     md="4"
                   >
-                    <label
-                      class="d-block mb-3 font-weight-bold"
-                    >نوعية التركيب</label>
-                    <v-select
-                      :items="items"
-                      label="نوعية التركيب"
-                      single-line
-                      outlined
-                    />
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    lg="2"
-                    md="2"
-                  >
-                    <label
-                      class="d-block mb-3 font-weight-bold"
-                    >رقم العداد</label>
-                    <v-text-field
-                      label="رقم العداد"
-                      single-line
-                      outlined
-                    />
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    lg="2"
-                    md="2"
-                  >
-                    <label
-                      class="d-block font-weight-bold"
-                      @click.prevent="airRows++"
-                    >
-                      <v-icon left> mdi-plus </v-icon>
-                      إضافة رقم عداد جديد
-                    </label>
-                  </v-col>
-                </v-row>
-
-                <v-row class="mt-0 mb-5">
-                  <div class="mr-3">
                     <v-checkbox
-                      v-model="ex14"
+                      v-model="t.status"
                       class="check-label"
-                      label="منفصل"
+                      :label="t.name"
                       color="info"
+                      :true-value="true"
+                      :false-value="false"
                       value=""
                       hide-details
                     />
-                  </div>
-                </v-row>
-                <v-row
-                  v-for="(row, index) in airRows2"
-                  :key="'row2' + index"
-                  align="center"
-                >
+                  </v-col>
                   <v-col
                     cols="12"
                     lg="3"
                     md="4"
                   >
-                    <label
-                      class="d-block mb-3 font-weight-bold"
-                    >نوعية التركيب</label>
-                    <v-select
-                      :items="items"
-                      label="نوعية التركيب"
-                      single-line
-                      outlined
-                    />
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    lg="2"
-                    md="2"
-                  >
-                    <label
-                      class="d-block mb-3 font-weight-bold"
-                    >رقم العداد</label>
                     <v-text-field
-                      label="رقم العداد"
+                      v-model="t.installed"
+                      :disabled="!t.status"
+                      hide-details=""
                       single-line
                       outlined
                     />
                   </v-col>
-                  <v-col
-                    cols="12"
-                    lg="2"
-                    md="2"
-                  >
-                    <label
-                      class="d-block font-weight-bold"
-                      @click.prevent="airRows2++"
-                    >
-                      <v-icon left> mdi-plus </v-icon>
-                      إضافة رقم عداد جديد
-                    </label>
-                  </v-col>
-                </v-row>
-
-                <v-row class="mt-0 mb-5">
-                  <div class="mr-3">
-                    <v-checkbox
-                      v-model="ex15"
-                      class="check-label"
-                      label="شباك"
-                      color="info"
-                      value=""
-                      hide-details
-                    />
-                  </div>
-                </v-row>
-                <v-row
-                  v-for="(row, index) in airRows3"
-                  :key="'row3' + index"
-                  align="center"
-                >
                   <v-col
                     cols="12"
                     lg="3"
                     md="4"
                   >
-                    <label
-                      class="d-block mb-3 font-weight-bold"
-                    >نوعية التركيب</label>
-                    <v-select
-                      :items="items"
-                      label="نوعية التركيب"
-                      single-line
-                      outlined
-                    />
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    lg="2"
-                    md="2"
-                  >
-                    <label
-                      class="d-block mb-3 font-weight-bold"
-                    >رقم العداد</label>
                     <v-text-field
-                      label="رقم العداد"
+                      v-model="t.non_installed"
+                      :disabled="!t.status"
+                      hide-details=""
                       single-line
                       outlined
                     />
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    lg="2"
-                    md="2"
-                  >
-                    <label
-                      class="d-block font-weight-bold"
-                      @click.prevent="airRows3++"
-                    >
-                      <v-icon left> mdi-plus </v-icon>
-                      إضافة رقم عداد جديد
-                    </label>
-                  </v-col>
-                </v-row>
-
-                <v-row class="mt-0 mb-5">
-                  <div class="mr-3">
-                    <v-checkbox
-                      v-model="ex16"
-                      class="check-label"
-                      label="كونسيلد"
-                      color="info"
-                      value=""
-                      hide-details
-                    />
-                  </div>
-                </v-row>
-                <v-row
-                  v-for="(row, index) in airRows4"
-                  :key="'row4' + index"
-                  align="center"
-                >
-                  <v-col
-                    cols="12"
-                    lg="3"
-                    md="4"
-                  >
-                    <label
-                      class="d-block mb-3 font-weight-bold"
-                    >نوعية التركيب</label>
-                    <v-select
-                      :items="items"
-                      label="نوعية التركيب"
-                      single-line
-                      outlined
-                    />
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    lg="2"
-                    md="2"
-                  >
-                    <label
-                      class="d-block mb-3 font-weight-bold"
-                    >رقم العداد</label>
-                    <v-text-field
-                      label="رقم العداد"
-                      single-line
-                      outlined
-                    />
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    lg="2"
-                    md="2"
-                  >
-                    <label
-                      class="d-block font-weight-bold"
-                      @click.prevent="airRows4++"
-                    >
-                      <v-icon left> mdi-plus </v-icon>
-                      إضافة رقم عداد جديد
-                    </label>
                   </v-col>
                 </v-row>
               </div>
@@ -2014,6 +1836,7 @@
                     label="الحد الشمالى"
                     single-line
                     outlined
+                    disabled
                   />
                 </v-col>
                 <v-col
@@ -2029,6 +1852,7 @@
                     label=""
                     single-line
                     outlined
+                    disabled
                   />
                 </v-col>
                 <v-col
@@ -2044,6 +1868,7 @@
                     label="الحد الجنوبى"
                     single-line
                     outlined
+                    disabled
                   />
                 </v-col>
                 <v-col
@@ -2059,6 +1884,7 @@
                     label=""
                     single-line
                     outlined
+                    disabled
                   />
                 </v-col>
                 <v-col
@@ -2074,6 +1900,7 @@
                     label="الحد الشرقى"
                     single-line
                     outlined
+                    disabled
                   />
                 </v-col>
                 <v-col
@@ -2089,6 +1916,7 @@
                     label=""
                     single-line
                     outlined
+                    disabled
                   />
                 </v-col>
                 <v-col
@@ -2104,6 +1932,7 @@
                     label="الحد الغربى"
                     single-line
                     outlined
+                    disabled
                   />
                 </v-col>
                 <v-col
@@ -2118,6 +1947,7 @@
                     v-model="data.tall_western"
                     single-line
                     outlined
+                    disabled
                   />
                 </v-col>
                 <v-col
@@ -2135,6 +1965,7 @@
                     label="الواجهة الشمالية"
                     single-line
                     outlined
+                    disabled
                   />
                 </v-col>
                 <v-col
@@ -2152,6 +1983,7 @@
                     label="الواجهة الجنوبية"
                     single-line
                     outlined
+                    disabled
                   />
                 </v-col>
                 <v-col
@@ -2169,6 +2001,7 @@
                     label="الواجهة الشرقية"
                     single-line
                     outlined
+                    disabled
                   />
                 </v-col>
                 <v-col
@@ -2186,6 +2019,7 @@
                     label="الواجهة الغربية"
                     single-line
                     outlined
+                    disabled
                   />
                 </v-col>
                 <v-col
@@ -2202,9 +2036,10 @@
                     label="0"
                     single-line
                     outlined
+                    disabled
                   />
                 </v-col>
-                <v-col
+                <!-- <v-col
                   cols="12"
                   lg="3"
                   md="4"
@@ -2266,7 +2101,7 @@
                     single-line
                     outlined
                   />
-                </v-col>
+                </v-col> -->
               </v-row>
             </div>
 
@@ -7026,6 +6861,32 @@
             achievement_value: '',
           }],
         },
+        conditioner_type: [
+          {
+            status: false,
+            name: 'مركزي',
+            non_installed: 0,
+            installed: 0,
+          },
+          {
+            status: false,
+            name: 'منفصل',
+            non_installed: 0,
+            installed: 0,
+          },
+          {
+            status: false,
+            name: 'شباك',
+            non_installed: 0,
+            installed: 0,
+          },
+          {
+            status: false,
+            name: 'كونسيلد',
+            non_installed: 0,
+            installed: 0,
+          },
+        ],
         trans_professional_standard: `طريقة استخراج القيمة: عن طريق دراسة المنطقة و تحليل أسعار العقارات التجارية والسكنية والعروض المشابهة للأرض و التكلفة للمباني بعد خصم نسبة الإهلاك.
 المستندات المقدمة من طالب التقييم: هوية المالك - صك الملكية.
 نطاق البحث: أسعار البيع للأرض بالحي، مدى توفر خدمات البنية التحتية و خدمات البنية الفوقية مثل المدارس والمستشفيات والحدائق وغيرها، اكتمال العمران في المنطقة المحيطة، نظام البناء في منطقة العقار.

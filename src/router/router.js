@@ -119,7 +119,7 @@ const router = new Router({
         },
         {
           name: 'AccountantTreatment',
-          path: '/Accountant-Treatment',
+          path: '/Accountant-Treatment/:id',
           component: () => import('@/views/dashboard/Treatment/AccountantTreatment'),
           meta: { requiresAuth: true },
         },
