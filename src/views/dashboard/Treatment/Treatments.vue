@@ -825,7 +825,7 @@
          */
         let images = []
 
-        images = oneTransactionData?.images?.filter(img => img.status === '1')?.map(img => ({ image: 'http://devproject.millennium.sa/' + img.image_url })) || []
+        images = oneTransactionData?.images?.filter(img => img.status === '1')?.map(img => ({ image: 'https://devproject.millennium.sa/' + img.image_url })) || []
 
         images = pdfData.customer.image_per_page === '6' ? images.slice(0, 6) : images.slice(0, 8)
 

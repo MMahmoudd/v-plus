@@ -5454,7 +5454,7 @@
                       >
                       <img
                         v-else-if="image.image_url"
-                        :src="'http://devproject.millennium.sa/'+image.image_url"
+                        :src="'https://devproject.millennium.sa/'+image.image_url"
                         :class="{'hidden-img': image.status !== '1' }"
                       >
                       <button
