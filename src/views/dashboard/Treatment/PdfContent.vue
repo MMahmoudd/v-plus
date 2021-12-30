@@ -235,6 +235,13 @@
             class="field"
             :style="styleSubData"
           >
+            اسم المنطقة
+          </td>
+          <td>{{ data.region.name || '' }}</td>
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             اسم المدينة
           </td>
           <td>{{ data.city.name || '' }}</td>
@@ -245,6 +252,8 @@
             اسم الحي
           </td>
           <td>{{ data.neighborhood.name || '' }}</td>
+        </tr>
+        <tr>
           <td
             class="field"
             :style="styleSubData"
@@ -252,8 +261,6 @@
             اسم الشارع
           </td>
           <td>{{ data.trans_street_name|| '' }}</td>
-        </tr>
-        <tr>
           <td
             class="field"
             :style="styleSubData"
@@ -268,6 +275,8 @@
             رقم المخطط
           </td>
           <td>{{ data.residential_plan_no || '' }}</td>
+        </tr>
+        <tr>
           <td
             class="field"
             :style="styleSubData"
@@ -275,8 +284,6 @@
             رقم البلوك
           </td>
           <td>{{ data.trans_Albulk_num || '' }}</td>
-        </tr>
-        <tr>
           <td
             class="field"
             :style="styleSubData"
@@ -291,16 +298,6 @@
             استخدام العقار
           </td>
           <td>{{ data.propertyrating.name || '' }}</td>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            احداثيات الموقع
-          </td>
-          <td>
-            <!-- {{ data.latitude || '' }}
-            {{ data.longitude || '' }} -->
-          </td>
         </tr>
         <tr>
           <td
@@ -362,14 +359,14 @@
           >
             حالة العقار
           </td>
-          <td>مثال</td>
+          <td />
           <td
             class="field"
             :style="styleSubData"
           >
             حالة الإشغال
           </td>
-          <td>مثال</td>
+          <td />
         </tr>
       </tbody>
     </table>
@@ -2293,9 +2290,33 @@
           <td />
           <td />
         </tr>
+        <tr style="visibility: collapse">
+          <td>القيمة المهلكة ألعمال الموقع</td><td />
+        </tr>
+        <tr>
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            أرباح المطور
+          </td>
+          <td>{{ addPercentage(data.cm_developer_earnings_ratio) }}</td>
+          <td>{{ formatCurrency(data.cm_developer_earnings_value) }}</td>
+        </tr>
+        <tr>
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            القيمة السوقية بأسلوب التكلفة
+          </td>
+          <td colspan="2">
+            {{ formatCurrency(data.cm_total_market_value) }}
+          </td>
+        </tr>
       </tbody>
     </table>
-    <div class="html2pdf__page-break" />
+    <!-- <div class="html2pdf__page-break" />
     <table class="first">
       <tbody class="has-fields">
         <tr style="visibility: collapse">
@@ -2323,7 +2344,7 @@
           </td>
         </tr>
       </tbody>
-    </table>
+    </table> -->
     <!--الترجيح-->
     <table>
       <tbody class="has-fields">
@@ -2404,7 +2425,8 @@
       </tbody>
     </table>
     <!--المشاركون في إعداد التقرير-->
-    <table>
+    <div class="html2pdf__page-break" />
+    <table class="first">
       <thead :style="styleData">
         <tr>
           <th colspan="6">
@@ -2422,7 +2444,86 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
+        <v-container>
+          <v-row>
+            <v-col
+              v-for="(member,index) in data.members"
+              :key="index"
+              cols="12"
+              sm="4"
+            >
+              <v-row>
+                <v-col
+                  cols="12"
+                  sm="6"
+                  class="td field"
+                  :style="styleSubData"
+                >
+                  الاسم
+                </v-col>
+                <v-col
+                  cols="12"
+                  sm="6"
+                  class="td"
+                >
+                  {{ member.name }}
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col
+                  cols="12"
+                  sm="6"
+                  class="td field"
+                  :style="styleSubData"
+                >
+                  المنصف
+                </v-col>
+                <v-col
+                  cols="12"
+                  sm="6"
+                  class="td"
+                >
+                  {{ member.type }}
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col
+                  cols="12"
+                  sm="6"
+                  class="td field"
+                  :style="styleSubData"
+                >
+                  الرقم
+                </v-col>
+                <v-col
+                  cols="12"
+                  sm="6"
+                  class="td"
+                >
+                  {{ member.number }}
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col
+                  cols="12"
+                  sm="6"
+                  class="td field"
+                  :style="styleSubData"
+                >
+                  التوقيع
+                </v-col>
+                <v-col
+                  cols="12"
+                  sm="6"
+                  class="td"
+                >
+                  {{ member.s }}
+                </v-col>
+              </v-row>
+            </v-col>
+          </v-row>
+        </v-container>
+        <!-- <tr>
           <td>الإسم</td>
           <td>1</td>
           <td>الإسم</td>
@@ -2457,7 +2558,7 @@
           <td>ء</td>
           <td>التوقيع</td>
           <td>ء</td>
-        </tr>
+        </tr> -->
       </tbody>
     </table>
     <!--هذا التقرير تم مراجعته واعتماده من قبل المقيم المعتمد-->
@@ -2525,7 +2626,7 @@
           >
             التوقيع
           </td>
-          <td>مثال</td>
+          <td />
         </tr>
         <tr>
           <td
@@ -2534,14 +2635,14 @@
           >
             تاريخ التقرير
           </td>
-          <td>مثال</td>
+          <td />
           <td
             class="field"
             :style="styleSubData"
           >
             ختم المنشأة
           </td>
-          <td>مثال</td>
+          <td />
         </tr>
       </tbody>
     </table>
@@ -2602,7 +2703,7 @@
       </tbody>
     </table>
     <!--خريطة المقارنات-->
-    <table>
+    <table v-show="data.customer.map_show === '1'">
       <thead :style="styleData">
         <tr>
           <th colspan="6">
@@ -2670,31 +2771,32 @@
           </th>
         </tr>
       </thead>
-      <tbody>
+      <tbody class="images">
         <img
           v-for="(img, index) in data.images"
           :key="index"
           :src="img.image"
-          width="350"
-          height="340"
-          style="margin:1px"
+          width="352px"
+          height="240px"
+          class="image-transaction"
+          crossorigin
         >
       </tbody>
     </table>
+    <!-- {{ data.images }} -->
     <!-- الصك -->
-    <div
+    <!-- <div
       v-show="data.instrument_file"
       class="last"
     >
       <img :src="data.imageBase + data.instrument_file">
-      <!-- <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Circle_-_black_simple.svg/800px-Circle_-_black_simple.svg.png"> -->
     </div>
     <div
       v-show="data.instrument_file"
       class="html2pdf__page-break"
-    />
+    /> -->
     <!-- المخطط -->
-    <div
+    <!-- <div
       v-show="data.attached_file"
       class="first"
     >
@@ -2703,9 +2805,9 @@
     <div
       v-show="data.attached_file"
       class="html2pdf__page-break"
-    />
+    /> -->
     <!-- خطاب التكليف -->
-    <div
+    <!-- <div
       v-show="data.assignment_letter_file"
       class="first"
     >
@@ -2714,7 +2816,7 @@
     <div
       v-show="data.assignment_letter_file"
       class="html2pdf__page-break"
-    />
+    /> -->
 
     <!--القيود على االستخدام والنشر-->
     <div
@@ -2767,9 +2869,11 @@
       </thead>
       <tbody>
         <tr>
-          <p style="min-height:150px;">
-            {{ data.trans_evacuation_responsibility || '' }}
-          </p>
+          <td>
+            <p style="min-height:150px;">
+              {{ data.trans_evacuation_responsibility || '' }}
+            </p>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -3029,7 +3133,7 @@ table {
 table.table-fixed {
   table-layout: fixed;
 }
-table, th, td {
+table, th, td, .td {
   border: 1px solid #ccc;
   border-collapse: collapse;
 }
@@ -3039,7 +3143,7 @@ table:not(:first-child), table:not(:first-child) th {
 .colspan td {
   padding: 3px;
 }
-td {
+td,.td{
   padding: 7px 5px;
 }
 tbody td {
@@ -3062,8 +3166,11 @@ table thead th {
   text-align: right;
   font-size:14px;
 }
-table tbody td {
+table tbody td ,.td{
   font-size: 12px !important;
+}
+.td {
+  text-align: center;
 }
 table tbody.has-fields tr td.field {
   background: #F3F5F5;
@@ -3080,5 +3187,18 @@ table tbody.has-fields tr td.field {
 
 .checkbox-label {
   color: #333;
+}
+
+tbody.images {
+  display: grid;
+  grid-template-columns: 352px 352px;
+justify-content:space-between;
+  grid-row-gap: 2px;
+}
+
+.image-transaction {
+  width: 352px !important;
+  height:240px !important;
+  object-fit: contain;
 }
 </style>

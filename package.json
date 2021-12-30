@@ -21,6 +21,8 @@
     "chart.js": "2.8.0",
     "core-js": "^3.19.1",
     "eslint-plugin-vuetify": "^1.1.0",
+    "merge-images": "^2.0.0",
+    "merge-images-v2": "^2.0.1",
     "mixins": "0.0.1",
     "serve": "^13.0.2",
     "store": "^2.0.12",

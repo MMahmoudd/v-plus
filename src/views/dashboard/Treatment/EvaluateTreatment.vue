@@ -5448,8 +5448,14 @@
                   >
                     <div>
                       <img
+                        v-if="image.image"
                         :src="image.image"
-                        :class="{'hidden-img': image.status !== 1 }"
+                        :class="{'hidden-img': image.status !== '1' }"
+                      >
+                      <img
+                        v-else-if="image.image_url"
+                        :src="'http://devproject.millennium.sa/'+image.image_url"
+                        :class="{'hidden-img': image.status !== '1' }"
                       >
                       <button
                         class="remove-img"
@@ -5464,7 +5470,7 @@
                         @click.prevent="hideImage(image , index)"
                       >
                         <v-icon
-                          v-if="image.status === 1"
+                          v-if="image.status === '1'"
                           left
                         >
                           far fa-eye
@@ -7633,16 +7639,16 @@
       },
       createImage (file) {
         // var image = new Image()
-        const item = { status: 1, image: false, id: uuid.v4(), sort_number: 1 }
+        const item = { status: '1', image: false, id: uuid.v4(), sort_number: 1 }
         const images = this.data.images
         const reader = new FileReader()
         reader.onload = (e) => {
           item.image = e.target.result
           images.push(item)
           images.sort((a, b) => {
-            if (a.status === 0 && b.status === 1) {
+            if (+a.status === 0 && +b.status === 1) {
               return 1
-            } else if (b.status === 0 && a.status === 1) {
+            } else if (+b.status === 0 && +a.status === 1) {
               return -1
             }
             return 0
@@ -7660,11 +7666,11 @@
       },
       hideImage: function (image, index) {
         //  const imageIndex = this.images.findIndex(image => image.id === id)
-        this.data.images[index].status = this.data.images[index].status === 1 ? 0 : 1
+        this.data.images[index].status = this.data.images[index].status === '1' ? '0' : '1'
         this.data.images.sort((a, b) => {
-          if (a.status === 0 && b.status === 1) {
+          if (+a.status === 0 && +b.status === 1) {
             return 1
-          } else if (b.status === 0 && a.status === 1) {
+          } else if (+b.status === 0 && +a.status === 1) {
             return -1
           }
           return 0
@@ -7872,6 +7878,15 @@
          */
         this.data.water_meter_number = this.data.water_meter_number.map(item => item.number).join(';')
         this.data.electric_meter_number = this.data.electric_meter_number.map(item => item.number).join(';')
+        /**
+         * ? remove uuid from images
+         */
+        this.data.images.forEach((image) => {
+          if (typeof image.id === 'string') {
+            delete image.id
+          }
+        })
+
         const formData = this.data
         // const formData = new FormData()
         // for (const key in this.data) {

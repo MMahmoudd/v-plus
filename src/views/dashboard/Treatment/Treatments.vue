@@ -610,6 +610,7 @@
 
 <script>
   import { ServiceFactory } from '../../../services/ServiceFactory'
+  import mergeImages from 'merge-images'
   /**
    * ? components
    */
@@ -635,7 +636,7 @@
   const UsersServices = ServiceFactory.get('Users')
   const SettingService = ServiceFactory.get('Setting')
   const ReportTypesServices = ServiceFactory.get('ReportTypes')
-
+  const UserSettingServices = ServiceFactory.get('UserSetting')
   export default {
     name: 'NewTreatment',
     components: {
@@ -779,11 +780,6 @@
           }
         },
       },
-      // 'data.region_id': function (val, oldVal) {
-      //   console.log(val)
-      //   console.log(oldVal)
-      //   // this.getCites()
-      // },
     },
     created () {
       console.log(this.$route)
@@ -822,11 +818,21 @@
         pdfData.facility = facility
         pdfData.propTypeList = []
 
+        const { data: oneTransactionData } = await TransactionsServices.fetchOneItem(id)
+
         /**
          * ?
          */
+        let images = []
 
-        pdfData.images = [{ image: 'https://via.placeholder.com/640x480.png/00ffff?text=image1' }, { image: 'https://via.placeholder.com/640x480.png/00ffff?text=image1' }, { image: 'https://via.placeholder.com/640x480.png/00ffff?text=image1' }, { image: 'https://via.placeholder.com/640x480.png/00ffff?text=image1' }, { image: 'https://via.placeholder.com/640x480.png/00ffff?text=image1' }]
+        images = oneTransactionData?.images?.filter(img => img.status === '1')?.map(img => ({ image: 'http://devproject.millennium.sa/' + img.image_url })) || []
+
+        images = pdfData.customer.image_per_page === '6' ? images.slice(0, 6) : images.slice(0, 8)
+
+        const defaultImage = facility.logo
+
+        const defaultImageAfterResize = await this.resizeImg(defaultImage, 100, 50)
+        pdfData.images = await this.margeImg(images, defaultImageAfterResize)
         /**
          * ? formating the water_meter_number & electric_meter_number to be an array
          */
@@ -840,7 +846,31 @@
 
         pdfData.water_meter_number = split(pdfData.water_meter_number)
         pdfData.electric_meter_number = split(pdfData.electric_meter_number)
+        /**
+         * ? format members
+         */
+        const members = []
+        // fetch transaction
+        const { data: roles } = await UserSettingServices.getAllItems()
 
+        if (oneTransactionData.participatingmembers) {
+          for (let index = 0; index < oneTransactionData.participatingmembers.length; index++) {
+            const userId = oneTransactionData.participatingmembers[index].user_id
+            const { data: { name, id_number: number, user_type: type } } = await UsersServices.fetchOneItem(userId)
+            members.push({ name, number, type: roles.find(role => +role.id === +type)?.role_name, s: '' })
+          }
+        }
+        /**
+         * * chuck array
+         */
+        // function chunk (arr, chunkSize) {
+        //   const R = []
+        //   for (var i = 0, len = arr.length; i < len; i += chunkSize) { R.push(arr.slice(i, i + chunkSize)) }
+        //   return R
+        // }
+
+        // members = chunk(members, 3)
+        pdfData.members = members
         /**
          * ? this is done to only get 4 items including the selected one
          */
@@ -863,7 +893,51 @@
         })
         this.pdfData = pdfData
         this.$refs.html2Pdf.generatePdf()
-        this.pdfData = defaultValuesForPdf
+        // this.pdfData = defaultValuesForPdf
+      },
+      resizeImg: function (datas, wantedWidth, wantedHeight) {
+        return new Promise((resolve, reject) => {
+          // We create an image to receive the Data URI
+          const img = document.createElement('img')
+
+          // When the event "onload" is triggered we can resize the image.
+          img.onload = function () {
+            // We create a canvas and get its context.
+            const canvas = document.createElement('canvas')
+            const ctx = canvas.getContext('2d')
+
+            // We set the dimensions at the wanted size.
+            canvas.width = wantedWidth
+            canvas.height = wantedHeight
+
+            // We resize the image with the canvas method drawImage();
+            ctx.drawImage(this, 0, 0, wantedWidth, wantedHeight)
+
+            const dataURI = canvas.toDataURL()
+
+            resolve(dataURI)
+          }
+
+          // We put the Data URI in the image's src attribute
+          img.src = datas
+          img.crossOrigin = 'Anonymous'
+        })
+      },
+      margeImg: async function (images, defaultImage) {
+        // const defaultOptionsDefaultImage =
+        // { src: defaultImage, x: 452, y: 370, opacity: 0.7 }
+        const defaultOptionsDefaultImage = { src: defaultImage, x: 352 - 100, y: 240 - 50, opacity: 0.3 }
+        const resultImages = []
+        for (let index = 0; index < images.length; index++) {
+          resultImages.push({
+            image:
+              await mergeImages([await this.resizeImg(images[index].image, 352, 240), defaultOptionsDefaultImage]
+                                , { crossOrigin: 'Anonymous' }),
+          })
+        }
+        // console.log(images, images.length)
+        // console.log(resultImages, resultImages.length)
+        return resultImages
       },
       getFacility: async function () {
         const { data } = await SettingService.getFacility()
