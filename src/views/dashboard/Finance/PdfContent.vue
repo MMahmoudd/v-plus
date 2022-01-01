@@ -31,9 +31,9 @@
             {{ pdfData.Name }}
           </h1>
           <p
-            v-if="pdfData.tableData.offer_number"
+            v-if="pdfData.tableData.offer_number || pdfData.tableData.bill_number"
           >
-            # {{ pdfData.tableData.offer_number }}
+            # {{ pdfData.tableData.offer_number || pdfData.tableData.bill_number }}
           </p>
         </v-col>
       </div>
@@ -68,12 +68,12 @@
               <p
                 class="p-right"
               >
-                {{ pdfData.tableData.of_time }}
+                {{ pdfData.tableData.of_time || pdfData.tableData.time }}
               </p>
               <p
                 class="p-right"
               >
-                {{ pdfData.tableData.of_purpose }}
+                {{ pdfData.tableData.of_purpose || pdfData.tableData.purpose }}
               </p>
             </div>
           </div>
@@ -166,22 +166,53 @@
               {{ formatCurrency(bill_price + (bill_price * bill_vatRat / 100)) }}
             </p>
           </div>
+          <div
+            v-if="pdfData.tableData.first_batch"
+            class="d-flex justify-space-between text-right py-3"
+          >
+            <p>المبلغ المدفوع</p>
+            <p class="pl-3">
+              ( - ) {{ formatCurrency(+pdfData.tableData.first_batch) }}
+            </p>
+          </div>
+          <div
+            v-if="pdfData.tableData.first_batch"
+            class="d-flex justify-space-between gray text-right py-3"
+          >
+            <p>الصافي</p>
+            <p class="pl-3">
+              {{ formatCurrency(bill_price + (bill_price * bill_vatRat / 100) - +pdfData.tableData.first_batch) }}
+            </p>
+          </div>
         </v-col>
       </div>
       <br>
-      <hr>
-      <br>
-      <div class="row">
+      <div
+        class="html2pdf__page-break"
+        :data-number="['1','من',totalPages].join(' ')"
+      />
+      <div class="row first">
         <v-col cols="12">
           <h3>الملاحظات</h3>
-          <p v-if="pdfData.tableData.of_note">
-            {{ pdfData.tableData.of_note }}
+          <p v-if="pdfData.tableData.of_note || pdfData.tableData.note">
+            {{ pdfData.tableData.of_note || pdfData.tableData.note }}
           </p>
           <br>
           <h3>الشروط والاحكام</h3>
           <p v-if="pdfData.tableData.of_terms_condition">
             {{ pdfData.tableData.of_terms_condition }}
           </p>
+        </v-col>
+      </div>
+      <div
+        v-if="pdfData.tableData.qr_image"
+        class="row"
+      >
+        <v-col cols="12">
+          <img
+            :src="pdfData.tableData.qr_image"
+            alt="QR Code"
+          >
         </v-col>
       </div>
     </div>
@@ -197,6 +228,9 @@
         default: () => ({}),
       },
     },
+    data: () => ({
+      totalPages: 2,
+    }),
     computed: {
       bill_price: function () {
         return this.pdfData.tableData.saqs.reduce((p, item) => p + +item.price, 0)
@@ -227,6 +261,10 @@
 #pdf-content {
   width: 90%;
   margin: 50px auto;
+}
+.first{
+padding-top: 50px;
+
 }
 .container-header {
   width:97%;
@@ -274,5 +312,14 @@ padding: 2px 10px !important;
   width: 100px;
   height: 100px;
   border-radius: 50%;
+}
+.html2pdf__page-break {
+  direction: rtl;
+  text-align: center;
+}
+.html2pdf__page-break::before {
+  direction: rtl;
+  content: attr(data-number);
+  text-align: right;
 }
 </style>
