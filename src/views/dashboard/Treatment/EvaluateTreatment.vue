@@ -25,71 +25,131 @@
         <div>
           <form>
             <div>
-              <h2>الملحقات</h2>
+              <h2>الملاحق</h2>
               <v-row>
                 <v-col
                   cols="12"
                   sm="6"
                 >
                   <label class="d-block mb-3 font-weight-bold">الصك</label>
-                  <a
-                    class="pdf-container"
-                    href="http://shaalan.epizy.com/M-Shaalan-v1/muhammad-shaalan.pdf"
-                    target="_blank"
-                  >
-                    <v-icon>
-                      fas fa-file
-                    </v-icon>
-                    File.pdf
-                  </a>
+                  <v-row>
+                    <v-col
+                      v-for="(f, index) in data.instrument_files"
+                      :key="f.id"
+                      cols="12"
+                      sm="5"
+                    >
+                      <div class="pdf-container">
+                        <a
+                          :href="f.original_url"
+                          target="_blank"
+                        >
+                          <v-icon>
+                            fas fa-file
+                          </v-icon>
+                          {{ f.file_name }}
+                        </a>
+                        <v-icon
+                          x-small
+                          color="red"
+                          @click="deleteFile(f.id, 'instrument_files', index)"
+                        >
+                          mdi mdi-close-circle
+                        </v-icon>
+                      </div>
+                    </v-col>
+                  </v-row>
                 </v-col>
                 <v-col
                   cols="12"
                   sm="6"
                 >
                   <label class="d-block mb-3 font-weight-bold">المخطط</label>
-                  <a
-                    class="pdf-container"
-                    href="http://shaalan.epizy.com/M-Shaalan-v1/muhammad-shaalan.pdf"
-                    target="_blank"
-                  >
-                    <v-icon>
-                      fas fa-file
+                  <div class="pdf-container">
+                    <a
+                      v-show="data.attached_files.length > 0"
+                      :href="data.attached_files[0].original_url"
+                      target="_blank"
+                    >
+                      <v-icon>
+                        fas fa-file
+                      </v-icon>
+                      {{ data.attached_files[0].name }}
+                    </a>
+                    <v-icon
+                      x-small
+                      color="red"
+                    >
+                      mdi mdi-close-circle
                     </v-icon>
-                    File.pdf
-                  </a>
+                  </div>
                 </v-col>
                 <v-col
                   cols="12"
                   sm="6"
                 >
                   <label class="d-block mb-3 font-weight-bold">خطاب التكليف</label>
-                  <a
-                    class="pdf-container"
-                    href="http://shaalan.epizy.com/M-Shaalan-v1/muhammad-shaalan.pdf"
-                    target="_blank"
-                  >
-                    <v-icon>
-                      fas fa-file
-                    </v-icon>
-                    File.pdf
-                  </a>
+
+                  <v-row>
+                    <v-col
+                      v-for="(f, index) in data.assignment_letter_files"
+                      :key="f.id"
+                      cols="12"
+                      sm="5"
+                    >
+                      <div class="pdf-container">
+                        <a
+                          :href="f.original_url"
+                          target="_blank"
+                        >
+                          <v-icon>
+                            fas fa-file
+                          </v-icon>
+                          {{ f.file_name }}
+                        </a>
+                        <v-icon
+                          x-small
+                          color="red"
+                          @click="deleteFile(f.id, 'assignment_letter_files', index)"
+                        >
+                          mdi mdi-close-circle
+                        </v-icon>
+                      </div>
+                    </v-col>
+                  </v-row>
                 </v-col>
                 <v-col
                   cols="12"
                   sm="6"
                 >
                   <label class="d-block mb-3 font-weight-bold">الأرشيف</label>
-                  <a
-                    class="pdf-container"
-                    href="http://shaalan.epizy.com/M-Shaalan-v1/muhammad-shaalan.pdf"
-                    target="_blank"
-                  >
-                    <v-icon>
-                      fas fa-file
-                    </v-icon>
-                    File.pdf
-                  </a>
+                  <v-row>
+                    <v-col
+                      v-for="(f, index) in data.schema_files"
+                      :key="f.id"
+                      cols="12"
+                      sm="5"
+                    >
+                      <div class="pdf-container">
+                        <a
+                          :href="f.original_url"
+                          target="_blank"
+                        >
+                          <v-icon>
+                            fas fa-file
+                          </v-icon>
+                          {{ f.file_name }}
+                        </a>
+                        <v-icon
+                          x-small
+                          color="red"
+                          @click="deleteFile(f.id, 'schema_files', index)"
+                        >
+                          mdi mdi-close-circle
+                        </v-icon>
+                      </div>
+                    </v-col>
+                  </v-row>
                 </v-col>
               </v-row>
             </div>
@@ -1600,7 +1660,7 @@
                     />
                   </div>
                 </v-row> -->
-
+                {{ data.transactions_conditioners }}
                 <v-row class="mt-10">
                   <v-col
                     cols="12"
@@ -1634,8 +1694,8 @@
                   </v-col>
                 </v-row>
                 <v-row
-                  v-for="t in data.conditioner_type"
-                  :key="t.name"
+                  v-for="t in data.transactions_conditioners"
+                  :key="t.type"
                 >
                   <v-col
                     cols="12"
@@ -1643,9 +1703,8 @@
                     md="4"
                   >
                     <v-checkbox
-                      v-model="t.status"
                       class="check-label"
-                      :label="t.name"
+                      :label="t.type"
                       color="info"
                       :true-value="true"
                       :false-value="false"
@@ -1659,8 +1718,7 @@
                     md="4"
                   >
                     <v-text-field
-                      v-model="t.installed"
-                      :disabled="!t.status"
+                      v-model.number="t.compound"
                       hide-details=""
                       single-line
                       outlined
@@ -1672,8 +1730,7 @@
                     md="4"
                   >
                     <v-text-field
-                      v-model="t.non_installed"
-                      :disabled="!t.status"
+                      v-model.number="t.not_compound"
                       hide-details=""
                       single-line
                       outlined
@@ -4512,9 +4569,96 @@
                 </div>
               </div>
               <div v-show="evaluateType.includes('evaluateType3')">
+                {{ data.transactions_buildings }}
                 <div>
                   <h2>تقييم الأرض والمبانى</h2>
                   <v-row align="center">
+                    <v-col
+                      cols="12"
+                      md="3"
+                    />
+                    <v-col
+                      cols="4"
+                      md="3"
+                    >
+                      <label class="d-block mb-3 font-weight-bold">المساحة</label>
+                    </v-col>
+                    <v-col
+                      cols="4"
+                      md="3"
+                    >
+                      <label class="d-block mb-3 font-weight-bold">سعر المتر</label>
+                    </v-col>
+                    <v-col
+                      cols="4"
+                      md="3"
+                    >
+                      <label class="d-block mb-3 font-weight-bold">المجموع</label>
+                    </v-col>
+                  </v-row>
+                  <v-row
+                    v-for="(b,i) in data.transactions_buildings"
+                    :key="i"
+                  >
+                    <v-col
+                      cols="12"
+                      md="3"
+                    >
+                      <label class="v-label theme--light font-weight-bold">{{ b.building_type }}</label>
+                    </v-col>
+                    <v-col
+                      cols="4"
+                      md="3"
+                    >
+                      <v-text-field
+                        v-model="b.space"
+                        value="153"
+                        single-line
+                        outlined
+                        type="number"
+                        @input="setMultiOfSpaceAndPrice(b.id||b.__uuid)"
+                      />
+                    </v-col>
+                    <v-col
+                      cols="4"
+                      md="3"
+                    >
+                      <vuetify-money
+                        v-model.number="b.price"
+                        outlined
+                        single-line
+                        :options="{
+                          locale: 'en-US',
+                          prefix: '',
+                          suffix: '',
+                          length: 11,
+                          precision: 2,
+                        }"
+                        @input="setMultiOfSpaceAndPrice(b.id||b.__uuid)"
+                      />
+                    </v-col>
+                    <v-col
+                      cols="4"
+                      md="3"
+                    >
+                      <vuetify-money
+                        v-model="b.total"
+                        outlined
+                        single-line
+                        :options="{
+                          locale: 'en-US',
+                          prefix: '',
+                          suffix: '',
+                          length: 11,
+                          precision: 2,
+                        }"
+                        disabled
+                      />
+                    </v-col>
+                  </v-row>
+
+                  <!-- END -->
+                  <!-- <v-row align="center">
                     <v-col
                       cols="12"
                       md="3"
@@ -4798,7 +4942,7 @@
                         disabled
                       />
                     </v-col>
-                  </v-row>
+                  </v-row> -->
                   <v-row
                     class="mt-4"
                     align="baseline"
@@ -6545,6 +6689,10 @@
       swimming_pool_show: false,
       storehouse_show: false,
       data: {
+        files_to_deleted: [],
+        attached_files: [],
+        media: [],
+        transactions_buildings: [],
         sample_id: 11,
         customer_id: '',
         appraiser_id: 0,
@@ -6684,6 +6832,7 @@
         finishing_condition: '',
         latitude: '',
         longitude: '',
+        instrument_files: [],
         coordinate_type: 1,
         property_notes: '',
         property_condition: '',
@@ -6918,32 +7067,7 @@
             achievement_value: '',
           }],
         },
-        conditioner_type: [
-          {
-            status: false,
-            name: 'مركزي',
-            non_installed: 0,
-            installed: 0,
-          },
-          {
-            status: false,
-            name: 'منفصل',
-            non_installed: 0,
-            installed: 0,
-          },
-          {
-            status: false,
-            name: 'شباك',
-            non_installed: 0,
-            installed: 0,
-          },
-          {
-            status: false,
-            name: 'كونسيلد',
-            non_installed: 0,
-            installed: 0,
-          },
-        ],
+        transactions_conditioners: [],
         trans_professional_standard: `طريقة استخراج القيمة: عن طريق دراسة المنطقة و تحليل أسعار العقارات التجارية والسكنية والعروض المشابهة للأرض و التكلفة للمباني بعد خصم نسبة الإهلاك.
 المستندات المقدمة من طالب التقييم: هوية المالك - صك الملكية.
 نطاق البحث: أسعار البيع للأرض بالحي، مدى توفر خدمات البنية التحتية و خدمات البنية الفوقية مثل المدارس والمستشفيات والحدائق وغيرها، اكتمال العمران في المنطقة المحيطة، نظام البناء في منطقة العقار.
@@ -7361,6 +7485,14 @@
       this.getUsers()
     },
     methods: {
+      deleteFile: function (id, name, index) {
+        if (name === 'attached_files') {
+          this.data[name] = []
+        } else {
+          this.data[name].splice(index, 1)
+        }
+        this.data.files_to_deleted.push(+id)
+      },
       fetchOneItem: async function (id) {
         const { data } = await TransactionsServices.fetchOneItem(id)
         for (const key in data) {
@@ -7370,6 +7502,40 @@
             this.data[key] = data[key]
           }
         }
+
+        /**
+         * * default values for transactions_conditioners
+         */
+        if (!data.transactions_conditioners || data.transactions_buildings.length === 0) {
+          this.data.transactions_conditioners = [
+            { type: 'مركزي', compound: 0, not_compound: 0 },
+            { type: 'منفصل', compound: 0, not_compound: 0 },
+            { type: 'شباك', compound: 0, not_compound: 0 },
+            { type: 'كونسيلد', compound: 0, not_compound: 0 },
+          ]
+        }
+
+        /**
+         * *
+         */
+
+        if (!data.transactions_buildings || data.transactions_buildings.length === 0) {
+          this.data.transactions_buildings = [
+            { building_type: 'الأرض', space: 0, price: 0, total: 0, __uuid: uuid.v4() },
+            { building_type: 'القبو', space: 0, price: 0, total: 0, __uuid: uuid.v4() },
+            { building_type: 'دور أرضي', space: 0, price: 0, total: 0, __uuid: uuid.v4() },
+            { building_type: 'دور أول', space: 0, price: 0, total: 0, __uuid: uuid.v4() },
+            { building_type: 'الملاحق العلوية', space: 0, price: 0, total: 0, __uuid: uuid.v4() },
+            { building_type: 'الملاحق السفلية', space: 0, price: 0, total: 0, __uuid: uuid.v4() },
+            { building_type: 'الأسوار', space: 0, price: 0, total: 0, __uuid: uuid.v4() },
+            { building_type: 'أخرى', space: 0, price: 0, total: 0, __uuid: uuid.v4() },
+          ]
+        }
+
+        this.data.instrument_files = this.data.media.filter(i => i.collection_name === 'instrument_file')
+        this.data.assignment_letter_files = this.data.media.filter(i => i.collection_name === 'assignment_letter_file')
+        this.data.attached_files = this.data.media.filter(i => i.collection_name === 'attached_file')
+        this.data.schema_files = this.data.media.filter(i => i.collection_name === 'schema_file')
         /**
          * * formating the water_meter_number & electric_meter_number to be an array
          */
@@ -7522,14 +7688,14 @@
       getConstructionCondition: async function () {
         const { data } = await constructionConditionsService.getAllItems()
         this.staticLists.trans_construction_condition = data.data.map(({ id, name }) => ({
-          id, name,
+          id: String(id), name,
         }))
       },
       // staticLists.trans_occupancy_status
       getWorkingStatuses: async function () {
         const { data } = await WorkingStatusesServices.getAllItems()
         this.staticLists.trans_occupancy_status = data.data.map(({ id, name }) => ({
-          id, name,
+          id: String(id), name,
         }))
       },
 
@@ -7759,8 +7925,32 @@
       },
 
       // تقييم الارض والمباني
-      setMultiOfSpaceAndPrice: function (name) {
-        this.data[`cm_${name}_s_p_total`] = this.data[`cm_${name}_space`] * this.data[`cm_${name}_price`]
+      setMultiOfSpaceAndPrice: function (uuid) {
+        // const index = this.data.transactions_buildings.findIndex(b => b.uuid === uuid)
+        // this.data.transactions_buildings[index].total = this.data.transactions_buildings[index].space * this.data.transactions_buildings[index].price
+        let totalSpace = 0
+        let totalPriceSpace = 0
+        let counterTotalPriceSpace = 0
+
+        this.data.transactions_buildings.forEach(b => {
+          b.total = b.space * b.price
+          if (b.building_type !== 'الأرض' && b.building_type !== 'الأسوار') {
+            totalSpace += +b.space
+          }
+
+          if (+b.price !== 0) {
+            counterTotalPriceSpace++
+            totalPriceSpace += +b.price
+          }
+        })
+        this.data.cm_method_total = this.data.transactions_buildings.reduce((p, c) => {
+          return +p + +c.total
+        }, 0)
+
+        this.data.cm_space_total = totalSpace
+        this.data.cm_space_price_average = totalPriceSpace / counterTotalPriceSpace
+        // console.log(this.data.cm_method_total)
+        // this.data[`cm_${name}_s_p_total`] = this.data[`cm_${name}_space`] * this.data[`cm_${name}_price`]
       },
 
       // أسلوب التكلفه
@@ -7939,12 +8129,21 @@
 
 <style lang="scss" scoped>
 .pdf-container{
-  display: block;
+  display: flex;
+  justify-content: space-between;
   box-shadow: 0 2px 4px rgb(0 0 0 / 20%);
   width: 160px;
   padding: 15px;
   border-radius: 10px;
-  text-decoration: none;
+}
+
+.pdf-container a {
+  width: 100px;
+  display: inline-block;
+    text-decoration: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 .pdf-container i{
   font-size: 40px;

@@ -5,13 +5,19 @@
         {{ styleData }}
         {{ styleSubData }}
       </div>
-      <h1>
+      <!-- <h1>
         نموذج
         <span class="color">تقرير التقييم</span>
       </h1>
-
-      <div class="sub-header d-flex justify-content-between align-items-start">
+ -->
+      <div class="sub-header d-flex justify-content-between align-items-center">
+        <div class="image-facilty">
+          <img :src="data.customer.cs_logo">
+        </div>
         <div>
+          <h2>{{ data.customer.reportName || '' }}</h2>
+        </div>
+        <!-- <div>
           <h2>الرقم المرجعي للتقرير</h2>
           <h3>رقم الهاتف:</h3>
           <h3>المملكة العربية السعودية،</h3>
@@ -19,6 +25,9 @@
         <div>
           <h2>تاريخ إصدار التقرير</h2>
           <h3>رمز إيداع التقرير:</h3>
+        </div> -->
+        <div class="image-facilty">
+          <img :src="data.facility.logo">
         </div>
       </div>
     </div>
@@ -193,11 +202,11 @@
             حالة العقار
           </td>
           <td
-            v-for="type in data.propTypeList"
+            v-for="type in data.transConstructionList"
             :key="type.id"
           >
             <v-checkbox
-              v-model="data.property_type_id"
+              v-model="data.trans_construction_condition"
               :value="type.id"
               hide-details
             >
@@ -311,9 +320,18 @@
             class="field"
             :style="styleSubData"
           >
+            رقم المالك
+          </td>
+          <td>{{ data.trans_owner_phone || '' }}</td>
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             رقم الصك
           </td>
           <td>{{ data.trans_instrument_num|| '' }}</td>
+        </tr>
+        <tr>
           <td
             class="field"
             :style="styleSubData"
@@ -321,8 +339,6 @@
             تاريخ الصك
           </td>
           <td>{{ data.trans_instrument_date|| '' }}</td>
-        </tr>
-        <tr>
           <td
             class="field"
             :style="styleSubData"
@@ -337,6 +353,8 @@
             تاريخ رخصة البناء
           </td>
           <td>{{ new Date(data.trans_building_permit_date).toLocaleDateString('en-GB').split('/').reverse().join('-') }}</td>
+        </tr>
+        <tr>
           <td
             class="field"
             :style="styleSubData"
@@ -344,29 +362,24 @@
             عمر البناء
           </td>
           <td>{{ data.trans_construction_age || '' }}</td>
-        </tr>
-        <tr>
           <td
             class="field"
             :style="styleSubData"
           >
             رقم محضر التجزئة
           </td>
-          <td>{{ data.trans_retail_record_num || '' }}</td>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            حالة العقار
+          <td>
+            {{ data.trans_retail_record_num || '' }}
           </td>
-          <td />
           <td
             class="field"
             :style="styleSubData"
           >
             حالة الإشغال
           </td>
-          <td />
+          <td>
+            {{ data.transOccupancyName || '' }}
+          </td>
         </tr>
       </tbody>
     </table>
@@ -665,7 +678,10 @@
         </tr>
       </tbody>
     </table>
-    <div class="html2pdf__page-break" />
+    <div
+      class="html2pdf__page-break"
+      :data-number="['1','من',totalPages].join(' ')"
+    />
     <!--تكملة تفاصيل إضافيه-->
     <table class="first">
       <tbody class="has-fields">
@@ -696,48 +712,18 @@
             غير مركب
           </td>
         </tr>
-        <tr>
+        <tr
+          v-for="c in data.conditioners"
+          :key="c.type"
+        >
           <td>
-            مركزي
+            {{ c.type }}
           </td>
           <td>
-            1
+            {{ c.compound }}
           </td>
           <td>
-            3
-          </td>
-        </tr>
-        <tr>
-          <td>
-            شباك
-          </td>
-          <td>
-            1
-          </td>
-          <td>
-            2
-          </td>
-        </tr>
-        <tr>
-          <td>
-            كونسيلد
-          </td>
-          <td>
-            23
-          </td>
-          <td>
-            23
-          </td>
-        </tr>
-        <tr>
-          <td>
-            منفصل
-          </td>
-          <td>
-            1
-          </td>
-          <td>
-            2
+            {{ c.not_compound }}
           </td>
         </tr>
       </tbody>
@@ -1181,7 +1167,10 @@
       </tbody>
     </table>
     <!-- تصنيف مستوى تشطيبات البناء-->
-    <div class="html2pdf__page-break" />
+    <div
+      class="html2pdf__page-break"
+      :data-number="['2','من',totalPages].join(' ')"
+    />
     <table class="first">
       <thead :style="styleData">
         <tr>
@@ -1730,7 +1719,10 @@
       </tbody>
     </table>
     <!--العقارات المقارنة-->
-    <div class="html2pdf__page-break" />
+    <div
+      class="html2pdf__page-break"
+      :data-number="['3','من',totalPages].join(' ')"
+    />
     <table class="first">
       <thead :style="styleData">
         <tr>
@@ -2166,7 +2158,10 @@
       </tbody>
     </table>
     <!--طريقة التكلفة-->
-    <div class="html2pdf__page-break" />
+    <div
+      class="html2pdf__page-break"
+      :data-number="['4','من',totalPages].join(' ')"
+    />
     <table class="first">
       <thead :style="styleData">
         <tr>
@@ -2184,7 +2179,102 @@
           </th>
         </tr>
       </thead>
+      <tbody>
+        <tr>
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            تقييم الأرض والمباني
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table
+      style="width:60%;float:right;"
+    >
       <tbody class="has-fields">
+        <tr>
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            البيان
+          </td>
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            المساحه
+          </td>
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            سعر المتر
+          </td>
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            المجموع
+          </td>
+        </tr>
+        <tr
+          v-for="(b,index) in data.transactions_buildings"
+          :key="index"
+        >
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            {{ b.building_type }}
+          </td>
+          <td>{{ b.space }}</td>
+          <td>{{ formatCurrency(b.price) }}</td>
+          <td>{{ formatCurrency(b.total) }}</td>
+        </tr>
+        <tr>
+          <td />
+          <td
+            class="field small"
+            :style="styleSubData"
+          >
+            اجمالي المساحات
+            <br>
+            (باستثناء الأرض والاسوار)
+          </td>
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            متوسط سعر المتر
+          </td>
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            الإجمالي
+          </td>
+        </tr>
+        <tr>
+          <td />
+          <td>{{ cm_space_total }}</td>
+          <td>{{ cm_space_price_average }}</td>
+          <td>{{ formatCurrency(data.cm_method_total) }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <table
+      class=""
+      style="width:40%;"
+    >
+      <tbody>
+        <tr>
+          <td />
+          <td>القيمة</td>
+          <td>ملاحظات</td>
+        </tr>
         <tr>
           <td
             class="field"
@@ -2215,6 +2305,56 @@
           <td>{{ formatCurrency(data.cm_indirect_costs) }}</td>
           <td>{{ data.cm_indirect_costs_note || '' }}</td>
         </tr>
+      </tbody>
+    </table>
+    <table>
+      <!-- <thead :style="styleData">
+        <tr>
+          <th colspan="6">
+            <div class="header ">
+              <div class="header-text">
+                طريقة التكلفة
+              </div>
+              <div class="header-icon">
+                <v-icon>
+                  far fa-file-pdf
+                </v-icon>
+              </div>
+            </div>
+          </th>
+        </tr>
+      </thead> -->
+      <tbody class="has-fields">
+        <!-- <tr>
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            قيمة الاستبدال
+          </td>
+          <td>{{ formatCurrency(data.cm_exchange_value) }}</td>
+          <td>{{ data.cm_exchange_note || '' }}</td>
+        </tr>
+        <tr>
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            التكاليف المباشرة
+          </td>
+          <td>{{ formatCurrency(data.cm_direct_costs) }}</td>
+          <td>{{ data.cm_direct_costs_note || '' }}</td>
+        </tr>
+        <tr>
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            التكاليف غير المباشرة
+          </td>
+          <td>{{ formatCurrency(data.cm_indirect_costs) }}</td>
+          <td>{{ data.cm_indirect_costs_note || '' }}</td>
+        </tr> -->
         <tr>
           <td colspan="3">
             ناقصا الإهلاك
@@ -2425,7 +2565,10 @@
       </tbody>
     </table>
     <!--المشاركون في إعداد التقرير-->
-    <div class="html2pdf__page-break" />
+    <div
+      class="html2pdf__page-break"
+      :data-number="['5','من',totalPages].join(' ')"
+    />
     <table class="first">
       <thead :style="styleData">
         <tr>
@@ -2562,10 +2705,10 @@
       </tbody>
     </table>
     <!--هذا التقرير تم مراجعته واعتماده من قبل المقيم المعتمد-->
-    <table>
+    <table class="table-fixed">
       <thead style="background:#A7181C;">
         <tr>
-          <th colspan="6">
+          <th colspan="4">
             <div class="header ">
               <div class="header-text">
                 هذا التقرير تم مراجعته واعتماده من قبل المقيم المعتمد
@@ -2647,7 +2790,10 @@
       </tbody>
     </table>
     <!--إحداثيات الموقع-->
-    <div class="html2pdf__page-break" />
+    <div
+      class="html2pdf__page-break"
+      :data-number="['6','من',totalPages].join(' ')"
+    />
     <table class="first">
       <thead :style="styleData">
         <tr>
@@ -2699,7 +2845,14 @@
             المخطط
           </td>
         </tr>
-        <tr />
+        <tr>
+          <td>
+            <img
+              :src="data.attached_file.original_url"
+              style="min-height:250px;width:100%;object-fit:cover;"
+            >
+          </td>
+        </tr>
       </tbody>
     </table>
     <!--خريطة المقارنات-->
@@ -2751,8 +2904,10 @@
       </tbody>
     </table>
     <!--المالحق والصور الفوتوغرافية-->
+
     <div
       class="html2pdf__page-break"
+      :data-number="['7','من',totalPages].join(' ')"
     />
     <table class="first">
       <thead :style="styleData">
@@ -2780,9 +2935,91 @@
           height="240px"
           class="image-transaction"
           crossorigin
+          style="object-fit:none;object-position: right bottom;"
         >
       </tbody>
     </table>
+
+    <div
+      class="html2pdf__page-break"
+      :data-number="['7','من',totalPages].join(' ')"
+    />
+    <table class="first">
+      <thead :style="styleData">
+        <tr>
+          <th>
+            <div class="header ">
+              <div class="header-text">
+                الملاحق
+              </div>
+              <div class="header-icon">
+                <v-icon>
+                  far fa-file-pdf
+                </v-icon>
+              </div>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            الصك
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <template v-for="(image,index) in data.instrument_files">
+      <div
+        :key="index"
+        :class="index !== 0 ? 'first' : ''"
+        style="height:950px;background:red;"
+      >
+        <img
+          :src="image.original_url"
+          style="min-height:950px;width:100%;"
+        >
+      </div>
+      <div
+        :key="index"
+        class="html2pdf__page-break"
+        :data-number="[+'7' + index + 1,'من',totalPages].join(' ')"
+      />
+    </template>
+
+    <table class="first">
+      <tbody>
+        <tr>
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            خطاب التكليف
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <template v-for="(image,index) in data.assignment_letter_files">
+      <div
+        :key="index"
+        :class="index !== 0 ? 'first' : ''"
+        style="height:950px;background:red;"
+      >
+        <img
+          :src="image.original_url"
+          style="min-height:950px;width:100%;object-fit:cover;"
+        >
+      </div>
+      <div
+        :key="index"
+        class="html2pdf__page-break"
+        :data-number="[+'7' + index + 1,'من',totalPages].join(' ')"
+      />
+    </template>
     <!-- {{ data.images }} -->
     <!-- الصك -->
     <!-- <div
@@ -2819,9 +3056,10 @@
     /> -->
 
     <!--القيود على االستخدام والنشر-->
-    <div
+    <!-- <div
       class="html2pdf__page-break"
-    />
+      :data-number="['8','من',totalPages].join(' ')"
+    /> -->
     <table class="first">
       <thead :style="styleData">
         <tr>
@@ -2870,7 +3108,7 @@
       <tbody>
         <tr>
           <td>
-            <p style="min-height:150px;">
+            <p style="min-height:90px;">
               {{ data.trans_evacuation_responsibility || '' }}
             </p>
           </td>
@@ -2989,7 +3227,7 @@
           >
             <p
               class="not-empty"
-              style="min-height:123px;"
+              style="min-height:50px;"
             >
               {{ data.acknowledgment_independence || '' }}
             </p>
@@ -3010,6 +3248,9 @@
         default: () => ({}),
       },
     },
+    data: () => ({
+      totalPages: 10,
+    }),
     computed: {
       styleData () {
         return ({
@@ -3024,6 +3265,34 @@
           color: this.data.customer.cs_subdata_fount_color,
           'border-color': this.data.customer.cs_subdata_frame_color,
         })
+      },
+      cm_space_total () {
+        let totalSpace = 0
+
+        if (this.data.transactions_buildings) {
+          this.data.transactions_buildings.forEach(b => {
+            if (b.building_type !== 'الأرض' && b.building_type !== 'الأسوار') {
+              totalSpace += +b.space
+            }
+          })
+        }
+
+        return totalSpace
+        // this.data.cm_space_price_average = totalPriceSpace / counterTotalPriceSpace
+      },
+      cm_space_price_average () {
+        let totalPriceSpace = 0
+        let counterTotalPriceSpace = 0
+
+        if (this.data.transactions_buildings) {
+          this.data.transactions_buildings.forEach(b => {
+            if (+b.price !== 0) {
+              counterTotalPriceSpace++
+              totalPriceSpace += +b.price
+            }
+          })
+        }
+        return totalPriceSpace / counterTotalPriceSpace
       },
     },
     methods: {
@@ -3065,9 +3334,6 @@
         }
       },
     },
-    // data: () => ({
-    //   pdfDefaultData: { ...defaultValues },
-    // }),
   }
 </script>
 <style scoped>
@@ -3100,7 +3366,7 @@
 .container-header .sub-header {
   direction: rtl;
   display: flex;
-  align-items: start;
+  align-items: center;
   justify-content: space-between;
   margin-top:10px;
   margin-bottom:10px;
@@ -3110,7 +3376,13 @@
 }
 .container-header .sub-header h3 {
   font-size: 16px;
-  color: #57585A;
+  /* color: #57585A; */
+}
+
+.image-facilty img{
+  width: 200px;
+  height:100px;
+  object-fit: cover;
 }
 .not-empty {
   min-height: 60px;
@@ -3169,6 +3441,9 @@ table thead th {
 table tbody td ,.td{
   font-size: 12px !important;
 }
+table tbody td.small {
+  font-size: 10px !important;
+}
 .td {
   text-align: center;
 }
@@ -3195,10 +3470,18 @@ tbody.images {
 justify-content:space-between;
   grid-row-gap: 2px;
 }
-
 .image-transaction {
   width: 352px !important;
   height:240px !important;
   object-fit: contain;
+}
+.html2pdf__page-break {
+  direction: rtl;
+  text-align: center;
+}
+.html2pdf__page-break::before {
+  direction: rtl;
+  content: attr(data-number);
+  text-align: right;
 }
 </style>

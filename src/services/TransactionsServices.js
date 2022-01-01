@@ -33,11 +33,6 @@ headers: {
             'content-type': 'multipart/form-data',
         },
 })
-        .then((response) => {
-            if (response.status === 200) {
-                return response.data
-            }
-        })
     },
     updateOneItem (id, data) {
         return Service.post(`${resource}/transactions/${id}`, data)

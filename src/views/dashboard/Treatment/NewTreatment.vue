@@ -2373,6 +2373,7 @@
       bottom
       left
       :timeout="timeout"
+      :multi-line="true"
     >
       {{ errorMessage }}
     </v-snackbar>
@@ -2406,9 +2407,11 @@
     name: 'NewTreatment',
 
     data: () => ({
+      errorMessage: '',
+      successMessage: '',
       successSnackbar: false,
       errorSnackbar: false,
-      timeout: 3000,
+      timeout: 6000,
       dataLoading: false,
       staticLists: { ...staticLists },
       customersList: [],
@@ -3051,10 +3054,10 @@
         prop_part_num: '',
         transaction_id: '',
         trans_number: '',
-        instrument_file: '',
+        instrument_file: [],
         attached_file: '',
-        schema_file: '',
-        assignment_letter_file: '',
+        schema_file: [],
+        assignment_letter_file: [],
         resident_id: '',
         reviewer_id: '',
         approved_id: '',
@@ -3233,7 +3236,7 @@
         construction_age: '',
         basement_space: '',
         annexes_space: '',
-        num_floors_residential_villas: '',
+        num_floors_residential_villas: '12',
         conforms_building_permit: '',
         internal_preview: '',
         external_preview: '',
@@ -3472,7 +3475,15 @@
       },
       // files
       handleFileUpload: function (files, name) {
-        this.data[name] = files[0]
+        if (name === 'instrument_file') {
+          this.data[name].push(...files)
+        } else if (name === 'assignment_letter_file') {
+          this.data[name].push(...files)
+        } else if (name === 'schema_file') {
+          this.data[name].push(...files)
+        } else {
+          this.data[name] = files[0]
+        }
         // this.createImage(files[0], name)
       },
       addDropFile (e, name) {
@@ -3605,33 +3616,60 @@
       },
       // submit
       save: async function () {
+        console.log('saving ...')
         this.dataLoading = true
         // const formData = this.data
         const formData = new FormData()
-        for (const key in this.data) {
-          formData.append(key, this.data[key])
+        /**
+         * ? converting the json object to a form-data format
+         */
+        function buildFormData (formData, data, parentKey) {
+          if (data && typeof data === 'object' && !(data instanceof Date) && !(data instanceof File)) {
+            Object.keys(data).forEach(key => {
+              buildFormData(formData, data[key], parentKey ? `${parentKey}[${key}]` : key)
+            })
+          } else {
+            const value = data == null ? '' : data
+
+            formData.append(parentKey, value)
+          }
         }
-        let response
+
+        buildFormData(formData, this.data)
+        // let response
         // const response = TransactionsServices.addOneItem(formData)
 
-        if (this.$route.query.edit) {
-          response = await TransactionsServices.updateOneItem(this.$route.query.edit, formData)
-        } else {
-          response = await TransactionsServices.addOneItem(formData)
-        }
-
-        if (response.success === true) {
+        // if (this.$route.query.edit) {
+        //   response = await TransactionsServices.updateOneItem(this.$route.query.edit, formData)
+        // } else {
+        try {
+          await TransactionsServices.addOneItem(formData)
           this.successMessage = 'تم التعديل بنجاح'
           this.successSnackbar = true
           setTimeout(() => {
             this.$router.push('/Treatments')
           }, 1500)
-        } else {
-          this.errorMessage = 'يوجد مشكلة في التعديل'
+        } catch (er) {
+          console.log(er.response.data.error)
+          this.errorMessage = er.response.data.error || 'يوجد مشكلة بالبيانات'
           this.errorSnackbar = true
+        } finally {
+          this.dataLoading = false
         }
+        // }
 
-        this.dataLoading = false
+        // if (response.success === true) {
+        //   this.successMessage = 'تم التعديل بنجاح'
+        //   this.successSnackbar = true
+        //   setTimeout(() => {
+        //     this.$router.push('/Treatments')
+        //   }, 1500)
+        // } else {
+        //   this.errorMessage = response?.error || 'يوجد مشكلة بالبيانات'
+        //   this.errorSnackbar = true
+        // }
+
+        // this.dataLoading = false
       },
       // Get Location debendes on 2 inputs
       // getMap: function (x, y) {

@@ -605,6 +605,16 @@
         </v-data-table>
       </template>
     </v-card>
+    <v-snackbar
+      v-model="errorSnackbar"
+      color="red"
+      shaped
+      bottom
+      left
+      :timeout="timeout"
+    >
+      {{ errorMessage }}
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -637,6 +647,9 @@
   const SettingService = ServiceFactory.get('Setting')
   const ReportTypesServices = ServiceFactory.get('ReportTypes')
   const UserSettingServices = ServiceFactory.get('UserSetting')
+  const constructionConditionsService = ServiceFactory.get('constructionConditions')
+  const WorkingStatusesServices = ServiceFactory.get('WorkingStatuses')
+
   export default {
     name: 'NewTreatment',
     components: {
@@ -646,6 +659,9 @@
       SelectSample,
     },
     data: () => ({
+      errorSnackbar: false,
+      timeout: 3000,
+      errorMessage: '',
       progressNumber: 0,
       showProgress: false,
       pdfData: {
@@ -676,7 +692,7 @@
       ResidentesList: [],
       ReviewersList: [],
       statuses: {
-        1: 'جديد',
+        1: 'تحت التقييم',
         2: 'تحت التقييم',
         3: 'تحت المراجعة',
         4: 'قيد الاعتماد',
@@ -786,6 +802,7 @@
     },
     mounted () {
       this.fetchAllItems()
+      this.getConstructionCondition()
     },
     methods: {
       onProgressPdf: function (data) {
@@ -801,41 +818,6 @@
       },
       // pdf
       generateReport: async function (id) {
-        this.progressNumber = 0
-        this.pdfDataLoading = true
-        this.showProgress = true
-        const pdfData = this.itemsTr.find(item => item.id === id)
-        this.progressNumber = 10
-        const facility = await this.getFacility()
-        this.progressNumber = 20
-        const transReportTypeName = await this.getReportType(pdfData.trans_Report_type)
-        this.progressNumber = 30
-        await this.getPropertyTypes()
-        this.progressNumber = 40
-
-        pdfData.trans_Report_type = transReportTypeName
-        pdfData.imageBase = 'https://taqeeem.millennium.sa/'
-        pdfData.facility = facility
-        pdfData.propTypeList = []
-
-        const { data: oneTransactionData } = await TransactionsServices.fetchOneItem(id)
-
-        /**
-         * ?
-         */
-        let images = []
-
-        images = oneTransactionData?.images?.filter(img => img.status === '1')?.map(img => ({ image: 'https://devproject.millennium.sa/' + img.image_url })) || []
-
-        images = pdfData.customer.image_per_page === '6' ? images.slice(0, 6) : images.slice(0, 8)
-
-        const defaultImage = facility.logo
-
-        const defaultImageAfterResize = await this.resizeImg(defaultImage, 100, 50)
-        pdfData.images = await this.margeImg(images, defaultImageAfterResize)
-        /**
-         * ? formating the water_meter_number & electric_meter_number to be an array
-         */
         function split (string) {
           if (!string) {
             return []
@@ -843,56 +825,144 @@
             return string.split(';')
           }
         }
-
-        pdfData.water_meter_number = split(pdfData.water_meter_number)
-        pdfData.electric_meter_number = split(pdfData.electric_meter_number)
-        /**
-         * ? format members
-         */
-        const members = []
-        // fetch transaction
-        const { data: roles } = await UserSettingServices.getAllItems()
-
-        if (oneTransactionData.participatingmembers) {
-          for (let index = 0; index < oneTransactionData.participatingmembers.length; index++) {
-            const userId = oneTransactionData.participatingmembers[index].user_id
-            const { data: { name, id_number: number, user_type: type } } = await UsersServices.fetchOneItem(userId)
-            members.push({ name, number, type: roles.find(role => +role.id === +type)?.role_name, s: '' })
+        try {
+          this.progressNumber = 0
+          this.pdfDataLoading = true
+          this.showProgress = true
+          const pdfData = this.itemsTr.find(item => item.id === id)
+          this.progressNumber = 10
+          const facility = await this.getFacility()
+          this.progressNumber = 20
+          const transReportTypeName = await this.getReportType(pdfData.trans_Report_type)
+          const reportName = await this.getReportType(pdfData.customer.report_id)
+          this.progressNumber = 30
+          await this.getPropertyTypes()
+          this.progressNumber = 40
+          if (
+            pdfData.trans_occupancy_status
+          ) {
+            const { data: { name } } = await WorkingStatusesServices.fetchOneItem(pdfData.trans_occupancy_status)
+            pdfData.transOccupancyName = name
           }
+
+          pdfData.trans_Report_type = transReportTypeName
+          pdfData.imageBase = 'https://taqeeem.millennium.sa/'
+          pdfData.facility = facility
+          pdfData.propTypeList = []
+          pdfData.transConstructionList = []
+          pdfData.customer.reportName = reportName
+
+          const { data: oneTransactionData } = await TransactionsServices.fetchOneItem(id)
+          pdfData.conditioners = oneTransactionData.transactions_conditioners
+          const buildings = [
+            { building_type: 'الأرض', space: 0, price: 0, total: 0 },
+            { building_type: 'القبو', space: 0, price: 0, total: 0 },
+            { building_type: 'دور أرضي', space: 0, price: 0, total: 0 },
+            { building_type: 'دور أول', space: 0, price: 0, total: 0 },
+            { building_type: 'الملاحق العلوية', space: 0, price: 0, total: 0 },
+            { building_type: 'الملاحق السفلية', space: 0, price: 0, total: 0 },
+            { building_type: 'الأسوار', space: 0, price: 0, total: 0 },
+            { building_type: 'أخرى', space: 0, price: 0, total: 0 },
+          ]
+          pdfData.attached_file = oneTransactionData.media.find(i => i.collection_name === 'attached_file')
+          pdfData.instrument_files = oneTransactionData.media.filter(i => i.collection_name === 'instrument_file')
+          pdfData.assignment_letter_files = oneTransactionData.media.filter(i => i.collection_name === 'assignment_letter_file')
+          pdfData.transactions_buildings = oneTransactionData.transactions_buildings || buildings
+          /**
+           * ?
+           */
+          let images = []
+
+          images = oneTransactionData
+        ?.images
+        ?.filter(img => img.status === '1')
+        ?.map(img => ({ image: 'https://devproject.millennium.sa/' + img.image_url })) || []
+
+          images = pdfData.customer.image_per_page === '6' ? images.slice(0, 6) : images.slice(0, 8)
+
+          const defaultImage = facility.logo
+
+          const defaultImageAfterResize = await this.resizeImg(defaultImage, 100, 50)
+          pdfData.images = await this.margeImg(images, defaultImageAfterResize)
+          /**
+           * ? formating the water_meter_number & electric_meter_number to be an array
+           */
+
+          pdfData.water_meter_number = split(pdfData.water_meter_number)
+          pdfData.electric_meter_number = split(pdfData.electric_meter_number)
+          /**
+           * ? format members
+           */
+          const members = []
+          // fetch transaction
+          const { data: roles } = await UserSettingServices.getAllItems()
+
+          if (oneTransactionData.participatingmembers) {
+            for (let index = 0; index < oneTransactionData.participatingmembers.length; index++) {
+              const userId = oneTransactionData.participatingmembers[index].user_id
+              const { data: { name, id_number: number, user_type: type } } = await UsersServices.fetchOneItem(userId)
+              members.push({ name, number, type: roles.find(role => +role.id === +type)?.role_name, s: '' })
+            }
+          }
+
+          pdfData.members = members
+          /**
+           * ? this is done to only get 4 items including the selected one
+           */
+          let propertyTypeSelected = 0
+          let selectedPropertyTypeFound = false
+          let counter = 0
+          this.transConstructionList.forEach(value => {
+            if (propertyTypeSelected >= 4 && selectedPropertyTypeFound) {
+              return
+            }
+            if (value.id === pdfData.property_type_id) {
+              pdfData.transConstructionList[counter] = value
+              selectedPropertyTypeFound = true
+            } else {
+              pdfData.transConstructionList[counter] = value
+              propertyTypeSelected++
+            }
+            counter++
+            if (counter > 3) counter = 0
+          })
+
+          let constructionConditionSelected = 0
+          let constructionConditionFound = false
+          let counterC = 0
+          this.propTypeList.forEach(value => {
+            if (constructionConditionSelected >= 4 && constructionConditionFound) {
+              return
+            }
+            if (value.id === pdfData.property_type_id) {
+              pdfData.propTypeList[counterC] = value
+              constructionConditionFound = true
+            } else {
+              pdfData.propTypeList[counterC] = value
+              constructionConditionSelected++
+            }
+            counterC++
+            if (counterC > 3) counterC = 0
+          })
+
+          // pdfData.transactions_buildings = [
+          //   { building_type: 'الأرض', space: 321, price: 12, total: 1234 },
+          //   { building_type: 'القبو', space: 321, price: 321, total: 321 },
+          //   { building_type: 'دور أرضي', space: 321, price: 321, total: 321 },
+          //   { building_type: 'دور أول', space: 3210, price: 321, total: 321 },
+          //   { building_type: 'الملاحق العلوية', space: 321, price: 321, total: 321 },
+          //   { building_type: 'الملاحق السفلية', space: 321, price: 321, total: 321 },
+          //   { building_type: 'الأسوار', space: 321, price: 321, total: 321 },
+          //   { building_type: 'أخرى', space: 321, price: 321, total: 321 },
+          // ]
+          this.pdfData = pdfData
+          this.$refs.html2Pdf.generatePdf()
+        } catch (err) {
+          this.errorMessage = 'يوجد مشكلة في تحميل الملف برجاء المحاولة مرة اخري'
+          this.errorSnackbar = true
+          this.progressNumber = 0
+          this.showProgress = false
         }
-        /**
-         * * chuck array
-         */
-        // function chunk (arr, chunkSize) {
-        //   const R = []
-        //   for (var i = 0, len = arr.length; i < len; i += chunkSize) { R.push(arr.slice(i, i + chunkSize)) }
-        //   return R
-        // }
-
-        // members = chunk(members, 3)
-        pdfData.members = members
-        /**
-         * ? this is done to only get 4 items including the selected one
-         */
-        let propertyTypeSelected = 0
-        let selectedPropertyTypeFound = false
-        let counter = 0
-        this.propTypeList.forEach(value => {
-          if (propertyTypeSelected >= 4 && selectedPropertyTypeFound) {
-            return
-          }
-          if (value.id === pdfData.property_type_id) {
-            pdfData.propTypeList[counter] = value
-            selectedPropertyTypeFound = true
-          } else {
-            pdfData.propTypeList[counter] = value
-            propertyTypeSelected++
-          }
-          counter++
-          if (counter > 3) counter = 0
-        })
-        this.pdfData = pdfData
-        this.$refs.html2Pdf.generatePdf()
         // this.pdfData = defaultValuesForPdf
       },
       resizeImg: function (datas, wantedWidth, wantedHeight) {
@@ -1014,6 +1084,12 @@
             name: pt.name,
           }
         })
+      },
+      getConstructionCondition: async function () {
+        const { data } = await constructionConditionsService.getAllItems()
+        this.transConstructionList = data.data.map(({ id, name }) => ({
+          id: String(id), name,
+        }))
       },
       getEvaluationPurpose: async function () {
         const { data } = await EvaluationPurposeService.getAllItems()
