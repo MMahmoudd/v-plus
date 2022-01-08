@@ -52,7 +52,7 @@
               <p>
                 التاريخ
               </p>
-              <p>
+              <p v-if="pdfData.tableData.of_time">
                 مدة الانجاز
               </p>
               <p>
@@ -66,9 +66,10 @@
                 {{ pdfData.tableData.created_at }}
               </p>
               <p
+                v-if="pdfData.tableData.of_time"
                 class="p-right"
               >
-                {{ pdfData.tableData.of_time || pdfData.tableData.time }}
+                {{ pdfData.tableData.of_time }}
               </p>
               <p
                 class="p-right"

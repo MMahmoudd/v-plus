@@ -13,7 +13,11 @@ export default {
         })
     },
     updateFacility (data, id) {
-      return Service.post(`${resource}/facilities/${id}`, data)
+      return Service.post(`${resource}/facilities/${id}`, data, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+    })
       .then((response) => {
         if (response.status === 200) {
             return response.data
