@@ -194,7 +194,7 @@
             {
               title: 'النماذج',
               to: '/treatment-settings/sample',
-              tole: true,
+              role: true,
             },
             {
               title: 'المنطقة',
@@ -214,42 +214,132 @@
             {
               title: 'نوع العقار',
               to: '/treatment-settings/propertyTypes',
-              tole: true,
+              role: true,
             },
             {
               title: 'استخدام العقار',
               to: '/treatment-settings/propertyRatings',
-              tole: true,
+              role: true,
             },
             {
               title: 'حالة البناء',
               to: '/treatment-settings/constructionConditions',
-              tole: true,
+              role: true,
             },
             {
               title: 'عملة التقييم',
               to: '/treatment-settings/EvaluationCurrencies',
-              tole: true,
+              role: true,
             },
             {
               title: 'انواع التقارير',
               to: '/treatment-settings/ReportTypes',
-              tole: true,
+              role: true,
             },
             {
               title: 'فرضية القيمة',
               to: '/treatment-settings/ValueHypothesisLists',
-              tole: true,
+              role: true,
             },
             {
               title: 'اساس القيمة',
               to: '/treatment-settings/ValueBasiLists',
-              tole: true,
+              role: true,
             },
             {
               title: 'حالة الاشغال',
               to: '/treatment-settings/WorkingStatuses',
-              tole: true,
+              role: true,
+            },
+            {
+              title: 'نوع الاسقف',
+              to: '/treatment-settings/bishopTypeSetting',
+              role: true,
+            },
+            {
+              title: 'التصميم',
+              to: '/treatment-settings/designSetting',
+              role: true,
+            },
+            {
+              title: 'الواجهة الشرقية',
+              to: '/treatment-settings/eastFacadeSetting',
+              role: true,
+            },
+            {
+              title: 'الواجهة الشمالية',
+              to: '/treatment-settings/northFacadeSetting',
+              role: true,
+            },
+            {
+              title: 'الواجهة الغربية',
+              to: '/treatment-settings/westFacadeSetting',
+              role: true,
+            },
+            {
+              title: 'الواجهة الجنوبية',
+              to: '/treatment-settings/southFacadeSetting',
+              role: true,
+            },
+            {
+              title: 'التيار الكهربائي',
+              to: '/treatment-settings/electricCurrentSetting',
+              role: true,
+            },
+            {
+              title: 'نوع أرضية المدخل',
+              to: '/treatment-settings/entranceFloorTypeSetting',
+              role: true,
+            },
+            {
+              title: 'نوع أرضية الاحواش',
+              to: '/treatment-settings/indoorTypeSetting',
+              role: true,
+            },
+            {
+              title: 'الموقع العام',
+              to: '/treatment-settings/generalLocation',
+              role: true,
+            },
+            {
+              title: 'نوع العزل',
+              to: '/treatment-settings/insulationTypeSetting',
+              role: true,
+            },
+            {
+              title: 'الجار',
+              to: '/treatment-settings/neighborSetting',
+              role: true,
+            },
+            {
+              title: 'المنسوب',
+              to: '/treatment-settings/propertyLevelSetting',
+              role: true,
+            },
+            {
+              title: 'نوع أرضية الاستقبال',
+              to: '/treatment-settings/receptionFloorTypeSetting',
+              role: true,
+            },
+            {
+              title: 'نوع أرضية الغرف',
+              to: '/treatment-settings/roomFloorTypeSetting',
+              role: true,
+            },
+            {
+              title: 'اضاءة الشوارع',
+              to: '/treatment-settings/streetLightingSetting',
+              role: true,
+            },
+            {
+              title: 'الشوارع',
+              to: '/treatment-settings/streetSetting',
+              role: true,
+            },
+            {
+              title: 'الهيكل الانشائي',
+              to: '/treatment-settings/structureConstructionSetting',
+              role: true,
             },
           ],
         },

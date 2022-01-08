@@ -355,6 +355,247 @@ const router = new Router({
           component: () => import('@/views/dashboard/TreatmentSettings/WorkingStatuses/Form.vue'),
           meta: { requiresAuth: true },
         },
+        // /treatment-settings/bishopTypeSetting
+        {
+          name: 'bishopTypeSetting',
+          path: '/treatment-settings/bishopTypeSetting',
+          component: () => import('@/views/dashboard/TreatmentSettings/bishopTypeSetting/List.vue'),
+          meta: { requiresAuth: true },
+
+        },
+        {
+          name: 'bishopTypeSettingForm',
+          path: '/treatment-settings/bishopTypeSettingForm/:id?',
+          component: () => import('@/views/dashboard/TreatmentSettings/bishopTypeSetting/Form.vue'),
+          meta: { requiresAuth: true },
+        },
+        // /treatment-settings/designSetting
+        {
+          name: 'designSetting',
+          path: '/treatment-settings/designSetting',
+          component: () => import('@/views/dashboard/TreatmentSettings/designSetting/List.vue'),
+          meta: { requiresAuth: true },
+
+        },
+        {
+          name: 'designSettingForm',
+          path: '/treatment-settings/designSettingForm/:id?',
+          component: () => import('@/views/dashboard/TreatmentSettings/designSetting/Form.vue'),
+          meta: { requiresAuth: true },
+        },
+        // /treatment-settings/eastFacadeSetting
+        {
+          name: 'eastFacadeSetting',
+          path: '/treatment-settings/eastFacadeSetting',
+          component: () => import('@/views/dashboard/TreatmentSettings/eastFacadeSetting/List.vue'),
+          meta: { requiresAuth: true },
+
+        },
+        {
+          name: 'eastFacadeSettingForm',
+          path: '/treatment-settings/eastFacadeSettingForm/:id?',
+          component: () => import('@/views/dashboard/TreatmentSettings/eastFacadeSetting/Form.vue'),
+          meta: { requiresAuth: true },
+        },
+        // /treatment-settings/northFacadeSetting
+        {
+          name: 'northFacadeSetting',
+          path: '/treatment-settings/northFacadeSetting',
+          component: () => import('@/views/dashboard/TreatmentSettings/northFacadeSetting/List.vue'),
+          meta: { requiresAuth: true },
+
+        },
+        {
+          name: 'northFacadeSettingForm',
+          path: '/treatment-settings/northFacadeSettingForm/:id?',
+          component: () => import('@/views/dashboard/TreatmentSettings/northFacadeSetting/Form.vue'),
+          meta: { requiresAuth: true },
+        },
+        // /treatment-settings/westFacadeSetting
+        {
+          name: 'westFacadeSetting',
+          path: '/treatment-settings/westFacadeSetting',
+          component: () => import('@/views/dashboard/TreatmentSettings/westFacadeSetting/List.vue'),
+          meta: { requiresAuth: true },
+
+        },
+        {
+          name: 'westFacadeSettingForm',
+          path: '/treatment-settings/westFacadeSettingForm/:id?',
+          component: () => import('@/views/dashboard/TreatmentSettings/westFacadeSetting/Form.vue'),
+          meta: { requiresAuth: true },
+        },
+        // /treatment-settings/southFacadeSetting
+        {
+          name: 'southFacadeSetting',
+          path: '/treatment-settings/southFacadeSetting',
+          component: () => import('@/views/dashboard/TreatmentSettings/southFacadeSetting/List.vue'),
+          meta: { requiresAuth: true },
+
+        },
+        {
+          name: 'southFacadeSettingForm',
+          path: '/treatment-settings/southFacadeSettingForm/:id?',
+          component: () => import('@/views/dashboard/TreatmentSettings/southFacadeSetting/Form.vue'),
+          meta: { requiresAuth: true },
+        },
+        // /treatment-settings/electricCurrentSetting
+        {
+          name: 'electricCurrentSetting',
+          path: '/treatment-settings/electricCurrentSetting',
+          component: () => import('@/views/dashboard/TreatmentSettings/electricCurrentSetting/List.vue'),
+          meta: { requiresAuth: true },
+        },
+        {
+          name: 'electricCurrentSettingForm',
+          path: '/treatment-settings/electricCurrentSettingForm/:id?',
+          component: () => import('@/views/dashboard/TreatmentSettings/electricCurrentSetting/Form.vue'),
+          meta: { requiresAuth: true },
+        },
+        // /treatment-settings/entranceFloorTypeSetting
+        {
+          name: 'entranceFloorTypeSetting',
+          path: '/treatment-settings/entranceFloorTypeSetting',
+          component: () => import('@/views/dashboard/TreatmentSettings/entranceFloorTypeSetting/List.vue'),
+          meta: { requiresAuth: true },
+        },
+        {
+          name: 'entranceFloorTypeSettingForm',
+          path: '/treatment-settings/entranceFloorTypeSettingForm/:id?',
+          component: () => import('@/views/dashboard/TreatmentSettings/entranceFloorTypeSetting/Form.vue'),
+          meta: { requiresAuth: true },
+        },
+        // /treatment-settings/generalLocation
+        {
+          name: 'generalLocation',
+          path: '/treatment-settings/generalLocation',
+          component: () => import('@/views/dashboard/TreatmentSettings/generalLocation/List.vue'),
+          meta: { requiresAuth: true },
+        },
+        {
+          name: 'generalLocationForm',
+          path: '/treatment-settings/generalLocationForm/:id?',
+          component: () => import('@/views/dashboard/TreatmentSettings/generalLocation/Form.vue'),
+          meta: { requiresAuth: true },
+        },
+        // /treatment-settings/indoorTypeSetting
+        {
+          name: 'indoorTypeSetting',
+          path: '/treatment-settings/indoorTypeSetting',
+          component: () => import('@/views/dashboard/TreatmentSettings/indoorTypeSetting/List.vue'),
+          meta: { requiresAuth: true },
+        },
+        {
+          name: 'indoorTypeSettingForm',
+          path: '/treatment-settings/indoorTypeSettingForm/:id?',
+          component: () => import('@/views/dashboard/TreatmentSettings/indoorTypeSetting/Form.vue'),
+          meta: { requiresAuth: true },
+        },
+        // /treatment-settings/insulationTypeSetting
+        {
+          name: 'insulationTypeSetting',
+          path: '/treatment-settings/insulationTypeSetting',
+          component: () => import('@/views/dashboard/TreatmentSettings/insulationTypeSetting/List.vue'),
+          meta: { requiresAuth: true },
+        },
+        {
+          name: 'insulationTypeSettingForm',
+          path: '/treatment-settings/insulationTypeSettingForm/:id?',
+          component: () => import('@/views/dashboard/TreatmentSettings/insulationTypeSetting/Form.vue'),
+          meta: { requiresAuth: true },
+        },
+        // /treatment-settings/neighborSetting
+        {
+          name: 'neighborSetting',
+          path: '/treatment-settings/neighborSetting',
+          component: () => import('@/views/dashboard/TreatmentSettings/neighborSetting/List.vue'),
+          meta: { requiresAuth: true },
+        },
+        {
+          name: 'neighborSettingForm',
+          path: '/treatment-settings/neighborSettingForm/:id?',
+          component: () => import('@/views/dashboard/TreatmentSettings/neighborSetting/Form.vue'),
+          meta: { requiresAuth: true },
+        },
+        // /treatment-settings/propertyLevelSetting
+        {
+          name: 'propertyLevelSetting',
+          path: '/treatment-settings/propertyLevelSetting',
+          component: () => import('@/views/dashboard/TreatmentSettings/propertyLevelSetting/List.vue'),
+          meta: { requiresAuth: true },
+        },
+        {
+          name: 'propertyLevelSettingForm',
+          path: '/treatment-settings/propertyLevelSettingForm/:id?',
+          component: () => import('@/views/dashboard/TreatmentSettings/propertyLevelSetting/Form.vue'),
+          meta: { requiresAuth: true },
+        },
+        // /treatment-settings/receptionFloorTypeSetting
+        {
+          name: 'receptionFloorTypeSetting',
+          path: '/treatment-settings/receptionFloorTypeSetting',
+          component: () => import('@/views/dashboard/TreatmentSettings/receptionFloorTypeSetting/List.vue'),
+          meta: { requiresAuth: true },
+        },
+        {
+          name: 'receptionFloorTypeSettingForm',
+          path: '/treatment-settings/receptionFloorTypeSettingForm/:id?',
+          component: () => import('@/views/dashboard/TreatmentSettings/receptionFloorTypeSetting/Form.vue'),
+          meta: { requiresAuth: true },
+        },
+        // /treatment-settings/receptionFloorTypeSetting
+        {
+          name: 'roomFloorTypeSetting',
+          path: '/treatment-settings/roomFloorTypeSetting',
+          component: () => import('@/views/dashboard/TreatmentSettings/roomFloorTypeSetting/List.vue'),
+          meta: { requiresAuth: true },
+        },
+        {
+          name: 'roomFloorTypeSettingForm',
+          path: '/treatment-settings/roomFloorTypeSettingForm/:id?',
+          component: () => import('@/views/dashboard/TreatmentSettings/roomFloorTypeSetting/Form.vue'),
+          meta: { requiresAuth: true },
+        },
+        // /treatment-settings/streetLightingSetting
+        {
+          name: 'streetLightingSetting',
+          path: '/treatment-settings/streetLightingSetting',
+          component: () => import('@/views/dashboard/TreatmentSettings/streetLightingSetting/List.vue'),
+          meta: { requiresAuth: true },
+        },
+        {
+          name: 'streetLightingSettingForm',
+          path: '/treatment-settings/streetLightingSettingForm/:id?',
+          component: () => import('@/views/dashboard/TreatmentSettings/streetLightingSetting/Form.vue'),
+          meta: { requiresAuth: true },
+        },
+        // /treatment-settings/streetLightingSetting
+        {
+          name: 'streetSetting',
+          path: '/treatment-settings/streetSetting',
+          component: () => import('@/views/dashboard/TreatmentSettings/streetSetting/List.vue'),
+          meta: { requiresAuth: true },
+        },
+        {
+          name: 'streetSettingForm',
+          path: '/treatment-settings/streetSettingForm/:id?',
+          component: () => import('@/views/dashboard/TreatmentSettings/streetSetting/Form.vue'),
+          meta: { requiresAuth: true },
+        },
+        // /treatment-settings/structureConstructionSetting
+        {
+          name: 'structureConstructionSetting',
+          path: '/treatment-settings/structureConstructionSetting',
+          component: () => import('@/views/dashboard/TreatmentSettings/structureConstructionSetting/List.vue'),
+          meta: { requiresAuth: true },
+        },
+        {
+          name: 'structureConstructionSettingForm',
+          path: '/treatment-settings/structureConstructionSettingForm/:id?',
+          component: () => import('@/views/dashboard/TreatmentSettings/structureConstructionSetting/Form.vue'),
+          meta: { requiresAuth: true },
+        },
+        // unAuthorized Page
         {
           path: '/notAuthorized',
           name: 'notAuthorized',
