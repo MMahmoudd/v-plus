@@ -455,6 +455,7 @@
           </v-dialog> -->
         </div>
       </v-card-title>
+      <!--pdf content-->
       <template>
         <div>
           <vue-html2pdf
@@ -483,6 +484,31 @@
           />
         </div>
       </template>
+      <!--pdf content another-->
+      <template>
+        <div>
+          <vue-html2pdf
+            ref="html2PdfAnother"
+            :show-layout="false"
+            :float-layout="true"
+            :enable-download="false"
+            :preview-modal="true"
+            :paginate-elements-by-height="1400"
+            filename="نموذج التقرير"
+            :pdf-quality="2"
+            :manual-pagination="true"
+            pdf-format="a4"
+            pdf-orientation="portrait"
+            pdf-content-width="100%"
+            @progress="onProgressPdf($event)"
+          >
+            <pdf-content-another
+              slot="pdf-content"
+              :data="pdfData"
+            />
+          </vue-html2pdf>
+        </div>
+      </template>
       <template>
         <v-data-table
           :loading="isLoading"
@@ -492,7 +518,10 @@
           class="elevation-1"
         >
           <template v-slot:[`item.transaction_id`]="{ item }">
-            <router-link :to="'/Evaluate-Treatment/' + item.id + '?edit=' + item.id">
+            <router-link
+              :to="'/Evaluate-Treatment/' + item.id + '?edit=' + item.id"
+              class="number_link"
+            >
               {{ item.transaction_id }}
             </router-link>
           </template>
@@ -589,12 +618,12 @@
                     </v-list-item>
                     <v-list-item>
                       <v-list-item-title>
-                        <router-link to="/">
+                        <a @click="deleteTransaction(item.id)">
                           <v-icon>
                             far fa-trash
                           </v-icon>
                           حذف
-                        </router-link>
+                        </a>
                       </v-list-item-title>
                     </v-list-item>
                   </v-list>
@@ -615,6 +644,16 @@
     >
       {{ errorMessage }}
     </v-snackbar>
+    <v-snackbar
+      v-model="successSnackbar"
+      color="green"
+      shaped
+      bottom
+      left
+      :timeout="timeout"
+    >
+      {{ successMessage }}
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -632,6 +671,7 @@
    * ? static data
    */
   import defaultValuesForPdf from './defaultValuesForPdf'
+  import PdfContentAnother from './PdfContentAnother.vue'
   /**
    * ? services
    */
@@ -657,9 +697,12 @@
       PdfContent,
       CustomProgress,
       SelectSample,
+      PdfContentAnother,
     },
     data: () => ({
       errorSnackbar: false,
+      successSnackbar: false,
+      successMessage: '',
       timeout: 3000,
       errorMessage: '',
       progressNumber: 0,
@@ -692,13 +735,14 @@
       ResidentesList: [],
       ReviewersList: [],
       statuses: {
-        1: 'تحت التقييم',
+        1: 'مسودة',
         2: 'تحت التقييم',
         3: 'تحت المراجعة',
         4: 'قيد الاعتماد',
         5: 'معتمدة',
         6: 'مرسلة',
         7: 'معلقة',
+        8: 'ملغية',
       },
       samplesList: [],
       search: '',
@@ -830,6 +874,7 @@
           this.pdfDataLoading = true
           this.showProgress = true
           const pdfData = this.itemsTr.find(item => item.id === id)
+          console.log(pdfData)
           this.progressNumber = 10
           const facility = await this.getFacility()
           this.progressNumber = 20
@@ -876,7 +921,7 @@
           images = oneTransactionData
         ?.images
         ?.filter(img => img.status === '1')
-        ?.map(img => ({ image: 'https://devproject.millennium.sa/' + img.image_url })) || []
+        ?.map(img => ({ image: img.image_url })) || []
 
           images = pdfData.customer.image_per_page === '6' ? images.slice(0, 6) : images.slice(0, 8)
 
@@ -905,6 +950,28 @@
             }
           }
 
+          if (oneTransactionData.customer.input_stage_sign_show === 1) {
+            const userId = +oneTransactionData.customer.input_stage_name_show
+            const { data: { name, id_number: number, user_type: type } } = await UsersServices.fetchOneItem(userId)
+            members.push({ name, number, type: roles.find(role => +role.id === +type)?.role_name, s: '' })
+          }
+          if (oneTransactionData.customer.evaluation_stage_sign_show === 1) {
+            const userId = +oneTransactionData.customer.evaluation_stage_name_show
+            const { data: { name, id_number: number, user_type: type } } = await UsersServices.fetchOneItem(userId)
+            members.push({ name, number, type: roles.find(role => +role.id === +type)?.role_name, s: '' })
+          }
+
+          if (oneTransactionData.customer.review_stage_sign_show === 1) {
+            const userId = +oneTransactionData.customer.review_stage_name_show
+            const { data: { name, id_number: number, user_type: type } } = await UsersServices.fetchOneItem(userId)
+            members.push({ name, number, type: roles.find(role => +role.id === +type)?.role_name, s: '' })
+          }
+
+          if (oneTransactionData.customer.adoption_stage_sign_show === 1) {
+            const userId = +oneTransactionData.customer.adoption_stage_name_show
+            const { data: { name, id_number: number, user_type: type } } = await UsersServices.fetchOneItem(userId)
+            members.push({ name, number, type: roles.find(role => +role.id === +type)?.role_name, s: '' })
+          }
           pdfData.members = members
           /**
            * ? this is done to only get 4 items including the selected one
@@ -956,7 +1023,13 @@
           //   { building_type: 'أخرى', space: 321, price: 321, total: 321 },
           // ]
           this.pdfData = pdfData
-          this.$refs.html2Pdf.generatePdf()
+          if (pdfData.sample.name.includes('بناء ذاتي') || pdfData.sample.name.includes('البناء الذاتي')) {
+            this.pdfData.achievement = oneTransactionData.achievement
+            this.pdfData.prop_floor = oneTransactionData.prop_floor
+            this.$refs.html2PdfAnother.generatePdf()
+          } else {
+            this.$refs.html2Pdf.generatePdf()
+          }
         } catch (err) {
           this.errorMessage = 'يوجد مشكلة في تحميل الملف برجاء المحاولة مرة اخري'
           this.errorSnackbar = true
@@ -1109,6 +1182,20 @@
           id, name,
         }))
       },
+
+      deleteTransaction: async function (id) {
+        try {
+          const { success } = await TransactionsServices.deleteOneItem(id)
+          if (success === true) {
+            this.itemsTr = this.itemsTr.filter(item => item.id !== +id)
+            this.successSnackbar = true
+            this.successMessage = 'تم حذف المعاملة بنجاح'
+          }
+        } catch {
+          this.errorSnackbar = true
+          this.errorMessage = 'حدثت مشكلة أثناء الحذف برجاء المحاولة وقت لاحق'
+        }
+      },
     },
   }
 </script>
@@ -1122,6 +1209,10 @@ label{
 }
 .card-title{
   color: #37A8FF
+}
+
+.number_link {
+  color:#3772ff !important;
 }
 a{
   text-decoration: none;

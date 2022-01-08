@@ -188,7 +188,7 @@
             >
               <template v-slot:label>
                 <div class="checkbox-label">
-                  {{ type.name }}
+                  {{ type.name || ''}}
                 </div>
               </template>
             </v-checkbox>
@@ -212,7 +212,7 @@
             >
               <template v-slot:label>
                 <div class="checkbox-label">
-                  {{ type.name }}
+                  {{ type.name || '' }}
                 </div>
               </template>
             </v-checkbox>
@@ -306,7 +306,7 @@
           >
             استخدام العقار
           </td>
-          <td>{{ data.propertyrating.name || '' }}</td>
+          <td>{{ (data.propertyrating && data.propertyrating.name) || '' }}</td>
         </tr>
         <tr>
           <td
@@ -2609,7 +2609,7 @@
                   sm="6"
                   class="td"
                 >
-                  {{ member.name }}
+                  {{ member.name || '' }}
                 </v-col>
               </v-row>
               <v-row>
@@ -3457,11 +3457,11 @@ table tbody.has-fields tr td.field {
 }
 
 .text-align-center .v-input--checkbox {
-  display: inline-block;
+  display: inline-block !important;
 }
 
 .checkbox-label {
-  color: #333;
+  color: #333 !important;
 }
 
 tbody.images {

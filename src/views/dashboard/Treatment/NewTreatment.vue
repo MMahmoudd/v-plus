@@ -235,6 +235,21 @@
                   lg="3"
                   md="4"
                 >
+                  <label class="d-block mb-3 font-weight-bold">النموذج</label>
+                  <v-select
+                    v-model="data.sample_id"
+                    :items="samplesList"
+                    item-text="name"
+                    item-value="id"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  lg="3"
+                  md="4"
+                >
                   <label class="d-block mb-3 font-weight-bold">العميل</label>
                   <v-select
                     v-model="data.customer_id"
@@ -2315,7 +2330,7 @@
                   class="ma-2"
                   color="blue"
                   :loading="dataLoading"
-                  @click="save"
+                  @click="save({send: true})"
                 >
                   <v-icon left>
                     fas fa-save
@@ -2327,6 +2342,8 @@
                   class="ma-2"
                   outlined
                   color="blue"
+                  :loading="dataLoading"
+                  @click="save({send : true})"
                 >
                   <v-icon left>
                     far fa-paper-plane
@@ -2339,6 +2356,8 @@
                   x-large
                   class="ma-2"
                   color="black"
+                  :loading="dataLoading"
+                  @click="save({sus : true})"
                 >
                   تعليق
                 </v-btn>
@@ -2346,6 +2365,8 @@
                   x-large
                   class="ma-2"
                   color="error"
+                  :loading="dataLoading"
+                  @click="save({cancel : true})"
                 >
                   الغاء
                 </v-btn>
@@ -2402,6 +2423,7 @@
   const ReportTypesServices = ServiceFactory.get('ReportTypes')
   const ValueHypothesisListsServices = ServiceFactory.get('ValueHypothesisLists')
   const ValueBasiListsServices = ServiceFactory.get('ValueBasiLists')
+  const SamplesServices = ServiceFactory.get('Samples')
 
   export default {
     name: 'NewTreatment',
@@ -2416,6 +2438,7 @@
       staticLists: { ...staticLists },
       customersList: [],
       evaluationPurposeList: [],
+      samplesList: [],
       appraisersList: [],
       previewsList: [],
       coordinatorsList: [],
@@ -3197,6 +3220,7 @@
         masjid_note: '',
         masjid_distance: '',
         market: '',
+        status: 1,
         market_note: '',
         market_distance: '',
         medical_facility: '',
@@ -3447,6 +3471,7 @@
       if (this.$route.query.edit) {
         this.fetchOneItem(this.$route.query.edit)
       }
+      this.getSamples()
       this.getCustomers()
       this.getEvaluationPurpose()
       // ! TODO : change this later with proper method
@@ -3464,10 +3489,13 @@
       this.getBasiLists()
     },
     created () {
-      console.log(this.$route.query.edit)
-      this.data.sample_id = this.$route.params.id
+      this.data.sample_id = +this.$route.params.id
     },
     methods: {
+      getSamples: async function () {
+        const { data } = await SamplesServices.getAllItems()
+        this.samplesList = data.filter(sample => sample.status === '1')
+      },
       // get one item
       fetchOneItem: async function (id) {
         const { data } = await TransactionsServices.fetchOneItem(id)
@@ -3615,9 +3643,20 @@
         }))
       },
       // submit
-      save: async function () {
-        console.log('saving ...')
+      save: async function (status) {
         this.dataLoading = true
+
+        if (status.send) {
+          if (!this.data.status || typeof this.data.status === 'string') {
+            this.data.status = 2
+          } else {
+            this.data.status = this.data.status + 1
+          }
+        } else if (status.sus) {
+          this.data.status = 7
+        } else if (status.cancel) {
+          this.data.status = 8
+        }
         // const formData = this.data
         const formData = new FormData()
         /**

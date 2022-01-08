@@ -152,7 +152,7 @@
             path: `/New-Treatment/${sample.id}`,
             status: sample.status,
           }
-        })
+        }).filter(sample => sample.status === '1')
         this.loading.samples = false
       },
       async getCustomers () {

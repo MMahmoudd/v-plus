@@ -130,6 +130,7 @@
 <style lang="scss">
 .fixed-top{
   position: fixed !important;
+  z-index: 3 !important;
 }
   .v-app-bar{
     box-shadow: rgb(0 0 0 / 20%) 0px 4px 20px 0px, rgb(0 0 0 / 14%) 0px 0px 0px 0px, rgb(0 0 0 / 12%) 0px 0px 0px 0px !important;

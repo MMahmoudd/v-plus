@@ -1,4 +1,18 @@
 export default {
+    prop_floor: '',
+    achievement: {
+        prop_current_price: '',
+        status: '1',
+        stages: [{
+          id: '',
+          details: '', // تفاصيل المرحلة
+          cost: '', // التكلفه
+          pc_to_cost: '', // النسبة إلى التكلفه
+          pc_of_completion: '', // نسبة الانجاز
+          achievement_value: '',
+        }],
+      },
+
     id: 2,
     transaction_id: '20211220462566',
     trans_number: null,
