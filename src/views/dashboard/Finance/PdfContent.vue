@@ -188,7 +188,7 @@
       </div>
       <br>
       <div
-        class="html2pdf__page-break"
+        class="html2pdf__page-break numberOfPage"
         :data-number="['1','من',totalPages].join(' ')"
       />
       <div class="row first">
@@ -215,6 +215,10 @@
           >
         </v-col>
       </div>
+      <div
+        class="numberOfPage"
+        :data-number="['2','من',totalPages].join(' ')"
+      />
     </div>
   </div>
 </template>
@@ -318,6 +322,15 @@ padding: 2px 10px !important;
   text-align: center;
 }
 .html2pdf__page-break::before {
+  direction: rtl;
+  content: attr(data-number);
+  text-align: right;
+}
+.numberOfPage{
+  direction: rtl;
+  text-align: center;
+}
+.numberOfPage::before{
   direction: rtl;
   content: attr(data-number);
   text-align: right;

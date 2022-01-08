@@ -20,6 +20,25 @@ import ValueBasiListsServices from './ValueBasiListsServices'
 import ValueHypothesisListsServices from './ValueHypothesisListsServices'
 import WorkingStatusesServices from './WorkingStatusesServices'
 
+import bishopTypeSetting from './TreatmentSetting/bishop_type_setting'
+import designSetting from './TreatmentSetting/design_setting'
+import eastFacadeSetting from './TreatmentSetting/east_facade_setting'
+import northFacadeSetting from './TreatmentSetting/north_facade_setting'
+import westFacadeSetting from './TreatmentSetting/west_facade_setting'
+import southFacadeSetting from './TreatmentSetting/south_facade_setting'
+import electricCurrentSetting from './TreatmentSetting/electric_current_setting'
+import entranceFloorTypeSetting from './TreatmentSetting/entrance_floor_type_setting'
+import generalLocation from './TreatmentSetting/general_location'
+import indoorTypeSetting from './TreatmentSetting/indoor_type_setting'
+import insulationTypeSetting from './TreatmentSetting/insulation_type_setting'
+import neighborSetting from './TreatmentSetting/neighbor_setting'
+import propertyLevelSetting from './TreatmentSetting/property_level_setting'
+import receptionFloorTypeSetting from './TreatmentSetting/reception_floor_type_setting'
+import roomFloorTypeSetting from './TreatmentSetting/room_floor_type_setting'
+import streetLightingSetting from './TreatmentSetting/street_lighting_setting'
+import streetSetting from './TreatmentSetting/street_setting'
+import structureConstructionSetting from './TreatmentSetting/structure_construction_setting'
+
 const services = {
   Users: usersService,
   Customers: customersService,
@@ -42,6 +61,25 @@ const services = {
   ValueBasiLists: ValueBasiListsServices,
   ValueHypothesisLists: ValueHypothesisListsServices,
   WorkingStatuses: WorkingStatusesServices,
+
+  bishopTypeSetting: bishopTypeSetting,
+  designSetting: designSetting,
+  eastFacadeSetting: eastFacadeSetting,
+  electricCurrentSetting: electricCurrentSetting,
+  entranceFloorTypeSetting: entranceFloorTypeSetting,
+  generalLocation: generalLocation,
+  indoorTypeSetting: indoorTypeSetting,
+  insulationTypeSetting: insulationTypeSetting,
+  neighborSetting: neighborSetting,
+  northFacadeSetting: northFacadeSetting,
+  propertyLevelSetting: propertyLevelSetting,
+  receptionFloorTypeSetting: receptionFloorTypeSetting,
+  roomFloorTypeSetting: roomFloorTypeSetting,
+  southFacadeSetting: southFacadeSetting,
+  streetLightingSetting: streetLightingSetting,
+  streetSetting: streetSetting,
+  structureConstructionSetting: structureConstructionSetting,
+  westFacadeSetting: westFacadeSetting,
 
 }
 
