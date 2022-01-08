@@ -54,6 +54,24 @@
                     cols="12"
                     md="3"
                   >
+                    <v-subheader>اسم المنشأة:</v-subheader>
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    md="9"
+                  >
+                    <v-text-field
+                      v-model="data.name"
+                      outlined
+                      dense
+                    />
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col
+                    cols="12"
+                    md="3"
+                  >
                     <v-subheader>اسم الختم:</v-subheader>
                   </v-col>
                   <v-col
@@ -83,6 +101,7 @@
                       chips
                       dense
                       label="إضافة مرفق"
+                      @change="onNewFileSelected2()"
                     />
                   </v-col>
                 </v-row>
@@ -137,7 +156,7 @@
                     cols="12"
                     md="3"
                   >
-                    <v-subheader>تاريخ السجل التجاري:</v-subheader>
+                    <v-subheader>تاريخ بدء السجل التجاري:</v-subheader>
                   </v-col>
                   <v-col
                     cols="12"
@@ -173,7 +192,7 @@
                     cols="12"
                     md="3"
                   >
-                    <v-subheader>تاريخ السجل التجاري:</v-subheader>
+                    <v-subheader>تاريخ انتهاء السجل التجاري:</v-subheader>
                   </v-col>
                   <v-col
                     cols="12"
@@ -345,11 +364,11 @@
                   <strong>التوقيع</strong>
                 </label>
                 <v-file-input
-                  v-model="data.signature"
                   outlined
                   chips
                   class="mt-1"
                   placeholder="إضافة مرفق"
+                  @change="onNewFileSelected"
                 />
               </v-col>
               <v-col
@@ -584,7 +603,7 @@
         evaluation_branch: '',
         membership_category: '',
         resident_adjective: '',
-        signature: '',
+        signature: null,
         license_number: '',
         license_date: null,
         user_id: 0,
@@ -605,8 +624,38 @@
       this.fetchItem()
     },
     methods: {
+      onNewFileSelected (event) {
+        this.data.signature = event
+      },
+      onNewFileSelected2 (event) {
+        this.data.seal_url = event
+      },
       async updateContent () {
-        const item = await SettingService.updateFacility(this.data, this.data.id)
+        const formData = new FormData()
+        /**
+         * ? converting the json object to a form-data format
+         */
+        // function buildFormData (formData, data, parentKey) {
+        //   if (data && typeof data === 'object' && !(data instanceof Date) && !(data instanceof File)) {
+        //     Object.keys(data).forEach(key => {
+        //       buildFormData(formData, data[key], parentKey ? `${parentKey}[${key}]` : key)
+        //     })
+        //   } else {
+        //     const value = data == null ? '' : data
+
+        //     formData.append(parentKey, value)
+        //   }
+        // }
+        // buildFormData(formData, this.data)
+        for (const key in this.data) {
+          // if (Array.isArray(this.data[key])) {
+          //   formData.append(key, JSON.stringify(this.data[key]))
+          // } else {
+          formData.append(key, this.data[key])
+          // }
+        }
+        console.log('formData', formData)
+        const item = await SettingService.updateFacility(formData, this.data.id)
         if (item.success === true) {
           this.successMessage = 'Successful'
           this.successSnackbar = true
