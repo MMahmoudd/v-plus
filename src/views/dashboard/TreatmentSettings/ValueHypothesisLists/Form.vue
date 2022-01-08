@@ -28,19 +28,6 @@
                   required
                 />
               </v-col>
-              <v-col
-                cols="12"
-                md="6"
-              >
-                <label
-                  class="d-block mb-3 font-weight-bold"
-                >الوصف</label>
-                <v-text-field
-                  v-model="data.description"
-                  outlined
-                  required
-                />
-              </v-col>
             </v-row>
             <v-row class="mx-md-16 px-md-16">
               <v-col
@@ -113,7 +100,6 @@
       data: {
         id: null,
         name: '',
-        description: '',
         status: '',
       },
       successSnackbar: false,

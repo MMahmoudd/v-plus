@@ -188,7 +188,7 @@
             >
               <template v-slot:label>
                 <div class="checkbox-label">
-                  {{ type.name || ''}}
+                  {{ type.name || '' }}
                 </div>
               </template>
             </v-checkbox>

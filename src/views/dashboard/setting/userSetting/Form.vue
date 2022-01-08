@@ -33,19 +33,19 @@
                   <template v-slot:default>
                     <thead>
                       <tr>
-                        <th class="text-center">
+                        <th>
                           اسم المنصب
                         </th>
-                        <th class="text-center">
+                        <th>
                           قراءة
                         </th>
-                        <th class="text-center">
+                        <th>
                           اضافة
                         </th>
-                        <th class="text-center">
+                        <th>
                           تحديث
                         </th>
-                        <th class="text-center">
+                        <th>
                           مسح
                         </th>
                       </tr>

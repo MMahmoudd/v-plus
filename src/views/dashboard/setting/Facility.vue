@@ -9,7 +9,7 @@
         v-model="valid"
         @submit.prevent="updateContent()"
       >
-        <h1>ملف المنشأة</h1>
+        <h1>بيانات المنشأة</h1>
         <v-container fluid>
           <v-card class="image-card">
             <v-img
@@ -47,7 +47,7 @@
             >
               <v-card class="image-card py-2 px-3">
                 <h3 class="head-card">
-                  ختم المنشأة
+                  بيانات المنشأة
                 </h3>
                 <v-row>
                   <v-col

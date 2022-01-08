@@ -173,7 +173,6 @@
       disabled: false,
       headers: [
         { text: 'إسم القيمة', sortable: true, value: 'name' },
-        { text: 'الوصف', sortable: true, value: 'description' },
         { text: 'تاريخ الإنشاء', sortable: true, value: 'created_at' },
         { text: 'الحالة', sortable: true, value: 'status' },
         { text: 'الاجراءات', value: 'actions', sortable: false },

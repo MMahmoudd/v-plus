@@ -72,7 +72,7 @@
                 md="4"
               >
                 <v-select
-                  v-model="data.user_type"
+                  v-model="data.role_id"
                   :items="roles"
                   item-text="role_name"
                   item-value="id"
@@ -431,7 +431,7 @@
         name: '',
         email: '',
         password: '',
-        user_type: '',
+        role_id: '',
         image: null,
         phone: '',
         username: '',
@@ -482,7 +482,7 @@
         this.data.name && formData.append('name', this.data.name)
         this.data.email && formData.append('email', this.data.email)
         this.data.password && formData.append('password', this.data.password)
-        this.data.user_type && formData.append('user_type', this.data.user_type)
+        this.data.role_id && formData.append('role_id', this.data.role_id)
         this.profile_image && formData.append('image', this.profile_image)
         this.data.phone && formData.append('phone', this.data.phone)
         this.data.username && formData.append('username', this.data.username)
@@ -545,7 +545,6 @@
       async fetchRoles () {
         this.dataLoading = true
         const roles = await UserSettingService.getAllItems()
-        console.log('roles', roles.data)
         this.roles = roles.data
         this.dataLoading = false
       },
