@@ -55,7 +55,7 @@ const Login = {
             localStorage.setItem('token', response.data.token)
             localStorage.setItem('userData', JSON.stringify(response.data.user))
             state.userData = response.data.user
-            // localStorage.setItem('userDataPermission', response.data.userPolicy)
+            localStorage.setItem('userPermissions', JSON.stringify(response.data.role))
             state.userToken = response.data.token
             // state.userDataPermission = response.data.userPolicy
             dispatch('checkUserData')
