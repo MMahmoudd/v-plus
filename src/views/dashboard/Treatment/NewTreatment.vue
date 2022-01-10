@@ -993,7 +993,7 @@
                     outlined
                   />
                 </v-col>
-                <v-col
+                <!-- <v-col
                   cols="12"
                   lg="3"
                   md="4"
@@ -1064,7 +1064,7 @@
                     single-line
                     outlined
                   />
-                </v-col>
+                </v-col> -->
                 <v-col
                   cols="12"
                   lg="3"
