@@ -32,6 +32,7 @@ const Login = {
     logout () {
       localStorage.removeItem('token')
       localStorage.removeItem('userData')
+      localStorage.removeItem('userPermissions')
       router.push('/login')
     },
     //  Set Token
