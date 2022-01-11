@@ -71,25 +71,30 @@ const router = new Router({
       redirect: '/',
       component: () => import('@/views/dashboard/Index'),
       children: [
+                    // unAuthorized Page
+                    {
+                      path: '/notAuthorized',
+                      name: 'notAuthorized',
+                      component: () => import('../pages/NotAuthorized.vue'),
+                    },
         // Home
         {
           name: 'statistics',
           path: '/',
           component: () => import('@/views/dashboard/Dashboard'),
-          meta: { requiresAuth: true },
         },
         // Users
         {
           name: 'Users',
           path: '/Users',
           component: () => import('@/views/dashboard/users/Users.vue'),
-          meta: { requiresAuth: true },
+          meta: { requiresAuth: true, permissions: 'المستخدمين' },
         },
         {
           name: 'user Form',
           path: '/userForm/:id?',
           component: () => import('@/views/dashboard/users/Form.vue'),
-          meta: { requiresAuth: true },
+          meta: { requiresAuth: true, permissions: 'المستخدمين', actions: true },
         },
         // Start Finance
         // Start Treatments
@@ -595,19 +600,35 @@ const router = new Router({
           component: () => import('@/views/dashboard/TreatmentSettings/structureConstructionSetting/Form.vue'),
           meta: { requiresAuth: true },
         },
-        // unAuthorized Page
-        {
-          path: '/notAuthorized',
-          name: 'notAuthorized',
-          component: () => import('../pages/NotAuthorized.vue'),
-        },
         { path: '*', redirect: '/login' },
       ],
     },
   ],
 })
 
+const can = (modelName) => {
+  const { read, update, delete: remove, add, approval } = JSON.parse(localStorage.getItem('userPermissions'))[modelName]
+
+  if (!read && !update && !remove && !add && !approval) {
+    return false
+  }
+
+  return true
+}
+
+const canActions = (modelName, action) => {
+  const { add, update, read } = JSON.parse(localStorage.getItem('userPermissions'))[modelName]
+  if (action === 'add' && add) {
+    return true
+  } else if (action === 'update' && (update || read)) {
+    return true
+  } else {
+    return false
+  }
+}
+
 router.beforeEach((to, from, next) => {
+  console.log(to)
   const token = localStorage.getItem('token')
   if (to.meta.requiresAuth) {
     if (!token) {
@@ -615,7 +636,28 @@ router.beforeEach((to, from, next) => {
         name: 'Login',
       })
     } else {
-      return next()
+      if (to.meta.permissions && can(to.meta.permissions)) {
+        if (!to.meta.actions) {
+          return next()
+        } else {
+          /**
+           * * if page has actions
+           */
+          if (to.params.id && canActions(to.meta.permissions, 'update')) {
+            next()
+          } else if (!to.params.id && canActions(to.meta.permissions, 'add')) {
+            next()
+          } else {
+            next({
+              name: 'notAuthorized',
+            })
+          }
+        }
+      } else {
+        next({
+          name: 'notAuthorized',
+        })
+      }
     }
   } else {
     next()

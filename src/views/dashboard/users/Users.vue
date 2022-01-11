@@ -10,6 +10,7 @@
         <v-spacer />
         <v-spacer />
         <router-link
+          v-if="permissions.add"
           :to="{ path: '/userForm'}"
           color="blue"
         >
@@ -58,7 +59,10 @@
           </v-row>
         </template>
         <template v-slot:[`item.actions`]="{ item }">
-          <v-tooltip bottom>
+          <v-tooltip
+            v-if="permissions.update || permissions.read"
+            bottom
+          >
             <template v-slot:activator="{ on, attrs }">
               <router-link
                 :to="'/userForm/' + item.id"
@@ -80,7 +84,10 @@
             </template>
             تعديل
           </v-tooltip>
-          <v-tooltip bottom>
+          <v-tooltip
+            v-if="permissions.remove"
+            bottom
+          >
             <template v-slot:activator="{ on, attrs }">
               <v-btn
                 small
@@ -196,6 +203,7 @@
   export default {
     name: 'Users',
     data: (vm) => ({
+      permissions: {},
       search: '',
       dataLoading: false,
       page: 0,
@@ -227,6 +235,9 @@
           this.fetchAllItems()
         },
       },
+    },
+    mounted () {
+      this.permissions = this.can('المستخدمين')
     },
     methods: {
       confirmDeleteUser (userData) {

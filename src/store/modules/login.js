@@ -51,11 +51,18 @@ const Login = {
         .then((response) => {
           state.isLoading = true
           if (response.data.token) {
-            console.log('response', response)
+            /**
+             * * converting roles to objects instead of array
+             */
+            const permissions = {}
+            const arrayOfRoles = response.data.role.permission
+            arrayOfRoles.forEach(item => {
+              permissions[item.model_name] = { ...item }
+            })
             localStorage.setItem('token', response.data.token)
             localStorage.setItem('userData', JSON.stringify(response.data.user))
             state.userData = response.data.user
-            localStorage.setItem('userPermissions', JSON.stringify(response.data.role))
+            localStorage.setItem('userPermissions', JSON.stringify(permissions))
             state.userToken = response.data.token
             // state.userDataPermission = response.data.userPolicy
             dispatch('checkUserData')
