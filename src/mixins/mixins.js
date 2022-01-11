@@ -14,18 +14,11 @@ const mixins = {
           }),
      },
      methods: {
-          // isInUserPermissions(moduleName, rule) {
-          //      let userWithPermissions =  this.userWithPermissions;
-          //      if (userWithPermissions && userWithPermissions.permissions) {
-          //          let userPermissions = userWithPermissions.permissions;
-          //          for (var key in userPermissions) {
-          //              if (userPermissions[key].moduleName === moduleName && userPermissions[key].rule === rule) {
-          //                  return true;
-          //              }
-          //          }
-          //          return false;
-          //      }
-          //  },
+         can: (modelName) => {
+             const { read, update, delete: remove, add, approval } = JSON.parse(localStorage.getItem('userPermissions'))[modelName]
+             return ({ read, update, remove, add, approval })
+            //  return read
+         },
      },
      watch: {
           userData: {

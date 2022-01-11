@@ -108,7 +108,7 @@
     created () {
       if (localStorage.getItem('userData')) {
         this.usersData = JSON.parse(localStorage.getItem('userData'))
-        console.log(this.userData)
+        // console.log(this.userData)
       }
       if (localStorage.getItem('userLang')) {
         const userLang = localStorage.getItem('userLang')
