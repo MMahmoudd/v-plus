@@ -101,14 +101,14 @@ const router = new Router({
         {
           name: 'Treatments',
           path: '/Treatments',
-          component: () => import('@/views/dashboard/Treatment/Treatments'),
-          meta: { requiresAuth: true },
+          component: () => import(/* webpackChuckName: "Transactions" */'@/views/dashboard/Treatment/Treatments'),
+          meta: { requiresAuth: true, permissions: ['مرحلة الادخال', 'مرحلة الاعتماد', 'مرحلة التقييم', 'مرحلة المراجعة', 'تعديل السعر'] },
         },
         {
           name: 'NewTreatment',
           path: '/New-Treatment/:id',
           component: () => import('@/views/dashboard/Treatment/NewTreatment'),
-          meta: { requiresAuth: true },
+          meta: { requiresAuth: true, permissions: 'مرحلة الادخال' },
         },
         {
           name: 'EvaluateTreatment',
@@ -126,7 +126,7 @@ const router = new Router({
           name: 'AccountantTreatment',
           path: '/Accountant-Treatment/:id',
           component: () => import('@/views/dashboard/Treatment/AccountantTreatment'),
-          meta: { requiresAuth: true },
+          meta: { requiresAuth: true, permissions: 'تعديل السعر', actions: true },
         },
         // Start Customers
         {
@@ -184,13 +184,13 @@ const router = new Router({
           name: 'Users Setting',
           path: '/users-setting',
           component: () => import('@/views/dashboard/setting/userSetting/UserSetting.vue'),
-          meta: { requiresAuth: true },
+          meta: { requiresAuth: true, permissions: 'المناصب' },
         },
         {
           name: 'user Setting Form',
           path: '/userSettingForm/:id?',
           component: () => import('@/views/dashboard/setting/userSetting/Form.vue'),
-          meta: { requiresAuth: true },
+          meta: { requiresAuth: true, permissions: 'المناصب', actions: true },
         },
         // // treatment settings
         // {
@@ -607,13 +607,27 @@ const router = new Router({
 })
 
 const can = (modelName) => {
-  const { read, update, delete: remove, add, approval } = JSON.parse(localStorage.getItem('userPermissions'))[modelName]
-
-  if (!read && !update && !remove && !add && !approval) {
-    return false
+  /**
+   *  * if the modelName is an array
+   */
+  if (Array.isArray(modelName)) {
+    for (let index = 0; index < modelName.length; index++) {
+    const { read, update, delete: remove, add, approval } = JSON.parse(localStorage.getItem('userPermissions'))[modelName[index]]
+    if (read || update || remove || add || approval) {
+      return true
+    }
   }
 
-  return true
+  return false
+  } else {
+    const { read, update, delete: remove, add, approval } = JSON.parse(localStorage.getItem('userPermissions'))[modelName]
+
+    if (!read && !update && !remove && !add && !approval) {
+      return false
+    }
+
+    return true
+  }
 }
 
 const canActions = (modelName, action) => {
@@ -628,14 +642,25 @@ const canActions = (modelName, action) => {
 }
 
 router.beforeEach((to, from, next) => {
-  console.log(to)
   const token = localStorage.getItem('token')
+  /**
+   * * is this router require a token ?
+   */
   if (to.meta.requiresAuth) {
+    /**
+     * * if the user does not has a token, redirect him to the login page
+     */
     if (!token) {
       next({
         name: 'Login',
       })
     } else {
+      /**
+       * * if the user has a token
+       */
+      /**
+       * * check permissions
+       */
       if (to.meta.permissions && can(to.meta.permissions)) {
         if (!to.meta.actions) {
           return next()
@@ -658,6 +683,9 @@ router.beforeEach((to, from, next) => {
           name: 'notAuthorized',
         })
       }
+      /**
+       * * end of check permissions
+       */
     }
   } else {
     next()

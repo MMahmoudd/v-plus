@@ -606,7 +606,7 @@
                         </router-link>
                       </v-list-item-title>
                     </v-list-item> -->
-                    <v-list-item>
+                    <v-list-item v-if="permissons.edit_price.read || permissons.edit_price.update ||permissons.edit_price.add ">
                       <v-list-item-title>
                         <router-link :to="'/Accountant-Treatment/'+ item.id ">
                           <v-icon>
@@ -659,19 +659,11 @@
 
 <script>
   import { ServiceFactory } from '../../../services/ServiceFactory'
-  import mergeImages from 'merge-images'
-  /**
-   * ? components
-   */
-  import VueHtml2pdf from 'vue-html2pdf'
-  import PdfContent from './PdfContent.vue'
-  import CustomProgress from '../component/progress.vue'
-  import SelectSample from './SelectSample.vue'
+  // import mergeImages from 'merge-images'
   /**
    * ? static data
    */
   import defaultValuesForPdf from './defaultValuesForPdf'
-  import PdfContentAnother from './PdfContentAnother.vue'
   /**
    * ? services
    */
@@ -689,15 +681,18 @@
   const UserSettingServices = ServiceFactory.get('UserSetting')
   const constructionConditionsService = ServiceFactory.get('constructionConditions')
   const WorkingStatusesServices = ServiceFactory.get('WorkingStatuses')
-
+  /**
+   * * third library
+   */
+  const mergeImages = () => import('merge-images')
   export default {
     name: 'NewTreatment',
     components: {
-      VueHtml2pdf,
-      PdfContent,
-      CustomProgress,
-      SelectSample,
-      PdfContentAnother,
+      VueHtml2pdf: () => import('vue-html2pdf'),
+      PdfContent: () => import('./PdfContent.vue'),
+      CustomProgress: () => import('../component/progress.vue'),
+      SelectSample: () => import('./SelectSample.vue'),
+      PdfContentAnother: () => import('./PdfContentAnother.vue'),
     },
     data: () => ({
       errorSnackbar: false,
@@ -707,6 +702,9 @@
       errorMessage: '',
       progressNumber: 0,
       showProgress: false,
+      permissons: {
+        edit_price: {},
+      },
       pdfData: {
         ...defaultValuesForPdf,
       },
@@ -845,6 +843,7 @@
       console.log(this.$route)
     },
     mounted () {
+      this.permissons.edit_price = this.can('تعديل السعر')
       this.fetchAllItems()
       this.getConstructionCondition()
     },

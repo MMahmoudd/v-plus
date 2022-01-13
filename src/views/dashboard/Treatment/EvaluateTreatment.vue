@@ -6102,7 +6102,7 @@
 <script>
   /* eslint-disable vue/valid-v-model */
   // import TransactionsBar from './TransactionsBar.vue'
-  import Swal from 'sweetalert2'
+  // import Swal from 'sweetalert2'
   import { copyText } from 'vue3-clipboard'
   import { Loader } from '@googlemaps/js-api-loader'
   import { ServiceFactory } from '../../../services/ServiceFactory'
@@ -6128,7 +6128,10 @@
   const constructionConditionsService = ServiceFactory.get('constructionConditions')
   const WorkingStatusesServices = ServiceFactory.get('WorkingStatuses')
   const EvaluationCurrenciesServices = ServiceFactory.get('EvaluationCurrencies')
-
+  /**
+   * * third library
+   */
+  const Swal = () => import('sweetalert2')
   // const watchUs = (array, f) => {
   //   const result = {}
   //   array.forEach(item => {
