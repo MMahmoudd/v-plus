@@ -10,6 +10,7 @@
         <v-spacer />
         <v-spacer />
         <router-link
+          v-if="permissions.add"
           :to="{ path: '/customerForm'}"
           color="blue"
         >
@@ -41,10 +42,15 @@
             {{ item.color_e }}
           </p>
         </template>
-        <template v-slot:[`item.actions`]="{ item }">
+        <template
+          v-if="permissions.update || permissions.read || permissions.remove"
+          v-slot:[`item.actions`]="{ item }"
+        >
           <div class="text-center">
             <v-menu offset-y>
-              <template v-slot:activator="{ on, attrs }">
+              <template
+                v-slot:activator="{ on, attrs }"
+              >
                 <v-icon
                   medium
                   class="mr-2"
@@ -57,6 +63,7 @@
               </template>
               <v-list>
                 <v-list-item
+                  v-if="permissions.update || permissions.read"
                   :to="'/customerForm/' + item.id"
                 >
                   <v-icon class="ml-2">
@@ -65,6 +72,7 @@
                   تعديل
                 </v-list-item>
                 <v-list-item
+                  v-if="permissions.remove"
                   color="primary"
                   @click="confirmDeleteUser(item)"
                 >
@@ -150,6 +158,7 @@
 
   export default {
     data: () => ({
+      permissions: {},
       search: '',
       dataLoading: false,
       page: 0,
@@ -189,6 +198,9 @@
           this.fetchAllItems()
         },
       },
+    },
+    mounted () {
+      this.permissions = this.can('العملاء')
     },
 
     methods: {

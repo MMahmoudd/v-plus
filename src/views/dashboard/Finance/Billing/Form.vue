@@ -11,6 +11,7 @@
       <template>
         <v-form
           v-model="valid"
+          :disabled="!permissions.update"
           @submit.prevent="submitForm()"
         >
           <v-container fluid>
@@ -199,7 +200,7 @@
               class="mx-auto my-auto d-flex"
               color="indigo"
               :loading="loading"
-              :disabled="disabled"
+              :disabled="disabled || !permissions.update"
             >
               {{ this.$route.params.id ? 'حفظ' : 'اضافة' }}
             </v-btn>
@@ -236,6 +237,7 @@
   export default {
     name: 'OffersForm',
     data: (vm) => ({
+      permissions: {},
       dataLoading: false,
       valid: false,
       data: {
@@ -273,6 +275,9 @@
         this.fetchOneItem(this.$route.params.id)
       }
       this.fetchCustomer()
+    },
+    mounted () {
+      this.permissions = this.can('الفواتير')
     },
     methods: {
       async submitForm () {

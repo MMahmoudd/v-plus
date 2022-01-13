@@ -2,6 +2,7 @@
   <v-container>
     <v-card>
       <v-form
+        :disabled="!permissions.update || !permissions.add"
         @submit.prevent="submitForm()"
       >
         <v-row
@@ -56,6 +57,7 @@
               label
               text-color="white"
               type="submit"
+              :disabled="disabled || !permissions.update || !permissions.add"
             >
               <v-icon
                 left
@@ -1099,6 +1101,7 @@
               label
               text-color="white"
               type="submit"
+              :disabled="disabled || !permissions.update || !permissions.add"
             >
               <v-icon
                 left
@@ -1140,6 +1143,7 @@
   const ExpenseService = ServiceFactory.get('Expense')
   export default {
     data: () => ({
+      permissions: {},
       loading: false,
       disabled: true,
       year: null,
@@ -1247,6 +1251,9 @@
       totalYear: function () {
         return +this.totalStatic + +this.totalFixed
       },
+    },
+    mounted () {
+      this.permissions = this.can('المصروفات')
     },
     methods: {
       async  submitForm () {

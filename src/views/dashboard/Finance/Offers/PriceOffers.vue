@@ -10,6 +10,7 @@
         <v-spacer />
         <v-spacer />
         <router-link
+          v-if="permissions.add"
           :to="{ path: '/offersForm'}"
           color="blue"
         >
@@ -40,7 +41,10 @@
             {{ item.color_e }}
           </p>
         </template>
-        <template v-slot:[`item.actions`]="{ item }">
+        <template
+          v-if="permissions.update || permissions.read || permissions.remove"
+          v-slot:[`item.actions`]="{ item }"
+        >
           <div class="text-center">
             <v-menu offset-y>
               <template v-slot:activator="{ on, attrs }">
@@ -55,13 +59,17 @@
                 </v-icon>
               </template>
               <v-list>
-                <v-list-item :to="'/offersForm/' + item.id">
+                <v-list-item
+                  v-if="permissions.update || permissions.read"
+                  :to="'/offersForm/' + item.id"
+                >
                   <v-icon class="ml-2">
                     mdi-pencil
                   </v-icon>
                   تعديل
                 </v-list-item>
                 <v-list-item
+                  v-if="permissions.remove"
                   color="primary"
                   @click="deleteItem(item)"
                 >
@@ -144,7 +152,6 @@
   import VueHtml2pdf from 'vue-html2pdf'
   import CustomProgress from '../../component/progress.vue'
   import PdfContent from '../PdfContent.vue'
-  // import defaultValuesForPdf from '../defaultValuesForPdf'
   const OffersService = ServiceFactory.get('Offers')
   const SettingService = ServiceFactory.get('Setting')
 
@@ -156,6 +163,7 @@
       CustomProgress,
     },
     data: () => ({
+      permissions: {},
       search: '',
       dataLoading: false,
       page: 0,
@@ -205,7 +213,9 @@
         },
       },
     },
-
+    mounted () {
+      this.permissions = this.can('عروض الأسعار')
+    },
     methods: {
       onProgressPdf: function (data) {
         this.progressNumber = data
