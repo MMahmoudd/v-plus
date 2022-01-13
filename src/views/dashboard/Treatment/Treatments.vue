@@ -388,7 +388,7 @@
               </v-card-actions>
             </v-card>
           </v-dialog>
-          <select-sample />
+          <select-sample v-if="permissons.create_transaction.add" />
           <!-- <v-dialog
             v-model="newTratment"
             width="500"
@@ -704,6 +704,7 @@
       showProgress: false,
       permissons: {
         edit_price: {},
+        create_transaction: {},
       },
       pdfData: {
         ...defaultValuesForPdf,
@@ -844,6 +845,7 @@
     },
     mounted () {
       this.permissons.edit_price = this.can('تعديل السعر')
+      this.permissons.create_transaction = this.can('مرحلة الادخال')
       this.fetchAllItems()
       this.getConstructionCondition()
     },
