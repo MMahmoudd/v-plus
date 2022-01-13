@@ -108,7 +108,8 @@ const router = new Router({
           name: 'NewTreatment',
           path: '/New-Treatment/:id',
           component: () => import('@/views/dashboard/Treatment/NewTreatment'),
-          meta: { requiresAuth: true, permissions: 'مرحلة الادخال' },
+          // ! Todo : change the indectaror for new transaction to be in query not params
+          meta: { requiresAuth: true, permissions: 'مرحلة الادخال', actions: true },
         },
         {
           name: 'EvaluateTreatment',
@@ -606,6 +607,11 @@ const router = new Router({
   ],
 })
 
+/**
+ * ? check if the user has any permissions on a spcific model,
+ * ? and return "true" if there is atleast one, otherwise return "false"
+ * * return Boolean
+ */
 const can = (modelName) => {
   /**
    *  * if the modelName is an array
@@ -620,6 +626,9 @@ const can = (modelName) => {
 
   return false
   } else {
+    /**
+     * * if the modelName is just a string
+     */
     const { read, update, delete: remove, add, approval } = JSON.parse(localStorage.getItem('userPermissions'))[modelName]
 
     if (!read && !update && !remove && !add && !approval) {
@@ -629,7 +638,10 @@ const can = (modelName) => {
     return true
   }
 }
-
+/**
+* ? check if the user has the right permession in the this model for the spcific action
+* * return Boolean
+*/
 const canActions = (modelName, action) => {
   const { add, update, read } = JSON.parse(localStorage.getItem('userPermissions'))[modelName]
   if (action === 'add' && add) {
@@ -662,17 +674,27 @@ router.beforeEach((to, from, next) => {
        * * check permissions
        */
       if (to.meta.permissions && can(to.meta.permissions)) {
+        /**
+         * * if the page does not has actions (list page)
+         */
         if (!to.meta.actions) {
           return next()
         } else {
           /**
-           * * if page has actions
+           * * if page has actions and the action is "update" and the user has it
            */
           if (to.params.id && canActions(to.meta.permissions, 'update')) {
             next()
+            /**
+            * * if page has actions and the action is "add" and the user has it
+            */
           } else if (!to.params.id && canActions(to.meta.permissions, 'add')) {
             next()
           } else {
+            /**
+             * * if the page has actions but the user does not has it,
+             * * then redirect him to "not authorized" page
+             */
             next({
               name: 'notAuthorized',
             })
