@@ -24,8 +24,12 @@
         :page-count="numberOfPages"
         @fetchAllItems="fetchAllItems"
       >
-        <template v-slot:[`item.status`]="{ item }">
+        <template
+          v-if="permissions.update || permissions.read || permissions.remove"
+          v-slot:[`item.status`]="{ item }"
+        >
           <v-radio-group
+            v-if="permissions.update"
             v-model="item.status"
             row
           >
@@ -81,6 +85,7 @@
   export default {
     name: 'Sample',
     data: (vm) => ({
+      permissions: {},
       search: '',
       dataLoading: false,
       page: 0,
@@ -110,6 +115,9 @@
           this.fetchAllItems()
         },
       },
+    },
+    mounted () {
+      this.permissions = this.can('تخصيص المعاملة')
     },
     methods: {
       async fetchAllItems () {

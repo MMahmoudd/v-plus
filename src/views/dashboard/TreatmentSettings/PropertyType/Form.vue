@@ -11,6 +11,7 @@
       <template>
         <v-form
           v-model="valid"
+          :disabled="!permissions.update"
           @submit.prevent="submitForm()"
         >
           <v-container fluid>
@@ -59,7 +60,7 @@
               class="mx-auto my-auto d-flex"
               color="indigo"
               :loading="loading"
-              :disabled="disabled"
+              :disabled="disabled || !permissions.update"
             >
               {{ this.$route.params.id ? 'حفظ' : 'اضافة' }}
             </v-btn>
@@ -95,6 +96,7 @@
   export default {
     name: 'Companies',
     data: (vm) => ({
+      permissions: {},
       dataLoading: false,
       valid: false,
       data: {
@@ -114,6 +116,9 @@
       if (this.$route.params.id) {
         this.fetchOneItem(this.$route.params.id)
       }
+    },
+    mounted () {
+      this.permissions = this.can('تخصيص المعاملة')
     },
     methods: {
       async  submitForm () {
