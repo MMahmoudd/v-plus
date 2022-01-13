@@ -11,6 +11,7 @@
       <template>
         <v-form
           v-model="valid"
+          :disabled="!permissions.update"
           @submit.prevent="submitForm()"
         >
           <v-container fluid>
@@ -87,7 +88,7 @@
               class="mx-auto my-auto d-flex"
               color="indigo"
               :loading="loading"
-              :disabled="disabled"
+              :disabled="disabled || !permissions.update"
             >
               {{ this.$route.params.id ? 'حفظ' : 'اضافة' }}
             </v-btn>
@@ -123,6 +124,7 @@
   export default {
     name: 'Companies',
     data: (vm) => ({
+      permissions: {},
       dataLoading: false,
       valid: false,
       data: {
@@ -131,7 +133,7 @@
       },
       allPermissions: [],
       currentPermissions: [],
-      permissions: [],
+      Permissions: [],
       successSnackbar: false,
       errorSnackbar: false,
       timeout: 3000,
@@ -146,13 +148,16 @@
       }
       this.getAllPermission()
     },
+    mounted () {
+      this.permissions = this.can('المناصب')
+    },
     methods: {
       async  submitForm () {
         this.loading = true
         this.disabled = true
         const formData = {
           role_name: this.data.role_name,
-          permissions: this.allPermissions,
+          Permissions: this.allPermissions,
         }
         if (this.$route.params.id) {
           this.updateContent(this.$route.params.id, formData)

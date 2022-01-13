@@ -7,6 +7,7 @@
     <template>
       <v-form
         v-model="valid"
+        :disabled="!permissions.update || !permissions.add"
         @submit.prevent="updateContent()"
       >
         <h1>بيانات المنشأة</h1>
@@ -537,7 +538,7 @@
             class="mx-auto my-auto d-flex"
             color="#3772FF"
             :loading="loading"
-            :disabled="disabled"
+            :disabled="disabled || !permissions.update || !permissions.add"
           >
             <i class="far fa-save ml-2" />  حفظ
           </v-btn>
@@ -573,6 +574,7 @@
   export default {
     name: 'Companies',
     data: (vm) => ({
+      permissions: {},
       dataLoading: false,
       valid: false,
       show1: false,
@@ -622,6 +624,9 @@
     }),
     created () {
       this.fetchItem()
+    },
+    mounted () {
+      this.permissions = this.can('ملف المنشاة')
     },
     methods: {
       onNewFileSelected (event) {
