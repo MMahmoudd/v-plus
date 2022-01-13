@@ -10,6 +10,7 @@
         <v-spacer />
         <v-spacer />
         <router-link
+          v-if="permissions.add"
           :to="{ path: '/treatment-settings/indoorTypeSettingForm/'}"
           color="blue"
         >
@@ -35,8 +36,14 @@
         :page-count="numberOfPages"
         @fetchAllItems="fetchAllItems"
       >
-        <template v-slot:[`item.actions`]="{ item }">
-          <v-tooltip bottom>
+        <template
+          v-if="permissions.update || permissions.read || permissions.remove"
+          v-slot:[`item.actions`]="{ item }"
+        >
+          <v-tooltip
+            v-if="permissions.update || permissions.read"
+            bottom
+          >
             <template v-slot:activator="{ on, attrs }">
               <router-link
                 :to="'/treatment-settings/indoorTypeSettingForm/' + item.id"
@@ -58,7 +65,10 @@
             </template>
             تعديل
           </v-tooltip>
-          <v-tooltip bottom>
+          <v-tooltip
+            v-if="permissions.remove"
+            bottom
+          >
             <template v-slot:activator="{ on, attrs }">
               <v-btn
                 small
@@ -155,6 +165,7 @@
   export default {
     name: 'Users',
     data: (vm) => ({
+      permissions: {},
       search: '',
       dataLoading: false,
       page: 0,
@@ -185,6 +196,9 @@
           this.fetchAllItems()
         },
       },
+    },
+    mounted () {
+      this.permissions = this.can('تخصيص المعاملة')
     },
     methods: {
       confirmDeleteUser (userData) {
