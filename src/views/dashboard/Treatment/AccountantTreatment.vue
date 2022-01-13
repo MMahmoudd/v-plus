@@ -23,7 +23,7 @@
     <v-card class="form-container">
       <v-container>
         <div>
-          <form>
+          <v-form :disabled="!permissions.update && !permissions.add">
             <div>
               <!-- {{ data.participatingmembers }} -->
               <h2>المشاركون فى إعداد التقرير</h2>
@@ -96,6 +96,7 @@
                   <v-btn
                     x-large
                     class="ma-2 blue-darken-btn btns"
+                    :disabled="!permissions.update && !permissions.add"
                     @click.prevent="hideParticipant(p)"
                   >
                     <v-icon left>
@@ -121,6 +122,7 @@
                 <v-btn
                   x-large
                   class="ma-2 orange-btn"
+                  :disabled="!permissions.update && !permissions.add"
                   @click.prevent="addParticipant()"
                 >
                   <v-icon left>
@@ -251,6 +253,7 @@
                   x-large
                   class="ma-2"
                   color="blue"
+                  :disabled="!permissions.update && !permissions.add"
                   @click="save"
                 >
                   <v-icon left>
@@ -260,7 +263,7 @@
                 </v-btn>
               </v-row>
             </div>
-          </form>
+          </v-form>
         </div>
       </v-container>
     </v-card>
@@ -307,6 +310,7 @@
       successMessage: '',
       errorMessage: '',
       price: '',
+      permissions: {},
       moneyInputOptions: {
         locale: 'en-US',
         prefix: '',
@@ -775,6 +779,8 @@
           await this.fetchOneItem(this.$route.params.id)
         }
       })()
+
+      this.permissions = this.can('تعديل السعر')
     },
     methods: {
       fetchOneItem: async function (id) {
