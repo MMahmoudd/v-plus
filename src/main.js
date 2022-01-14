@@ -69,6 +69,7 @@ if (userToken) {
   axios.defaults.headers.common.Authorization = 'Bearer ' + userToken
   axios.defaults.headers['Content-type'] = 'application/json'
   axios.defaults.headers.accept = '*/*'
+  axios.defaults.headers['Accept-Encoding'] = 'gzip, deflate'
 }
 
 // Create VueI18n instance with options

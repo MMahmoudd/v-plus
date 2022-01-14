@@ -694,6 +694,10 @@
       SelectSample: () => import('./SelectSample.vue'),
       PdfContentAnother: () => import('./PdfContentAnother.vue'),
     },
+    props: {
+      type: { type: Number, required: false, default: 0 },
+      status: { type: Number, required: false, default: 0 },
+    },
     data: () => ({
       errorSnackbar: false,
       successSnackbar: false,
@@ -846,7 +850,7 @@
     mounted () {
       this.permissons.edit_price = this.can('تعديل السعر')
       this.permissons.create_transaction = this.can('مرحلة الادخال')
-      this.fetchAllItems()
+      this.fetchAllItems({ type: this.type, status: this.status })
       this.getConstructionCondition()
     },
     methods: {
@@ -1091,11 +1095,29 @@
         const { data: { name } } = await ReportTypesServices.fetchOneItem(id)
         return name
       },
-      fetchAllItems: async function () {
+      fetchAllItems: async function (options) {
         this.isLoading = true
-        const { page, itemsPerPage } = this.options
-        const pageNumber = page - 1
-        const items = await TransactionsServices.getAllItems(itemsPerPage, page, pageNumber)
+        // const { page, itemsPerPage } = this.options
+        // const pageNumber = page - 1
+        const items = await TransactionsServices.getAllItems(options)
+        // console.clear()
+        const { type } = options
+        switch (type) {
+          case 1 :
+            this.$store.dispatch('setTotal', { type: 'underEvaluation', total: items.total })
+            break
+          case 2 :
+            this.$store.dispatch('setTotal', { type: 'underReview', total: items.total })
+            break
+          case 3 :
+            this.$store.dispatch('setTotal', { type: 'underApproval', total: items.total })
+            break
+          case 4:
+            this.$store.dispatch('setTotal', { type: 'added', total: items.total })
+            break
+          default:
+            break
+        }
         items.data.map(item => {
           item.status = this.statuses[item.status]
         })

@@ -5,10 +5,126 @@
     tag="section"
   >
     <v-row>
+      <v-col cols="12">
+        <v-tabs
+          v-model="tab"
+          align-with-title
+          hide-slider
+          fixed-tabs
+        >
+          <v-tab>
+            <div class="transaction-tab-item">
+              <div
+                id="my_transactions_total_added"
+                class="my_transactions_total"
+              >
+                {{ my_transactions_total.added }}
+              </div>
+              <div class="icon_text__wrapper">
+                <v-icon
+                  id="my_transactions_total_added_icon"
+                  x-small
+                >
+                  far fa-keyboard
+                </v-icon>
+                <span>المعاملات المدخلة</span>
+              </div>
+            </div>
+          </v-tab>
+          <v-tab>
+            <div class="transaction-tab-item">
+              <div
+                id="my_transactions_total_underEvaluation"
+                class="my_transactions_total"
+              >
+                {{ my_transactions_total.underEvaluation }}
+              </div>
+              <div class="icon_text__wrapper">
+                <v-icon
+                  id="my_transactions_total_underEvaluation_icon"
+                  x-small
+                >
+                  fas fa-search-plus
+                </v-icon>
+                <span>
+                  تحت التقييم
+                </span>
+              </div>
+            </div>
+          </v-tab>
+          <v-tab>
+            <div class="transaction-tab-item">
+              <div
+                id="my_transactions_total_underReview"
+                class="my_transactions_total"
+              >
+                {{ my_transactions_total.underReview }}
+              </div>
+              <div class="icon_text__wrapper">
+                <v-icon
+                  id="my_transactions_total_underReview_icon"
+                  x-small
+                >
+                  mdi-camera-enhance-outline
+                </v-icon>
+                <span>
+                  تحت المراجعة
+                </span>
+              </div>
+            </div>
+          </v-tab>
+          <v-tab>
+            <div class="transaction-tab-item">
+              <div
+                id="my_transactions_total_underApproval"
+                class="my_transactions_total"
+              >
+                {{ my_transactions_total.underApproval }}
+              </div>
+              <div class="icon_text__wrapper">
+                <v-icon
+                  id="my_transactions_total_underApproval_icon"
+                  x-small
+                >
+                  far fa-thumbs-up
+                </v-icon>
+                <span>
+                  قيد الإعتماد
+                </span>
+              </div>
+            </div>
+          </v-tab>
+        </v-tabs>
+      </v-col>
       <v-col
         cols="12"
       >
-        <myTreatment />
+        <v-tabs-items v-model="tab">
+          <v-tab-item>
+            <myTreatment
+              :type="4"
+              :status="2"
+            />
+          </v-tab-item>
+          <v-tab-item>
+            <myTreatment
+              :type="1"
+              :status="2"
+            />
+          </v-tab-item>
+          <v-tab-item>
+            <myTreatment
+              :type="2"
+              :status="2"
+            />
+          </v-tab-item>
+          <v-tab-item>
+            <myTreatment
+              :type="3"
+              :status="2"
+            />
+          </v-tab-item>
+        </v-tabs-items>
       </v-col>
       <v-col
         cols="12"
@@ -77,9 +193,10 @@
       // BarChart,
       myTreatment,
     },
-
     data () {
       return {
+        my_transactions_total: {},
+        tab: null,
         chartData: {
           Books: 24,
           Magazine: 30,
@@ -94,6 +211,9 @@
         width: 2,
       }
     },
+    mounted () {
+      this.my_transactions_total = this.$store.state.my_transactions_total
+    },
     methods: {
       complete (index) {
         this.list[index] = !this.list[index]
@@ -104,5 +224,72 @@
 <style lang="scss">
   h1{
     font-weight: 300;
+  }
+  .my_transactions_total {
+    display: inline-block;
+    color: #fff;
+    font-weight: bold;
+    border-radius: 7px;
+    padding: 11px 13px;
+    margin-left: 8px;
+  }
+  #my_transactions_total_added {
+    background-color: #B8B8C7;
+  }
+  #my_transactions_total_added_icon {
+    color: #B8B8C7;
+  }
+  #my_transactions_total_underEvaluation {
+    background-color: #3772FF;
+  }
+  #my_transactions_total_underEvaluation_icon {
+    color: #3772FF;
+  }
+  #my_transactions_total_underReview {
+    background-color: #FDCA40;
+  }
+  #my_transactions_total_underReview_icon {
+    color: #FDCA40;
+  }
+  #my_transactions_total_underApproval {
+    background-color: #0000AF;
+  }
+  #my_transactions_total_underApproval_icon {
+    color: #0000AF;
+  }
+  .icon_text__wrapper {
+        display: flex;
+    text-align: right;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .transaction-tab-item {
+        padding: 24px 10px;
+        font-weight: bold;
+        letter-spacing: initial;
+        display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+  .v-slide-group__content {
+        display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    width: 100%;
+        grid-column-gap: 30px;
+    padding: 15px 97px;
+  }
+
+  .v-application--is-rtl .v-tabs--align-with-title > .v-tabs-bar:not(.v-tabs-bar--show-arrows):not(.v-slide-group--is-overflowing) > .v-slide-group__wrapper > .v-tabs-bar__content > .v-tab:first-child, .v-application--is-rtl .v-tabs--align-with-title > .v-tabs-bar:not(.v-tabs-bar--show-arrows):not(.v-slide-group--is-overflowing) > .v-slide-group__wrapper > .v-tabs-bar__content > .v-tabs-slider-wrapper + .v-tab {
+    margin-right: unset;
+  }
+
+  .v-tabs--fixed-tabs > .v-tabs-bar .v-tab  {
+        box-shadow: 1px 1px 3px 1px #eee;
+            border-radius: 7px;
+
+  }
+  .v-tabs-bar {
+    height: auto !important;
   }
 </style>

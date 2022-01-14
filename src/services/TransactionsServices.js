@@ -1,10 +1,11 @@
 import Service from './Service'
 import { API_URL } from '../config'
+// import qs from 'query-string'
 
 const resource = `${API_URL}`
 export default {
-  getAllItems (itemsPerPage, page, pageNumber) {
-        return Service.get(`${resource}/transactions`)
+  getAllItems (options) {
+        return Service.get(`${resource}/transactions`, { params: options })
         .then((response) => {
             if (response.status === 200) {
                 return response.data
