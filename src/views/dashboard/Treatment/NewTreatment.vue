@@ -3645,7 +3645,6 @@
       // submit
       save: async function (status) {
         this.dataLoading = true
-
         if (status.send) {
           if (!this.data.status || typeof this.data.status === 'string') {
             this.data.status = 2
@@ -3657,6 +3656,7 @@
         } else if (status.cancel) {
           this.data.status = 8
         }
+
         // const formData = this.data
         const formData = new FormData()
         /**
@@ -3682,7 +3682,91 @@
         //   response = await TransactionsServices.updateOneItem(this.$route.query.edit, formData)
         // } else {
         try {
-          await TransactionsServices.addOneItem(formData)
+          const { data: { data } } = await TransactionsServices.addOneItem(formData)
+          /**
+           * ? add members with stage based on everyone'e role
+           */
+          // * get the users first
+          // ** get the add_by
+          data.participatingmembers = []
+          data.participantscommissions = []
+          const { data: addByData } = await UsersServices.fetchOneItem(data.add_by)
+          data.participatingmembers.push({
+            id_number: addByData.id_number === null ? '' : addByData.id_number,
+            user_type: addByData.user_type,
+            user_id: addByData.id,
+            stage: '0',
+          })
+          data.participantscommissions.push({
+            id_number: addByData.id_number === null ? '' : addByData.id_number,
+            user_type: addByData.user_type,
+            user_id: addByData.id,
+            amount: addByData.commission_input_stage_amount || '',
+            rate: addByData.commission_input_stage_rate || '',
+            other_amount: '',
+            total_amount: '',
+            stage: '0',
+          })
+          // ** get the resident_id
+          const { data: residentData } = await UsersServices.fetchOneItem(data.resident_id)
+          data.participatingmembers.push({
+            id_number: residentData.id_number === null ? '' : residentData.id_number,
+            user_type: residentData.user_type,
+            user_id: residentData.id,
+            stage: '1',
+          })
+          data.participantscommissions.push({
+            id_number: residentData.id_number === null ? '' : residentData.id_number,
+            user_type: residentData.user_type,
+            user_id: residentData.id,
+            amount: residentData.commission_evaluation_stage_amount || '',
+            rate: residentData.commission_evaluation_stage_rate || '',
+            other_amount: '',
+            total_amount: '',
+            stage: '1',
+          })
+          // ** get the reviewer_id
+          const { data: reviewerData } = await UsersServices.fetchOneItem(data.reviewer_id)
+          data.participatingmembers.push({
+            id_number: reviewerData.id_number === null ? '' : reviewerData.id_number,
+            user_type: reviewerData.user_type,
+            user_id: reviewerData.id,
+            stage: '2',
+          })
+          data.participantscommissions.push({
+            id_number: reviewerData.id_number === null ? '' : reviewerData.id_number,
+            user_type: reviewerData.user_type,
+            user_id: reviewerData.id,
+            amount: reviewerData.commission_revision_stage_amount || '',
+            rate: reviewerData.commission_revision_stage_rate || '',
+            other_amount: '',
+            total_amount: '',
+            stage: '2',
+          })
+          // ** get the approved_id
+          const { data: approvedData } = await UsersServices.fetchOneItem(data.approved_id)
+          data.participatingmembers.push({
+            id_number: approvedData.id_number === null ? '' : approvedData.id_number,
+            user_type: approvedData.user_type,
+            user_id: approvedData.id,
+            stage: '3',
+          })
+          data.participantscommissions.push({
+            id_number: approvedData.id_number === null ? '' : approvedData.id_number,
+            user_type: approvedData.user_type,
+            user_id: approvedData.id,
+            amount: approvedData.commission_accreditation_stage_amount || '',
+            rate: approvedData.commission_accreditation_stage_rate || '',
+            other_amount: '',
+            total_amount: '',
+            stage: '3',
+          })
+          /**
+           *        resident_id: '',
+                    reviewer_id: '',
+                    approved_id: '',
+           */
+          await TransactionsServices.updateOneItem(data.id, data)
           this.successMessage = 'تم التعديل بنجاح'
           this.successSnackbar = true
           setTimeout(() => {
