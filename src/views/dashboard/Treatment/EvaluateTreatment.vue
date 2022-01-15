@@ -5595,6 +5595,8 @@
                     <!-- <v-row> -->
                     <draggable
                       v-model="data.images"
+                      @change="dragChange($event)"
+                      @update="dargUpdate($event)"
                     >
                       <transition-group
                         tag="div"
@@ -7721,6 +7723,19 @@
         }
 
         /**
+         * ? sort images based on it's sort_number
+         */
+
+        this.data.images.sort((a, b) => {
+          if (a.sort_number > b.sort_number) {
+            return 1
+          } else if (a.sort_number < b.sort_number) {
+            return -1
+          }
+          return 0
+        })
+
+        /**
          * * default values for transactions_conditioners
          */
         if (!data.transactions_conditioners || data.transactions_buildings.length === 0) {
@@ -8067,6 +8082,12 @@
         })
         // this.images.push(this.images.splice(index, 1)[0])
       },
+      dragChange: function (...args) {
+        console.log(args)
+      },
+      dargUpdate: function (...args) {
+        console.log(args)
+      },
       // Adding & Remove Participant
       addParticipant: function () {
         this.participants.push({ participant: true })
@@ -8320,6 +8341,17 @@
         //     delete image.id
         //   }
         // })
+        /**
+         * ? change sort_number in image based on it's index
+         */
+        this.data.images.forEach((image, index) => {
+          if (image.image_url) {
+            image.type = 'edit'
+          } else {
+            image.type = 'add'
+          }
+          image.sort_number = index
+        })
 
         if (status.send) {
           this.data.status = this.data.status + 1

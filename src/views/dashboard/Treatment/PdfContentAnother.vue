@@ -11,7 +11,10 @@
       </h1>
  -->
       <div class="sub-header d-flex justify-content-between align-items-center">
-        <div class="image-facilty">
+        <div
+          v-if="data.customer.show_logo === '1'"
+          class="image-facilty"
+        >
           <img :src="data.customer.cs_logo">
         </div>
         <div>

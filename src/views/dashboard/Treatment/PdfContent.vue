@@ -2852,7 +2852,7 @@
           <td>
             <img
               :src="data.attached_file.original_url"
-              style="min-height:250px;width:100%;object-fit:cover;"
+              style="min-height:250px;height:250px;bject-fit:cover;"
             >
           </td>
         </tr>

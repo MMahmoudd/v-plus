@@ -667,6 +667,10 @@
    */
   import defaultValuesForPdf from './defaultValuesForPdf'
   /**
+   * * third library
+   */
+  import mergeImages from 'merge-images'
+  /**
    * ? services
    */
   const TransactionsServices = ServiceFactory.get('Transactions')
@@ -683,10 +687,7 @@
   const UserSettingServices = ServiceFactory.get('UserSetting')
   const constructionConditionsService = ServiceFactory.get('constructionConditions')
   const WorkingStatusesServices = ServiceFactory.get('WorkingStatuses')
-  /**
-   * * third library
-   */
-  const mergeImages = () => import('merge-images')
+  // const mergeImages = () => import('merge-images')
   export default {
     name: 'NewTreatment',
     components: {
@@ -947,7 +948,17 @@
           images = oneTransactionData
         ?.images
         ?.filter(img => img.status === '1')
-        ?.map(img => ({ image: img.image_url })) || []
+        ?.map(img => ({ image: img.image_url, sort_number: img.sort_number })) || []
+
+          // console.log(images)
+          images.sort((a, b) => {
+            if (a.sort_number > b.sort_number) {
+              return 1
+            } else if (a.sort_number < b.sort_number) {
+              return -1
+            }
+            return 0
+          })
 
           images = pdfData.customer.image_per_page === '6' ? images.slice(0, 6) : images.slice(0, 8)
 
