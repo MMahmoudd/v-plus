@@ -1886,9 +1886,9 @@ justify-content:space-between;
   direction: rtl;
   text-align: center;
 }
-.html2pdf__page-break::before {
+/* .html2pdf__page-break::before {
   direction: rtl;
   content: attr(data-number);
   text-align: right;
-}
+} */
 </style>

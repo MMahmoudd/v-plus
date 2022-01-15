@@ -11,7 +11,10 @@
       </h1>
  -->
       <div class="sub-header d-flex justify-content-between align-items-center">
-        <div class="image-facilty">
+        <div
+          v-if="data.customer.show_logo === '1'"
+          class="image-facilty"
+        >
           <img :src="data.customer.cs_logo">
         </div>
         <div>
@@ -3479,9 +3482,9 @@ justify-content:space-between;
   direction: rtl;
   text-align: center;
 }
-.html2pdf__page-break::before {
+/* .html2pdf__page-break::before {
   direction: rtl;
   content: attr(data-number);
   text-align: right;
-}
+} */
 </style>

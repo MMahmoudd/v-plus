@@ -4678,12 +4678,37 @@
                         <v-row
                           v-for="(b,i) in data.transactions_buildings"
                           :key="i"
+                          align="center"
                         >
                           <v-col
                             cols="12"
                             md="3"
                           >
-                            <label class="v-label theme--light font-weight-bold">{{ b.building_type }}</label>
+                            <label class="v-label theme--light font-weight-bold">
+                              {{ b.building_type }}
+                              <v-btn
+                                v-if="b.building_type === 'دور أول'"
+                                text
+                                icon
+                                color="blue lighten-2"
+                                @click="addNewFloor(i)"
+                              >
+                                <v-icon>
+                                  fas fa-plus
+                                </v-icon>
+                              </v-btn>
+                              <v-btn
+                                v-if="b.building_type.includes('دور مكرر')"
+                                text
+                                icon
+                                color="red lighten-2"
+                                @click="removeNewFloor(i)"
+                              >
+                                <v-icon>
+                                  fas fa-minus
+                                </v-icon>
+                              </v-btn>
+                            </label>
                           </v-col>
                           <v-col
                             cols="4"
@@ -4695,6 +4720,7 @@
                               single-line
                               outlined
                               type="number"
+                              hide-details
                               @input="setMultiOfSpaceAndPrice(b.id||b.__uuid)"
                             />
                           </v-col>
@@ -4713,6 +4739,7 @@
                                 length: 11,
                                 precision: 2,
                               }"
+                              hide-details
                               @input="setMultiOfSpaceAndPrice(b.id||b.__uuid)"
                             />
                           </v-col>
@@ -4732,6 +4759,7 @@
                                 precision: 2,
                               }"
                               disabled
+                              hide-details
                             />
                           </v-col>
                         </v-row>
@@ -8148,7 +8176,26 @@
         // console.log(this.data.cm_method_total)
         // this.data[`cm_${name}_s_p_total`] = this.data[`cm_${name}_space`] * this.data[`cm_${name}_price`]
       },
+      addNewFloor: function (index) {
+        const newItemsLength = this.data.transactions_buildings.filter(item => item.building_type.includes('دور مكرر')).length
+        const newItemName = 'دور مكرر ' + (newItemsLength + 1)
+        const newItem = { building_type: newItemName, space: 0, price: 0, total: 0, __uuid: uuid.v4() }
+        this.data.transactions_buildings.splice((index + 1) + newItemsLength, 0, newItem)
+      },
+      removeNewFloor: function (index) {
+        this.data.transactions_buildings.splice(index, 1)
+        // const newItems = this.data.transactions_buildings.filter(item => item.building_type.includes('دور مكرر'))
+        let counter = 1
+        // * rename the building name
+        for (let index = 0; index < this.data.transactions_buildings.length; index++) {
+          if (this.data.transactions_buildings[index].building_type.includes('دور مكرر')) {
+            this.data.transactions_buildings[index].building_type = 'دور مكرر ' + counter
+            counter++
+          }
+        }
 
+        this.setMultiOfSpaceAndPrice()
+      },
       // أسلوب التكلفه
       setCostTotal: function () {
         this.data.cm_cost_total = +this.data.cm_exchange_value + +this.data.cm_direct_costs + +this.data.cm_indirect_costs

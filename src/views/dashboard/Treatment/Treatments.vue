@@ -463,7 +463,7 @@
             :show-layout="false"
             :float-layout="true"
             :enable-download="false"
-            :preview-modal="true"
+            :preview-modal="false"
             :paginate-elements-by-height="1400"
             filename="نموذج التقرير"
             :pdf-quality="2"
@@ -472,6 +472,7 @@
             pdf-orientation="portrait"
             pdf-content-width="100%"
             @progress="onProgressPdf($event)"
+            @beforeDownload="beforeDownload($event)"
           >
             <pdf-content
               slot="pdf-content"
@@ -492,7 +493,7 @@
             :show-layout="false"
             :float-layout="true"
             :enable-download="false"
-            :preview-modal="true"
+            :preview-modal="false"
             :paginate-elements-by-height="1400"
             filename="نموذج التقرير"
             :pdf-quality="2"
@@ -501,6 +502,7 @@
             pdf-orientation="portrait"
             pdf-content-width="100%"
             @progress="onProgressPdf($event)"
+            @beforeDownload="beforeDownload($event)"
           >
             <pdf-content-another
               slot="pdf-content"
@@ -865,6 +867,25 @@
       onHasPaginated: async function () {
         this.showProgress = false
       },
+      beforeDownload: async function ({ html2pdf, options, pdfContent }) {
+        await html2pdf().set(options).from(pdfContent).toPdf().get('pdf').then((pdf) => {
+          const totalPages = pdf.internal.getNumberOfPages()
+          // * Get Current Font Size
+          const fontSize = 10
+
+          // * Get page width
+          const pageWidth = pdf.internal.pageSize.getWidth()
+          for (let i = 1; i <= totalPages; i++) {
+            pdf.setPage(i)
+            pdf.setFontSize(fontSize)
+            pdf.setTextColor(150)
+            // * Get the actual text's width
+            const textWidth = pdf.getStringUnitWidth('Page ' + i + ' of ' + totalPages) * fontSize / pdf.internal.scaleFactor
+            const x = (pageWidth - textWidth) / 2
+            pdf.text('Page ' + i + ' of ' + totalPages, x, (pdf.internal.pageSize.getHeight() - 0.3))
+          }
+        }).save()
+      },
       // pdf
       generateReport: async function (id) {
         function split (string) {
@@ -930,7 +951,7 @@
 
           images = pdfData.customer.image_per_page === '6' ? images.slice(0, 6) : images.slice(0, 8)
 
-          const defaultImage = facility.logo
+          const defaultImage = facility?.logo
 
           const defaultImageAfterResize = await this.resizeImg(defaultImage, 100, 50)
           pdfData.images = await this.margeImg(images, defaultImageAfterResize)
@@ -1036,6 +1057,7 @@
             this.$refs.html2Pdf.generatePdf()
           }
         } catch (err) {
+          console.log(err)
           this.errorMessage = 'يوجد مشكلة في تحميل الملف برجاء المحاولة مرة اخري'
           this.errorSnackbar = true
           this.progressNumber = 0

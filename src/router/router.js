@@ -121,7 +121,7 @@ const router = new Router({
           name: 'EvaluateTreatment',
           path: '/Evaluate-Treatment/:id',
           component: () => import('@/views/dashboard/Treatment/EvaluateTreatment'),
-          meta: { requiresAuth: true },
+          meta: { requiresAuth: true, permissions: ['مرحلة الادخال', 'مرحلة الاعتماد', 'مرحلة التقييم', 'مرحلة المراجعة', 'تعديل السعر'] },
         },
         {
           name: 'AccountantTreatment',

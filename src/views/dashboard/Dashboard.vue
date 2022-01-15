@@ -100,28 +100,28 @@
         cols="12"
       >
         <v-tabs-items v-model="tab">
-          <v-tab-item>
+          <v-tab-item eager>
             <myTreatment
               :type="4"
-              :status="2"
+              :status="1"
             />
           </v-tab-item>
-          <v-tab-item>
+          <v-tab-item eager>
             <myTreatment
               :type="1"
               :status="2"
             />
           </v-tab-item>
-          <v-tab-item>
+          <v-tab-item eager>
             <myTreatment
               :type="2"
-              :status="2"
+              :status="3"
             />
           </v-tab-item>
-          <v-tab-item>
+          <v-tab-item eager>
             <myTreatment
               :type="3"
-              :status="2"
+              :status="4"
             />
           </v-tab-item>
         </v-tabs-items>
