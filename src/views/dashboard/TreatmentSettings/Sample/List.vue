@@ -34,12 +34,14 @@
             row
           >
             <v-radio
+              :disabled="item.is_blocked === 1"
               label="مفعل"
               color="blue"
               value="1"
               @click="changeStatus(item)"
             />
             <v-radio
+              :disabled="item.is_blocked === 1"
               label="غير مفعل"
               color="red"
               value="2"
@@ -122,9 +124,10 @@
     methods: {
       async fetchAllItems () {
         this.dataLoading = true
-        const { page, itemsPerPage } = this.options
-        const pageNumber = page - 1
-        const items = await SamplesService.getAllItems(itemsPerPage, page, pageNumber)
+        // const { page, itemsPerPage } = this.options
+        // const pageNumber = page - 1
+        const isUser = true
+        const items = await SamplesService.getAllItems(isUser)
         console.log('SamplesService', items.data)
         items.data.map(item => {
           item.created_at = moment(item.created_at).format('YYYY-MM-DD hh:mm a')

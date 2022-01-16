@@ -144,7 +144,8 @@
     methods: {
       async getSamples () {
         this.loading.samples = true
-        const { data } = await SamplesService.getAllItems()
+        const isUser = false
+        const { data } = await SamplesService.getAllItems(isUser)
         this.samplesList = data.map(sample => {
           return {
             name: sample.name,
