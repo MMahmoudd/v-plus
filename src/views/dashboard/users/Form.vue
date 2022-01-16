@@ -100,8 +100,8 @@
                 md="4"
               >
                 <v-text-field
-                  v-model="data.start_membership"
-                  label="بدء العضوية"
+                  v-model="data.membership_no"
+                  label="رقم العضوية"
                   outlined
                   required
                 />
@@ -111,12 +111,28 @@
                 sm="6"
                 md="4"
               >
-                <v-text-field
-                  v-model="data.end_membership"
-                  label="نهاية العضوية"
-                  outlined
-                  required
-                />
+                <v-menu
+                  v-model="end_membership"
+                  :close-on-content-click="false"
+                  transition="scale-transition"
+                  offset-y
+                  min-width="auto"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                      v-model="data.end_membership"
+                      label="نهاية العضوية"
+                      readonly
+                      v-bind="attrs"
+                      outlined
+                      v-on="on"
+                    />
+                  </template>
+                  <v-date-picker
+                    v-model="data.end_membership"
+                    @input="end_membership = false"
+                  />
+                </v-menu>
               </v-col>
               <v-col
                 cols="12"
@@ -168,6 +184,21 @@
                   type="email"
                   outlined
                   required
+                />
+              </v-col>
+              <v-col
+                cols="12"
+                sm="6"
+                md="8"
+              >
+                <v-select
+                  v-model="data.other_user_id"
+                  :items="usersList"
+                  item-text="name"
+                  item-value="id"
+                  label="المستخدم البديل في التقرير"
+                  outlined
+                  clearable
                 />
               </v-col>
             </v-row>
@@ -429,6 +460,8 @@
       permissions: {},
       dataLoading: false,
       valid: false,
+      end_membership: false,
+      usersList: [],
       data: {
         name: '',
         email: '',
@@ -442,8 +475,9 @@
         bank_number: '',
         bank_IBAN: '',
         bank_statement_image: null,
-        start_membership: '',
+        membership_no: '',
         end_membership: '',
+        other_user_id: null,
         commission_accreditation_stage_amount: null,
         commission_accreditation_stage_rate: null,
         commission_evaluation_stage_rate: null,
@@ -469,6 +503,7 @@
         this.fetchOneItem(this.$route.params.id)
       }
       this.fetchRoles()
+      this.fetchAllItems()
     },
     mounted () {
       this.permissions = this.can('المستخدمين')
@@ -496,6 +531,9 @@
         this.data.bank_number && formData.append('bank_number', this.data.bank_number)
         this.data.bank_IBAN && formData.append('bank_IBAN', this.data.bank_IBAN)
         this.bank_statement_image && formData.append('bank_statement_image', this.bank_statement_image)
+        formData.append('other_user_id', this.data.other_user_id)
+        formData.append('membership_no', this.data.membership_no)
+        formData.append('end_membership', this.data.end_membership)
         this.data.commission_accreditation_stage_amount && formData.append('commission_accreditation_stage_amount', this.data.commission_accreditation_stage_amount)
         this.data.commission_accreditation_stage_rate && formData.append('commission_accreditation_stage_rate', this.data.commission_accreditation_stage_rate)
         this.data.commission_evaluation_stage_rate && formData.append('commission_evaluation_stage_rate', this.data.commission_evaluation_stage_rate)
@@ -546,6 +584,10 @@
         const user = await UsersService.fetchOneItem(id)
         this.data = user.data
         this.dataLoading = false
+      },
+      async fetchAllItems () {
+        const { data: { data: users } } = await UsersService.getAllItems()
+        this.usersList = users.map(({ id, name }) => ({ id, name }))
       },
       async fetchRoles () {
         this.dataLoading = true

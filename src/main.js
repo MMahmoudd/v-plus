@@ -30,9 +30,9 @@ Vue.use(VueI18n)
 Vue.use(VueGoogleMaps, {
   load: {
     // mine
-    key: 'AIzaSyCVqitAS9u-YPDAsQzPS6xomUn5Qe6-ukg',
+    // key: 'AIzaSyCVqitAS9u-YPDAsQzPS6xomUn5Qe6-ukg',
     // new
-    // key: 'AIzaSyAruo-VqZ_6zEgOY-4lphX-tQYQCZKOpJw',
+    key: 'AIzaSyAB-jO_QeEtuWIfI2x8y7e_NEc_0HfAOuY',
     libraries: 'places',
     language: 'ar',
     region: 'SA',

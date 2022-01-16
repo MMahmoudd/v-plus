@@ -2442,6 +2442,7 @@
       appraisersList: [],
       previewsList: [],
       coordinatorsList: [],
+      usersList: [],
       regionsList: [],
       citesList: [],
       neighborhoodsList: [],
@@ -3532,20 +3533,13 @@
       },
       // ! TODO : cheange this with proper endpoint
       getUsers: async function () {
-        const { data } = await UsersServices.getAllItems()
-        // appraisersList: [],
-        // previewsList: [],
-        // coordinatorsList: [],
-        const usersList = data.data.map(({ id, name }) => {
-          return ({
-            id,
-            name,
-          })
-        })
-
-        this.appraisersList = usersList
-        this.previewsList = usersList
-        this.coordinatorsList = usersList
+        const { data: { data: users } } = await UsersServices.getAllItems()
+        const usersList = users.map(({ id, name }) => ({ id, name }))
+        // ? https://vuedose.tips/improve-performance-on-large-lists-in-vue-js
+        this.usersList = Object.freeze(users)
+        this.appraisersList = Object.freeze(usersList)
+        this.previewsList = Object.freeze(usersList)
+        this.coordinatorsList = Object.freeze(usersList)
       },
       // get current customers
       getCustomers: async function () {
@@ -3690,7 +3684,8 @@
           // ** get the add_by
           data.participatingmembers = []
           data.participantscommissions = []
-          const { data: addByData } = await UsersServices.fetchOneItem(data.add_by)
+          // const { data: addByData } = await UsersServices.fetchOneItem(data.add_by)
+          const addByData = this.usersList.find(user => user.id === data.add_by)
           data.participatingmembers.push({
             id_number: addByData.id_number === null ? '' : addByData.id_number,
             user_type: addByData.user_type,
@@ -3708,7 +3703,8 @@
             stage: '0',
           })
           // ** get the resident_id
-          const { data: residentData } = await UsersServices.fetchOneItem(data.resident_id)
+          // const { data: residentData } = await UsersServices.fetchOneItem(data.resident_id)
+          const residentData = this.usersList.find(user => user.id === data.resident_id)
           data.participatingmembers.push({
             id_number: residentData.id_number === null ? '' : residentData.id_number,
             user_type: residentData.user_type,
@@ -3726,7 +3722,8 @@
             stage: '1',
           })
           // ** get the reviewer_id
-          const { data: reviewerData } = await UsersServices.fetchOneItem(data.reviewer_id)
+          // const { data: reviewerData } = await UsersServices.fetchOneItem(data.reviewer_id)
+          const reviewerData = this.usersList.find(user => user.id === data.reviewer_id)
           data.participatingmembers.push({
             id_number: reviewerData.id_number === null ? '' : reviewerData.id_number,
             user_type: reviewerData.user_type,
@@ -3744,7 +3741,8 @@
             stage: '2',
           })
           // ** get the approved_id
-          const { data: approvedData } = await UsersServices.fetchOneItem(data.approved_id)
+          // const { data: approvedData } = await UsersServices.fetchOneItem(data.approved_id)
+          const approvedData = this.usersList.find(user => user.id === data.approved_id)
           data.participatingmembers.push({
             id_number: approvedData.id_number === null ? '' : approvedData.id_number,
             user_type: approvedData.user_type,

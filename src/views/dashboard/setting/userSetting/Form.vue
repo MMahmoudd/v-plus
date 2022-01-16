@@ -157,7 +157,7 @@
         this.disabled = true
         const formData = {
           role_name: this.data.role_name,
-          Permissions: this.allPermissions,
+          permissions: this.allPermissions,
         }
         if (this.$route.params.id) {
           this.updateContent(this.$route.params.id, formData)
