@@ -11,7 +11,7 @@
     v-bind="$attrs"
   >
     <v-list>
-      <template v-for="(item, i) in sidebarList">
+      <template v-for="(item, i) in computedItems">
         <base-item-group
           v-if="item.children"
           :key="`group-${i}`"
@@ -56,6 +56,7 @@
           icon: 'fa-file-alt',
           role: true,
           to: '/Treatments',
+          permission: ['مرحلة الادخال', 'مرحلة الاعتماد', 'مرحلة التقييم', 'مرحلة المراجعة'],
           // children: [
           //   {
           //     title: 'المعاملات',
@@ -78,31 +79,37 @@
               title: 'العملاء',
               to: '/customers',
               role: true,
+              permission: 'العملاء',
             },
             {
               title: 'عروض الأسعار',
               to: '/price-offers',
               role: true,
+              permission: 'عروض الأسعار',
             },
             {
               icon: 'fa-home',
               title: 'الفواتير',
               to: '/Bills',
               role: true,
+              permission: 'الفواتير',
             },
             {
               icon: 'fa-home',
               title: 'المصروفات',
               to: '/expenses',
               role: true,
+              permission: 'المصروفات',
             },
           ],
+          permission: 'المالية',
         },
         {
           title: 'المستخدمين',
           icon: 'fa-users',
           to: '/Users',
           role: true,
+          permission: 'المستخدمين',
         },
         {
           title: 'التقارير (قريبا)',
@@ -111,11 +118,12 @@
           children: [
             {
               title: 'تفرير المستخدمين (قريبا)',
-              // to: '/customers',
+              permission: 'تقرير المستخدمين',
               role: true,
             },
             {
               title: 'تقرير المصروفات (قريبا)',
+              permission: 'تقرير المصروفات',
               // to: '/price-offers',
               role: true,
             },
@@ -123,11 +131,13 @@
               title: 'تقرير الايرادات (قريبا)',
               // to: '/Bills',
               role: true,
+              permission: 'تقرير الإيرادات',
             },
             {
               title: 'تقرير الارباح (قريبا)',
               // to: '/expenses',
               role: true,
+              permission: 'تقرير الارباح',
             },
           ],
         },
@@ -173,16 +183,19 @@
               title: 'ملف المنشأة',
               to: '/facility-file',
               role: true,
+              permission: 'ملف المنشاة',
             },
             {
               title: 'اعدادات المستخدمين',
               to: '/users-setting',
               role: true,
+              permission: 'المناصب',
             },
             {
               title: 'الاشتراكات (قريبا)',
               // to: '/users-setting',
               role: true,
+              permission: 'الاشتراكات',
             },
           ],
         },
@@ -190,6 +203,7 @@
           title: 'تخصيص المعاملة',
           icon: 'fa-cogs',
           role: true,
+          permission: 'تخصيص المعاملة',
           children: [
             {
               title: 'النماذج',
@@ -358,8 +372,27 @@
         },
       },
       computedItems () {
-        console.log(this.$route)
-        return this.sidebarList.map(this.mapItem)
+        /**
+           * ? check parent
+           */
+        return this.sidebarList.filter(this.fitlerItem)
+          /**
+           * ? check children
+           */
+          .map(item => {
+            return ({ ...item, children: item.children ? item.children.filter(this.fitlerItem) : undefined })
+          })
+          /**
+           * this is frustrating
+           * ? deleting items that had children but they don't have permisson now
+           */
+          .filter(item => {
+            if (Array.isArray(item.children) && item.children.length === 0) {
+              return false
+            } else {
+              return true
+            }
+          })
       },
       profile () {
         return {
@@ -378,6 +411,29 @@
           children: item.children ? item.children.map(this.mapItem) : undefined,
           title: this.$t(item.title),
         }
+      },
+      fitlerItem (item) {
+        if (item.permission) {
+          if (Array.isArray(item.permission)) {
+            let shouldGo = false
+            for (let index = 0; index < item.permission.length; index++) {
+              const { read, add, update, delete: remove } = this.can(item.permission[index])
+              if (read || add || update || remove) {
+                shouldGo = true
+                break
+              }
+            }
+            return shouldGo
+          } else {
+            const { read, add, update, delete: remove } = this.can(item.permission)
+            if (read || add || update || remove) {
+              return true
+            } else {
+              return false
+            }
+          }
+        }
+        return true
       },
     // checkLinksRole () {
     //   const userDataPermission = localStorage.getItem('userDataPermission')
