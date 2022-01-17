@@ -38,12 +38,14 @@ import roomFloorTypeSetting from './TreatmentSetting/room_floor_type_setting'
 import streetLightingSetting from './TreatmentSetting/street_lighting_setting'
 import streetSetting from './TreatmentSetting/street_setting'
 import structureConstructionSetting from './TreatmentSetting/structure_construction_setting'
+import LinksServices from './LinksServices'
 
 const services = {
   Users: usersService,
   Customers: customersService,
   Setting: SettingServices,
   Samples: SamplesServices,
+  Links: LinksServices,
   EvaluationPurpose: EvaluationPurposesServices,
   Cites: CitesServices,
   Regions: RegionServices,
@@ -61,7 +63,6 @@ const services = {
   ValueBasiLists: ValueBasiListsServices,
   ValueHypothesisLists: ValueHypothesisListsServices,
   WorkingStatuses: WorkingStatusesServices,
-
   bishopTypeSetting: bishopTypeSetting,
   designSetting: designSetting,
   eastFacadeSetting: eastFacadeSetting,

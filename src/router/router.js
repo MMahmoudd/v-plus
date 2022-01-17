@@ -83,6 +83,11 @@ const router = new Router({
           path: '/',
           component: () => import('@/views/dashboard/Dashboard'),
         },
+        {
+          name: 'Links',
+          path: '/Links',
+          component: () => import('@/views/dashboard/Links/List.vue'),
+        },
         // Users
         {
           name: 'Users',
