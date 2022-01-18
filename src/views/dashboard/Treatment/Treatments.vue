@@ -471,7 +471,6 @@
             pdf-format="a4"
             pdf-orientation="portrait"
             pdf-content-width="100%"
-            @progress="onProgressPdf($event)"
             @beforeDownload="beforeDownload($event)"
           >
             <pdf-content
@@ -501,7 +500,6 @@
             pdf-format="a4"
             pdf-orientation="portrait"
             pdf-content-width="100%"
-            @progress="onProgressPdf($event)"
             @beforeDownload="beforeDownload($event)"
           >
             <pdf-content-another
@@ -858,17 +856,19 @@
     },
     methods: {
       onProgressPdf: function (data) {
+        // console.log('progress ==>', data)
         this.progressNumber = data
         if (data === 100) {
           setTimeout(() => {
             this.showProgress = false
-          }, 1000)
+          }, 2000)
         }
       },
       onHasPaginated: async function () {
         this.showProgress = false
       },
       beforeDownload: async function ({ html2pdf, options, pdfContent }) {
+        this.progressNumber = 80
         await html2pdf().set(options).from(pdfContent).toPdf().get('pdf').then((pdf) => {
           const totalPages = pdf.internal.getNumberOfPages()
           // * Get Current Font Size
@@ -886,6 +886,12 @@
             pdf.text('Page ' + i + ' of ' + totalPages, x, (pdf.internal.pageSize.getHeight() - 0.3))
           }
         }).save()
+        this.progressNumber = 100
+
+        setTimeout(() => {
+          this.showProgress = false
+          this.progressNumber = 0
+        }, 1000)
       },
       // pdf
       generateReport: async function (id) {
@@ -961,7 +967,7 @@
           })
 
           images = pdfData.customer.image_per_page === '6' ? images.slice(0, 6) : images.slice(0, 8)
-
+          this.progressNumber = 50
           const defaultImage = facility?.logo
 
           const defaultImageAfterResize = await this.resizeImg(defaultImage, 100, 50)
@@ -982,34 +988,65 @@
           if (oneTransactionData.participatingmembers) {
             for (let index = 0; index < oneTransactionData.participatingmembers.length; index++) {
               const userId = oneTransactionData.participatingmembers[index].user_id
-              const { data: { name, id_number: number, user_type: type } } = await UsersServices.fetchOneItem(userId)
-              members.push({ name, number, type: roles.find(role => +role.id === +type)?.role_name, s: '' })
+              const stage = oneTransactionData.participatingmembers[index].stage
+
+              const { data: { name, membership_no: number, user_type: type, otheruser } } = await UsersServices.fetchOneItem(userId)
+              if (otheruser) {
+                const { name, membership_no: number, user_type: type } = otheruser
+                members.push({ name, number, type: roles.find(role => +role.id === +type)?.role_name, s: '', stage })
+              } else {
+                members.push({ name, number, type: roles.find(role => +role.id === +type)?.role_name, s: '', stage })
+              }
             }
           }
 
           if (oneTransactionData.customer.input_stage_sign_show === 1) {
             const userId = +oneTransactionData.customer.input_stage_name_show
-            const { data: { name, id_number: number, user_type: type } } = await UsersServices.fetchOneItem(userId)
-            members.push({ name, number, type: roles.find(role => +role.id === +type)?.role_name, s: '' })
+            const { data: { name, membership_no: number, user_type: type } } = await UsersServices.fetchOneItem(userId)
+
+            members.forEach((member, index) => {
+              if (member?.stage === '0') {
+                members[index] = { name, number, type: roles.find(role => +role.id === +type)?.role_name }
+              }
+            })
           }
+
           if (oneTransactionData.customer.evaluation_stage_sign_show === 1) {
             const userId = +oneTransactionData.customer.evaluation_stage_name_show
-            const { data: { name, id_number: number, user_type: type } } = await UsersServices.fetchOneItem(userId)
-            members.push({ name, number, type: roles.find(role => +role.id === +type)?.role_name, s: '' })
+            const { data: { name, membership_no: number, user_type: type } } = await UsersServices.fetchOneItem(userId)
+            members.forEach((member, index) => {
+              if (member?.stage === '1') {
+                members[index] = { name, number, type: roles.find(role => +role.id === +type)?.role_name }
+              }
+            })
+
+            // members.push({ name, number, type: roles.find(role => +role.id === +type)?.role_name, s: '' })
           }
 
           if (oneTransactionData.customer.review_stage_sign_show === 1) {
             const userId = +oneTransactionData.customer.review_stage_name_show
-            const { data: { name, id_number: number, user_type: type } } = await UsersServices.fetchOneItem(userId)
-            members.push({ name, number, type: roles.find(role => +role.id === +type)?.role_name, s: '' })
+            const { data: { name, membership_no: number, user_type: type } } = await UsersServices.fetchOneItem(userId)
+            members.forEach((member, index) => {
+              if (member?.stage === '2') {
+                members[index] = { name, number, type: roles.find(role => +role.id === +type)?.role_name }
+              }
+            })
+            // members.push({ name, number, type: roles.find(role => +role.id === +type)?.role_name, s: '' })
           }
 
           if (oneTransactionData.customer.adoption_stage_sign_show === 1) {
             const userId = +oneTransactionData.customer.adoption_stage_name_show
-            const { data: { name, id_number: number, user_type: type } } = await UsersServices.fetchOneItem(userId)
-            members.push({ name, number, type: roles.find(role => +role.id === +type)?.role_name, s: '' })
+            const { data: { name, membership_no: number, user_type: type } } = await UsersServices.fetchOneItem(userId)
+            members.forEach((member, index) => {
+              if (member?.stage === '3') {
+                members[index] = { name, number, type: roles.find(role => +role.id === +type)?.role_name }
+              }
+            })
+            // members.push({ name, number, type: roles.find(role => +role.id === +type)?.role_name, s: '' })
           }
           pdfData.members = members
+          this.progressNumber = 70
+
           /**
            * ? this is done to only get 4 items including the selected one
            */
