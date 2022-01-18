@@ -514,7 +514,9 @@
           :loading="isLoading"
           :headers="headers"
           :items="itemsTr"
-          :items-per-page="5"
+          :items-per-page="10"
+          :options.sync="options"
+          :server-items-length="total"
           class="elevation-1"
         >
           <template v-slot:[`item.transaction_id`]="{ item }">
@@ -616,7 +618,7 @@
                         </router-link>
                       </v-list-item-title>
                     </v-list-item>
-                    <v-list-item>
+                    <v-list-item v-if="permissons.create_transaction.remove">
                       <v-list-item-title>
                         <a @click="deleteTransaction(item.id)">
                           <v-icon>
@@ -824,7 +826,8 @@
     watch: {
       options: {
         handler () {
-          this.fetchAllItems()
+          const { page } = this.options
+          this.fetchAllItems({ page, type: this.type, status: this.status })
         },
       },
       dialog: {
@@ -1166,12 +1169,15 @@
         return name
       },
       fetchAllItems: async function (options) {
+        console.log(options)
+        const _options = { ...options } || {}
         this.isLoading = true
-        // const { page, itemsPerPage } = this.options
+        const { page } = this.options
+        _options.page = page
         // const pageNumber = page - 1
         const items = await TransactionsServices.getAllItems(options)
         // console.clear()
-        const { type } = options
+        const { type } = _options
         switch (type) {
           case 1 :
             this.$store.dispatch('setTotal', { type: 'underEvaluation', total: items.total })
@@ -1188,7 +1194,9 @@
           default:
             break
         }
-        items.data.map(item => {
+        /**
+         */
+        items.data.forEach(item => {
           item.status = this.statuses[item.status]
         })
         this.itemsTr = items.data
@@ -1324,4 +1332,14 @@ a{
 .elevation-1 th span{
   font-size: 25px !important;
 }
+
+// .elevation-1 .v-data-footer__select {
+//   display: none !important;
+// }
+</style>
+
+<style>
+  .elevation-1 .v-data-footer__select {
+    visibility: hidden;
+  }
 </style>

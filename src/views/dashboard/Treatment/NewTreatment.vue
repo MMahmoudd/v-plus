@@ -3697,7 +3697,7 @@
             user_type: addByData.user_type,
             user_id: addByData.id,
             amount: addByData.commission_input_stage_amount || '',
-            // rate: addByData.commission_input_stage_rate || '',
+            rate: addByData.commission_input_stage_rate || '',
             other_amount: '',
             total_amount: '',
             stage: '0',
@@ -3716,7 +3716,7 @@
             user_type: residentData.user_type,
             user_id: residentData.id,
             amount: residentData.commission_evaluation_stage_amount || '',
-            // rate: residentData.commission_evaluation_stage_rate || '',
+            rate: residentData.commission_evaluation_stage_rate || '',
             other_amount: '',
             total_amount: '',
             stage: '1',
@@ -3735,7 +3735,7 @@
             user_type: reviewerData.user_type,
             user_id: reviewerData.id,
             amount: reviewerData.commission_revision_stage_amount || '',
-            // rate: reviewerData.commission_revision_stage_rate || '',
+            rate: reviewerData.commission_revision_stage_rate || '',
             other_amount: '',
             total_amount: '',
             stage: '2',
@@ -3754,16 +3754,12 @@
             user_type: approvedData.user_type,
             user_id: approvedData.id,
             amount: approvedData.commission_accreditation_stage_amount || '',
-            // rate: approvedData.commission_accreditation_stage_rate || '',
+            rate: approvedData.commission_accreditation_stage_rate || '',
             other_amount: '',
             total_amount: '',
             stage: '3',
           })
-          /**
-           *        resident_id: '',
-                    reviewer_id: '',
-                    approved_id: '',
-           */
+
           await TransactionsServices.updateOneItem(data.id, data)
           this.successMessage = 'تم التعديل بنجاح'
           this.successSnackbar = true

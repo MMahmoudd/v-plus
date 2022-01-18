@@ -30,9 +30,9 @@ Vue.use(VueI18n)
 Vue.use(VueGoogleMaps, {
   load: {
     // mine
-    key: 'AIzaSyCVqitAS9u-YPDAsQzPS6xomUn5Qe6-ukg',
+    // key: 'AIzaSyCVqitAS9u-YPDAsQzPS6xomUn5Qe6-ukg',
     // new
-    // key: 'AIzaSyAB-jO_QeEtuWIfI2x8y7e_NEc_0HfAOuY',
+    key: 'AIzaSyD9w2tU1GEpr4q2ECu-oTuB9ZC3nYOug3Q',
     libraries: 'places',
     language: 'ar',
     region: 'SA',
@@ -51,20 +51,9 @@ if (localStorage.getItem('userLang')) {
 // config file with base endpoint url
 axios.defaults.baseURL = `${API_URL}`
 
-// Check User Is Authorized
-axios.interceptors.response.use((response) => {
-    return response
-}, function (error) {
-  console.log('error', error)
-    if (error.response.status === 401) {
-        localStorage.removeItem('token')
-        return router.push('/login')
-    }
-    return Promise.reject(error.response)
-})
 const userToken = localStorage.getItem('token')
 if (userToken) {
-  console.log('error', axios.interceptors.response)
+  // console.log('error', axios.interceptors.response)
   // axios.defaults.headers.common['x-access-token'] = 'Bearer ' + userData.token
   axios.defaults.headers.common.Authorization = 'Bearer ' + userToken
   axios.defaults.headers['Content-type'] = 'application/json'
