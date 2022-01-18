@@ -67,7 +67,6 @@ const router = new Router({
     {
       path: '/',
       // beforeEnter: routerGuard,
-      meta: { requiresAuth: true },
       redirect: '/',
       component: () => import('@/views/dashboard/Index'),
       children: [
@@ -81,6 +80,7 @@ const router = new Router({
         {
           name: 'statistics',
           path: '/',
+          meta: { requiresAuth: true },
           component: () => import('@/views/dashboard/Dashboard'),
         },
         {
@@ -705,6 +705,8 @@ router.beforeEach((to, from, next) => {
             })
           }
         }
+      } else if (!to.meta.permissions) {
+        next()
       } else {
         next({
           name: 'notAuthorized',

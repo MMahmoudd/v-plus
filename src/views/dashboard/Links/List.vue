@@ -64,7 +64,7 @@
             md="4"
             sm="6"
           >
-            <div :class="{'link-wrapper' : true, 'link-deleting' : deletedIndex === item.id }">
+            <div :class="{'link-wrapper' : true, 'link-deleting' : item.is_deleting }">
               <v-btn
                 class="mx-0 name"
                 @click="handleClickEdit(item.id)"
@@ -76,11 +76,11 @@
                   text
                   icon
                   color="blue lighten-2"
-                  :class="{'status-button' : true, 'status-button-loading' : editedIndex === item.id}"
+                  :class="{'status-button' : true, 'status-button-loading' : item.is_loading}"
                   @click="updateStatus(item)"
                 >
                   <svg
-                    v-if="item.status === true"
+                    v-if="item.is_active === 1"
                     xmlns="http://www.w3.org/2000/svg"
                     width="20.8"
                     height="16.8"
@@ -130,7 +130,7 @@
                     </g>
                   </svg>
                   <svg
-                    v-if="item.status === false"
+                    v-if="item.is_active === 0"
                     id="eNGKD0HTOI91"
                     width="20.8"
                     height="16.8"
@@ -340,13 +340,7 @@
       numberOfPages: 0,
       options: {},
       status_button_loading: {},
-      items: [
-        { name: 'Link 1', link: 'https://google.com', status: false, id: 1 },
-        { name: 'Link 2', link: 'https://google.com', status: true, id: 2 },
-        { name: 'Link 3', link: 'https://google.com', status: true, id: 3 },
-        { name: 'Link 4', link: 'https://google.com', status: true, id: 4 },
-        { name: 'Link 5', link: 'https://google.com', status: true, id: 5 },
-      ],
+      items: [],
       loading: false,
       deleteDailog: false,
       LinkDetails: {},
@@ -394,28 +388,31 @@
         this.LinkDetails = item
       },
       updateStatus (item) {
-        this.editedIndex = item.id
+        item.is_loading = true
         setTimeout(() => {
-          item.status = item.status !== true
-          this.editedIndex = -1
+          item.is_active = item.is_active === 1 ? 0 : 1
           this.successSnackbar = true
-          this.successMessage = `تم تغيير حالة "${item.name}" إلى <strong>${item.status === true ? 'إظهار' : 'إخفاء'}</strong>`
+          this.successMessage = `تم تغيير حالة "${item.name}" إلى <strong>${item.is_active === true ? 'إظهار' : 'إخفاء'}</strong>`
+          item.is_loading = false
         }, 5000)
       },
       async fetchAllItems () {
         const { data } = await LinksServices.getAllItems()
-        console.log(data)
+        this.items = data.map(item => ({ ...item, is_loading: false, is_deleting: false }))
       },
       async deleteLink (currentItem) {
-        this.deleteDailog = false
-        this.deletedIndex = currentItem.id
-
-        setTimeout(() => {
+        try {
+          this.deleteDailog = false
+          currentItem.is_deleting = true
+          await LinksServices.deleteOneItem(currentItem.id)
           this.items = this.items.filter(item => item.id !== currentItem.id)
           this.successSnackbar = true
           this.successMessage = `تم حذف "${currentItem.name}" بنجاح`
-          this.deletedIndex = -1
-        }, 3000)
+        } catch (err) {
+          currentItem.is_deleting = false
+          this.errorSnackbar = true
+          this.errorMessage = 'حدثت مشكلة أثناء الحذف'
+        }
       },
     //   async deleteUser (userDetails) {
     //     this.loading = true

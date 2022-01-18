@@ -134,6 +134,9 @@
   </v-dialog>
 </template>
 <script>
+  import { ServiceFactory } from '../../../services/ServiceFactory'
+  const LinksServices = ServiceFactory.get('Links')
+
   export default {
     name: 'LinkForm',
     props: {
@@ -178,9 +181,21 @@
     methods: {
       save: async function () {
         try {
-
+          if (this.type === 'add') {
+            const { data } = LinksServices.addOneItem(this.data)
+            console.log(data)
+          } else {
+            // eslint-disable-next-line camelcase
+            const { name, link } = this.data
+            const { data } = LinksServices.updateOneItem(this.data.id, { name, link })
+            console.log(data)
+          }
         } catch (err) {
+          if (this.type === 'add') {
 
+          } else {
+
+          }
         }
       },
     },
