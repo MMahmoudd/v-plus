@@ -119,13 +119,13 @@ const router = new Router({
         {
           name: 'EvaluateTreatment',
           path: '/Evaluate-Treatment',
-          component: () => import('@/views/dashboard/Treatment/EvaluateTreatment'),
+          component: () => import('@/views/dashboard/Treatment/EvaluateTreatment/EvaluateTreatment'),
           meta: { requiresAuth: true },
         },
         {
           name: 'EvaluateTreatment',
           path: '/Evaluate-Treatment/:id',
-          component: () => import('@/views/dashboard/Treatment/EvaluateTreatment'),
+          component: () => import('@/views/dashboard/Treatment/EvaluateTreatment/EvaluateTreatment'),
           meta: { requiresAuth: true, permissions: ['مرحلة الادخال', 'مرحلة الاعتماد', 'مرحلة التقييم', 'مرحلة المراجعة', 'تعديل السعر'] },
         },
         {

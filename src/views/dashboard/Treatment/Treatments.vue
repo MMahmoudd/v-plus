@@ -514,7 +514,7 @@
           :loading="isLoading"
           :headers="headers"
           :items="itemsTr"
-          :items-per-page="10"
+          :items-per-page="20"
           :options.sync="options"
           :server-items-length="total"
           class="elevation-1"
@@ -756,7 +756,7 @@
       page: 0,
       total: 0,
       numberOfPages: 0,
-      options: {},
+      options: { itemsPerPage: 20 },
       loading: false,
       deleteDailog: false,
       userDetails: {},
@@ -825,10 +825,14 @@
     },
     watch: {
       options: {
-        handler () {
-          const { page } = this.options
-          this.fetchAllItems({ page, type: this.type, status: this.status })
+        handler ({ page: oldPage }, { page: newPage }) {
+          console.log(oldPage)
+          console.log(newPage)
+          if (oldPage !== newPage) {
+            this.fetchAllItems({ page: oldPage, type: this.type, status: this.status })
+          }
         },
+        deep: true,
       },
       dialog: {
         handler () {
@@ -854,7 +858,8 @@
     mounted () {
       this.permissons.edit_price = this.can('تعديل السعر')
       this.permissons.create_transaction = this.can('مرحلة الادخال')
-      this.fetchAllItems({ type: this.type, status: this.status })
+      this.options = { page: 1, itemsPerPage: 20 }
+      // this.fetchAllItems({ type: this.type, status: this.status })
       this.getConstructionCondition()
     },
     methods: {

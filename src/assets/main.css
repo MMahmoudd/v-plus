@@ -17,3 +17,7 @@ input[type=number] {
 .vue-html2pdf .layout-container {
   visibility: hidden;
 }
+
+.v-application .text-h5 {
+  font-family: inherit !important;
+}
