@@ -54,11 +54,20 @@
         </v-btn>
       </v-card-title>
       <v-container fluid>
+        <v-row
+          v-if="modalData.items.length === 0 && dataLoading === false"
+          class="mt-5 mb-5 justify-center"
+        >
+          <h1 class="">
+            لا توجد بيانات بعد
+          </h1>
+        </v-row>
         <v-row class="mt-2">
           <!-- for loop here -->
+          <!-- {{ modalData.items }} -->
           <v-col
-            v-for="item in items"
-            :key="item.name"
+            v-for="item in modalData.items"
+            :key="item.id"
             cols="12"
             lg="3"
             md="4"
@@ -270,39 +279,35 @@
       <v-card
         class="text-center delete-dailog"
       >
-        <base-material-card
-          title="تأكيد حذف"
-          color="error"
-          class="pt-12 delete-dailog-title"
-        >
-          <v-card-text class="mt-2">
-            هل انت متأكد من حذف {{ LinkDetails.name }} ؟
-          </v-card-text>
+        <v-card-title class="text-h5">
+          تأكيد حذف
+        </v-card-title>
+        <v-card-text class="mt-2">
+          هل انت متأكد من حذف {{ LinkDetails.name }} ؟
+        </v-card-text>
 
-          <v-card-actions>
-            <v-spacer />
-            <v-btn
-              color="green"
-              :loading="loading"
-              :disabled="disabled"
-              @click="deleteLink(LinkDetails)"
-            >
-              حذف
-            </v-btn>
-            <v-btn
-              color="error"
-              @click="deleteDailog = false"
-            >
-              اغلاق
-            </v-btn>
-          </v-card-actions>
-        </base-material-card>
+        <v-card-actions>
+          <v-spacer />
+          <v-btn
+            text
+            @click="deleteDailog = false"
+          >
+            اغلاق
+          </v-btn>
+          <v-btn
+            text
+            color=""
+            class="ma-2 light-green-btn"
+            @click="deleteLink(LinkDetails)"
+          >
+            تأكيد
+          </v-btn>
+        </v-card-actions>
       </v-card>
     </v-dialog>
     <v-snackbar
       v-model="successSnackbar"
       color="success"
-      shaped
       bottom
       left
       :timeout="timeout"
@@ -312,7 +317,6 @@
     <v-snackbar
       v-model="errorSnackbar"
       color="red"
-      shaped
       bottom
       left
       :timeout="timeout"
@@ -340,7 +344,6 @@
       numberOfPages: 0,
       options: {},
       status_button_loading: {},
-      items: [],
       loading: false,
       deleteDailog: false,
       LinkDetails: {},
@@ -355,6 +358,7 @@
       modalData: {
         showModal: false,
         type: 'add',
+        items: [],
       },
     }),
     watch: {
@@ -380,32 +384,35 @@
       handleClickEdit (id) {
         this.modalData.type = 'edit'
         this.modalData.id = id
-        this.modalData.linkData = { ...this.items.find(item => item.id === id) }
+        this.modalData.linkData = { ...this.modalData.items.find(item => item.id === id) }
         this.modalData.showModal = true
       },
       handleClickDelete (item) {
         this.deleteDailog = true
         this.LinkDetails = item
       },
-      updateStatus (item) {
+      async updateStatus (item) {
         item.is_loading = true
-        setTimeout(() => {
-          item.is_active = item.is_active === 1 ? 0 : 1
-          this.successSnackbar = true
-          this.successMessage = `تم تغيير حالة "${item.name}" إلى <strong>${item.is_active === true ? 'إظهار' : 'إخفاء'}</strong>`
-          item.is_loading = false
-        }, 5000)
+        // setTimeout(() => {
+        await LinksServices.updateOneItem(item.id, { name: item.name, link: item.link, is_active: item.is_active === 1 ? 2 : 1 })
+        item.is_active = item.is_active === 1 ? 0 : 1
+        this.successSnackbar = true
+        this.successMessage = `تم تغيير حالة "${item.name}" إلى <strong>${item.is_active === true ? 'إظهار' : 'إخفاء'}</strong>`
+        item.is_loading = false
+        // }, 5000)
       },
       async fetchAllItems () {
+        this.dataLoading = true
         const { data } = await LinksServices.getAllItems()
-        this.items = data.map(item => ({ ...item, is_loading: false, is_deleting: false }))
+        this.modalData.items = data.map(item => ({ ...item, is_loading: false, is_deleting: false }))
+        this.dataLoading = false
       },
       async deleteLink (currentItem) {
         try {
           this.deleteDailog = false
           currentItem.is_deleting = true
           await LinksServices.deleteOneItem(currentItem.id)
-          this.items = this.items.filter(item => item.id !== currentItem.id)
+          this.modalData.items = this.modalData.items.filter(item => item.id !== currentItem.id)
           this.successSnackbar = true
           this.successMessage = `تم حذف "${currentItem.name}" بنجاح`
         } catch (err) {
@@ -461,6 +468,10 @@
 }
 .delete-dailog .delete-dailog-title {
     font-family: 'Cairo', sans-serif !important;
+}
+.light-green-btn{
+  background-color: #4DC334 !important;
+  color: #fff !important;
 }
 @keyframes opacity {
     from {

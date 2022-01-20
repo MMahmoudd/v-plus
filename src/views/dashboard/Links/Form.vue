@@ -2,7 +2,7 @@
   <v-dialog
     v-model="showModal"
     width="900"
-    @click:outside="$emit('update:showModal', false)"
+    persistent
   >
     <v-card>
       <v-card-title class="text-right link-form-title">
@@ -145,6 +145,7 @@
       // eslint-disable-next-line vue/require-default-prop
       id: { type: Number, required: false },
       linkData: { type: Object, required: false, default: () => ({}) },
+      items: { type: Array, required: true, default: () => ([]) },
     },
     data: () => ({
       data: {
@@ -182,12 +183,14 @@
       save: async function () {
         try {
           if (this.type === 'add') {
-            const { data } = LinksServices.addOneItem(this.data)
-            console.log(data)
+            const { data } = await LinksServices.addOneItem(this.data)
+            this.$emit('update:items', [...this.items, { ...data, is_active: 1, is_deleting: false, is_loading: false }])
+            // console.log(this.items)
           } else {
             // eslint-disable-next-line camelcase
             const { name, link } = this.data
-            const { data } = LinksServices.updateOneItem(this.data.id, { name, link })
+            const { data } = await LinksServices.updateOneItem(this.data.id, { name, link })
+            this.$emit('update:items', this.items.map(item => item.id !== this.data.id ? item : { ...data, is_deleting: false, is_loading: false }))
             console.log(data)
           }
         } catch (err) {
@@ -196,6 +199,8 @@
           } else {
 
           }
+        } finally {
+          this.$emit('update:showModal', false)
         }
       },
     },
