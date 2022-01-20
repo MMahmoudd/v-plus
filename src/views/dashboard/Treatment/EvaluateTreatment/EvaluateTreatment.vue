@@ -1110,9 +1110,9 @@
                         >الموقع العام</label>
                         <v-select
                           v-model="data.trans_general_site"
-                          :items="staticLists.trans_general_site"
+                          :items="generalLocation"
                           item-text="name"
-                          item-value="id"
+                          item-value="name"
                           label="الموقع العام"
                           single-line
                           outlined
@@ -1127,9 +1127,9 @@
                         <label class="d-block mb-3 font-weight-bold">التصميم</label>
                         <v-select
                           v-model="data.trans_the_design"
-                          :items="staticLists.trans_the_design"
+                          :items="designSetting"
                           item-text="name"
-                          item-value="id"
+                          item-value="name"
                           label="التصميم"
                           single-line
                           outlined
@@ -1145,9 +1145,9 @@
                         <v-select
                           v-model="data.trans_attributable"
                           label="المنسوب"
-                          :items="staticLists.trans_attributable"
+                          :items="propertyLevelSetting"
                           item-text="name"
-                          item-value="id"
+                          item-value="name"
                           single-line
                           outlined
                         />
@@ -1161,9 +1161,9 @@
                         <label class="d-block mb-3 font-weight-bold">الجار</label>
                         <v-select
                           v-model="data.trans_neighbor"
-                          :items="staticLists.trans_neighbor"
+                          :items="neighborSetting"
                           item-text="name"
-                          item-value="id"
+                          item-value="name"
                           label="الجار"
                           single-line
                           outlined
@@ -1178,9 +1178,9 @@
                         <label class="d-block mb-3 font-weight-bold">الشوارع</label>
                         <v-select
                           v-model="data.trans_streets"
-                          :items="staticLists.trans_streets"
+                          :items="streetSetting"
                           item-text="name"
-                          item-value="id"
+                          item-value="name"
                           label="الشوارع"
                           single-line
                           outlined
@@ -1197,9 +1197,9 @@
                         >اضاءة الشوارع</label>
                         <v-select
                           v-model="data.trans_Street_lighting"
-                          :items="staticLists.trans_Street_lighting"
+                          :items="streetLightingSetting"
                           item-text="name"
-                          item-value="id"
+                          item-value="name"
                           label="اضاءة الشوارع"
                           single-line
                           outlined
@@ -1216,9 +1216,9 @@
                         >التيار الكهربائى</label>
                         <v-select
                           v-model="data.trans_electric_current"
-                          :items="staticLists.trans_electric_current"
+                          :items="electricCurrentSetting"
                           item-text="name"
-                          item-value="id"
+                          item-value="name"
                           label="التيار الكهربائى"
                           single-line
                           outlined
@@ -1233,9 +1233,9 @@
                         <label class="d-block mb-3 font-weight-bold">نوع العزل</label>
                         <v-select
                           v-model="data.trans_insulation_type"
-                          :items="staticLists.trans_insulation_type"
+                          :items="insulationTypeSetting"
                           item-text="name"
-                          item-value="id"
+                          item-value="name"
                           label="نوع العزل"
                           single-line
                           outlined
@@ -1252,9 +1252,9 @@
                         >نوع أرضية الاحواش</label>
                         <v-select
                           v-model="data.trans_the_type_of_yard_floor"
-                          :items="staticLists.trans_the_type_of_yard_floor"
+                          :items="indoorTypeSetting"
                           item-text="name"
-                          item-value="id"
+                          item-value="name"
                           label="نوع أرضية الاحواش"
                           single-line
                           outlined
@@ -1271,9 +1271,9 @@
                         >نوع أرضية الاستقبال</label>
                         <v-select
                           v-model="data.trans_reception_floor_type"
-                          :items="staticLists.trans_reception_floor_type"
+                          :items="receptionFloorTypeSetting"
                           item-text="name"
-                          item-value="id"
+                          item-value="name"
                           label="نوع أرضية الاستقبال"
                           single-line
                           outlined
@@ -1290,9 +1290,9 @@
                         >نوع أرضية المدخل</label>
                         <v-select
                           v-model="data.trans_entrance_floor"
-                          :items="staticLists.trans_entrance_floor"
+                          :items="entranceFloorTypeSetting"
                           item-text="name"
-                          item-value="id"
+                          item-value="name"
                           label="نوع أرضية المدخل"
                           single-line
                           outlined
@@ -1309,9 +1309,9 @@
                         >نوع أرضية الغرف</label>
                         <v-select
                           v-model="data.trans_room_floor_type"
-                          :items="staticLists.trans_room_floor_type"
+                          :items="roomFloorTypeSetting"
                           item-text="name"
-                          item-value="id"
+                          item-value="name"
                           label="نوع أرضية الغرف"
                           single-line
                           outlined
@@ -1360,10 +1360,10 @@
                         >الهيكل الانشائى</label>
                         <v-select
                           v-model="data.trans_structural_structure"
-                          :items="staticLists.trans_structural_structure"
+                          :items="structureConstructionSetting"
                           label="الهيكل الانشائى"
                           item-text="name"
-                          item-value="id"
+                          item-value="name"
                           single-line
                           outlined
                         />
@@ -1379,9 +1379,9 @@
                         >نوع الاسقف</label>
                         <v-select
                           v-model="data.trans_bishop_type"
-                          :items="staticLists.trans_bishop_type"
+                          :items="bishopTypeSetting"
                           item-text="name"
-                          item-value="id"
+                          item-value="name"
                           label="نوع الاسقف"
                           single-line
                           outlined
@@ -2075,8 +2075,8 @@
                         <v-select
                           v-model="data.north_facade"
                           item-text="name"
-                          item-value="id"
-                          :items="staticLists.north_facade"
+                          item-value="name"
+                          :items="northFacadeSetting"
                           label="الواجهة الشمالية"
                           single-line
                           outlined
@@ -2092,8 +2092,8 @@
                         <v-select
                           v-model="data.south_facade"
                           item-text="name"
-                          item-value="id"
-                          :items="staticLists.south_facade"
+                          item-value="name"
+                          :items="southFacadeSetting"
                           label="الواجهة الجنوبية"
                           single-line
                           outlined
@@ -2109,8 +2109,8 @@
                         <v-select
                           v-model="data.eastern_facade"
                           item-text="name"
-                          item-value="id"
-                          :items="staticLists.eastern_facade"
+                          item-value="name"
+                          :items="eastFacadeSetting"
                           label="الواجهة الشرقية"
                           single-line
                           outlined
@@ -2126,8 +2126,8 @@
                         <v-select
                           v-model="data.western_facade"
                           item-text="name"
-                          item-value="id"
-                          :items="staticLists.western_facade"
+                          item-value="name"
+                          :items="westFacadeSetting"
                           label="الواجهة الغربية"
                           single-line
                           outlined

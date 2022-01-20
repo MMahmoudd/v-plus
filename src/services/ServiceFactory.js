@@ -63,23 +63,41 @@ const services = {
   ValueBasiLists: ValueBasiListsServices,
   ValueHypothesisLists: ValueHypothesisListsServices,
   WorkingStatuses: WorkingStatusesServices,
+  // نوع الاسقف
   bishopTypeSetting: bishopTypeSetting,
+  // التصميم
   designSetting: designSetting,
+  // الواجهة الشرقية
   eastFacadeSetting: eastFacadeSetting,
+  // التيار الكهربي
   electricCurrentSetting: electricCurrentSetting,
+  // نوع أرضية المدخل
   entranceFloorTypeSetting: entranceFloorTypeSetting,
+  // الموقع العام
   generalLocation: generalLocation,
+  // نوع أرضية الأحواش
   indoorTypeSetting: indoorTypeSetting,
+  // نوع العزل
   insulationTypeSetting: insulationTypeSetting,
+  // الجار
   neighborSetting: neighborSetting,
+  // الواجهة الشمالية
   northFacadeSetting: northFacadeSetting,
+  // المنسوب
   propertyLevelSetting: propertyLevelSetting,
+  // نوع أرضية الاستقبال
   receptionFloorTypeSetting: receptionFloorTypeSetting,
+  // نوع أرضية الغرف
   roomFloorTypeSetting: roomFloorTypeSetting,
+  // الواجهة الجنوبية
   southFacadeSetting: southFacadeSetting,
+  // اضاءه الشوارع
   streetLightingSetting: streetLightingSetting,
+  // الشوارع
   streetSetting: streetSetting,
+  // الهيكل الانشائي
   structureConstructionSetting: structureConstructionSetting,
+  // الواجهة الغربية
   westFacadeSetting: westFacadeSetting,
 
 }

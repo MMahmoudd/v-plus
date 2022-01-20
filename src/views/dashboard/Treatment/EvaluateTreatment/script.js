@@ -60,6 +60,24 @@
     },
     data: () => ({
       panel: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+      generalLocation: [],
+designSetting: [],
+propertyLevelSetting: [],
+neighborSetting: [],
+streetSetting: [],
+streetLightingSetting: [],
+electricCurrentSetting: [],
+insulationTypeSetting: [],
+indoorTypeSetting: [],
+receptionFloorTypeSetting: [],
+entranceFloorTypeSetting: [],
+roomFloorTypeSetting: [],
+structureConstructionSetting: [],
+bishopTypeSetting: [],
+northFacadeSetting: [],
+southFacadeSetting: [],
+eastFacadeSetting: [],
+westFacadeSetting: [],
       pandelHasBeenOpened: {},
       scrollItems: [
         { ref: '1', name: 'الملاحق' },
@@ -1592,6 +1610,43 @@
             // * حالة الإشغال
       this.getWorkingStatuses()
 
+      // الموقع العام
+      this.getPropDetailsList('generalLocation', 'generalLocation')
+      // التصميم
+      this.getPropDetailsList('designSetting', 'designSetting')
+      // المنسوب
+      this.getPropDetailsList('propertyLevelSetting', 'propertyLevelSetting')
+      // الجار
+      this.getPropDetailsList('neighborSetting', 'neighborSetting')
+      // الشوارع
+      this.getPropDetailsList('streetSetting', 'streetSetting')
+      // اضاءة الشوارع
+      this.getPropDetailsList('streetLightingSetting', 'streetLightingSetting')
+      // التيار الكهربي
+      this.getPropDetailsList('electricCurrentSetting', 'electricCurrentSetting')
+      // نوع العزل
+      this.getPropDetailsList('insulationTypeSetting', 'insulationTypeSetting')
+      // نوع أرضية الاحواش
+      this.getPropDetailsList('indoorTypeSetting', 'indoorTypeSetting')
+      // نوع أرضية الاستقبال
+      this.getPropDetailsList('receptionFloorTypeSetting', 'receptionFloorTypeSetting')
+      // نوع أرضية المدخل
+      this.getPropDetailsList('entranceFloorTypeSetting', 'entranceFloorTypeSetting')
+      // نوع أرضية الغرف
+      this.getPropDetailsList('roomFloorTypeSetting', 'roomFloorTypeSetting')
+      // الهيكل الانشائى
+      this.getPropDetailsList('structureConstructionSetting', 'structureConstructionSetting')
+      // نوع الاسقف
+      this.getPropDetailsList('bishopTypeSetting', 'bishopTypeSetting')
+      // الواجهة الشمالية
+      this.getPropDetailsList('northFacadeSetting', 'northFacadeSetting')
+      // الواجهة الجنوبية
+      this.getPropDetailsList('southFacadeSetting', 'southFacadeSetting')
+      // الواجهة الشرقية
+      this.getPropDetailsList('eastFacadeSetting', 'eastFacadeSetting')
+      // الواجهة الغربية
+      this.getPropDetailsList('westFacadeSetting', 'westFacadeSetting')
+
       this.getSamples()
       this.getCustomers()
       this.getEvaluationPurpose()
@@ -1794,6 +1849,12 @@
         }
         // console.log(n)
         this.data.cm_space_price_average = (+this.data.cm_land_price + +this.data.cm_other_price + +this.data.cm_fences_price + +this.data.cm_building_price + +this.data.cm_basement_price + +this.data.cm_supplement_price) / n
+      },
+      // 1
+      getPropDetailsList: async function (serviceName, listName) {
+        const Service = ServiceFactory.get(serviceName)
+        const { data } = await Service.getAllItems()
+        this[listName] = Object.freeze(data)
       },
       // samples List
       getSamples: async function () {
