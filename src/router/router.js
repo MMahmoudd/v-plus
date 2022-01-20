@@ -110,18 +110,25 @@ const router = new Router({
           meta: { requiresAuth: true, permissions: ['مرحلة الادخال', 'مرحلة الاعتماد', 'مرحلة التقييم', 'مرحلة المراجعة', 'تعديل السعر'] },
         },
         {
+          name: 'UpdateTreatment',
+          path: '/New-Treatment',
+          component: () => import('@/views/dashboard/Treatment/NewTreatment'),
+          // ! Todo : change the indectaror for new transaction to be in query not params
+          meta: { requiresAuth: true, permissions: 'مرحلة الادخال', actions: true },
+        },
+        {
           name: 'NewTreatment',
           path: '/New-Treatment/:id',
           component: () => import('@/views/dashboard/Treatment/NewTreatment'),
           // ! Todo : change the indectaror for new transaction to be in query not params
           meta: { requiresAuth: true, permissions: 'مرحلة الادخال', actions: true },
         },
-        {
-          name: 'EvaluateTreatment',
-          path: '/Evaluate-Treatment',
-          component: () => import('@/views/dashboard/Treatment/EvaluateTreatment/EvaluateTreatment'),
-          meta: { requiresAuth: true },
-        },
+        // {
+        //   name: 'EvaluateTreatment',
+        //   path: '/Evaluate-Treatment',
+        //   component: () => import('@/views/dashboard/Treatment/EvaluateTreatment/EvaluateTreatment'),
+        //   meta: { requiresAuth: true },
+        // },
         {
           name: 'EvaluateTreatment',
           path: '/Evaluate-Treatment/:id',

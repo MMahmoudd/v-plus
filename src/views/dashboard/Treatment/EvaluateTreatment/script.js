@@ -2358,8 +2358,11 @@ westFacadeSetting: [],
           }
           image.sort_number = index
         })
+        /**
+         * ? check status
+         */
         let newStatus = this.data.status
-        let statusWhenSuspended
+        let statusWhenSuspended = null
         if (status === 'send' || status === 'approve') {
           newStatus = this.data.status + 1
         } else if (status === 'suspend') {

@@ -521,7 +521,11 @@
         >
           <template v-slot:[`item.transaction_id`]="{ item }">
             <router-link
-              :to="'/Evaluate-Treatment/' + item.id + '?edit=' + item.id"
+              :to="{
+                name: item.status !== 1 && item.statusWhenSuspended !== 1 ? 'EvaluateTreatment' : 'NewTreatment',
+                params: {id: item.id},
+                query: item.status !== 1 && item.statusWhenSuspended !== 1 ? {} : {sample_id: item.sample_id}
+              }"
               class="number_link"
             >
               {{ item.transaction_id }}
@@ -532,7 +536,7 @@
               class="pa-2"
               color="yellow"
             >
-              {{ item.status }}
+              {{ statuses[item.status] }}
             </v-chip>
           </template>
           <template v-slot:[`item.action`]="{item}">
@@ -1247,9 +1251,9 @@
         }
         /**
          */
-        items.data.forEach(item => {
-          item.status = this.statuses[item.status]
-        })
+        // items.data.forEach(item => {
+        //   item.status = this.statuses[item.status]
+        // })
         this.itemsTr = items.data
         this.total = items.total
         this.isLoading = false

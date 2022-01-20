@@ -2326,11 +2326,13 @@
             >
               <div>
                 <v-btn
+                  v-if="data.status === 1"
                   x-large
                   class="ma-2"
                   color="blue"
-                  :loading="dataLoading"
-                  @click="save({send: true})"
+                  :disabled="dataLoading"
+                  :loading="buttonsLoading.save"
+                  @click="save('save')"
                 >
                   <v-icon left>
                     fas fa-save
@@ -2338,12 +2340,14 @@
                   حفظ
                 </v-btn>
                 <v-btn
+                  v-if="data.status === 1"
                   x-large
                   class="ma-2"
                   outlined
                   color="blue"
-                  :loading="dataLoading"
-                  @click="save({send : true})"
+                  :disabled="dataLoading"
+                  :loading="buttonsLoading.send"
+                  @click="openDialog('send')"
                 >
                   <v-icon left>
                     far fa-paper-plane
@@ -2353,20 +2357,35 @@
               </div>
               <div>
                 <v-btn
+                  v-if="data.status === 1"
                   x-large
                   class="ma-2"
                   color="black"
-                  :loading="dataLoading"
-                  @click="save({sus : true})"
+                  :loading="buttonsLoading.suspend"
+                  :disabled="dataLoading"
+                  @click="openDialog('suspend')"
                 >
                   تعليق
                 </v-btn>
                 <v-btn
+                  v-show="data.status === 7"
+                  x-large
+                  class="ma-2"
+                  color="black"
+                  :disabled="dataLoading"
+                  :loading="buttonsLoading.cancelSuspend"
+                  @click="openDialog('cancelSuspend')"
+                >
+                  إلغاء التعليق
+                </v-btn>
+                <v-btn
+                  v-if="data.status === 1"
                   x-large
                   class="ma-2"
                   color="error"
-                  :loading="dataLoading"
-                  @click="save({cancel : true})"
+                  :disabled="dataLoading"
+                  :loading="buttonsLoading.cancel"
+                  @click="openDialog('cancel')"
                 >
                   الغاء
                 </v-btn>
@@ -2376,21 +2395,52 @@
         </div>
       </v-container>
     </v-card>
+    <v-dialog v-model="buttonsDialog.show">
+      <v-card>
+        <v-card-title class="text-h5">
+          {{ buttonsDialog.title }}
+        </v-card-title>
 
+        <v-card-text>
+          {{ buttonsDialog.body }}
+        </v-card-text>
+
+        <v-card-actions>
+          <v-spacer />
+
+          <v-btn
+            color="red darken-1"
+            text
+            @click="buttonsDialog.show = false"
+          >
+            إلغاء
+          </v-btn>
+
+          <v-btn
+            :color="buttonsDialog.saveButton.color"
+            :class="buttonsDialog.saveButton.class"
+            text
+            @click="buttonsDialog.saveButton.action"
+          >
+            <v-icon v-if="buttonsDialog.saveButton.icon !== ''">
+              {{ buttonsDialog.saveButton.icon }}
+            </v-icon>
+            {{ buttonsDialog.saveButton.text }}
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     <v-snackbar
       v-model="successSnackbar"
-      color="success"
-      shaped
-      bottom
       left
-      :timeout="timeout"
+      bottom
+      color="green"
     >
       {{ successMessage }}
     </v-snackbar>
     <v-snackbar
       v-model="errorSnackbar"
       color="red"
-      shaped
       bottom
       left
       :timeout="timeout"
@@ -3052,6 +3102,25 @@
           name: 'سكني تجاري مكتبي',
         },
       ],
+      buttonsLoading: {
+        save: false,
+        send: false,
+        cancel: false,
+        suspend: false,
+        cancelSuspend: false,
+      },
+      buttonsDialog: {
+        show: false,
+        title: '',
+        body: '',
+        saveButton: {
+          text: 'تأكيد',
+          color: '',
+          class: 'ma-2 light-green-btn',
+          icon: '',
+          action: '',
+        },
+      },
       cityName: '',
       neighborhoodName: '',
       trans_assignment_date: false,
@@ -3060,6 +3129,16 @@
       trans_instrument_date: false,
       trans_building_permit_date: false,
       trans_retail_record_date: false,
+      statuses: Object.freeze({
+        1: 'مسودة',
+        2: 'تحت التقييم',
+        3: 'تحت المراجعة',
+        4: 'قيد الاعتماد',
+        5: 'معتمدة',
+        6: 'مرسلة',
+        7: 'معلقة',
+        8: 'ملغية',
+      }),
       data: {
         sample_id: '',
         customer_id: '',
@@ -3222,6 +3301,7 @@
         masjid_distance: '',
         market: '',
         status: 1,
+        statusWhenSuspended: null,
         market_note: '',
         market_distance: '',
         medical_facility: '',
@@ -3469,8 +3549,8 @@
     },
     mounted () {
       // this.getCurrentLocation()
-      if (this.$route.query.edit) {
-        this.fetchOneItem(this.$route.query.edit)
+      if (this.$route.params.id) {
+        this.fetchOneItem(this.$route.params.id)
       }
       this.getSamples()
       this.getCustomers()
@@ -3490,7 +3570,7 @@
       this.getBasiLists()
     },
     created () {
-      this.data.sample_id = +this.$route.params.id
+      this.data.sample_id = +this.$route.query.sample_id
     },
     methods: {
       getSamples: async function () {
@@ -3636,45 +3716,7 @@
           id, name,
         }))
       },
-      // submit
-      save: async function (status) {
-        this.dataLoading = true
-        if (status.send) {
-          if (!this.data.status || typeof this.data.status === 'string') {
-            this.data.status = 2
-          } else {
-            this.data.status = this.data.status + 1
-          }
-        } else if (status.sus) {
-          this.data.status = 7
-        } else if (status.cancel) {
-          this.data.status = 8
-        }
-
-        // const formData = this.data
-        const formData = new FormData()
-        /**
-         * ? converting the json object to a form-data format
-         */
-        function buildFormData (formData, data, parentKey) {
-          if (data && typeof data === 'object' && !(data instanceof Date) && !(data instanceof File)) {
-            Object.keys(data).forEach(key => {
-              buildFormData(formData, data[key], parentKey ? `${parentKey}[${key}]` : key)
-            })
-          } else {
-            const value = data == null ? '' : data
-
-            formData.append(parentKey, value)
-          }
-        }
-
-        buildFormData(formData, this.data)
-        // let response
-        // const response = TransactionsServices.addOneItem(formData)
-
-        // if (this.$route.query.edit) {
-        //   response = await TransactionsServices.updateOneItem(this.$route.query.edit, formData)
-        // } else {
+      createTransaction: async function (formData, successMessage, status) {
         try {
           const { data: { data } } = await TransactionsServices.addOneItem(formData)
           /**
@@ -3761,32 +3803,229 @@
           })
 
           await TransactionsServices.updateOneItem(data.id, data)
-          this.successMessage = 'تم التعديل بنجاح'
+          this.successMessage = successMessage[status]
           this.successSnackbar = true
           setTimeout(() => {
             this.$router.push('/Treatments')
           }, 1500)
         } catch (er) {
-          console.log(er.response.data.error)
+          // console.log(er.response.data.error)
           this.errorMessage = er.response.data.error || 'يوجد مشكلة بالبيانات'
           this.errorSnackbar = true
         } finally {
           this.dataLoading = false
+          this.buttonsLoading[status] = false
         }
-        // }
+      },
+      updateTransaction: async function (formData, successMessage, status) {
+        try {
+          await TransactionsServices.updateOneItem(this.$route.params.id, formData)
+          this.successMessage = successMessage[status]
+          this.successSnackbar = true
+          setTimeout(() => {
+            this.$router.push('/Treatments')
+          }, 1500)
+        } catch (er) {
+          this.errorMessage = er.response.data.error || 'يوجد مشكلة بالبيانات'
+          this.errorSnackbar = true
+        } finally {
+          this.dataLoading = false
+          this.buttonsLoading[status] = false
+        }
+      },
+      // submit
+      save: async function (status) {
+        this.dataLoading = true
+        this.buttonsLoading[status] = true
 
-        // if (response.success === true) {
-        //   this.successMessage = 'تم التعديل بنجاح'
+        let newStatus = this.data.status
+        let statusWhenSuspended = null
+
+        if (status === 'send') {
+          newStatus = this.data.status + 1
+        } else if (status === 'suspend') {
+          statusWhenSuspended = this.data.status
+          newStatus = 7
+        } else if (status === 'cancelSuspend') {
+          newStatus = this.data.statusWhenSuspended
+          statusWhenSuspended = null
+        } else if (status === 'cancel') {
+          newStatus = 8
+        }
+
+        const successMessage = {
+          suspend: 'تم تعليق المعاملة بنجاح',
+          cancel: 'تم إلغاء المعاملة',
+          send: `تم إرسال المعاملة إلى مرحلة "${this.statuses[(this.data.status || 1) + 1]}" بنجاح`,
+          save: 'تم حفظ المعاملة بنجاح',
+          cancelSuspend: 'تم إلغاء التعليق',
+        }
+        // const formData = this.data
+        const formData = new FormData()
+        /**
+         * ? converting the json object to a form-data format
+         */
+        function buildFormData (formData, data, parentKey) {
+          if (data && typeof data === 'object' && !(data instanceof Date) && !(data instanceof File)) {
+            Object.keys(data).forEach(key => {
+              buildFormData(formData, data[key], parentKey ? `${parentKey}[${key}]` : key)
+            })
+          } else {
+            const value = data == null ? '' : data
+
+            formData.append(parentKey, value)
+          }
+        }
+
+        buildFormData(formData, { ...this.data, status: newStatus, statusWhenSuspended })
+
+        if (!this.$route.params.id) {
+          this.createTransaction(formData, successMessage, status)
+        } else {
+          this.updateTransaction(formData, successMessage, status)
+        }
+
+        // try {
+        //   const { data: { data } } = await TransactionsServices.addOneItem(formData)
+        //   /**
+        //    * ? add members with stage based on everyone'e role
+        //    */
+        //   // * get the users first
+        //   // ** get the add_by
+        //   data.participatingmembers = []
+        //   data.participantscommissions = []
+        //   // const { data: addByData } = await UsersServices.fetchOneItem(data.add_by)
+        //   const addByData = this.usersList.find(user => user.id === data.add_by)
+        //   data.participatingmembers.push({
+        //     id_number: addByData.id_number === null ? '' : addByData.id_number,
+        //     user_type: addByData.user_type,
+        //     user_id: addByData.id,
+        //     stage: '0',
+        //   })
+        //   data.participantscommissions.push({
+        //     id_number: addByData.id_number === null ? '' : addByData.id_number,
+        //     user_type: addByData.user_type,
+        //     user_id: addByData.id,
+        //     amount: addByData.commission_input_stage_amount || '',
+        //     rate: addByData.commission_input_stage_rate || '',
+        //     other_amount: '',
+        //     total_amount: '',
+        //     stage: '0',
+        //   })
+        //   // ** get the resident_id
+        //   // const { data: residentData } = await UsersServices.fetchOneItem(data.resident_id)
+        //   const residentData = this.usersList.find(user => user.id === data.resident_id)
+        //   data.participatingmembers.push({
+        //     id_number: residentData.id_number === null ? '' : residentData.id_number,
+        //     user_type: residentData.user_type,
+        //     user_id: residentData.id,
+        //     stage: '1',
+        //   })
+        //   data.participantscommissions.push({
+        //     id_number: residentData.id_number === null ? '' : residentData.id_number,
+        //     user_type: residentData.user_type,
+        //     user_id: residentData.id,
+        //     amount: residentData.commission_evaluation_stage_amount || '',
+        //     rate: residentData.commission_evaluation_stage_rate || '',
+        //     other_amount: '',
+        //     total_amount: '',
+        //     stage: '1',
+        //   })
+        //   // ** get the reviewer_id
+        //   // const { data: reviewerData } = await UsersServices.fetchOneItem(data.reviewer_id)
+        //   const reviewerData = this.usersList.find(user => user.id === data.reviewer_id)
+        //   data.participatingmembers.push({
+        //     id_number: reviewerData.id_number === null ? '' : reviewerData.id_number,
+        //     user_type: reviewerData.user_type,
+        //     user_id: reviewerData.id,
+        //     stage: '2',
+        //   })
+        //   data.participantscommissions.push({
+        //     id_number: reviewerData.id_number === null ? '' : reviewerData.id_number,
+        //     user_type: reviewerData.user_type,
+        //     user_id: reviewerData.id,
+        //     amount: reviewerData.commission_revision_stage_amount || '',
+        //     rate: reviewerData.commission_revision_stage_rate || '',
+        //     other_amount: '',
+        //     total_amount: '',
+        //     stage: '2',
+        //   })
+        //   // ** get the approved_id
+        //   // const { data: approvedData } = await UsersServices.fetchOneItem(data.approved_id)
+        //   const approvedData = this.usersList.find(user => user.id === data.approved_id)
+        //   data.participatingmembers.push({
+        //     id_number: approvedData.id_number === null ? '' : approvedData.id_number,
+        //     user_type: approvedData.user_type,
+        //     user_id: approvedData.id,
+        //     stage: '3',
+        //   })
+        //   data.participantscommissions.push({
+        //     id_number: approvedData.id_number === null ? '' : approvedData.id_number,
+        //     user_type: approvedData.user_type,
+        //     user_id: approvedData.id,
+        //     amount: approvedData.commission_accreditation_stage_amount || '',
+        //     rate: approvedData.commission_accreditation_stage_rate || '',
+        //     other_amount: '',
+        //     total_amount: '',
+        //     stage: '3',
+        //   })
+
+        //   await TransactionsServices.updateOneItem(data.id, data)
+        //   this.successMessage = successMessage[status]
         //   this.successSnackbar = true
         //   setTimeout(() => {
         //     this.$router.push('/Treatments')
         //   }, 1500)
-        // } else {
-        //   this.errorMessage = response?.error || 'يوجد مشكلة بالبيانات'
+        // } catch (er) {
+        //   // console.log(er.response.data.error)
+        //   this.errorMessage = er.response.data.error || 'يوجد مشكلة بالبيانات'
         //   this.errorSnackbar = true
+        // } finally {
+        //   this.dataLoading = false
+        //   this.buttonsLoading[status] = false
         // }
+      },
+      openDialog: function (status) {
+        const BUTTONS_OPTIONS = {
+          suspend: {
+            title: 'تأكيد تعليق',
+            body: 'هل أنت متأكد من تعليق المعاملة ؟',
+            saveButton: { action: () => { this.save('suspend'); this.buttonsDialog.show = false } },
+          },
+          cancel: {
+            title: 'تأكيد إلغاء',
+            body: 'هل أنت متأكد من إلغاء المعاملة؟',
+            saveButton: { action: () => { this.save('cancel'); this.buttonsDialog.show = false } },
+          },
+          send: {
+            title: 'تأكيد إرسال',
+            body: `هل انت متأكد من إرسال المعاملة إلى مرحلة "${this.statuses[(this.data.status || 1) + 1]}" ؟`,
+            saveButton: { action: () => { this.save('send'); this.buttonsDialog.show = false } },
+          },
+          approve: {
+            title: 'تأكيد إعتماد',
+            body: 'هل أنت متأكد من إعتماد المعاملة؟',
+            saveButton: { action: () => { this.save('approve'); this.buttonsDialog.show = false } },
+          },
+          back: {
+            title: 'تأكيد إعادة',
+            body: `هل انت متأكد من إرسال المعاملة إلى مرحلة "${this.statuses[(this.data.status || 1) - 1]}" ؟`,
+            saveButton: { action: () => { this.save('back'); this.buttonsDialog.show = false } },
+          },
+          cancelSuspend: {
+            title: 'تأكيد إلغاء التعليق',
+            body: `هل أنت متأكد من إلغاء التعليق وإرسال العاملة إلى مرحلة "${this.statuses[this.data.statusWhenSuspended]}" ؟`,
+            saveButton: {
+              action: () => { this.save('cancelSuspend'); this.buttonsDialog.show = false },
+            },
+          },
+        }
 
-        // this.dataLoading = false
+        const { title, body, saveButton: { action } } = BUTTONS_OPTIONS[status]
+        this.buttonsDialog.show = true
+        this.buttonsDialog.title = title
+        this.buttonsDialog.body = body
+        this.buttonsDialog.saveButton.action = action
       },
       // Get Location debendes on 2 inputs
       // getMap: function (x, y) {
