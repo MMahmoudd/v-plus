@@ -620,7 +620,7 @@
                     </v-list-item>
                     <v-list-item v-if="permissons.create_transaction.remove">
                       <v-list-item-title>
-                        <a @click="deleteTransaction(item.id)">
+                        <a @click="handleDeleteTransactionDialog(item.id, item.transaction_id, )">
                           <v-icon>
                             far fa-trash
                           </v-icon>
@@ -636,10 +636,44 @@
         </v-data-table>
       </template>
     </v-card>
+    <v-dialog v-model="deleteTransactionDialog.show">
+      <v-card>
+        <v-card-title class="text-h5">
+          {{ deleteTransactionDialog.title }}
+        </v-card-title>
+
+        <v-card-text>
+          {{ deleteTransactionDialog.body }}
+        </v-card-text>
+
+        <v-card-actions>
+          <v-spacer />
+
+          <v-btn
+            color="red darken-1"
+            text
+            @click="deleteTransactionDialog.show = false"
+          >
+            إلغاء
+          </v-btn>
+
+          <v-btn
+            :color="deleteTransactionDialog.saveButton.color"
+            :class="deleteTransactionDialog.saveButton.class"
+            text
+            @click="deleteTransactionDialog.saveButton.action"
+          >
+            <v-icon v-if="deleteTransactionDialog.saveButton.icon !== ''">
+              {{ deleteTransactionDialog.saveButton.icon }}
+            </v-icon>
+            {{ deleteTransactionDialog.saveButton.text }}
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     <v-snackbar
       v-model="errorSnackbar"
       color="red"
-      shaped
       bottom
       left
       :timeout="timeout"
@@ -649,7 +683,6 @@
     <v-snackbar
       v-model="successSnackbar"
       color="green"
-      shaped
       bottom
       left
       :timeout="timeout"
@@ -709,6 +742,19 @@
       errorMessage: '',
       progressNumber: 0,
       showProgress: false,
+      deleteTransactionDialog: {
+        show: false,
+        title: '',
+        extraData: { transactionId: '' },
+        body: '',
+        saveButton: {
+          text: 'تأكيد',
+          color: '',
+          class: 'ma-2 light-green-btn',
+          icon: '',
+          action: '',
+        },
+      },
       permissons: {
         edit_price: {},
         create_transaction: {},
@@ -1288,8 +1334,14 @@
           id, name,
         }))
       },
-
-      deleteTransaction: async function (id) {
+      handleDeleteTransactionDialog: function (transactionId, transactionNumber) {
+        this.deleteTransactionDialog.show = true
+        this.deleteTransactionDialog.title = 'تأكيد الحذف'
+        this.deleteTransactionDialog.body = `هل أنت متأكد من حذف المعاملة "${transactionNumber}" ؟`
+        this.deleteTransactionDialog.saveButton.action = () => { this.deleteTransaction(transactionId); this.deleteTransactionDialog.show = false }
+      },
+      deleteTransaction: async function (id, index) {
+        this.isLoading = true
         try {
           const { success } = await TransactionsServices.deleteOneItem(id)
           if (success === true) {
@@ -1300,6 +1352,8 @@
         } catch {
           this.errorSnackbar = true
           this.errorMessage = 'حدثت مشكلة أثناء الحذف برجاء المحاولة وقت لاحق'
+        } finally {
+          this.isLoading = false
         }
       },
     },
@@ -1324,6 +1378,12 @@ a{
   text-decoration: none;
   color: #000
 }
+
+.light-green-btn{
+  background-color: #4DC334 !important;
+  color: #fff !important;
+}
+
 .theme--light.v-data-table > .v-data-table__wrapper > table > thead > tr:last-child > th{
   color: #000;
   font-size: 15px;
