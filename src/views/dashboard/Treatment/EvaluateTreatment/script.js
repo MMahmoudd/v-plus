@@ -90,6 +90,7 @@
         suspend: false,
         back: false,
         approve: false,
+        cancelSuspend: false,
       },
       buttonsDialog: {
         show: false,
@@ -778,6 +779,8 @@
       swimming_pool_show: false,
       storehouse_show: false,
       data: {
+        status: 1,
+        statusWhenSuspended: null,
         evaluation_criteria: [],
         images_ids_deleted: [],
         files_to_deleted: [],
@@ -2295,17 +2298,22 @@
           image.sort_number = index
         })
         let newStatus = this.data.status
+        let statusWhenSuspended
         if (status === 'send' || status === 'approve') {
           newStatus = this.data.status + 1
         } else if (status === 'suspend') {
+          statusWhenSuspended = this.data.status
           newStatus = 7
+        } else if (status === 'cancelSuspend') {
+          newStatus = this.data.statusWhenSuspended
+          statusWhenSuspended = null
         } else if (status === 'cancel') {
           newStatus = 8
         } else if (status === 'back') {
           newStatus = this.data.status - 1
         }
 
-        const formData = { ...this.data, status: newStatus }
+        const formData = { ...this.data, status: newStatus, statusWhenSuspended }
 
         const successMessage = {
           back: 'تم إرسال المعاملة للمرحلة السابقة',
@@ -2314,6 +2322,7 @@
           send: `تم إرسال المعاملة إلى مرحلة "${this.statuses[(this.data.status || 1) + 1]}" بنجاح`,
           save: 'تم حفظ المعاملة بنجاح',
           approve: 'تم إعتماد المعاملة بنجاح',
+          cancelSuspend: 'تم إلغاء التعليق',
         }
         // console.log(this.data.status)
         // const formData = new FormData()
@@ -2365,6 +2374,13 @@
             title: 'تأكيد إعادة',
             body: `هل انت متأكد من إرسال المعاملة إلى مرحلة "${this.statuses[(this.data.status || 1) - 1]}" ؟`,
             saveButton: { action: () => { this.save('back'); this.buttonsDialog.show = false } },
+          },
+          cancelSuspend: {
+            title: 'تأكيد إلغاء التعليق',
+            body: `هل أنت متأكد من إلغاء التعليق وإرسال العاملة إلى مرحلة "${this.statuses[this.data.statusWhenSuspended]}" ؟`,
+            saveButton: {
+              action: () => { this.save('cancelSuspend'); this.buttonsDialog.show = false },
+            },
           },
         }
 

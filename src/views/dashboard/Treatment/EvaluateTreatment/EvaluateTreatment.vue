@@ -2968,7 +2968,7 @@
                         class="d-block mb-3 font-weight-bold"
                       >يبعد</label>
                       <v-text-field
-                        label="100 م"
+                        label=""
                         single-line
                         outlined
                       />
@@ -2996,7 +2996,7 @@
                         class="d-block mb-3 font-weight-bold"
                       >يبعد</label>
                       <v-text-field
-                        label="100 م"
+                        label=""
                         single-line
                         outlined
                       />
@@ -3024,7 +3024,7 @@
                         class="d-block mb-3 font-weight-bold"
                       >يبعد</label>
                       <v-text-field
-                        label="100 م"
+                        label=""
                         single-line
                         outlined
                       />
@@ -3052,7 +3052,7 @@
                         class="d-block mb-3 font-weight-bold"
                       >يبعد</label>
                       <v-text-field
-                        label="100 م"
+                        label=""
                         single-line
                         outlined
                       />
@@ -3080,7 +3080,7 @@
                         class="d-block mb-3 font-weight-bold"
                       >يبعد</label>
                       <v-text-field
-                        label="100 م"
+                        label=""
                         single-line
                         outlined
                       />
@@ -3108,7 +3108,7 @@
                         class="d-block mb-3 font-weight-bold"
                       >يبعد</label>
                       <v-text-field
-                        label="100 م"
+                        label=""
                         single-line
                         outlined
                       />
@@ -3136,7 +3136,7 @@
                         class="d-block mb-3 font-weight-bold"
                       >يبعد</label>
                       <v-text-field
-                        label="100 م"
+                        label=""
                         single-line
                         outlined
                       />
@@ -3164,7 +3164,7 @@
                         class="d-block mb-3 font-weight-bold"
                       >يبعد</label>
                       <v-text-field
-                        label="100 م"
+                        label=""
                         single-line
                         outlined
                       />
@@ -6064,6 +6064,7 @@
                   اعادة الى المرحلة السابقة
                 </v-btn>
                 <v-btn
+                  v-if="data.status === 1 || data.status === 2 || data.status === 3 || data.status === 4 "
                   x-large
                   class="ma-2"
                   color="blue"
@@ -6117,6 +6118,17 @@
                   @click="openDialog('suspend')"
                 >
                   تعليق
+                </v-btn>
+                <v-btn
+                  v-show="data.status === 7"
+                  x-large
+                  class="ma-2"
+                  color="black"
+                  :disabled="dataLoading"
+                  :loading="buttonsLoading.cancelSuspend"
+                  @click="openDialog('cancelSuspend')"
+                >
+                  إلغاء التعليق
                 </v-btn>
                 <v-btn
                   v-show="data.status === 1 || data.status === 3 || data.status === 4"
