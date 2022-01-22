@@ -729,10 +729,10 @@
     name: 'NewTreatment',
     components: {
       VueHtml2pdf: () => import('vue-html2pdf'),
-      PdfContent: () => import('./PdfContent.vue'),
+      PdfContent: () => import('./Pdf/PdfContent.vue'),
       CustomProgress: () => import('../component/progress.vue'),
       SelectSample: () => import('./SelectSample.vue'),
-      PdfContentAnother: () => import('./PdfContentAnother.vue'),
+      PdfContentAnother: () => import('./Pdf/PdfContentAnother.vue'),
     },
     props: {
       type: { type: Number, required: false, default: 0 },
@@ -1160,6 +1160,7 @@
             this.pdfData.prop_floor = oneTransactionData.prop_floor
             this.$refs.html2PdfAnother.generatePdf()
           } else {
+            this.pdfData.evaluation_criteria = (oneTransactionData.evaluation_criteria || [1, 2, 3]).map(x => +x)
             this.$refs.html2Pdf.generatePdf()
           }
         } catch (err) {

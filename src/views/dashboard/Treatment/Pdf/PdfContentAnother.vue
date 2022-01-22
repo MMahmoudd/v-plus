@@ -1257,7 +1257,7 @@
             >
               <GmapMarker
                 :position="{lat: +data.latitude || 22, lng: +data.longitude || 22}"
-                :icon="{ url: require('../../../assets/marker-red.png'),size: {width: 60, height: 90, f: 'px', b: 'px',},
+                :icon="{ url: require('@/assets/marker-red.png'),size: {width: 60, height: 90, f: 'px', b: 'px',},
                          scaledSize: {width: 30, height: 30, f: 'px', b: 'px',},}"
               />
             </gmap-map>

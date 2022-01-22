@@ -1721,597 +1721,578 @@
         </tr>
       </tbody>
     </table>
+    <one
+      v-if="getMethods === 'One'"
+      :data="data"
+      :style-data="styleData"
+      :style-sub-data="styleSubData"
+    />
+    <two
+      v-if="getMethods === 'Two'"
+      :data="data"
+      :style-data="styleData"
+      :style-sub-data="styleSubData"
+    />
+    <three
+      v-if="getMethods === 'Three'"
+      :data="data"
+      :style-data="styleData"
+      :style-sub-data="styleSubData"
+    />
+    <one-n-two
+      v-if="getMethods === 'OneNTwo'"
+      :data="data"
+      :style-data="styleData"
+      :style-sub-data="styleSubData"
+    />
+    <one-n-three
+      v-if="getMethods === 'OneNThree'"
+      :data="data"
+      :style-data="styleData"
+      :style-sub-data="styleSubData"
+    />
+    <two-n-three
+      v-if="getMethods === 'TwoNThree'"
+      :data="data"
+      :style-data="styleData"
+      :style-sub-data="styleSubData"
+    />
     <!--العقارات المقارنة-->
-    <div
-      class="html2pdf__page-break"
-      :data-number="['3','من',totalPages].join(' ')"
-    />
-    <table class="first">
-      <thead :style="styleData">
-        <tr>
-          <th colspan="8">
-            <div class="header ">
-              <div class="header-text">
-                العقارات المقارنة
+    <div v-if="getMethods === 'All'">
+      <div
+        class="html2pdf__page-break last"
+      />
+      <table class="first">
+        <thead :style="styleData">
+          <tr>
+            <th colspan="8">
+              <div class="header ">
+                <div class="header-text">
+                  العقارات المقارنة
+                </div>
+                <div class="header-icon">
+                  <v-icon>
+                    far fa-file-pdf
+                  </v-icon>
+                </div>
               </div>
-              <div class="header-icon">
-                <v-icon>
-                  far fa-file-pdf
-                </v-icon>
+            </th>
+          </tr>
+        </thead>
+        <tbody class="has-fields">
+          <tr>
+            <td
+              class="field"
+              :style="styleSubData"
+            >
+              العقار المقارن
+            </td>
+            <td
+              class="field"
+              :style="styleSubData"
+            >
+              نوع العملية
+            </td>
+            <td
+              class="field"
+              :style="styleSubData"
+            >
+              المساحة
+            </td>
+            <td
+              class="field"
+              :style="styleSubData"
+            >
+              تاريخ العملية
+            </td>
+            <td
+              class="field"
+              :style="styleSubData"
+            >
+              السعر
+            </td>
+            <td
+              class="field"
+              :style="styleSubData"
+            >
+              سعر المتر
+            </td>
+            <td
+              class="field"
+              :style="styleSubData"
+            >
+              خط الطول
+            </td>
+            <td
+              class="field"
+              :style="styleSubData"
+            >
+              خط العرض
+            </td>
+          </tr>
+          <tr>
+            <td
+              class="field"
+              :style="styleSubData"
+            >
+              1 العقار المقارن
+            </td>
+            <td>{{ data.cm_operation_type || '' }}</td>
+            <td>{{ data.cm_space || '' }}</td>
+            <td>{{ formatDate(data.operation_date) }}</td>
+            <td>{{ data.cm_price || '' }}</td>
+            <td>{{ priceFromMeter(data.cm_price, data.cm_space) || '' }}</td>
+            <td>{{ data.cm_latitude }}</td>
+            <td>{{ data.cm_longitude }}</td>
+          </tr>
+          <tr>
+            <td
+              class="field"
+              :style="styleSubData"
+            >
+              2 العقار المقارن
+            </td>
+            <td>{{ data.cm_operation_type_2 || '' }}</td>
+            <td>{{ data.cm_space_2 || '' }}</td>
+            <td>{{ formatDate(data.operation_date_2) }}</td>
+            <td>{{ data.cm_price_2 || '' }}</td>
+            <td>{{ priceFromMeter(data.cm_price, data.cm_space) || '' }}</td>
+            <td>{{ data.cm_latitude_2 }}</td>
+            <td>{{ data.cm_longitude_2 }}</td>
+          </tr>
+          <tr>
+            <td
+              class="field"
+              :style="styleSubData"
+            >
+              3 العقار المقارن
+            </td>
+            <td>{{ data.cm_operation_type_3 || '' }}</td>
+            <td>{{ data.cm_space_3 || '' }}</td>
+            <td>{{ formatDate(data.operation_date_3) }}</td>
+            <td>{{ data.cm_price_3 || '' }}</td>
+            <td>{{ priceFromMeter(data.cm_price, data.cm_space) || '' }}</td>
+            <td>{{ data.cm_latitude_3 }}</td>
+            <td>{{ data.cm_longitude_3 }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <!--جدول التسويات-->
+      <table>
+        <thead :style="styleData">
+          <tr>
+            <th colspan="6">
+              <div class="header ">
+                <div class="header-text">
+                  جدول التسويات
+                </div>
+                <div class="header-icon">
+                  <v-icon>
+                    far fa-file-pdf
+                  </v-icon>
+                </div>
               </div>
-            </div>
-          </th>
-        </tr>
-      </thead>
-      <tbody class="has-fields">
-        <tr>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            العقار المقارن
-          </td>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            نوع العملية
-          </td>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            المساحة
-          </td>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            تاريخ العملية
-          </td>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            السعر
-          </td>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            سعر المتر
-          </td>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            خط الطول
-          </td>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            خط العرض
-          </td>
-        </tr>
-        <tr>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            1 العقار المقارن
-          </td>
-          <td>{{ data.cm_operation_type || '' }}</td>
-          <td>{{ data.cm_space || '' }}</td>
-          <td>{{ formatDate(data.operation_date) }}</td>
-          <td>{{ data.cm_price || '' }}</td>
-          <td>{{ priceFromMeter(data.cm_price, data.cm_space) || '' }}</td>
-          <td>{{ data.cm_latitude }}</td>
-          <td>{{ data.cm_longitude }}</td>
-        </tr>
-        <tr>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            2 العقار المقارن
-          </td>
-          <td>{{ data.cm_operation_type_2 || '' }}</td>
-          <td>{{ data.cm_space_2 || '' }}</td>
-          <td>{{ formatDate(data.operation_date_2) }}</td>
-          <td>{{ data.cm_price_2 || '' }}</td>
-          <td>{{ priceFromMeter(data.cm_price, data.cm_space) || '' }}</td>
-          <td>{{ data.cm_latitude_2 }}</td>
-          <td>{{ data.cm_longitude_2 }}</td>
-        </tr>
-        <tr>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            3 العقار المقارن
-          </td>
-          <td>{{ data.cm_operation_type_3 || '' }}</td>
-          <td>{{ data.cm_space_3 || '' }}</td>
-          <td>{{ formatDate(data.operation_date_3) }}</td>
-          <td>{{ data.cm_price_3 || '' }}</td>
-          <td>{{ priceFromMeter(data.cm_price, data.cm_space) || '' }}</td>
-          <td>{{ data.cm_latitude_3 }}</td>
-          <td>{{ data.cm_longitude_3 }}</td>
-        </tr>
-      </tbody>
-    </table>
-    <!--جدول التسويات-->
-    <table>
-      <thead :style="styleData">
-        <tr>
-          <th colspan="6">
-            <div class="header ">
-              <div class="header-text">
-                جدول التسويات
-              </div>
-              <div class="header-icon">
-                <v-icon>
-                  far fa-file-pdf
-                </v-icon>
-              </div>
-            </div>
-          </th>
-        </tr>
-      </thead>
-      <tbody class="has-fields">
-        <tr>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            عناصر المقارنة
-          </td>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            العقار المقارن 1
-          </td>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            العقار المقارن 2
-          </td>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            العقار المقارن 3
-          </td>
-        </tr>
-        <tr>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            تسوية عامل الوقت
-          </td>
-          <td>{{ addPercentage(data.cm_time_factor_adjustment) }}</td>
-          <td>{{ addPercentage(data.cm_time_factor_adjustment_2) }}</td>
-          <td>{{ addPercentage(data.cm_time_factor_adjustment_3) }}</td>
-        </tr>
-        <tr>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            تسوية شروط التمويل
-          </td>
-          <td>{{ addPercentage(data.cm_settlement_financing_terms) }}</td>
-          <td>{{ addPercentage(data.cm_settlement_financing_terms_2) }}</td>
-          <td>{{ addPercentage(data.cm_settlement_financing_terms_3) }}</td>
-        </tr>
-        <tr>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            تسوية ظروف السوق
-          </td>
-          <td>{{ addPercentage(data.cm_settling_market_conditions) }}</td>
-          <td>{{ addPercentage(data.cm_settling_market_conditions_2) }}</td>
-          <td>{{ addPercentage(data.cm_settling_market_conditions_3) }}</td>
-        </tr>
-        <tr>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            إجمالي تسويات التمويل والسوق
-          </td>
-          <td>{{ addPercentage(data.cm_total_funding_market_adjustments) }}</td>
-          <td>{{ addPercentage(data.cm_total_funding_market_adjustments_2) }}</td>
-          <td>{{ addPercentage(data.cm_total_funding_market_adjustments_3) }}</td>
-        </tr>
-        <tr>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            سعر البيع بعد تسوية شروط التمويل وظروف السوق
-          </td>
-          <td>{{ formatCurrency(data.cm_price_after_settling_financing_terms) }}</td>
-          <td>{{ formatCurrency(data.cm_price_after_settling_financing_terms2) }}</td>
-          <td>{{ formatCurrency(data.cm_price_after_settling_financing_terms3) }}</td>
-        </tr>
-        <tr>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            تسوية المساحة
-          </td>
-          <td>{{ addPercentage(data.cm_space_settlement) }}</td>
-          <td>{{ addPercentage(data.cm_space_settlement2) }}</td>
-          <td>{{ addPercentage(data.cm_space_settlement3) }}</td>
-        </tr>
-        <tr>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            تسويات أخرى
+            </th>
+          </tr>
+        </thead>
+        <tbody class="has-fields">
+          <tr>
+            <td
+              class="field"
+              :style="styleSubData"
+            >
+              عناصر المقارنة
+            </td>
+            <td
+              class="field"
+              :style="styleSubData"
+            >
+              العقار المقارن 1
+            </td>
+            <td
+              class="field"
+              :style="styleSubData"
+            >
+              العقار المقارن 2
+            </td>
+            <td
+              class="field"
+              :style="styleSubData"
+            >
+              العقار المقارن 3
+            </td>
+          </tr>
+          <tr>
+            <td
+              class="field"
+              :style="styleSubData"
+            >
+              تسوية عامل الوقت
+            </td>
+            <td>{{ addPercentage(data.cm_time_factor_adjustment) }}</td>
+            <td>{{ addPercentage(data.cm_time_factor_adjustment_2) }}</td>
+            <td>{{ addPercentage(data.cm_time_factor_adjustment_3) }}</td>
+          </tr>
+          <tr>
+            <td
+              class="field"
+              :style="styleSubData"
+            >
+              تسوية شروط التمويل
+            </td>
+            <td>{{ addPercentage(data.cm_settlement_financing_terms) }}</td>
+            <td>{{ addPercentage(data.cm_settlement_financing_terms_2) }}</td>
+            <td>{{ addPercentage(data.cm_settlement_financing_terms_3) }}</td>
+          </tr>
+          <tr>
+            <td
+              class="field"
+              :style="styleSubData"
+            >
+              تسوية ظروف السوق
+            </td>
+            <td>{{ addPercentage(data.cm_settling_market_conditions) }}</td>
+            <td>{{ addPercentage(data.cm_settling_market_conditions_2) }}</td>
+            <td>{{ addPercentage(data.cm_settling_market_conditions_3) }}</td>
+          </tr>
+          <tr>
+            <td
+              class="field"
+              :style="styleSubData"
+            >
+              إجمالي تسويات التمويل والسوق
+            </td>
+            <td>{{ addPercentage(data.cm_total_funding_market_adjustments) }}</td>
+            <td>{{ addPercentage(data.cm_total_funding_market_adjustments_2) }}</td>
+            <td>{{ addPercentage(data.cm_total_funding_market_adjustments_3) }}</td>
+          </tr>
+          <tr>
+            <td
+              class="field"
+              :style="styleSubData"
+            >
+              سعر البيع بعد تسوية شروط التمويل وظروف السوق
+            </td>
+            <td>{{ formatCurrency(data.cm_price_after_settling_financing_terms) }}</td>
+            <td>{{ formatCurrency(data.cm_price_after_settling_financing_terms2) }}</td>
+            <td>{{ formatCurrency(data.cm_price_after_settling_financing_terms3) }}</td>
+          </tr>
+          <tr>
+            <td
+              class="field"
+              :style="styleSubData"
+            >
+              تسوية المساحة
+            </td>
+            <td>{{ addPercentage(data.cm_space_settlement) }}</td>
+            <td>{{ addPercentage(data.cm_space_settlement2) }}</td>
+            <td>{{ addPercentage(data.cm_space_settlement3) }}</td>
+          </tr>
+          <tr>
+            <td
+              class="field"
+              :style="styleSubData"
+            >
+              تسويات أخرى
 
-            (الحيازة، التنظيم<br> (سكني), الموقع، طبيعة الأرض،عدد  <br>الشوارع)
-          </td>
-          <td>{{ addPercentage(data.cm_other_settlement) }}</td>
-          <td>{{ addPercentage(data.cm_other_settlement2) }}</td>
-          <td>{{ addPercentage(data.cm_other_settlement3) }}</td>
-        </tr>
-        <tr>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            مجموع نسب التسويات (%)
-          </td>
-          <td>{{ addPercentage(data.cm_total_settlement) }}</td>
-          <td>{{ addPercentage(data.cm_total_settlement2) }}</td>
-          <td>{{ addPercentage(data.cm_total_settlement3) }}</td>
-        </tr>
-        <tr>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            سعر البيع بعد التسويات
-          </td>
-          <td>{{ formatCurrency(data.cm_selling_p_a_settlement) }}</td>
-          <td>{{ formatCurrency(data.cm_selling_p_a_settlement2) }}</td>
-          <td>{{ formatCurrency(data.cm_selling_p_a_settlement3) }}</td>
-        </tr>
-        <tr>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            األوزان النسبية للعقارات المقارنة
-          </td>
-          <td>{{ addPercentage(data.cm_relative_w_comparable_p) }}</td>
-          <td>{{ addPercentage(data.cm_relative_w_comparable_p2) }}</td>
-          <td>{{ addPercentage(data.cm_relative_w_comparable_p3) }}</td>
-        </tr>
-        <tr>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            مساهمة العقارات المقارنة حسب الوزن النسبي
-          </td>
-          <td>{{ formatCurrency(data.cm_contribution_comparative_p_relative_weight) }}</td>
-          <td>{{ formatCurrency(data.cm_contribution_comparative_p_relative_weight2) }}</td>
-          <td>{{ formatCurrency(data.cm_contribution_comparative_p_relative_weight3) }}</td>
-        </tr>
-        <tr>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            القيمة السوقية بطريقة البيوع المقارنة
-          </td>
-          <td colspan="3">
-            {{ formatCurrency(data.cm_market_v_comparative_sales_method) }}
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <!-- <div class="html2pdf__page-break" />
-    <table class="first">
-      <tbody class="has-fields">
-        <tr style="visibility: collapse;">
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            سعر البيع بعد تسوية شروط التمويل وظروف السوق
-          </td>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            العقار المقارن 1
-          </td>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            العقار المقارن 2
-          </td>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            العقار المقارن 3
-          </td>
-        </tr>
-        <tr>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            مساهمة العقارات المقارنة حسب الوزن النسبي
-          </td>
-          <td>{{ formatCurrency(data.cm_contribution_comparative_p_relative_weight) }}</td>
-          <td>{{ formatCurrency(data.cm_contribution_comparative_p_relative_weight2) }}</td>
-          <td>{{ formatCurrency(data.cm_contribution_comparative_p_relative_weight3) }}</td>
-        </tr>
-        <tr>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            القيمة السوقية بطريقة البيوع المقارنة
-          </td>
-          <td colspan="3">
-            {{ formatCurrency(data.cm_market_v_comparative_sales_method) }}
-          </td>
-        </tr>
-      </tbody>
-    </table> -->
-    <!-- <div class="html2pdf__page-break" /> -->
-    <!--أسلوب الدخل-->
-    <table>
-      <thead :style="styleData">
-        <tr>
-          <th colspan="6">
-            <div class="header ">
-              <div class="header-text">
-                أسلوب الدخل (رسملة الدخل)
+              (الحيازة، التنظيم<br> (سكني), الموقع، طبيعة الأرض،عدد  <br>الشوارع)
+            </td>
+            <td>{{ addPercentage(data.cm_other_settlement) }}</td>
+            <td>{{ addPercentage(data.cm_other_settlement2) }}</td>
+            <td>{{ addPercentage(data.cm_other_settlement3) }}</td>
+          </tr>
+          <tr>
+            <td
+              class="field"
+              :style="styleSubData"
+            >
+              مجموع نسب التسويات (%)
+            </td>
+            <td>{{ addPercentage(data.cm_total_settlement) }}</td>
+            <td>{{ addPercentage(data.cm_total_settlement2) }}</td>
+            <td>{{ addPercentage(data.cm_total_settlement3) }}</td>
+          </tr>
+          <tr>
+            <td
+              class="field"
+              :style="styleSubData"
+            >
+              سعر البيع بعد التسويات
+            </td>
+            <td>{{ formatCurrency(data.cm_selling_p_a_settlement) }}</td>
+            <td>{{ formatCurrency(data.cm_selling_p_a_settlement2) }}</td>
+            <td>{{ formatCurrency(data.cm_selling_p_a_settlement3) }}</td>
+          </tr>
+          <tr>
+            <td
+              class="field"
+              :style="styleSubData"
+            >
+              األوزان النسبية للعقارات المقارنة
+            </td>
+            <td>{{ addPercentage(data.cm_relative_w_comparable_p) }}</td>
+            <td>{{ addPercentage(data.cm_relative_w_comparable_p2) }}</td>
+            <td>{{ addPercentage(data.cm_relative_w_comparable_p3) }}</td>
+          </tr>
+          <tr>
+            <td
+              class="field"
+              :style="styleSubData"
+            >
+              مساهمة العقارات المقارنة حسب الوزن النسبي
+            </td>
+            <td>{{ formatCurrency(data.cm_contribution_comparative_p_relative_weight) }}</td>
+            <td>{{ formatCurrency(data.cm_contribution_comparative_p_relative_weight2) }}</td>
+            <td>{{ formatCurrency(data.cm_contribution_comparative_p_relative_weight3) }}</td>
+          </tr>
+          <tr>
+            <td
+              class="field"
+              :style="styleSubData"
+            >
+              القيمة السوقية بطريقة البيوع المقارنة
+            </td>
+            <td colspan="3">
+              {{ formatCurrency(data.cm_market_v_comparative_sales_method) }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <!--أسلوب الدخل-->
+      <table>
+        <thead :style="styleData">
+          <tr>
+            <th colspan="6">
+              <div class="header ">
+                <div class="header-text">
+                  أسلوب الدخل (رسملة الدخل)
+                </div>
+                <div class="header-icon">
+                  <v-icon>
+                    far fa-file-pdf
+                  </v-icon>
+                </div>
               </div>
-              <div class="header-icon">
-                <v-icon>
-                  far fa-file-pdf
-                </v-icon>
+            </th>
+          </tr>
+        </thead>
+        <tbody class="has-fields">
+          <tr>
+            <td
+              class="field"
+              :style="styleSubData"
+            >
+              إجمالي الدخل السنوي
+            </td>
+            <td>{{ formatCurrency(data.total_annual_income) }}</td>
+          </tr>
+          <tr>
+            <td
+              class="field"
+              :style="styleSubData"
+            >
+              خصم خسائر عدم اإلشغال والتحصيل
+            </td>
+            <td>{{ formatCurrency(data.deduction_losses) }}</td>
+          </tr>
+          <tr>
+            <td
+              class="field"
+              :style="styleSubData"
+            >
+              إجمالي الدخل الفعلي
+            </td>
+            <td>{{ formatCurrency(data.total_actual_income) }}</td>
+          </tr>
+          <tr>
+            <td
+              class="field"
+              :style="styleSubData"
+            >
+              ناقصا النفقات التشغيلية والرأسمالية
+            </td>
+            <td>{{ formatCurrency(data.m_operating_c_expenditures) }}</td>
+          </tr>
+          <tr>
+            <td
+              class="field"
+              :style="styleSubData"
+            >
+              صافي الدخل التشغيلي
+            </td>
+            <td>{{ formatCurrency(data.net_operating_income) }}</td>
+          </tr>
+          <tr>
+            <td
+              class="field"
+              :style="styleSubData"
+            >
+              معدل الرسملة عامل شراء السنوات
+            </td>
+            <td>{{ addPercentage(data.capitalization_rate) }}</td>
+          </tr>
+          <tr>
+            <td
+              class="field"
+              :style="styleSubData"
+            >
+              القيمة السوقية باستخدام طريقة رسملة الدخل
+            </td>
+            <td>{{ formatCurrency(data.market_v_income_c_method) }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <!--طريقة التكلفة-->
+      <div
+        class="html2pdf__page-break"
+      />
+      <table class="first">
+        <thead :style="styleData">
+          <tr>
+            <th colspan="6">
+              <div class="header ">
+                <div class="header-text">
+                  طريقة التكلفة
+                </div>
+                <div class="header-icon">
+                  <v-icon>
+                    far fa-file-pdf
+                  </v-icon>
+                </div>
               </div>
-            </div>
-          </th>
-        </tr>
-      </thead>
-      <tbody class="has-fields">
-        <tr>
-          <td
-            class="field"
-            :style="styleSubData"
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td
+              class="field"
+              :style="styleSubData"
+            >
+              تقييم الأرض والمباني
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <table
+        style="width:60%;float:right;"
+      >
+        <tbody class="has-fields">
+          <tr>
+            <td
+              class="field"
+              :style="styleSubData"
+            >
+              البيان
+            </td>
+            <td
+              class="field"
+              :style="styleSubData"
+            >
+              المساحه
+            </td>
+            <td
+              class="field"
+              :style="styleSubData"
+            >
+              سعر المتر
+            </td>
+            <td
+              class="field"
+              :style="styleSubData"
+            >
+              المجموع
+            </td>
+          </tr>
+          <tr
+            v-for="(b,index) in data.transactions_buildings"
+            :key="index"
           >
-            إجمالي الدخل السنوي
-          </td>
-          <td>{{ formatCurrency(data.total_annual_income) }}</td>
-        </tr>
-        <tr>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            خصم خسائر عدم اإلشغال والتحصيل
-          </td>
-          <td>{{ formatCurrency(data.deduction_losses) }}</td>
-        </tr>
-        <tr>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            إجمالي الدخل الفعلي
-          </td>
-          <td>{{ formatCurrency(data.total_actual_income) }}</td>
-        </tr>
-        <tr>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            ناقصا النفقات التشغيلية والرأسمالية
-          </td>
-          <td>{{ formatCurrency(data.m_operating_c_expenditures) }}</td>
-        </tr>
-        <tr>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            صافي الدخل التشغيلي
-          </td>
-          <td>{{ formatCurrency(data.net_operating_income) }}</td>
-        </tr>
-        <tr>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            معدل الرسملة عامل شراء السنوات
-          </td>
-          <td>{{ addPercentage(data.capitalization_rate) }}</td>
-        </tr>
-        <tr>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            القيمة السوقية باستخدام طريقة رسملة الدخل
-          </td>
-          <td>{{ formatCurrency(data.market_v_income_c_method) }}</td>
-        </tr>
-      </tbody>
-    </table>
-    <!--طريقة التكلفة-->
-    <div
-      class="html2pdf__page-break"
-      :data-number="['4','من',totalPages].join(' ')"
-    />
-    <table class="first">
-      <thead :style="styleData">
-        <tr>
-          <th colspan="6">
-            <div class="header ">
-              <div class="header-text">
-                طريقة التكلفة
-              </div>
-              <div class="header-icon">
-                <v-icon>
-                  far fa-file-pdf
-                </v-icon>
-              </div>
-            </div>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            تقييم الأرض والمباني
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <table
-      style="width:60%;float:right;"
-    >
-      <tbody class="has-fields">
-        <tr>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            البيان
-          </td>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            المساحه
-          </td>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            سعر المتر
-          </td>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            المجموع
-          </td>
-        </tr>
-        <tr
-          v-for="(b,index) in data.transactions_buildings"
-          :key="index"
-        >
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            {{ b.building_type }}
-          </td>
-          <td>{{ b.space }}</td>
-          <td>{{ formatCurrency(b.price) }}</td>
-          <td>{{ formatCurrency(b.total) }}</td>
-        </tr>
-        <tr>
-          <td />
-          <td
-            class="field small"
-            :style="styleSubData"
-          >
-            اجمالي المساحات
-            <br>
-            (باستثناء الأرض والاسوار)
-          </td>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            متوسط سعر المتر
-          </td>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            الإجمالي
-          </td>
-        </tr>
-        <tr>
-          <td />
-          <td>{{ cm_space_total }}</td>
-          <td>{{ cm_space_price_average }}</td>
-          <td>{{ formatCurrency(data.cm_method_total) }}</td>
-        </tr>
-      </tbody>
-    </table>
-    <table
-      class=""
-      style="width:40%;"
-    >
-      <tbody>
-        <tr>
-          <td />
-          <td>القيمة</td>
-          <td>ملاحظات</td>
-        </tr>
-        <tr>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            قيمة الاستبدال
-          </td>
-          <td>{{ formatCurrency(data.cm_exchange_value) }}</td>
-          <td>{{ data.cm_exchange_note || '' }}</td>
-        </tr>
-        <tr>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            التكاليف المباشرة
-          </td>
-          <td>{{ formatCurrency(data.cm_direct_costs) }}</td>
-          <td>{{ data.cm_direct_costs_note || '' }}</td>
-        </tr>
-        <tr>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            التكاليف غير المباشرة
-          </td>
-          <td>{{ formatCurrency(data.cm_indirect_costs) }}</td>
-          <td>{{ data.cm_indirect_costs_note || '' }}</td>
-        </tr>
-      </tbody>
-    </table>
-    <table>
-      <!-- <thead :style="styleData">
+            <td
+              class="field"
+              :style="styleSubData"
+            >
+              {{ b.building_type }}
+            </td>
+            <td>{{ b.space }}</td>
+            <td>{{ formatCurrency(b.price) }}</td>
+            <td>{{ formatCurrency(b.total) }}</td>
+          </tr>
+          <tr>
+            <td />
+            <td
+              class="field small"
+              :style="styleSubData"
+            >
+              اجمالي المساحات
+              <br>
+              (باستثناء الأرض والاسوار)
+            </td>
+            <td
+              class="field"
+              :style="styleSubData"
+            >
+              متوسط سعر المتر
+            </td>
+            <td
+              class="field"
+              :style="styleSubData"
+            >
+              الإجمالي
+            </td>
+          </tr>
+          <tr>
+            <td />
+            <td>{{ cm_space_total }}</td>
+            <td>{{ cm_space_price_average }}</td>
+            <td>{{ formatCurrency(data.cm_method_total) }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <table
+        class=""
+        style="width:40%;"
+      >
+        <tbody>
+          <tr>
+            <td />
+            <td>القيمة</td>
+            <td>ملاحظات</td>
+          </tr>
+          <tr>
+            <td
+              class="field"
+              :style="styleSubData"
+            >
+              قيمة الاستبدال
+            </td>
+            <td>{{ formatCurrency(data.cm_exchange_value) }}</td>
+            <td>{{ data.cm_exchange_note || '' }}</td>
+          </tr>
+          <tr>
+            <td
+              class="field"
+              :style="styleSubData"
+            >
+              التكاليف المباشرة
+            </td>
+            <td>{{ formatCurrency(data.cm_direct_costs) }}</td>
+            <td>{{ data.cm_direct_costs_note || '' }}</td>
+          </tr>
+          <tr>
+            <td
+              class="field"
+              :style="styleSubData"
+            >
+              التكاليف غير المباشرة
+            </td>
+            <td>{{ formatCurrency(data.cm_indirect_costs) }}</td>
+            <td>{{ data.cm_indirect_costs_note || '' }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <table>
+        <!-- <thead :style="styleData">
         <tr>
           <th colspan="6">
             <div class="header ">
@@ -2327,8 +2308,8 @@
           </th>
         </tr>
       </thead> -->
-      <tbody class="has-fields">
-        <!-- <tr>
+        <tbody class="has-fields">
+          <!-- <tr>
           <td
             class="field"
             :style="styleSubData"
@@ -2358,108 +2339,108 @@
           <td>{{ formatCurrency(data.cm_indirect_costs) }}</td>
           <td>{{ data.cm_indirect_costs_note || '' }}</td>
         </tr> -->
-        <tr>
-          <td colspan="3">
-            ناقصا الإهلاك
-          </td>
-        </tr>
-        <tr>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            1-التدهور المادي
-          </td>
-          <td>{{ addPercentage(data.cm_physical_deterioration_ratio) }}</td>
-          <td>{{ formatCurrency(data.cm_physical_deterioration_value) }}</td>
-        </tr>
-        <tr>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            2-التقادم الوظيفي
-          </td>
-          <td>{{ addPercentage(data.cm_occupational_limitations_ratio) }}</td>
-          <td>{{ formatCurrency(data.cm_occupational_limitations_value) }}</td>
-        </tr>
-        <tr>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            3-التقادم االقتصادي
-          </td>
-          <td>{{ addPercentage(data.cm_economic_obsolescence_ratio) }}</td>
-          <td>{{ formatCurrency(data.cm_economic_obsolescence_value) }}</td>
-        </tr>
-        <tr>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            إحمالي الإهلاك (1+2+3)
-          </td>
-          <td>{{ addPercentage(data.cm_total_depreciation_ratio) }}</td>
-          <td>{{ formatCurrency(data.cm_total_depreciation_value) }}</td>
-        </tr>
-        <tr>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            القيمة المهلكة للمباني
-          </td>
-          <td>{{ addPercentage(data.cm_depreciation_buildings_ratio) }}</td>
-          <td>{{ formatCurrency(data.cm_depreciation_buildings_value) }}</td>
-        </tr>
-        <tr>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            القيمة المهلكة ألعمال الموقع
-          </td>
-          <td>{{ addPercentage(data.cm_depreciation_s_business_ratio) }}</td>
-          <td>{{ formatCurrency(data.cm_depreciation_s_business_value) }}</td>
-        </tr>
-        <tr>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            قيمة الأرض
-          </td>
-          <td />
-          <td />
-        </tr>
-        <tr style="visibility: collapse">
-          <td>القيمة المهلكة ألعمال الموقع</td><td />
-        </tr>
-        <tr>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            أرباح المطور
-          </td>
-          <td>{{ addPercentage(data.cm_developer_earnings_ratio) }}</td>
-          <td>{{ formatCurrency(data.cm_developer_earnings_value) }}</td>
-        </tr>
-        <tr>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            القيمة السوقية بأسلوب التكلفة
-          </td>
-          <td colspan="2">
-            {{ formatCurrency(data.cm_total_market_value) }}
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <!-- <div class="html2pdf__page-break" />
+          <tr>
+            <td colspan="3">
+              ناقصا الإهلاك
+            </td>
+          </tr>
+          <tr>
+            <td
+              class="field"
+              :style="styleSubData"
+            >
+              1-التدهور المادي
+            </td>
+            <td>{{ addPercentage(data.cm_physical_deterioration_ratio) }}</td>
+            <td>{{ formatCurrency(data.cm_physical_deterioration_value) }}</td>
+          </tr>
+          <tr>
+            <td
+              class="field"
+              :style="styleSubData"
+            >
+              2-التقادم الوظيفي
+            </td>
+            <td>{{ addPercentage(data.cm_occupational_limitations_ratio) }}</td>
+            <td>{{ formatCurrency(data.cm_occupational_limitations_value) }}</td>
+          </tr>
+          <tr>
+            <td
+              class="field"
+              :style="styleSubData"
+            >
+              3-التقادم االقتصادي
+            </td>
+            <td>{{ addPercentage(data.cm_economic_obsolescence_ratio) }}</td>
+            <td>{{ formatCurrency(data.cm_economic_obsolescence_value) }}</td>
+          </tr>
+          <tr>
+            <td
+              class="field"
+              :style="styleSubData"
+            >
+              إحمالي الإهلاك (1+2+3)
+            </td>
+            <td>{{ addPercentage(data.cm_total_depreciation_ratio) }}</td>
+            <td>{{ formatCurrency(data.cm_total_depreciation_value) }}</td>
+          </tr>
+          <tr>
+            <td
+              class="field"
+              :style="styleSubData"
+            >
+              القيمة المهلكة للمباني
+            </td>
+            <td>{{ addPercentage(data.cm_depreciation_buildings_ratio) }}</td>
+            <td>{{ formatCurrency(data.cm_depreciation_buildings_value) }}</td>
+          </tr>
+          <tr>
+            <td
+              class="field"
+              :style="styleSubData"
+            >
+              القيمة المهلكة ألعمال الموقع
+            </td>
+            <td>{{ addPercentage(data.cm_depreciation_s_business_ratio) }}</td>
+            <td>{{ formatCurrency(data.cm_depreciation_s_business_value) }}</td>
+          </tr>
+          <tr>
+            <td
+              class="field"
+              :style="styleSubData"
+            >
+              قيمة الأرض
+            </td>
+            <td />
+            <td />
+          </tr>
+          <tr style="visibility: collapse">
+            <td>القيمة المهلكة ألعمال الموقع</td><td />
+          </tr>
+          <tr>
+            <td
+              class="field"
+              :style="styleSubData"
+            >
+              أرباح المطور
+            </td>
+            <td>{{ addPercentage(data.cm_developer_earnings_ratio) }}</td>
+            <td>{{ formatCurrency(data.cm_developer_earnings_value) }}</td>
+          </tr>
+          <tr>
+            <td
+              class="field"
+              :style="styleSubData"
+            >
+              القيمة السوقية بأسلوب التكلفة
+            </td>
+            <td colspan="2">
+              {{ formatCurrency(data.cm_total_market_value) }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- <div class="html2pdf__page-break" />
     <table class="first">
       <tbody class="has-fields">
         <tr style="visibility: collapse">
@@ -2488,58 +2469,67 @@
         </tr>
       </tbody>
     </table> -->
-    <!--الترجيح-->
-    <table>
-      <tbody class="has-fields">
-        <tr>
-          <td class="thead">
-            الترجيح
-          </td>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            القيمة السوقية بطريقة البيوع المقارنة
-          </td>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            القيمة السوقية بطريقة رسملة الدخل
-          </td>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            القيمة السوقية بطريقة التكلفة
-          </td>
-        </tr>
-        <tr>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            األوزان النسبية للطرق المستخدمة %
-          </td>
-          <td>{{ addPercentage(data.weights_market_value_relative_weights_roads_used) }}</td>
-          <td>{{ addPercentage(data.weights_market_value_income_capitalization) }}</td>
-          <td>{{ addPercentage(data.weights_market_value_cost) }}</td>
-        </tr>
-        <tr>
-          <td
-            class="field"
-            :style="styleSubData"
-          >
-            مساهمة الطرق المستخدمة حسب الوزن النسبي
-          </td>
-          <td>{{ formatCurrency(data.relative_market_value_relative_weights_roads_used) }}</td>
-          <td>{{ formatCurrency(data.relative_market_value_income_capitalization) }}</td>
-          <td>{{ formatCurrency(data.relative_market_value_cost) }}</td>
-        </tr>
-      </tbody>
-    </table>
-    <!--القيمة السوقية بعد الترجيح-->
-    <table>
+      <!--الترجيح-->
+      <table>
+        <tbody class="has-fields">
+          <tr>
+            <td class="thead">
+              الترجيح
+            </td>
+            <td
+              class="field"
+              :style="styleSubData"
+            >
+              القيمة السوقية بطريقة البيوع المقارنة
+            </td>
+            <td
+              class="field"
+              :style="styleSubData"
+            >
+              القيمة السوقية بطريقة رسملة الدخل
+            </td>
+            <td
+              class="field"
+              :style="styleSubData"
+            >
+              القيمة السوقية بطريقة التكلفة
+            </td>
+          </tr>
+          <tr>
+            <td
+              class="field"
+              :style="styleSubData"
+            >
+              األوزان النسبية للطرق المستخدمة %
+            </td>
+            <td>{{ addPercentage(data.weights_market_value_relative_weights_roads_used) }}</td>
+            <td>{{ addPercentage(data.weights_market_value_income_capitalization) }}</td>
+            <td>{{ addPercentage(data.weights_market_value_cost) }}</td>
+          </tr>
+          <tr>
+            <td
+              class="field"
+              :style="styleSubData"
+            >
+              مساهمة الطرق المستخدمة حسب الوزن النسبي
+            </td>
+            <td>{{ formatCurrency(data.relative_market_value_relative_weights_roads_used) }}</td>
+            <td>{{ formatCurrency(data.relative_market_value_income_capitalization) }}</td>
+            <td>{{ formatCurrency(data.relative_market_value_cost) }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <!--القيمة السوقية بعد الترجيح-->
+    </div>
+    <!--المشاركون في إعداد التقرير-->
+    <div
+      :class="{'html2pdf__page-break': getMethods !== 'TwoNThree' && getMethods !== 'OneNTwo' && getMethods !== 'Two'}"
+      :data-number="['5','من',totalPages].join(' ')"
+    />
+    <table
+      v-if="getMethods === 'All'"
+      class="first"
+    >
       <thead :style="styleData">
         <tr>
           <th colspan="6">
@@ -2567,12 +2557,7 @@
         </tr>
       </tbody>
     </table>
-    <!--المشاركون في إعداد التقرير-->
-    <div
-      class="html2pdf__page-break"
-      :data-number="['5','من',totalPages].join(' ')"
-    />
-    <table class="first">
+    <table :class="{'first' : getMethods !== 'All' && getMethods !== 'TwoNThree' && getMethods !== 'OneNTwo' && getMethods !== 'Two'}">
       <thead :style="styleData">
         <tr>
           <th colspan="6">
@@ -2834,7 +2819,7 @@
             >
               <GmapMarker
                 :position="{lat: +data.latitude || 22, lng: +data.longitude || 22}"
-                :icon="{ url: require('../../../assets/marker-red.png'),size: {width: 60, height: 90, f: 'px', b: 'px',},
+                :icon="{ url: require('@/assets/marker-red.png'),size: {width: 60, height: 90, f: 'px', b: 'px',},
                          scaledSize: {width: 30, height: 30, f: 'px', b: 'px',},}"
               />
             </gmap-map>
@@ -2852,7 +2837,7 @@
           <td>
             <img
               :src="data.attached_file.original_url"
-              style="min-height:250px;height:250px;bject-fit:cover;"
+              style="min-height:250px;height:250px;bject-fit:cover;width:100%;"
             >
           </td>
         </tr>
@@ -2888,17 +2873,17 @@
             >
               <GmapMarker
                 :position="{lat: +data.cm_latitude || 22, lng: +data.cm_longitude || 22}"
-                :icon="{ url: require('../../../assets/marker-red.png'),size: {width: 60, height: 90, f: 'px', b: 'px',},
+                :icon="{ url: require('@/assets/marker-red.png'),size: {width: 60, height: 90, f: 'px', b: 'px',},
                          scaledSize: {width: 30, height: 30, f: 'px', b: 'px',},}"
               />
               <GmapMarker
                 :position="{lat: +data.cm_latitude_2 || 23, lng: +data.cm_longitude_2 || 23}"
-                :icon="{ url: require('../../../assets/marker-blue.png'),size: {width: 60, height: 90, f: 'px', b: 'px',},
+                :icon="{ url: require('@/assets/marker-blue.png'),size: {width: 60, height: 90, f: 'px', b: 'px',},
                          scaledSize: {width: 30, height: 30, f: 'px', b: 'px',},}"
               />
               <GmapMarker
                 :position="{lat: +data.cm_latitude_3 || 23, lng: +data.cm_longitude_3 || 24}"
-                :icon="{ url: require('../../../assets/marker-yellow.png'),size: {width: 60, height: 90, f: 'px', b: 'px',},
+                :icon="{ url: require('@/assets/marker-yellow.png'),size: {width: 60, height: 90, f: 'px', b: 'px',},
                          scaledSize: {width: 30, height: 30, f: 'px', b: 'px',},}"
               />
             </gmap-map>
@@ -3242,9 +3227,20 @@
 </template>
 <script>
   // import defaultValues from './defaultValuesForPdf.js'
+  // import { pdfMixin } from '../../../../mixins/pdfMixin.js'
+  import OneNTwo from './Methods/Multi/OneNTwo.vue'
+  import OneNThree from './Methods/Multi/OneNThree.vue'
+  import TwoNThree from './Methods/Multi/TwoNThree.vue'
 
-  export default {
+  import One from './Methods/Single/One.vue'
+  import Two from './Methods/Single/Two.vue'
+  import Three from './Methods/Single/Three.vue'
+
+  export default ({
     name: 'PdfContent',
+    // components: {},
+    components: { OneNTwo, TwoNThree, OneNThree, One, Two, Three },
+    // mixins: [pdfMixin],
     props: {
       data: {
         type: Object,
@@ -3269,6 +3265,34 @@
           'border-color': this.data.customer.cs_subdata_frame_color,
         })
       },
+      getMethods () {
+        if (Array.isArray(this.data.evaluation_criteria) && this.data.evaluation_criteria.length !== 0) {
+          if (this.data.evaluation_criteria.length === 3) {
+            return 'All'
+          } else if (this.data.evaluation_criteria.length === 2) {
+            if (this.data.evaluation_criteria.includes(3) && this.data.evaluation_criteria.includes(2)) {
+              return 'TwoNThree'
+            } else if (this.data.evaluation_criteria.includes(1) && this.data.evaluation_criteria.includes(2)) {
+              return 'OneNTwo'
+            } else if (this.data.evaluation_criteria.includes(1) && this.data.evaluation_criteria.includes(3)) {
+              return 'OneNThree'
+            }
+          } else if (this.data.evaluation_criteria.length === 1) {
+            if (this.data.evaluation_criteria.includes(1)) {
+              return 'One'
+            } else if (this.data.evaluation_criteria.includes(2)) {
+              return 'Two'
+            } else if (this.data.evaluation_criteria.includes(3)) {
+              return 'Three'
+            }
+          }
+        }
+
+        return 'None'
+      },
+      /**
+       * ! TODO: replace it with proper keys from the database
+       *  */
       cm_space_total () {
         let totalSpace = 0
 
@@ -3337,7 +3361,7 @@
         }
       },
     },
-  }
+  })
 </script>
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2&display=swap');
