@@ -100,6 +100,9 @@
         cols="12"
       >
         <v-tabs-items v-model="tab">
+          <div class="select-samples-button-container">
+            <select-sample />
+          </div>
           <v-tab-item eager>
             <myTreatment
               :type="4"
@@ -185,10 +188,12 @@
 <script>
   import myTreatment from '../dashboard/Treatment/Treatments.vue'
   import PieChart from '../../components/PieChart.vue'
+  import SelectSample from './Treatment/SelectSample.vue'
   // import BarChart from '../../components/BarChart.vue'
   export default {
     name: 'Dashboard',
     components: {
+      SelectSample,
       PieChart,
       // BarChart,
       myTreatment,
@@ -225,6 +230,21 @@
   h1{
     font-weight: 300;
   }
+  .select-samples-button-container {
+    background-color: #ffff;
+    z-index: 100;
+  }
+  .select-samples-button {
+    // place-self: flex-end;
+    float: left;
+    z-index: 100;
+  }
+
+  .v-item-group .v-window-item .form-container.v-card {
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+
   .my_transactions_total {
     display: inline-block;
     color: #fff;

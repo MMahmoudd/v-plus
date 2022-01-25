@@ -147,7 +147,7 @@
                 <br>
                 <img
                   width="50"
-                  :src="data.cs_logo"
+                  :src="data.cs_logo.startsWith('http') ? data.cs_lgo : `https://devproject.millennium.sa/${data.cs_logo}`"
                   alt="Image"
                 >
               </v-col>
@@ -499,7 +499,7 @@
             <h3
               class="mx-7 my-5 blue1"
             >
-              تثبيت التوقيع في التقرير
+              تثبيت المستخدم في التقرير
             </h3>
             <v-row class="mx-lg-8 px-lg-8">
               <v-col
@@ -541,7 +541,7 @@
                     sm="6"
                     md="4"
                   >
-                    <label>الاسم الذي سيظهر في التوقيع</label>
+                    <label>المستخدم الذي سيظهر في التقرير</label>
                     <v-select
                       v-model="data.input_stage_name_show"
                       :items="ListUsers"
@@ -834,7 +834,6 @@
     <v-snackbar
       v-model="successSnackbar"
       color="success"
-      shaped
       bottom
       left
       :timeout="timeout"
@@ -844,7 +843,6 @@
     <v-snackbar
       v-model="errorSnackbar"
       color="red"
-      shaped
       bottom
       left
       :timeout="timeout"
@@ -941,8 +939,8 @@
       this.permissions = this.can('العملاء')
     },
     methods: {
-      onCs_logo (event) {
-        this.cs_logo = event
+      onCs_logo (file) {
+        this.data.cs_logo = file
       },
       addNewPricing () {
         this.data.pricing.push({
@@ -991,6 +989,7 @@
         } else {
           this.newItem(formData)
         }
+        // this.loading = false
       },
       async newItem (data) {
         const item = await CustomersService.addUser(data)
@@ -1016,7 +1015,7 @@
             this.$router.push('/customers')
           }, 1500)
         } else {
-          this.errorMessage('يوجد مشكلة في التعديل')
+          this.errorMessage = 'يوجد مشكلة في التعديل'
           this.errorSnackbar = true
         }
         this.disabled = false
@@ -1035,7 +1034,7 @@
             this.data[key] = user.data[key]
           }
         }
-        console.log('user :>> ', user.data)
+        // console.log('user :>> ', user.data)
         // this.data = user.data
         this.dataLoading = false
       },
@@ -1077,8 +1076,8 @@
       },
       async getUsers () {
         this.loading = true
-        const { data } = await UsersService.getAllItems()
-        this.ListUsers = data.data
+        const { data: { data } } = await UsersService.getAllItems()
+        this.ListUsers = Object.freeze([{ name: 'المستخدم الفعلي', id: null }, ...data])
         this.loading = false
       },
       async getReports () {

@@ -394,7 +394,7 @@
       async updateStatus (item) {
         item.is_loading = true
         // setTimeout(() => {
-        await LinksServices.updateOneItem(item.id, { name: item.name, link: item.link, is_active: item.is_active === 1 ? 2 : 1 })
+        await LinksServices.updateOneItem(item.id, { name: item.name, link: item.link, is_active: item.is_active === 1 ? 0 : 1 })
         item.is_active = item.is_active === 1 ? 0 : 1
         this.successSnackbar = true
         this.successMessage = `تم تغيير حالة "${item.name}" إلى <strong>${item.is_active === true ? 'إظهار' : 'إخفاء'}</strong>`

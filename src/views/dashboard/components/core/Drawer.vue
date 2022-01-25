@@ -142,31 +142,32 @@
           ],
         },
         {
-          title: 'روابط هامة (قريبا)',
+          title: 'روابط هامة',
           icon: 'fa-link',
           role: true,
-          children: [
-            {
-              title: 'رابط 1 (قريبا)',
-              // to: '/customers',
-              role: true,
-            },
-            {
-              title: 'رابط 2 (قريبا)',
-              // to: '/price-offers',
-              role: true,
-            },
-            {
-              title: 'رابط 3 (قريبا)',
-              // to: '/Bills',
-              role: true,
-            },
-            {
-              title: 'رابط 4 (قريبا)',
-              // to: '/expenses',
-              role: true,
-            },
-          ],
+          to: '/links',
+          // children: [
+          //   {
+          //     title: 'رابط 1 (قريبا)',
+          //     // to: '/customers',
+          //     role: true,
+          //   },
+          //   {
+          //     title: 'رابط 2 (قريبا)',
+          //     // to: '/price-offers',
+          //     role: true,
+          //   },
+          //   {
+          //     title: 'رابط 3 (قريبا)',
+          //     // to: '/Bills',
+          //     role: true,
+          //   },
+          //   {
+          //     title: 'رابط 4 (قريبا)',
+          //     // to: '/expenses',
+          //     role: true,
+          //   },
+          // ],
         },
         {
           title: 'دليل الاستخدام (قريبا)',

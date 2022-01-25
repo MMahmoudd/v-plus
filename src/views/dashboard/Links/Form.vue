@@ -7,7 +7,7 @@
     <v-card>
       <v-card-title class="text-right link-form-title">
         <h3 class="card-title">
-          {{ id ? 'تحديث' : 'إضافة' }}
+          {{ type === 'edit' ? 'تحديث' : 'إضافة' }}
         </h3>
         <v-btn
           text

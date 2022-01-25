@@ -2915,16 +2915,21 @@
         </tr>
       </thead>
       <tbody class="images">
-        <img
+        <div
           v-for="(img, index) in data.images"
           :key="index"
-          :src="img.image"
-          width="352px"
-          height="240px"
+          style="width:352px;height:240px;"
           class="image-transaction"
-          crossorigin
-          style="object-fit:none;object-position: right bottom;"
         >
+          <img
+            :src="img.image"
+            width="352px"
+            height="240px"
+            crossorigin
+            style="object-fit:none;object-position: right bottom;"
+          >
+          <span class="image_date">{{ img.date }} hi</span>
+        </div>
       </tbody>
     </table>
 
@@ -3246,25 +3251,43 @@
         type: Object,
         default: () => ({}),
       },
+      styleData: {
+        type: Object,
+        required: false,
+        default: () => ({
+          'background-color': '#187F7B',
+          'border-color': '#ccc',
+          color: '#fff',
+        }),
+      },
+      styleSubData: {
+        type: Object,
+        required: false,
+        default: () => ({
+          'background-color': '#F3F5F5',
+          'border-color': '#ccc',
+          color: '#000',
+        }),
+      },
     },
     data: () => ({
       totalPages: 10,
     }),
     computed: {
-      styleData () {
-        return ({
-          'background-color': this.data.customer.cs_data_background_color,
-          color: this.data.customer.cs_data_fount_color,
-          'border-color': this.data.customer.cs_data_frame_color,
-        })
-      },
-      styleSubData () {
-        return ({
-          'background-color': this.data.customer.cs_subdata_background_color,
-          color: this.data.customer.cs_subdata_fount_color,
-          'border-color': this.data.customer.cs_subdata_frame_color,
-        })
-      },
+      // styleData () {
+      //   return ({
+      //     'background-color': this.data.customer.cs_data_background_color,
+      //     color: this.data.customer.cs_data_fount_color,
+      //     'border-color': this.data.customer.cs_data_frame_color,
+      //   })
+      // },
+      // styleSubData () {
+      //   return ({
+      //     'background-color': this.data.customer.cs_subdata_background_color,
+      //     color: this.data.customer.cs_subdata_fount_color,
+      //     'border-color': this.data.customer.cs_subdata_frame_color,
+      //   })
+      // },
       getMethods () {
         if (Array.isArray(this.data.evaluation_criteria) && this.data.evaluation_criteria.length !== 0) {
           if (this.data.evaluation_criteria.length === 3) {
@@ -3494,14 +3517,36 @@ table tbody.has-fields tr td.field {
 tbody.images {
   display: grid;
   grid-template-columns: 352px 352px;
-justify-content:space-between;
+  justify-content:space-between;
   grid-row-gap: 2px;
 }
+
 .image-transaction {
+  position: relative;
+}
+
+.image-transaction, .image-transaction img {
   width: 352px !important;
   height:240px !important;
   object-fit: contain;
 }
+
+.image_date {
+  display: inline-block;
+  width: 100px;
+  height: 50px;
+  line-height: 50px;
+  overflow: hidden;
+  text-align: center;
+  position: absolute;
+  z-index: 2;
+  left: 5px;
+  bottom: 5px;
+  color: #fff;
+  text-shadow: 1px 1px 1px #000;
+  font-size: 11px;
+}
+
 .html2pdf__page-break {
   direction: rtl;
   text-align: center;

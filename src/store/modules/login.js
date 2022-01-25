@@ -66,7 +66,7 @@ const Login = {
             localStorage.setItem('userPermissions', JSON.stringify(permissions))
             state.userToken = response.data.token
             // state.userDataPermission = response.data.userPolicy
-            dispatch('checkUserData')
+            // dispatch('checkUserData')
             window.location.href = process.env.BASE_URL
           } else {
             console.log('response', response)
