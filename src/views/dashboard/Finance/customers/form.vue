@@ -134,7 +134,8 @@
                   outlined
                   prepend-icon="mdi-camera"
                   accept="image/png, image/jpeg, image/bmp"
-                  @change="onCs_logo"
+                  @change="handleUploadLogo"
+                  @click:clear="handleClearLogo"
                 />
               </v-col>
               <v-col
@@ -527,12 +528,12 @@
                       <v-radio
                         label="اظهار"
                         color="blue"
-                        value="1"
+                        :value="1"
                       />
                       <v-radio
                         label="اخفاء"
                         color="red"
-                        value="2"
+                        :value="2"
                       />
                     </v-radio-group>
                   </v-col>
@@ -549,6 +550,7 @@
                       item-value="id"
                       outlined
                       required
+                      :disabled="data.input_stage_sign_show === 2"
                     />
                   </v-col>
                 </v-row>
@@ -578,12 +580,12 @@
                       <v-radio
                         label="اظهار"
                         color="blue"
-                        value="1"
+                        :value="1"
                       />
                       <v-radio
                         label="اخفاء"
                         color="red"
-                        value="2"
+                        :value="2"
                       />
                     </v-radio-group>
                   </v-col>
@@ -600,6 +602,7 @@
                       item-value="id"
                       outlined
                       required
+                      :disabled="data.evaluation_stage_sign_show === 2"
                     />
                   </v-col>
                 </v-row>
@@ -629,12 +632,12 @@
                       <v-radio
                         label="اظهار"
                         color="blue"
-                        value="1"
+                        :value="1"
                       />
                       <v-radio
                         label="اخفاء"
                         color="red"
-                        value="2"
+                        :value="2"
                       />
                     </v-radio-group>
                   </v-col>
@@ -651,6 +654,7 @@
                       item-value="id"
                       outlined
                       required
+                      :disabled="data.review_stage_sign_show === 2"
                     />
                   </v-col>
                 </v-row>
@@ -680,12 +684,12 @@
                       <v-radio
                         label="اظهار"
                         color="blue"
-                        value="1"
+                        :value="1"
                       />
                       <v-radio
                         label="اخفاء"
                         color="red"
-                        value="2"
+                        :value="2"
                       />
                     </v-radio-group>
                   </v-col>
@@ -702,6 +706,7 @@
                       item-value="id"
                       outlined
                       required
+                      :disabled="data.adoption_stage_sign_show === 2"
                     />
                   </v-col>
                 </v-row>
@@ -868,6 +873,7 @@
       permissions: {},
       dataLoading: false,
       valid: false,
+      newLogo: false,
       data: {
         cs_name: '',
         cs_phone: '',
@@ -888,10 +894,10 @@
         image_per_page: '',
         date_time_show: '',
         map_show: '',
-        input_stage_sign_show: '',
-        evaluation_stage_sign_show: '',
-        review_stage_sign_show: '',
-        adoption_stage_sign_show: '',
+        input_stage_sign_show: 1,
+        evaluation_stage_sign_show: 1,
+        review_stage_sign_show: 1,
+        adoption_stage_sign_show: 1,
         input_stage_name_show: '',
         evaluation_stage_name_show: '',
         review_stage_name_show: '',
@@ -939,8 +945,12 @@
       this.permissions = this.can('العملاء')
     },
     methods: {
-      onCs_logo (file) {
+      handleClearLogo () {
+        this.newLogo = false
+      },
+      handleUploadLogo (file) {
         this.data.cs_logo = file
+        this.newLogo = true
       },
       addNewPricing () {
         this.data.pricing.push({
@@ -976,6 +986,11 @@
         }
 
         buildFormData(formData, this.data)
+
+        // ? deleting cs_logo key if there is on image to upload
+        if (!this.newLogo) {
+          formData.delete('cs_logo')
+        }
         // for (const key in this.data) {
         //   if (Array.isArray(this.data[key])) {
         //     formData.append(key, JSON.stringify(this.data[key]))
@@ -1077,7 +1092,7 @@
       async getUsers () {
         this.loading = true
         const { data: { data } } = await UsersService.getAllItems()
-        this.ListUsers = Object.freeze([{ name: 'المستخدم الفعلي', id: null }, ...data])
+        this.ListUsers = Object.freeze([{ name: 'المستخدم الفعلي', id: -1 }, ...data])
         this.loading = false
       },
       async getReports () {
