@@ -63,4 +63,9 @@ export default {
         }
     })
     },
+    getPermissons (token) {
+        alert(token)
+        return Service.get(`${API_URL}/get-permissions-by-user`,
+         { headers: { Authorization: 'Bearer ' + token } })
+    },
 }

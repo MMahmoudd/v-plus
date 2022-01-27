@@ -134,7 +134,8 @@
                   outlined
                   prepend-icon="mdi-camera"
                   accept="image/png, image/jpeg, image/bmp"
-                  @change="onCs_logo"
+                  @change="handleUploadLogo"
+                  @click:clear="handleClearLogo"
                 />
               </v-col>
               <v-col
@@ -147,7 +148,7 @@
                 <br>
                 <img
                   width="50"
-                  :src="data.cs_logo"
+                  :src="data.cs_logo.startsWith('http') ? data.cs_lgo : `https://devproject.millennium.sa/${data.cs_logo}`"
                   alt="Image"
                 >
               </v-col>
@@ -499,7 +500,7 @@
             <h3
               class="mx-7 my-5 blue1"
             >
-              تثبيت التوقيع في التقرير
+              تثبيت المستخدم في التقرير
             </h3>
             <v-row class="mx-lg-8 px-lg-8">
               <v-col
@@ -527,12 +528,12 @@
                       <v-radio
                         label="اظهار"
                         color="blue"
-                        value="1"
+                        :value="1"
                       />
                       <v-radio
                         label="اخفاء"
                         color="red"
-                        value="2"
+                        :value="2"
                       />
                     </v-radio-group>
                   </v-col>
@@ -541,7 +542,7 @@
                     sm="6"
                     md="4"
                   >
-                    <label>الاسم الذي سيظهر في التوقيع</label>
+                    <label>المستخدم الذي سيظهر في التقرير</label>
                     <v-select
                       v-model="data.input_stage_name_show"
                       :items="ListUsers"
@@ -549,6 +550,7 @@
                       item-value="id"
                       outlined
                       required
+                      :disabled="data.input_stage_sign_show === 2"
                     />
                   </v-col>
                 </v-row>
@@ -578,12 +580,12 @@
                       <v-radio
                         label="اظهار"
                         color="blue"
-                        value="1"
+                        :value="1"
                       />
                       <v-radio
                         label="اخفاء"
                         color="red"
-                        value="2"
+                        :value="2"
                       />
                     </v-radio-group>
                   </v-col>
@@ -600,6 +602,7 @@
                       item-value="id"
                       outlined
                       required
+                      :disabled="data.evaluation_stage_sign_show === 2"
                     />
                   </v-col>
                 </v-row>
@@ -629,12 +632,12 @@
                       <v-radio
                         label="اظهار"
                         color="blue"
-                        value="1"
+                        :value="1"
                       />
                       <v-radio
                         label="اخفاء"
                         color="red"
-                        value="2"
+                        :value="2"
                       />
                     </v-radio-group>
                   </v-col>
@@ -651,6 +654,7 @@
                       item-value="id"
                       outlined
                       required
+                      :disabled="data.review_stage_sign_show === 2"
                     />
                   </v-col>
                 </v-row>
@@ -680,12 +684,12 @@
                       <v-radio
                         label="اظهار"
                         color="blue"
-                        value="1"
+                        :value="1"
                       />
                       <v-radio
                         label="اخفاء"
                         color="red"
-                        value="2"
+                        :value="2"
                       />
                     </v-radio-group>
                   </v-col>
@@ -702,6 +706,7 @@
                       item-value="id"
                       outlined
                       required
+                      :disabled="data.adoption_stage_sign_show === 2"
                     />
                   </v-col>
                 </v-row>
@@ -834,7 +839,6 @@
     <v-snackbar
       v-model="successSnackbar"
       color="success"
-      shaped
       bottom
       left
       :timeout="timeout"
@@ -844,7 +848,6 @@
     <v-snackbar
       v-model="errorSnackbar"
       color="red"
-      shaped
       bottom
       left
       :timeout="timeout"
@@ -870,6 +873,7 @@
       permissions: {},
       dataLoading: false,
       valid: false,
+      newLogo: false,
       data: {
         cs_name: '',
         cs_phone: '',
@@ -890,10 +894,10 @@
         image_per_page: '',
         date_time_show: '',
         map_show: '',
-        input_stage_sign_show: '',
-        evaluation_stage_sign_show: '',
-        review_stage_sign_show: '',
-        adoption_stage_sign_show: '',
+        input_stage_sign_show: 1,
+        evaluation_stage_sign_show: 1,
+        review_stage_sign_show: 1,
+        adoption_stage_sign_show: 1,
         input_stage_name_show: '',
         evaluation_stage_name_show: '',
         review_stage_name_show: '',
@@ -941,8 +945,12 @@
       this.permissions = this.can('العملاء')
     },
     methods: {
-      onCs_logo (event) {
-        this.cs_logo = event
+      handleClearLogo () {
+        this.newLogo = false
+      },
+      handleUploadLogo (file) {
+        this.data.cs_logo = file
+        this.newLogo = true
       },
       addNewPricing () {
         this.data.pricing.push({
@@ -978,6 +986,11 @@
         }
 
         buildFormData(formData, this.data)
+
+        // ? deleting cs_logo key if there is on image to upload
+        if (!this.newLogo) {
+          formData.delete('cs_logo')
+        }
         // for (const key in this.data) {
         //   if (Array.isArray(this.data[key])) {
         //     formData.append(key, JSON.stringify(this.data[key]))
@@ -991,6 +1004,7 @@
         } else {
           this.newItem(formData)
         }
+        // this.loading = false
       },
       async newItem (data) {
         const item = await CustomersService.addUser(data)
@@ -1016,7 +1030,7 @@
             this.$router.push('/customers')
           }, 1500)
         } else {
-          this.errorMessage('يوجد مشكلة في التعديل')
+          this.errorMessage = 'يوجد مشكلة في التعديل'
           this.errorSnackbar = true
         }
         this.disabled = false
@@ -1035,7 +1049,7 @@
             this.data[key] = user.data[key]
           }
         }
-        console.log('user :>> ', user.data)
+        // console.log('user :>> ', user.data)
         // this.data = user.data
         this.dataLoading = false
       },
@@ -1077,8 +1091,8 @@
       },
       async getUsers () {
         this.loading = true
-        const { data } = await UsersService.getAllItems()
-        this.ListUsers = data.data
+        const { data: { data } } = await UsersService.getAllItems()
+        this.ListUsers = Object.freeze([{ name: 'المستخدم الفعلي', id: -1 }, ...data])
         this.loading = false
       },
       async getReports () {

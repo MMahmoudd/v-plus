@@ -6,7 +6,7 @@
     <template v-slot:activator="{ on, attrs }">
       <v-btn
         x-large
-        class="ma-2"
+        class="ma-2 select-samples-button"
         color="blue"
         v-bind="attrs"
         v-on="on"

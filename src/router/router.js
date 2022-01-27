@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+// import { fetchPermisson } from '../Utils/permissons'
 
 Vue.use(Router)
 
@@ -35,6 +36,8 @@ Vue.use(Router)
 const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
+  // https://router.vuejs.org/guide/advanced/scroll-behavior.html
+  scrollBehavior: () => ({ y: 0 }),
   routes: [
     // Login
     {
@@ -671,8 +674,19 @@ const canActions = (modelName, action) => {
   }
 }
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   const token = localStorage.getItem('token')
+  // console.log('token', token ? ' : I have A TOKEN' : 'NO I DONT')
+  // fetching data here
+  // const data = await new Promise((resolve, reject) => { setTimeout(() => { resolve('hello') }, 2000) })
+
+  // console.log(data)
+  // if (token) {
+  //   // if (!from.name === 'Login') {
+  //     const x = await fetchPermisson(token)
+  //     console.log(x)
+  //   // }
+  // }
   /**
    * * is this router require a token ?
    */

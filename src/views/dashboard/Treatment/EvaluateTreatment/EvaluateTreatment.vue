@@ -6064,7 +6064,7 @@
                   اعادة الى المرحلة السابقة
                 </v-btn>
                 <v-btn
-                  v-if="data.status === 1 || data.status === 2 || data.status === 3 || data.status === 4 "
+                  v-if="data.status === 1 || data.status === 2 || data.status === 3 || data.status === 4 || data.status === 5"
                   x-large
                   class="ma-2"
                   color="blue"

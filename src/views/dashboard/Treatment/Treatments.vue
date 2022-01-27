@@ -123,7 +123,7 @@
                     </v-col>
                   </v-row>
                   <v-row class="mt-0">
-                    <div class="mr-3">
+                    <!-- <div class="mr-3">
                       <v-checkbox
                         v-model="data.filterBy['1']"
                         class="check-label"
@@ -132,7 +132,7 @@
                         value=""
                         hide-details
                       />
-                    </div>
+                    </div> -->
                     <div class="mr-3">
                       <v-checkbox
                         v-model="data.filterBy['2']"
@@ -147,14 +147,12 @@
                       <v-checkbox
                         v-model="data.filterBy['3']"
                         class="check-label"
-                        label="تاريخ التسليم"
+                        label="تاريخ التقييم"
                         color="success"
                         value=""
                         hide-details
                       />
                     </div>
-                  </v-row>
-                  <v-row>
                     <div class="mr-3">
                       <v-checkbox
                         v-model="data.filterBy['4']"
@@ -169,7 +167,7 @@
                       <v-checkbox
                         v-model="data.filterBy['5']"
                         class="check-label"
-                        label="طريقة الاستثمار رسملة الدخل"
+                        label="تاريخ المعاينة"
                         color="success"
                         value=""
                         hide-details
@@ -187,6 +185,21 @@
                     </div>
                   </v-row>
                   <v-row class="mt-10">
+                    <v-col
+                      cols="12"
+                      md="6"
+                    >
+                      <label class="d-block mb-3 font-weight-bold">المدخل</label>
+                      <v-select
+                        v-model="data.reviewer_id"
+                        :items="ReviewersList"
+                        item-text="name"
+                        item-value="id"
+                        label="المدخل"
+                        single-line
+                        outlined
+                      />
+                    </v-col>
                     <v-col
                       cols="12"
                       md="6"
@@ -213,6 +226,21 @@
                         item-text="name"
                         item-value="id"
                         label="المراجع"
+                        single-line
+                        outlined
+                      />
+                    </v-col>
+                    <v-col
+                      cols="12"
+                      md="6"
+                    >
+                      <label class="d-block mb-3 font-weight-bold">المعمد</label>
+                      <v-select
+                        v-model="data.reviewer_id"
+                        :items="ReviewersList"
+                        item-text="name"
+                        item-value="id"
+                        label="المعمد"
                         single-line
                         outlined
                       />
@@ -476,6 +504,8 @@
             <pdf-content
               slot="pdf-content"
               :data="pdfData"
+              :style-data="styleData"
+              :style-sub-data="styleSubData"
             />
           </vue-html2pdf>
           <custom-progress
@@ -505,6 +535,8 @@
             <pdf-content-another
               slot="pdf-content"
               :data="pdfData"
+              :style-data="styleData"
+              :style-sub-data="styleSubData"
             />
           </vue-html2pdf>
         </div>
@@ -724,7 +756,7 @@
   const UserSettingServices = ServiceFactory.get('UserSetting')
   const constructionConditionsService = ServiceFactory.get('constructionConditions')
   const WorkingStatusesServices = ServiceFactory.get('WorkingStatuses')
-  // const mergeImages = () => import('merge-images')
+
   export default {
     name: 'NewTreatment',
     components: {
@@ -763,9 +795,25 @@
         edit_price: {},
         create_transaction: {},
       },
+      /**
+       * ? pdf data
+       */
       pdfData: {
         ...defaultValuesForPdf,
       },
+      styleData: {
+        'background-color': '#187F7B',
+        'border-color': '#ccc',
+        color: '#fff',
+      },
+      styleSubData: {
+        'background-color': '#F3F5F5',
+        'border-color': '#ccc',
+        color: '#000',
+      },
+      /**
+       * ? component data
+      */
       data: {
         region_id: '',
         customer_id: '',
@@ -876,8 +924,8 @@
     watch: {
       options: {
         handler ({ page: oldPage }, { page: newPage }) {
-          console.log(oldPage)
-          console.log(newPage)
+          // console.log(oldPage)
+          // console.log(newPage)
           if (oldPage !== newPage) {
             this.fetchAllItems({ page: oldPage, type: this.type, status: this.status })
           }
@@ -953,12 +1001,17 @@
       },
       // pdf
       generateReport: async function (id) {
+        // ?
         function split (string) {
           if (!string) {
             return []
           } else {
             return string.split(';')
           }
+        }
+
+        function getRoleName (roles, type) {
+          return roles.find(role => +role.id === +type)?.role_name || ''
         }
         try {
           this.progressNumber = 0
@@ -987,7 +1040,18 @@
           pdfData.propTypeList = []
           pdfData.transConstructionList = []
           pdfData.customer.reportName = reportName
-
+          /**
+           * ? adding colors
+           */
+          // * styles for table's header
+          this.styleData['background-color'] = pdfData.customer.cs_data_background_color
+          this.styleData.color = pdfData.customer.cs_data_fount_color
+          this.styleData['border-color'] = pdfData.customer.cs_data_frame_color
+          // * styles for columns header
+          this.styleSubData['background-color'] = pdfData.customer.cs_subdata_background_color
+          this.styleSubData.color = pdfData.customer.cs_subdata_fount_color
+          this.styleSubData['border-color'] = pdfData.customer.cs_subdata_frame_color
+          //
           const { data: oneTransactionData } = await TransactionsServices.fetchOneItem(id)
           pdfData.conditioners = oneTransactionData.transactions_conditioners
           const buildings = [
@@ -1005,15 +1069,23 @@
           pdfData.assignment_letter_files = oneTransactionData.media.filter(i => i.collection_name === 'assignment_letter_file')
           pdfData.transactions_buildings = oneTransactionData.transactions_buildings || buildings
           /**
-           * ?
+           * ? images
            */
+          // * customer logo
+          const customerLogo = pdfData.customer.cs_logo
+          pdfData.customer.cs_logo = customerLogo.startsWith('http') ? customerLogo : `https://devproject.millennium.sa/${customerLogo}`
+
+          // * transaction images'
           let images = []
 
           images = oneTransactionData
         ?.images
         ?.filter(img => img.status === '1')
-        ?.map(img => ({ image: img.image_url, sort_number: img.sort_number })) || []
-
+        ?.map(img => ({
+           image: img.image_url,
+          sort_number: img.sort_number,
+          date: new Date(img.created_at).toLocaleString(),
+           })) || []
           // console.log(images)
           images.sort((a, b) => {
             if (a.sort_number > b.sort_number) {
@@ -1028,8 +1100,10 @@
           this.progressNumber = 50
           const defaultImage = facility?.logo
 
+          // ! REPLACE IT WITH POSITION ABSOLUTE
           const defaultImageAfterResize = await this.resizeImg(defaultImage, 100, 50)
           pdfData.images = await this.margeImg(images, defaultImageAfterResize)
+          // console.log(pdfData.images)
           /**
            * ? formating the water_meter_number & electric_meter_number to be an array
            */
@@ -1042,66 +1116,117 @@
           const members = []
           // fetch transaction
           const { data: roles } = await UserSettingServices.getAllItems()
-
+          // ! TODO
           if (oneTransactionData.participatingmembers) {
-            for (let index = 0; index < oneTransactionData.participatingmembers.length; index++) {
-              const userId = oneTransactionData.participatingmembers[index].user_id
-              const stage = oneTransactionData.participatingmembers[index].stage
-
+            const participatingMembersLength = oneTransactionData.participatingmembers.length
+            for (let index = 0; index < participatingMembersLength; index++) {
+              // const userId = oneTransactionData.participatingmembers[index].user_id
+              // const stage = oneTransactionData.participatingmembers[index].stage
+              const { user_id: userId, stage } = oneTransactionData.participatingmembers[index]
               const { data: { name, membership_no: number, user_type: type, otheruser } } = await UsersServices.fetchOneItem(userId)
               if (otheruser) {
                 const { name, membership_no: number, user_type: type } = otheruser
-                members.push({ name, number, type: roles.find(role => +role.id === +type)?.role_name, s: '', stage })
+                members.push({ name, number, type: getRoleName(roles, type), s: '', stage })
               } else {
-                members.push({ name, number, type: roles.find(role => +role.id === +type)?.role_name, s: '', stage })
+                members.push({ name, number, type: getRoleName(roles, type), s: '', stage })
               }
             }
           }
 
-          if (oneTransactionData.customer.input_stage_sign_show === 1) {
-            const userId = +oneTransactionData.customer.input_stage_name_show
-            const { data: { name, membership_no: number, user_type: type } } = await UsersServices.fetchOneItem(userId)
+          // eslint-disable-next-line no-inner-declarations
+          async function assignMembers (customer, stage) {
+            const stages = {
+              0: { sign: 'input_stage_sign_show', name: 'input_stage_name_show' },
+              1: { sign: 'evaluation_stage_sign_show', name: 'evaluation_stage_name_show' },
+              2: { sign: 'review_stage_sign_show', name: 'review_stage_name_show' },
+              3: { sign: 'adoption_stage_sign_show', name: 'adoption_stage_name_show' },
+            }
 
-            members.forEach((member, index) => {
-              if (member?.stage === '0') {
-                members[index] = { name, number, type: roles.find(role => +role.id === +type)?.role_name }
+            if (customer[stages[stage].sign] === 1) {
+              const userId = +customer[stages[stage].name]
+              if (userId !== -1) {
+                const { data: { name, membership_no: number, user_type: type } } = await UsersServices.fetchOneItem(userId)
+
+                const stageIndex = members.findIndex(member => member?.stage === stage)
+
+                if (stageIndex > -1) {
+                  members[stageIndex] = { name, number, type: getRoleName(roles, type) }
+                }
               }
-            })
+            } else {
+              const stageIndex = members.findIndex(member => member?.stage === stage)
+              if (stageIndex > -1) {
+                members.splice(stageIndex, 1)
+              }
+            }
           }
 
-          if (oneTransactionData.customer.evaluation_stage_sign_show === 1) {
-            const userId = +oneTransactionData.customer.evaluation_stage_name_show
-            const { data: { name, membership_no: number, user_type: type } } = await UsersServices.fetchOneItem(userId)
-            members.forEach((member, index) => {
-              if (member?.stage === '1') {
-                members[index] = { name, number, type: roles.find(role => +role.id === +type)?.role_name }
-              }
-            })
+          await assignMembers(oneTransactionData.customer, '0')
+          this.progressNumber = 55
+          await assignMembers(oneTransactionData.customer, '1')
+          this.progressNumber = 60
+          await assignMembers(oneTransactionData.customer, '2')
+          this.progressNumber = 65
+          await assignMembers(oneTransactionData.customer, '3')
 
-            // members.push({ name, number, type: roles.find(role => +role.id === +type)?.role_name, s: '' })
-          }
+          // if (oneTransactionData.customer.input_stage_sign_show === 1) {
+          //   const userId = +oneTransactionData.customer.input_stage_name_show
+          //   if (userId !== -1) {
+          //     const { data: { name, membership_no: number, user_type: type } } = await UsersServices.fetchOneItem(userId)
 
-          if (oneTransactionData.customer.review_stage_sign_show === 1) {
-            const userId = +oneTransactionData.customer.review_stage_name_show
-            const { data: { name, membership_no: number, user_type: type } } = await UsersServices.fetchOneItem(userId)
-            members.forEach((member, index) => {
-              if (member?.stage === '2') {
-                members[index] = { name, number, type: roles.find(role => +role.id === +type)?.role_name }
-              }
-            })
-            // members.push({ name, number, type: roles.find(role => +role.id === +type)?.role_name, s: '' })
-          }
+          //     const stageIndex = members.findIndex(member => member?.stage === '0')
 
-          if (oneTransactionData.customer.adoption_stage_sign_show === 1) {
-            const userId = +oneTransactionData.customer.adoption_stage_name_show
-            const { data: { name, membership_no: number, user_type: type } } = await UsersServices.fetchOneItem(userId)
-            members.forEach((member, index) => {
-              if (member?.stage === '3') {
-                members[index] = { name, number, type: roles.find(role => +role.id === +type)?.role_name }
-              }
-            })
-            // members.push({ name, number, type: roles.find(role => +role.id === +type)?.role_name, s: '' })
-          }
+          //     if (stageIndex > -1) {
+          //       members[stageIndex] = { name, number, type: getRoleName(roles, type) }
+          //     }
+
+          //     // members.forEach((member, index) => {
+          //     //   if (member?.stage === '0') {
+          //     //     members[index] = { name, number, type: getRoleName(roles, type) }
+          //     //   }
+          //     // })
+          //   }
+          // } else {
+          //   const stageIndex = members.findIndex(member => member?.stage === '0')
+          //   if (stageIndex > -1) {
+          //     members.splice(stageIndex, 1)
+          //   }
+          // }
+
+          // if (oneTransactionData.customer.evaluation_stage_sign_show === 1) {
+          //   const userId = +oneTransactionData.customer.evaluation_stage_name_show
+          //   const { data: { name, membership_no: number, user_type: type } } = await UsersServices.fetchOneItem(userId)
+          //   members.forEach((member, index) => {
+          //     if (member?.stage === '1') {
+          //       members[index] = { name, number, type: getRoleName(roles, type) }
+          //     }
+          //   })
+
+          //   // members.push({ name, number, type: roles.find(role => +role.id === +type)?.role_name, s: '' })
+          // }
+
+          // if (oneTransactionData.customer.review_stage_sign_show === 1) {
+          //   const userId = +oneTransactionData.customer.review_stage_name_show
+          //   const { data: { name, membership_no: number, user_type: type } } = await UsersServices.fetchOneItem(userId)
+          //   members.forEach((member, index) => {
+          //     if (member?.stage === '2') {
+          //       members[index] = { name, number, type: getRoleName(roles, type) }
+          //     }
+          //   })
+          //   // members.push({ name, number, type: roles.find(role => +role.id === +type)?.role_name, s: '' })
+          // }
+
+          // if (oneTransactionData.customer.adoption_stage_sign_show === 1) {
+          //   const userId = +oneTransactionData.customer.adoption_stage_name_show
+          //   const { data: { name, membership_no: number, user_type: type } } = await UsersServices.fetchOneItem(userId)
+          //   members.forEach((member, index) => {
+          //     if (member?.stage === '3') {
+          //       members[index] = { name, number, type: getRoleName(roles, type) }
+          //     }
+          //   })
+          //   // members.push({ name, number, type: roles.find(role => +role.id === +type)?.role_name, s: '' })
+          // }
+          // ! ADD PROGRESS NUMBER 60
           pdfData.members = members
           this.progressNumber = 70
 
@@ -1207,6 +1332,7 @@
         const resultImages = []
         for (let index = 0; index < images.length; index++) {
           resultImages.push({
+            date: images[index].date,
             image:
               await mergeImages([await this.resizeImg(images[index].image, 352, 240), defaultOptionsDefaultImage]
                                 , { crossOrigin: 'Anonymous' }),
