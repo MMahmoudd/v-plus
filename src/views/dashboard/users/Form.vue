@@ -100,8 +100,11 @@
                 md="4"
               >
                 <v-text-field
+                  id="membership_no"
                   v-model="data.membership_no"
                   label="رقم العضوية"
+                  :error="errors.membership_no"
+                  :error-messages="errors.membership_no"
                   outlined
                   required
                 />
@@ -120,8 +123,11 @@
                 >
                   <template v-slot:activator="{ on, attrs }">
                     <v-text-field
+                      id="end_membership"
                       v-model="data.end_membership"
                       label="نهاية العضوية"
+                      :error="errors.end_membership"
+                      :error-messages="errors.end_membership"
                       readonly
                       v-bind="attrs"
                       outlined
@@ -431,7 +437,6 @@
     <v-snackbar
       v-model="successSnackbar"
       color="success"
-      shaped
       bottom
       left
       :timeout="timeout"
@@ -441,7 +446,6 @@
     <v-snackbar
       v-model="errorSnackbar"
       color="red"
-      shaped
       bottom
       left
       :timeout="timeout"
@@ -497,6 +501,7 @@
       errorMessage: '',
       loading: false,
       disabled: false,
+      errors: {},
     }),
     created () {
       if (this.$route.params.id) {
@@ -516,6 +521,20 @@
         this.bank_statement_image = event
       },
       async submitForm () {
+        /**
+         * ? simple validtion
+         */
+        this.errors = {}
+        if (!this.data.membership_no) {
+          this.errors.membership_no = 'هذا الحقل مطلوب'
+        }
+        if (!this.data.end_membership) {
+          this.errors.end_membership = 'هذا الحقل مطلوب'
+        }
+        if (Object.keys(this.errors).length !== 0) {
+          this.$el.querySelector(`#${Object.keys(this.errors)[0]}`).scrollIntoView({ behavior: 'smooth', block: 'center' })
+          return
+        }
         this.loading = true
         this.disabled = true
         const formData = new FormData()
@@ -531,7 +550,7 @@
         this.data.bank_number && formData.append('bank_number', this.data.bank_number)
         this.data.bank_IBAN && formData.append('bank_IBAN', this.data.bank_IBAN)
         this.bank_statement_image && formData.append('bank_statement_image', this.bank_statement_image)
-        formData.append('other_user_id', this.data.other_user_id)
+        this.data.other_user_id && formData.append('other_user_id', this.data.other_user_id)
         formData.append('membership_no', this.data.membership_no)
         formData.append('end_membership', this.data.end_membership)
         this.data.commission_accreditation_stage_amount && formData.append('commission_accreditation_stage_amount', this.data.commission_accreditation_stage_amount)
@@ -573,7 +592,7 @@
             this.$router.push('/Users')
           }, 1500)
         } else {
-          this.errorMessage('يوجد مشكلة في التعديل')
+          this.errorMessage = 'يوجد مشكلة في التعديل'
           this.errorSnackbar = true
         }
         this.disabled = false

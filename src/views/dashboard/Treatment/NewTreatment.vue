@@ -3729,13 +3729,13 @@
           // const { data: addByData } = await UsersServices.fetchOneItem(data.add_by)
           const addByData = this.usersList.find(user => user.id === data.add_by)
           data.participatingmembers.push({
-            id_number: addByData.id_number === null ? '' : addByData.id_number,
+            id_number: addByData.membership_no === null ? '_' : addByData.membership_no,
             user_type: addByData.user_type,
             user_id: addByData.id,
             stage: '0',
           })
           data.participantscommissions.push({
-            id_number: addByData.id_number === null ? '' : addByData.id_number,
+            id_number: addByData.membership_no === null ? '_' : addByData.membership_no,
             user_type: addByData.user_type,
             user_id: addByData.id,
             amount: addByData.commission_input_stage_amount || '',
@@ -3748,13 +3748,13 @@
           // const { data: residentData } = await UsersServices.fetchOneItem(data.resident_id)
           const residentData = this.usersList.find(user => user.id === data.resident_id)
           data.participatingmembers.push({
-            id_number: residentData.id_number === null ? '' : residentData.id_number,
+            id_number: residentData.membership_no === null ? '_' : residentData.membership_no,
             user_type: residentData.user_type,
             user_id: residentData.id,
             stage: '1',
           })
           data.participantscommissions.push({
-            id_number: residentData.id_number === null ? '' : residentData.id_number,
+            id_number: residentData.membership_no === null ? '_' : residentData.membership_no,
             user_type: residentData.user_type,
             user_id: residentData.id,
             amount: residentData.commission_evaluation_stage_amount || '',
@@ -3767,13 +3767,13 @@
           // const { data: reviewerData } = await UsersServices.fetchOneItem(data.reviewer_id)
           const reviewerData = this.usersList.find(user => user.id === data.reviewer_id)
           data.participatingmembers.push({
-            id_number: reviewerData.id_number === null ? '' : reviewerData.id_number,
+            id_number: reviewerData.membership_no === null ? '_' : reviewerData.membership_no,
             user_type: reviewerData.user_type,
             user_id: reviewerData.id,
             stage: '2',
           })
           data.participantscommissions.push({
-            id_number: reviewerData.id_number === null ? '' : reviewerData.id_number,
+            id_number: reviewerData.membership_no === null ? '_' : reviewerData.membership_no,
             user_type: reviewerData.user_type,
             user_id: reviewerData.id,
             amount: reviewerData.commission_revision_stage_amount || '',
@@ -3786,13 +3786,13 @@
           // const { data: approvedData } = await UsersServices.fetchOneItem(data.approved_id)
           const approvedData = this.usersList.find(user => user.id === data.approved_id)
           data.participatingmembers.push({
-            id_number: approvedData.id_number === null ? '' : approvedData.id_number,
+            id_number: approvedData.membership_no === null ? '_' : approvedData.membership_no,
             user_type: approvedData.user_type,
             user_id: approvedData.id,
             stage: '3',
           })
           data.participantscommissions.push({
-            id_number: approvedData.id_number === null ? '' : approvedData.id_number,
+            id_number: approvedData.membership_no === null ? '_' : approvedData.membership_no,
             user_type: approvedData.user_type,
             user_id: approvedData.id,
             amount: approvedData.commission_accreditation_stage_amount || '',
@@ -3897,13 +3897,13 @@
         //   // const { data: addByData } = await UsersServices.fetchOneItem(data.add_by)
         //   const addByData = this.usersList.find(user => user.id === data.add_by)
         //   data.participatingmembers.push({
-        //     id_number: addByData.id_number === null ? '' : addByData.id_number,
+        //     id_number: addByData.membership_no === null ? '' : addByData.membership_no,
         //     user_type: addByData.user_type,
         //     user_id: addByData.id,
         //     stage: '0',
         //   })
         //   data.participantscommissions.push({
-        //     id_number: addByData.id_number === null ? '' : addByData.id_number,
+        //     id_number: addByData.membership_no === null ? '' : addByData.membership_no,
         //     user_type: addByData.user_type,
         //     user_id: addByData.id,
         //     amount: addByData.commission_input_stage_amount || '',
@@ -3916,13 +3916,13 @@
         //   // const { data: residentData } = await UsersServices.fetchOneItem(data.resident_id)
         //   const residentData = this.usersList.find(user => user.id === data.resident_id)
         //   data.participatingmembers.push({
-        //     id_number: residentData.id_number === null ? '' : residentData.id_number,
+        //     id_number: residentData.membership_no === null ? '' : residentData.membership_no,
         //     user_type: residentData.user_type,
         //     user_id: residentData.id,
         //     stage: '1',
         //   })
         //   data.participantscommissions.push({
-        //     id_number: residentData.id_number === null ? '' : residentData.id_number,
+        //     id_number: residentData.membership_no === null ? '' : residentData.membership_no,
         //     user_type: residentData.user_type,
         //     user_id: residentData.id,
         //     amount: residentData.commission_evaluation_stage_amount || '',
@@ -3935,13 +3935,13 @@
         //   // const { data: reviewerData } = await UsersServices.fetchOneItem(data.reviewer_id)
         //   const reviewerData = this.usersList.find(user => user.id === data.reviewer_id)
         //   data.participatingmembers.push({
-        //     id_number: reviewerData.id_number === null ? '' : reviewerData.id_number,
+        //     id_number: reviewerData.membership_no === null ? '' : reviewerData.membership_no,
         //     user_type: reviewerData.user_type,
         //     user_id: reviewerData.id,
         //     stage: '2',
         //   })
         //   data.participantscommissions.push({
-        //     id_number: reviewerData.id_number === null ? '' : reviewerData.id_number,
+        //     id_number: reviewerData.membership_no === null ? '' : reviewerData.membership_no,
         //     user_type: reviewerData.user_type,
         //     user_id: reviewerData.id,
         //     amount: reviewerData.commission_revision_stage_amount || '',
@@ -3954,13 +3954,13 @@
         //   // const { data: approvedData } = await UsersServices.fetchOneItem(data.approved_id)
         //   const approvedData = this.usersList.find(user => user.id === data.approved_id)
         //   data.participatingmembers.push({
-        //     id_number: approvedData.id_number === null ? '' : approvedData.id_number,
+        //     id_number: approvedData.membership_no === null ? '' : approvedData.membership_no,
         //     user_type: approvedData.user_type,
         //     user_id: approvedData.id,
         //     stage: '3',
         //   })
         //   data.participantscommissions.push({
-        //     id_number: approvedData.id_number === null ? '' : approvedData.id_number,
+        //     id_number: approvedData.membership_no === null ? '' : approvedData.membership_no,
         //     user_type: approvedData.user_type,
         //     user_id: approvedData.id,
         //     amount: approvedData.commission_accreditation_stage_amount || '',

@@ -1001,12 +1001,17 @@
       },
       // pdf
       generateReport: async function (id) {
+        // ?
         function split (string) {
           if (!string) {
             return []
           } else {
             return string.split(';')
           }
+        }
+
+        function getRoleName (roles, type) {
+          return roles.find(role => +role.id === +type)?.role_name || ''
         }
         try {
           this.progressNumber = 0
@@ -1095,9 +1100,10 @@
           this.progressNumber = 50
           const defaultImage = facility?.logo
 
+          // ! REPLACE IT WITH POSITION ABSOLUTE
           const defaultImageAfterResize = await this.resizeImg(defaultImage, 100, 50)
           pdfData.images = await this.margeImg(images, defaultImageAfterResize)
-          console.log(pdfData.images)
+          // console.log(pdfData.images)
           /**
            * ? formating the water_meter_number & electric_meter_number to be an array
            */
@@ -1110,66 +1116,117 @@
           const members = []
           // fetch transaction
           const { data: roles } = await UserSettingServices.getAllItems()
-
+          // ! TODO
           if (oneTransactionData.participatingmembers) {
-            for (let index = 0; index < oneTransactionData.participatingmembers.length; index++) {
-              const userId = oneTransactionData.participatingmembers[index].user_id
-              const stage = oneTransactionData.participatingmembers[index].stage
-
+            const participatingMembersLength = oneTransactionData.participatingmembers.length
+            for (let index = 0; index < participatingMembersLength; index++) {
+              // const userId = oneTransactionData.participatingmembers[index].user_id
+              // const stage = oneTransactionData.participatingmembers[index].stage
+              const { user_id: userId, stage } = oneTransactionData.participatingmembers[index]
               const { data: { name, membership_no: number, user_type: type, otheruser } } = await UsersServices.fetchOneItem(userId)
               if (otheruser) {
                 const { name, membership_no: number, user_type: type } = otheruser
-                members.push({ name, number, type: roles.find(role => +role.id === +type)?.role_name, s: '', stage })
+                members.push({ name, number, type: getRoleName(roles, type), s: '', stage })
               } else {
-                members.push({ name, number, type: roles.find(role => +role.id === +type)?.role_name, s: '', stage })
+                members.push({ name, number, type: getRoleName(roles, type), s: '', stage })
               }
             }
           }
 
-          if (oneTransactionData.customer.input_stage_sign_show === 1) {
-            const userId = +oneTransactionData.customer.input_stage_name_show
-            const { data: { name, membership_no: number, user_type: type } } = await UsersServices.fetchOneItem(userId)
+          // eslint-disable-next-line no-inner-declarations
+          async function assignMembers (customer, stage) {
+            const stages = {
+              0: { sign: 'input_stage_sign_show', name: 'input_stage_name_show' },
+              1: { sign: 'evaluation_stage_sign_show', name: 'evaluation_stage_name_show' },
+              2: { sign: 'review_stage_sign_show', name: 'review_stage_name_show' },
+              3: { sign: 'adoption_stage_sign_show', name: 'adoption_stage_name_show' },
+            }
 
-            members.forEach((member, index) => {
-              if (member?.stage === '0') {
-                members[index] = { name, number, type: roles.find(role => +role.id === +type)?.role_name }
+            if (customer[stages[stage].sign] === 1) {
+              const userId = +customer[stages[stage].name]
+              if (userId !== -1) {
+                const { data: { name, membership_no: number, user_type: type } } = await UsersServices.fetchOneItem(userId)
+
+                const stageIndex = members.findIndex(member => member?.stage === stage)
+
+                if (stageIndex > -1) {
+                  members[stageIndex] = { name, number, type: getRoleName(roles, type) }
+                }
               }
-            })
+            } else {
+              const stageIndex = members.findIndex(member => member?.stage === stage)
+              if (stageIndex > -1) {
+                members.splice(stageIndex, 1)
+              }
+            }
           }
 
-          if (oneTransactionData.customer.evaluation_stage_sign_show === 1) {
-            const userId = +oneTransactionData.customer.evaluation_stage_name_show
-            const { data: { name, membership_no: number, user_type: type } } = await UsersServices.fetchOneItem(userId)
-            members.forEach((member, index) => {
-              if (member?.stage === '1') {
-                members[index] = { name, number, type: roles.find(role => +role.id === +type)?.role_name }
-              }
-            })
+          await assignMembers(oneTransactionData.customer, '0')
+          this.progressNumber = 55
+          await assignMembers(oneTransactionData.customer, '1')
+          this.progressNumber = 60
+          await assignMembers(oneTransactionData.customer, '2')
+          this.progressNumber = 65
+          await assignMembers(oneTransactionData.customer, '3')
 
-            // members.push({ name, number, type: roles.find(role => +role.id === +type)?.role_name, s: '' })
-          }
+          // if (oneTransactionData.customer.input_stage_sign_show === 1) {
+          //   const userId = +oneTransactionData.customer.input_stage_name_show
+          //   if (userId !== -1) {
+          //     const { data: { name, membership_no: number, user_type: type } } = await UsersServices.fetchOneItem(userId)
 
-          if (oneTransactionData.customer.review_stage_sign_show === 1) {
-            const userId = +oneTransactionData.customer.review_stage_name_show
-            const { data: { name, membership_no: number, user_type: type } } = await UsersServices.fetchOneItem(userId)
-            members.forEach((member, index) => {
-              if (member?.stage === '2') {
-                members[index] = { name, number, type: roles.find(role => +role.id === +type)?.role_name }
-              }
-            })
-            // members.push({ name, number, type: roles.find(role => +role.id === +type)?.role_name, s: '' })
-          }
+          //     const stageIndex = members.findIndex(member => member?.stage === '0')
 
-          if (oneTransactionData.customer.adoption_stage_sign_show === 1) {
-            const userId = +oneTransactionData.customer.adoption_stage_name_show
-            const { data: { name, membership_no: number, user_type: type } } = await UsersServices.fetchOneItem(userId)
-            members.forEach((member, index) => {
-              if (member?.stage === '3') {
-                members[index] = { name, number, type: roles.find(role => +role.id === +type)?.role_name }
-              }
-            })
-            // members.push({ name, number, type: roles.find(role => +role.id === +type)?.role_name, s: '' })
-          }
+          //     if (stageIndex > -1) {
+          //       members[stageIndex] = { name, number, type: getRoleName(roles, type) }
+          //     }
+
+          //     // members.forEach((member, index) => {
+          //     //   if (member?.stage === '0') {
+          //     //     members[index] = { name, number, type: getRoleName(roles, type) }
+          //     //   }
+          //     // })
+          //   }
+          // } else {
+          //   const stageIndex = members.findIndex(member => member?.stage === '0')
+          //   if (stageIndex > -1) {
+          //     members.splice(stageIndex, 1)
+          //   }
+          // }
+
+          // if (oneTransactionData.customer.evaluation_stage_sign_show === 1) {
+          //   const userId = +oneTransactionData.customer.evaluation_stage_name_show
+          //   const { data: { name, membership_no: number, user_type: type } } = await UsersServices.fetchOneItem(userId)
+          //   members.forEach((member, index) => {
+          //     if (member?.stage === '1') {
+          //       members[index] = { name, number, type: getRoleName(roles, type) }
+          //     }
+          //   })
+
+          //   // members.push({ name, number, type: roles.find(role => +role.id === +type)?.role_name, s: '' })
+          // }
+
+          // if (oneTransactionData.customer.review_stage_sign_show === 1) {
+          //   const userId = +oneTransactionData.customer.review_stage_name_show
+          //   const { data: { name, membership_no: number, user_type: type } } = await UsersServices.fetchOneItem(userId)
+          //   members.forEach((member, index) => {
+          //     if (member?.stage === '2') {
+          //       members[index] = { name, number, type: getRoleName(roles, type) }
+          //     }
+          //   })
+          //   // members.push({ name, number, type: roles.find(role => +role.id === +type)?.role_name, s: '' })
+          // }
+
+          // if (oneTransactionData.customer.adoption_stage_sign_show === 1) {
+          //   const userId = +oneTransactionData.customer.adoption_stage_name_show
+          //   const { data: { name, membership_no: number, user_type: type } } = await UsersServices.fetchOneItem(userId)
+          //   members.forEach((member, index) => {
+          //     if (member?.stage === '3') {
+          //       members[index] = { name, number, type: getRoleName(roles, type) }
+          //     }
+          //   })
+          //   // members.push({ name, number, type: roles.find(role => +role.id === +type)?.role_name, s: '' })
+          // }
+          // ! ADD PROGRESS NUMBER 60
           pdfData.members = members
           this.progressNumber = 70
 
