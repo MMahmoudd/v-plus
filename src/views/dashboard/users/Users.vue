@@ -250,7 +250,7 @@
         const pageNumber = page - 1
         const items = await UsersService.getAllItems(itemsPerPage, page, pageNumber)
         console.log('Users', items)
-        items.data.data.map(item => {
+        items.data.data.forEach(item => {
           item.created_at = moment(item.created_at).format('YYYY-MM-DD hh:mm a')
           if (item.status === '1') {
             item.status = 'مفعل'

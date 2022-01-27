@@ -40,6 +40,8 @@ import streetSetting from './TreatmentSetting/street_setting'
 import structureConstructionSetting from './TreatmentSetting/structure_construction_setting'
 import LinksServices from './LinksServices'
 
+import usersReport from './Reports/UsersReport'
+
 const services = {
   Users: usersService,
   Customers: customersService,
@@ -99,6 +101,8 @@ const services = {
   structureConstructionSetting: structureConstructionSetting,
   // الواجهة الغربية
   westFacadeSetting: westFacadeSetting,
+  // تقرير المستخدمين
+  usersReport: usersReport,
 
 }
 

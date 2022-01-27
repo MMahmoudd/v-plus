@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// import axios from 'axios'
 
 Vue.use(Router)
 
@@ -612,6 +611,13 @@ const router = new Router({
           path: '/treatment-settings/structureConstructionSettingForm/:id?',
           component: () => import('@/views/dashboard/TreatmentSettings/structureConstructionSetting/Form.vue'),
           meta: { requiresAuth: true, permissions: 'تخصيص المعاملة', actions: true },
+        },
+        // Reports - users Reports
+        {
+          name: 'Users Report',
+          path: '/reports/users-report',
+          meta: { requiresAuth: true, permissions: 'تقرير المستخدمين' },
+          component: () => import('@/views/dashboard/Reports/users-report/List.vue'),
         },
         { path: '*', redirect: '/login' },
       ],

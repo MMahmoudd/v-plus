@@ -112,13 +112,14 @@
           permission: 'المستخدمين',
         },
         {
-          title: 'التقارير (قريبا)',
+          title: 'التقارير',
           icon: 'fa-book-open',
           role: true,
           children: [
             {
-              title: 'تفرير المستخدمين (قريبا)',
+              title: 'تفرير المستخدمين',
               permission: 'تقرير المستخدمين',
+              to: '/reports/users-report',
               role: true,
             },
             {
