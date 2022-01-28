@@ -41,6 +41,8 @@ import structureConstructionSetting from './TreatmentSetting/structure_construct
 import LinksServices from './LinksServices'
 
 import usersReport from './Reports/UsersReport'
+import expensesReport from './Reports/ExpensesReport'
+import revenuesReport from './Reports/RevenuesReport'
 
 const services = {
   Users: usersService,
@@ -103,7 +105,10 @@ const services = {
   westFacadeSetting: westFacadeSetting,
   // تقرير المستخدمين
   usersReport: usersReport,
-
+  // تقرير المصروفات
+  expensesReport: expensesReport,
+  // تقرير الإيرادات
+  revenuesReport: revenuesReport,
 }
 
 export const ServiceFactory = {

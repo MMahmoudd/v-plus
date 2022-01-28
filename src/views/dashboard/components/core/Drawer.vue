@@ -129,8 +129,8 @@
               role: true,
             },
             {
-              title: 'تقرير الايرادات (قريبا)',
-              // to: '/Bills',
+              title: 'تقرير الايرادات',
+              to: '/reports/revenues-report',
               role: true,
               permission: 'تقرير الإيرادات',
             },
