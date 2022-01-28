@@ -633,6 +633,11 @@ const router = new Router({
           path: '/reports/revenues-report/:id',
           meta: { requiresAuth: true, permissions: 'تقرير الإيرادات' },
           component: () => import('@/views/dashboard/Reports/revenues-report/ListOfCustomers.vue'),
+        }, {
+name: 'Users Report By ID',
+          path: '/reports/userReportById/:id?',
+          meta: { requiresAuth: true, permissions: 'تقرير المستخدمين' },
+          component: () => import('@/views/dashboard/Reports/users-report/oneItem.vue'),
         },
         { path: '*', redirect: '/login' },
       ],
