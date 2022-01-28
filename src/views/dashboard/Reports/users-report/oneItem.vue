@@ -8,15 +8,6 @@
       <v-card-title>
         تقرير المستخدمين
         <v-spacer />
-        <v-btn
-          class="mx-1 my-auto"
-          color="green"
-          :loading="loading"
-          :disabled="disabled"
-          @click="exportExel()"
-        >
-          تنزيل اكسيل
-        </v-btn>
       </v-card-title>
       <v-data-table
         :loading="dataLoading"
@@ -32,6 +23,7 @@
         :options.sync="options"
         :server-items-length="total"
         :page-count="numberOfPages"
+        @fetchAllItems="fetchAllItems"
       >
         <template v-slot:[`item.name`]="{ item }">
           <router-link :to="'/reports/userReportById/' + item.id">
@@ -111,76 +103,23 @@
         { text: 'ديسمبر', sortable: true, value: 'Dec.total' },
         { text: 'الاجمالي', value: 'totalYear', sortable: true },
       ],
-      filename: 'تقرير المستخدمين',
-      bookType: 'xlsx',
-      autoWidth: true,
     }),
-    watch: {
-      options: {
-        handler () {
-          this.fetchAllItems()
-        },
-      },
-    },
     mounted () {
       this.permissions = this.can('تقرير المستخدمين')
     },
+    created () {
+      if (this.$route.params.id) {
+        this.fetchOneItem(this.$route.params.id)
+      }
+    },
     methods: {
-      async fetchAllItems () {
+      async fetchOneItem (id) {
         this.dataLoading = true
-        const { page, itemsPerPage } = this.options
-        const pageNumber = page - 1
-        const items = await Service.getAllItems(itemsPerPage, page, pageNumber)
-        this.items = items.data.data.map(item => {
-          const newItem = { name: item.name, id: item.id, totalYear: item.months.reduce((p, i) => p + (+i.total + +i.total_other), 0) }
-          item.months.forEach((month) => {
-            const monthName = month.month_name.slice(0, 3)
-            newItem[monthName] = {}
-            newItem[monthName].total = Number(month.total + month.total_other)
-          })
-          return newItem
-        })
-        this.total = items.total
+        const items = await Service.fetchOneItem(id)
+
+        console.log('items.data :>> ', items)
+        // this.items = items.data
         this.dataLoading = false
-        console.log('items.data :>> ', this.items)
-      },
-      async exportExel () {
-        this.loading = true
-        import('@/vendor/Export2Excel').then(excel => {
-        const tHeader = ['اسم المستخدم', 'يناير', 'فبراير', 'مارس', 'ابريل', 'مايو', 'يونيو', 'يوليو', 'اغسطس', 'سبتمبر', 'اكتوبر', 'نوفمبر', 'ديسمبر', 'الاجمالى']
-        const list = this.items.map(item => {
-          return {
-            name: item.name,
-            Jan: item.Jan.total,
-            Feb: item.Feb.total,
-            Mar: item.Mar.total,
-            Apr: item.Apr.total,
-            May: item.May.total,
-            Jun: item.Jun.total,
-            Jul: item.Jul.total,
-            Aug: item.Aug.total,
-            Sep: item.Sep.total,
-            Oct: item.Oct.total,
-            Nov: item.Nov.total,
-            Dec: item.Dec.total,
-            totalYear: item.totalYear,
-            }
-        })
-        const data = this.formatJson(list)
-        excel.export_json_to_excel({
-          header: tHeader,
-          data,
-          filename: this.filename,
-          autoWidth: this.autoWidth,
-          bookType: this.bookType,
-        })
-        this.loading = false
-      })
-      },
-      formatJson (jsonData) {
-        return jsonData.map(v => {
-          return Object.values(v)
-        })
       },
     },
   }
