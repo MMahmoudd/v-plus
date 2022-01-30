@@ -1,1 +1,1 @@
-export const API_URL = 'https://devproject.millennium.sa/api/v1'
+export const API_URL = 'https://development.millennium.sa/api/v1'

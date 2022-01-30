@@ -23,7 +23,6 @@
         :options.sync="options"
         :server-items-length="total"
         :page-count="numberOfPages"
-        @fetchAllItems="fetchAllItems"
       >
         <template v-slot:[`item.name`]="{ item }">
           <router-link :to="'/reports/userReportById/' + item.id">

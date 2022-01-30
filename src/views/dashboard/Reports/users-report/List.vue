@@ -6,6 +6,161 @@
   >
     <v-card>
       <v-card-title>
+        فرز
+      </v-card-title>
+      <v-card-text class="pt-3">
+        <label> فرز حسب التاريخ و حالة المعاملة</label>
+        <v-row class="pt-3">
+          <v-col
+            cols="12"
+            sm="6"
+            md="4"
+          >
+            <v-menu
+              v-model="start_date"
+              :close-on-content-click="false"
+              :nudge-right="40"
+              transition="scale-transition"
+              offset-y
+              min-width="auto"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-text-field
+                  v-model="search.start_date"
+                  label="تاريخ البدء"
+                  prepend-icon="mdi-calendar"
+                  readonly
+                  outlined
+                  v-bind="attrs"
+                  v-on="on"
+                />
+              </template>
+              <v-date-picker
+                v-model="search.start_date"
+                @input="start_date = false"
+              />
+            </v-menu>
+          </v-col>
+          <v-col
+            cols="12"
+            sm="6"
+            md="4"
+          >
+            <v-menu
+              v-model="end_date"
+              :close-on-content-click="false"
+              :nudge-right="40"
+              transition="scale-transition"
+              offset-y
+              min-width="auto"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-text-field
+                  v-model="search.end_date"
+                  label="تاريخ الانتهاء"
+                  prepend-icon="mdi-calendar"
+                  readonly
+                  outlined
+                  v-bind="attrs"
+                  v-on="on"
+                />
+              </template>
+              <v-date-picker
+                v-model="search.end_date"
+                @input="end_date = false"
+              />
+            </v-menu>
+          </v-col>
+        </v-row>
+        <label>فرز حسب المستخدمين والعملاء</label>
+        <v-row class="pt-3">
+          <v-col
+            cols="12"
+            sm="6"
+          >
+            <v-select
+              v-model="search.users_id"
+              :items="usersList"
+              class="mx-2"
+              item-text="name"
+              item-value="id"
+              label="المستخدمين"
+              outlined
+              required
+              multiple
+              chips
+            />
+          </v-col>
+          <v-col
+            cols="12"
+            sm="6"
+          >
+            <v-select
+              v-model="search.customers_id"
+              :items="customersList"
+              class="mx-2"
+              item-text="cs_name"
+              item-value="id"
+              label="العملاء"
+              outlined
+              required
+              multiple
+              chips
+            />
+          </v-col>
+        </v-row>
+        <label>فرز حسب المناطق والمدن والاحياء</label>
+        <v-row class="pt-3">
+          <v-col
+            cols="12"
+            sm="4"
+          >
+            <v-select
+              v-model="search.region_id"
+              :items="regionList"
+              class="mx-2"
+              item-text="name"
+              item-value="id"
+              label="المنطقة"
+              outlined
+              required
+            />
+          </v-col>
+          <v-col
+            cols="12"
+            sm="4"
+          >
+            <v-select
+              v-model="search.city_id"
+              :items="cityList.filter(city => city.regionId === search.region_id)"
+              class="mx-2"
+              item-text="name"
+              item-value="id"
+              label="المدينة"
+              outlined
+              required
+            />
+          </v-col>
+          <v-col
+            cols="12"
+            sm="4"
+          >
+            <v-select
+              v-model="search.neighborhood_id"
+              :items="neighborhoodList.filter(neighborhood => neighborhood.city_id === search.city_id)"
+              class="mx-2"
+              item-text="name"
+              item-value="id"
+              label="الحي"
+              outlined
+              required
+            />
+          </v-col>
+        </v-row>
+      </v-card-text>
+    </v-card>
+    <v-card>
+      <v-card-title>
         تقرير المستخدمين
         <v-spacer />
         <v-btn
@@ -72,11 +227,32 @@
 <script>
   import { ServiceFactory } from '../../../../services/ServiceFactory'
   const Service = ServiceFactory.get('usersReport')
+  const UsersService = ServiceFactory.get('Users')
+  const CustomersService = ServiceFactory.get('Customers')
+  const RegionsService = ServiceFactory.get('Regions')
+  const CitesService = ServiceFactory.get('Cites')
+  const NeighborhoodsService = ServiceFactory.get('Neighborhoods')
   export default {
     name: 'UsersReports',
     data: (vm) => ({
+      search: {
+        start_date: '',
+        end_date: '',
+        status: null,
+        users_id: [],
+        customers_id: [],
+        region_id: null,
+        city_id: null,
+        neighborhood_id: null,
+      },
+      start_date: false,
+      end_date: false,
+      usersList: [],
+      customersList: [],
+      regionList: [],
+      cityList: [],
+      neighborhoodList: [],
       permissions: {},
-      search: '',
       fixedHeader: true,
       dataLoading: false,
       page: 0,
@@ -122,6 +298,13 @@
         },
       },
     },
+    created () {
+      this.fetchAllUsers()
+      this.fetchAllCustomers()
+      this.getRegions()
+      this.getCities()
+      this.getNeighborhood()
+    },
     mounted () {
       this.permissions = this.can('تقرير المستخدمين')
     },
@@ -142,7 +325,6 @@
         })
         this.total = items.total
         this.dataLoading = false
-        console.log('items.data :>> ', this.items)
       },
       async exportExel () {
         this.loading = true
@@ -182,11 +364,50 @@
           return Object.values(v)
         })
       },
+      async fetchAllUsers () {
+        this.dataLoading = true
+        const items = await UsersService.getAllItems()
+        this.usersList = items.data.data
+        this.total = items.total
+        this.dataLoading = false
+      },
+      async fetchAllCustomers () {
+        const items = await CustomersService.getAllItems()
+        console.log('customers :>> ', items)
+        this.customersList = items.data.data
+        this.total = items.total
+      },
+      async getRegions () {
+        const { data } = await RegionsService.getAllItems()
+        this.regionList = data.data.map(({ id, name }) => ({
+          id, name,
+        }))
+      },
+      async getCities () {
+        const { data } = await CitesService.getAllItems()
+        console.log('data :>> ', data)
+        this.cityList = data.data.map((city) => ({
+          name: city.name,
+          id: city.id,
+          regionId: city.region_id,
+        }))
+      },
+      async getNeighborhood () {
+        const items = await NeighborhoodsService.getAllItems()
+        this.neighborhoodList = items.data.data
+      },
     },
   }
 </script>
 <style>
 a{
   text-decoration: none;
+}
+.v-picker{
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+.theme--light.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined){
+  margin-right: unset !important;
 }
 </style>
