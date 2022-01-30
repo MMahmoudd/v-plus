@@ -3,6 +3,7 @@
     id="dashboard"
     fluid
     tag="section"
+    :style="cssVariables"
   >
     <v-row>
       <v-col cols="12">
@@ -12,7 +13,24 @@
           hide-slider
           fixed-tabs
         >
-          <v-tab>
+          <v-tab v-if="showSuspended">
+            <div class="transaction-tab-item">
+              <div
+                id="my_transactions_total_suspened"
+                class="my_transactions_total"
+              >
+                {{ my_transactions_total.suspended }}
+              </div>
+              <div class="icon_text__wrapper">
+                <img
+                  width="16"
+                  :src="require('@/assets/suspend.png')"
+                >
+                <span>المعلقة</span>
+              </div>
+            </div>
+          </v-tab>
+          <v-tab v-if="showAdded">
             <div class="transaction-tab-item">
               <div
                 id="my_transactions_total_added"
@@ -27,11 +45,11 @@
                 >
                   far fa-keyboard
                 </v-icon>
-                <span>المعاملات المدخلة</span>
+                <span>المسودة</span>
               </div>
             </div>
           </v-tab>
-          <v-tab>
+          <v-tab v-if="showUnderEvaluation">
             <div class="transaction-tab-item">
               <div
                 id="my_transactions_total_underEvaluation"
@@ -52,7 +70,7 @@
               </div>
             </div>
           </v-tab>
-          <v-tab>
+          <v-tab v-if="showUnderReview">
             <div class="transaction-tab-item">
               <div
                 id="my_transactions_total_underReview"
@@ -73,7 +91,8 @@
               </div>
             </div>
           </v-tab>
-          <v-tab>
+          <!-- قيد الإعتماد -->
+          <v-tab v-if="showApproval">
             <div class="transaction-tab-item">
               <div
                 id="my_transactions_total_underApproval"
@@ -94,6 +113,28 @@
               </div>
             </div>
           </v-tab>
+          <!-- معتمدة -->
+          <v-tab v-if="showApproval">
+            <div class="transaction-tab-item">
+              <div
+                id="my_transactions_total_approvaed"
+                class="my_transactions_total"
+              >
+                {{ my_transactions_total.approvaed }}
+              </div>
+              <div class="icon_text__wrapper">
+                <v-icon
+                  id="my_transactions_total_approvaed_icon"
+                  x-small
+                >
+                  far fa-thumbs-up
+                </v-icon>
+                <span>
+                  معتمدة
+                </span>
+              </div>
+            </div>
+          </v-tab>
         </v-tabs>
       </v-col>
       <v-col
@@ -103,28 +144,63 @@
           <div class="select-samples-button-container">
             <select-sample />
           </div>
-          <v-tab-item eager>
+          <!-- معلقة -->
+          <v-tab-item
+            v-if="showSuspended"
+            eager
+          >
+            <myTreatment
+              :status="7"
+            />
+          </v-tab-item>
+          <!-- مسودة -->
+          <v-tab-item
+            v-if="showAdded"
+            eager
+          >
             <myTreatment
               :type="4"
               :status="1"
             />
           </v-tab-item>
-          <v-tab-item eager>
+          <!-- تحت التقييم -->
+          <v-tab-item
+            v-if="showUnderEvaluation"
+            eager
+          >
             <myTreatment
               :type="1"
               :status="2"
             />
           </v-tab-item>
-          <v-tab-item eager>
+          <!-- تحت المراجعة -->
+          <v-tab-item
+            v-if="showUnderReview"
+            eager
+          >
             <myTreatment
               :type="2"
               :status="3"
             />
           </v-tab-item>
-          <v-tab-item eager>
+          <!-- قيد الاعتماد -->
+          <v-tab-item
+            v-if="showApproval"
+            eager
+          >
             <myTreatment
               :type="3"
               :status="4"
+            />
+          </v-tab-item>
+          <!-- المعتمدة -->
+          <v-tab-item
+            v-if="showApproval"
+            eager
+          >
+            <myTreatment
+              :type="3"
+              :status="5"
             />
           </v-tab-item>
         </v-tabs-items>
@@ -200,6 +276,12 @@
     },
     data () {
       return {
+        permissons: {
+          approval: {},
+          reviwer: {},
+          added: {},
+          underEvaluation: {},
+        },
         my_transactions_total: {},
         tab: null,
         chartData: {
@@ -216,7 +298,79 @@
         width: 2,
       }
     },
+    computed: {
+      showSuspended: function () {
+        const { read: readAprroval } = this.permissons.approval
+        const { read: readReviwer } = this.permissons.reviwer
+        if (readAprroval && readReviwer) {
+          return true
+        }
+        return false
+      },
+      showApproval: function () {
+        const { read: readAprroval } = this.permissons.approval
+        if (readAprroval) {
+          return true
+        }
+        return false
+      },
+      showAdded: function () {
+        const { read: readAdded } = this.permissons.added
+        if (readAdded) {
+          return true
+        }
+        return false
+      },
+      showUnderEvaluation: function () {
+        const { read: readUnderEvaluation } = this.permissons.underEvaluation
+        if (readUnderEvaluation) {
+          return true
+        } else {
+          return false
+        }
+      },
+      showUnderReview: function () {
+        const { read: readReviwer } = this.permissons.reviwer
+        if (readReviwer) {
+          return true
+        } else {
+          return false
+        }
+      },
+      cssVariables: function () {
+        let itemsLength = 0
+        if (this.showSuspended) {
+          itemsLength += 2
+        }
+
+        if (this.showApproval) {
+          itemsLength += 1
+        }
+
+        if (this.showAdded) {
+          itemsLength += 1
+        }
+
+        if (this.showUnderEvaluation) {
+          itemsLength += 1
+        }
+
+        if (this.showUnderReview) {
+          itemsLength += 1
+        }
+
+        return {
+          '--items': itemsLength,
+        }
+      },
+    },
     mounted () {
+      this.permissons.approval = this.can('مرحلة الاعتماد')
+      this.permissons.reviwer = this.can('مرحلة المراجعة')
+      this.permissons.added = this.can('مرحلة الادخال')
+      this.permissons.underEvaluation = this.can('مرحلة التقييم')
+      // console.log('x', x)
+      // console.log('y', y)
       this.my_transactions_total = this.$store.state.my_transactions_total
     },
     methods: {
@@ -227,6 +381,9 @@
   }
 </script>
 <style lang="scss">
+  // :root{
+  //   --items:3
+  // }
   h1{
     font-weight: 300;
   }
@@ -253,6 +410,9 @@
     padding: 11px 13px;
     margin-left: 8px;
   }
+  #my_transactions_total_suspened {
+    background-color: #e74b4bed;
+  }
   #my_transactions_total_added {
     background-color: #B8B8C7;
   }
@@ -277,6 +437,12 @@
   #my_transactions_total_underApproval_icon {
     color: #0000AF;
   }
+  #my_transactions_total_approvaed {
+    background-color: #11b63a;
+  }
+  #my_transactions_total_approvaed_icon {
+    color: #11b63a;
+  }
   .icon_text__wrapper {
         display: flex;
     text-align: right;
@@ -284,19 +450,19 @@
     align-items: flex-start;
   }
   .transaction-tab-item {
-        padding: 24px 10px;
-        font-weight: bold;
-        letter-spacing: initial;
-        display: flex;
+    padding: 24px 10px;
+    font-weight: bold;
+    letter-spacing: initial;
+    display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
   }
   .v-slide-group__content {
-        display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    display: grid;
+    grid-template-columns: repeat(var(--items), 1fr);
     width: 100%;
-        grid-column-gap: 30px;
+    grid-column-gap: 30px;
     padding: 15px 97px;
   }
 

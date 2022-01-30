@@ -13,9 +13,11 @@ export default new Vuex.Store({
     stateMediaModal: false,
     my_transactions_total: {
       added: 0,
+      suspended: 0,
       underEvaluation: 0,
       underReview: 0,
       underApproval: 0,
+      approvaed: 0,
     },
   },
   mutations: {

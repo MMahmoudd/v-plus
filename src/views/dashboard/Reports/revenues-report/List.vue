@@ -364,11 +364,11 @@
   thead {
     display: none;
   }
-  tr {
-    /* display:flex;
+  /* tr {
+    display:flex;
     justify-content: space-between;
-    align-items: center; */
-  }
+    align-items: center
+  } */
   tr td {
     border-bottom-color: transparent !important;
     font-weight: 300 !important;

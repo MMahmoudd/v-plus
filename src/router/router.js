@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 // import { fetchPermisson } from '../Utils/permissons'
-
+// import qs from 'qs'
 Vue.use(Router)
 
 // function isIModuleHasPermissions (userPermissions, role) {
@@ -36,6 +36,8 @@ Vue.use(Router)
 const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
+  // parseQuery: qs.parse,
+  // stringifyQuery: (query) => qs.stringify(query,{}),
   // https://router.vuejs.org/guide/advanced/scroll-behavior.html
   scrollBehavior: () => ({ y: 0 }),
   routes: [

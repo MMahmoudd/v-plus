@@ -28,6 +28,17 @@
               </v-btn>
             </template>
             <v-card>
+              <div style="text-align:left">
+                <v-btn
+                  icon
+                  text
+                  style="margin-left:20px"
+                  large
+                  @click="dialog=false"
+                >
+                  <i class="v-icon notranslate v-icon--right mdi mdi-close theme--dark" />
+                </v-btn>
+              </div>
               <v-card-text>
                 <v-container>
                   <v-row>
@@ -191,13 +202,14 @@
                     >
                       <label class="d-block mb-3 font-weight-bold">المدخل</label>
                       <v-select
-                        v-model="data.reviewer_id"
-                        :items="ReviewersList"
+                        v-model="data.add_by"
+                        :items="usersList"
                         item-text="name"
                         item-value="id"
                         label="المدخل"
                         single-line
                         outlined
+                        clearable
                       />
                     </v-col>
                     <v-col
@@ -207,12 +219,13 @@
                       <label class="d-block mb-3 font-weight-bold">المقيم</label>
                       <v-select
                         v-model="data.resident_id"
-                        :items="ResidentesList"
+                        :items="usersList"
                         item-text="name"
                         item-value="id"
                         label="المقيم"
                         single-line
                         outlined
+                        clearable
                       />
                     </v-col>
                     <v-col
@@ -222,12 +235,13 @@
                       <label class="d-block mb-3 font-weight-bold">المراجع</label>
                       <v-select
                         v-model="data.reviewer_id"
-                        :items="ReviewersList"
+                        :items="usersList"
                         item-text="name"
                         item-value="id"
                         label="المراجع"
                         single-line
                         outlined
+                        clearable
                       />
                     </v-col>
                     <v-col
@@ -236,13 +250,14 @@
                     >
                       <label class="d-block mb-3 font-weight-bold">المعمد</label>
                       <v-select
-                        v-model="data.reviewer_id"
-                        :items="ReviewersList"
+                        v-model="data.approved_id"
+                        :items="usersList"
                         item-text="name"
                         item-value="id"
                         label="المعمد"
                         single-line
                         outlined
+                        clearable
                       />
                     </v-col>
                     <v-col
@@ -406,7 +421,7 @@
                 <v-btn
                   x-large
                   class="ma-2 filter-bg"
-                  @click="filterTransctions"
+                  @click="filterTransctions();fetchAllItems(data);dialog=false"
                 >
                   <v-icon left>
                     fas fa-filter
@@ -739,6 +754,7 @@
    * * third library
    */
   import mergeImages from 'merge-images'
+  import qs from 'qs'
   /**
    * ? services
    */
@@ -836,6 +852,7 @@
       neighborhoodsList: [],
       propRatingsList: [],
       propTypeList: [],
+      usersList: [],
       ResidentesList: [],
       ReviewersList: [],
       statuses: {
@@ -851,7 +868,7 @@
       samplesList: [],
       search: '',
       isLoading: false,
-      page: 0,
+      page: 1,
       total: 0,
       numberOfPages: 0,
       options: { itemsPerPage: 20 },
@@ -943,8 +960,7 @@
             this.getPropertyTypes()
             this.getPropertyRatings()
             this.getEvaluationPurpose()
-            this.getResidentes()
-            this.getReviwers()
+            this.getAllUsers()
             this.dialogOpen = true
           }
         },
@@ -1350,31 +1366,64 @@
         const { data: { name } } = await ReportTypesServices.fetchOneItem(id)
         return name
       },
+      filterTransctions: async function () {
+        const data = { ...this.data }
+        for (const key in data) {
+          if (!data[key]) {
+            delete data[key]
+          }
+        }
+        history.replaceState(null, null, '?' + qs.stringify({ ...data, page: this.page }))
+        // console.log(qs.stringify(data))
+        // this.$router.replace({ query: data })
+      },
       fetchAllItems: async function (options) {
-        console.log(options)
-        const _options = { ...options } || {}
         this.isLoading = true
-        const { page } = this.options
-        _options.page = page
+        let _options = { ...options } || {}
+        if (this.$route.path === '/Treatments') {
+          _options = { ..._options, ...qs.parse(window.location.search.substr(1)) }
+        } else {
+          const { page } = this.options
+          _options.page = page
+        }
+        // console.log(options)
         // const pageNumber = page - 1
-        const items = await TransactionsServices.getAllItems(options)
+        const items = await TransactionsServices.getAllItems(_options)
         // console.clear()
-        const { type } = _options
-        switch (type) {
-          case 1 :
-            this.$store.dispatch('setTotal', { type: 'underEvaluation', total: items.total })
-            break
-          case 2 :
-            this.$store.dispatch('setTotal', { type: 'underReview', total: items.total })
-            break
-          case 3 :
-            this.$store.dispatch('setTotal', { type: 'underApproval', total: items.total })
-            break
-          case 4:
-            this.$store.dispatch('setTotal', { type: 'added', total: items.total })
-            break
-          default:
-            break
+        if (this.$route.path === '/') {
+          const { type, status } = _options
+          switch (type) {
+            case 1 :
+              this.$store.dispatch('setTotal', { type: 'underEvaluation', total: items.total })
+              break
+            case 2 :
+              this.$store.dispatch('setTotal', { type: 'underReview', total: items.total })
+              break
+            case 3 :
+              if (status === 5) {
+                this.$store.dispatch('setTotal', { type: 'approvaed', total: items.total })
+              } else {
+                this.$store.dispatch('setTotal', { type: 'underApproval', total: items.total })
+              }
+              break
+            case 4:
+              this.$store.dispatch('setTotal', { type: 'added', total: items.total })
+              break
+            default:
+              break
+          }
+
+          // if there is no type
+          if (!_options.type && _options.status) {
+            switch (status) {
+              case 7:
+                this.$store.dispatch('setTotal', { type: 'suspended', total: items.total })
+                break
+              default:
+                break
+            }
+            // console.log('I have only status, not type', _options.status)
+          }
         }
         /**
          */
@@ -1386,9 +1435,9 @@
         this.isLoading = false
       },
       // dialog methods
-      filterTransctions: async function () {
-        await TransactionsServices.filterItems(this.data)
-      },
+      // filterTransctions: async function () {
+      //   await TransactionsServices.filterItems(this.data)
+      // },
       getCustomers: async function () {
         const { data } = await CustomersService.getAllItems()
         this.customersList = data.data.map((customer) => {
@@ -1452,6 +1501,10 @@
         this.evaluationPurposeList = data.data.map(({ id, name }) => ({
           id, name,
         }))
+      },
+      getAllUsers: async function () {
+        const { data: { data } } = await UsersServices.getAllItems()
+        this.usersList = Object.freeze(data.map(({ id, name }) => ({ id, name })))
       },
       getResidentes: async function () {
         const { data } = await UsersServices.getByType(3)
@@ -1538,4 +1591,22 @@ a{
   .elevation-1 .v-data-footer__select {
     visibility: hidden;
   }
+  .v-dialog {
+      scrollbar-color: #3772FF rgba(0, 0, 0, 0.1);
+    scrollbar-width: thin;
+}
+
+.v-dialog::-webkit-scrollbar {
+    background: rgba(0, 0, 0, 0.3);
+    /* height: 10px; */
+    width: 8px;
+    box-shadow: 1px 1px 10px red;
+    border-radius: 5px;
+}
+
+.v-dialog::-webkit-scrollbar-thumb {
+    background: #3772FF ;
+    border-radius: 5px;
+}
+
 </style>
