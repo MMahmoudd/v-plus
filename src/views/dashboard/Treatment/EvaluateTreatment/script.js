@@ -797,6 +797,7 @@ westFacadeSetting: [],
       swimming_pool_show: false,
       storehouse_show: false,
       data: {
+        trans_approvition_date: null,
         status: 1,
         statusWhenSuspended: null,
         evaluation_criteria: [],
@@ -2331,7 +2332,7 @@ westFacadeSetting: [],
       },
 
       save: async function (status) {
-        console.log(status)
+        // console.log(status)
         this.dataLoading = true
         /**
          * ? converting meters array to string
@@ -2364,6 +2365,9 @@ westFacadeSetting: [],
         let newStatus = this.data.status
         let statusWhenSuspended = null
         if (status === 'send' || status === 'approve') {
+          if (status === 'approve') {
+            this.data.trans_approvition_date = (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)
+          }
           newStatus = this.data.status + 1
         } else if (status === 'suspend') {
           statusWhenSuspended = this.data.status

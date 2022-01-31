@@ -30,6 +30,7 @@
             <v-card>
               <div style="text-align:left">
                 <v-btn
+                  id="cancel-filter"
                   icon
                   text
                   style="margin-left:20px"
@@ -73,6 +74,7 @@
                         <template v-slot:activator="{ on, attrs }">
                           <v-text-field
                             v-model="data.dateFrom"
+                            clearable
                             readonly
                             v-bind="attrs"
                             single-line
@@ -110,6 +112,7 @@
                         <template v-slot:activator="{ on, attrs }">
                           <v-text-field
                             v-model="data.dateTo"
+                            clearable
                             readonly
                             v-bind="attrs"
                             single-line
@@ -146,51 +149,51 @@
                     </div> -->
                     <div class="mr-3">
                       <v-checkbox
-                        v-model="data.filterBy['2']"
-                        class="check-label"
-                        label="تاريخ التكليف"
-                        color="success"
-                        value=""
-                        hide-details
-                      />
-                    </div>
-                    <div class="mr-3">
-                      <v-checkbox
-                        v-model="data.filterBy['3']"
-                        class="check-label"
-                        label="تاريخ التقييم"
-                        color="success"
-                        value=""
-                        hide-details
-                      />
-                    </div>
-                    <div class="mr-3">
-                      <v-checkbox
-                        v-model="data.filterBy['4']"
+                        v-model="data.order_by"
                         class="check-label"
                         label="تاريخ الإدخال"
                         color="success"
-                        value=""
+                        value="created_at"
                         hide-details
                       />
                     </div>
                     <div class="mr-3">
                       <v-checkbox
-                        v-model="data.filterBy['5']"
+                        v-model="data.order_by"
+                        class="check-label"
+                        label="تاريخ التكليف"
+                        color="success"
+                        value="trans_assignment_date"
+                        hide-details
+                      />
+                    </div>
+                    <div class="mr-3">
+                      <v-checkbox
+                        v-model="data.order_by"
+                        class="check-label"
+                        label="تاريخ التقييم"
+                        color="success"
+                        value="trans_evaluation_date"
+                        hide-details
+                      />
+                    </div>
+                    <div class="mr-3">
+                      <v-checkbox
+                        v-model="data.order_by"
                         class="check-label"
                         label="تاريخ المعاينة"
                         color="success"
-                        value=""
+                        value="trans_inspection_date"
                         hide-details
                       />
                     </div>
                     <div class="mr-3">
                       <v-checkbox
-                        v-model="data.filterBy['6']"
+                        v-model="data.order_by"
                         class="check-label"
                         label="ناريخ الاعتماد"
                         color="success"
-                        value=""
+                        value="trans_approvition_date"
                         hide-details
                       />
                     </div>
@@ -275,8 +278,6 @@
                         outlined
                       />
                     </v-col>
-                  </v-row>
-                  <v-row>
                     <v-col
                       cols="12"
                       md="6"
@@ -309,7 +310,7 @@
                     </v-col>
                     <v-col
                       cols="12"
-                      lg="4"
+                      lg="6"
                     >
                       <label class="d-block mb-3 font-weight-bold">المنطقة</label>
                       <v-select
@@ -324,7 +325,7 @@
                     </v-col>
                     <v-col
                       cols="12"
-                      lg="4"
+                      lg="6"
                     >
                       <label class="d-block mb-3 font-weight-bold">اسم المدينة</label>
                       <v-select
@@ -339,7 +340,7 @@
                     </v-col>
                     <v-col
                       cols="12"
-                      lg="4"
+                      lg="6"
                     >
                       <label class="d-block mb-3 font-weight-bold">اسم الحى</label>
                       <v-select
@@ -365,41 +366,71 @@
                   <v-row class="mt-0">
                     <div class="mr-3">
                       <v-checkbox
-                        v-model="data.statuses['2']"
+                        v-model="data.status"
                         class="check-label"
-                        label="تحت التثمين"
+                        label="مسودة"
                         color="success"
-                        value=""
+                        :value="1"
                         hide-details
                       />
                     </div>
                     <div class="mr-3">
                       <v-checkbox
-                        v-model="data.statuses['3']"
+                        v-model="data.status"
                         class="check-label"
-                        label="للتدقيق"
+                        label="تحت التقييم"
                         color="success"
-                        value=""
+                        :value="2"
                         hide-details
                       />
                     </div>
                     <div class="mr-3">
                       <v-checkbox
-                        v-model="data.statuses['4']"
+                        v-model="data.status"
                         class="check-label"
-                        label="للاعتماد"
+                        label="تحت المراجعة"
                         color="success"
-                        value=""
+                        :value="3"
                         hide-details
                       />
                     </div>
                     <div class="mr-3">
                       <v-checkbox
-                        v-model="data.statuses['5']"
+                        v-model="data.status"
+                        class="check-label"
+                        label="قيد الإعتماد"
+                        color="success"
+                        :value="4"
+                        hide-details
+                      />
+                    </div>
+                    <div class="mr-3">
+                      <v-checkbox
+                        v-model="data.status"
                         class="check-label"
                         label="معتمدة"
                         color="success"
-                        value=""
+                        :value="5"
+                        hide-details
+                      />
+                    </div>
+                    <div class="mr-3">
+                      <v-checkbox
+                        v-model="data.status"
+                        class="check-label"
+                        label="معلقة"
+                        color="success"
+                        :value="7"
+                        hide-details
+                      />
+                    </div>
+                    <div class="mr-3">
+                      <v-checkbox
+                        v-model="data.status"
+                        class="check-label"
+                        label="ملغية"
+                        color="success"
+                        :value="8"
                         hide-details
                       />
                     </div>
@@ -839,8 +870,8 @@
         evaluation_purpose_id: '',
         reviewer_id: '',
         resident_id: '',
-        statuses: {},
-        filterBy: {},
+        status: [],
+        order_by: [],
         dateFrom: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
         dateTo: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
       },
@@ -1595,12 +1626,13 @@ a{
       scrollbar-color: #3772FF rgba(0, 0, 0, 0.1);
     scrollbar-width: thin;
 }
+.v-dialog #cancel-filter i {
+  transform: translateX(6px);
+}
 
 .v-dialog::-webkit-scrollbar {
     background: rgba(0, 0, 0, 0.3);
-    /* height: 10px; */
     width: 8px;
-    box-shadow: 1px 1px 10px red;
     border-radius: 5px;
 }
 

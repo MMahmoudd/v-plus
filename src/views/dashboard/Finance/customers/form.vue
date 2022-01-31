@@ -991,6 +991,8 @@
         if (!this.newLogo) {
           formData.delete('cs_logo')
         }
+
+        // formData.delete('cs_type')
         // for (const key in this.data) {
         //   if (Array.isArray(this.data[key])) {
         //     formData.append(key, JSON.stringify(this.data[key]))
