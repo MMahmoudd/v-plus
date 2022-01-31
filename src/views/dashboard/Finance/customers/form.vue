@@ -9,8 +9,7 @@
         {{ this.$route.params.id ? 'تعديل عميل' : 'اضافة عميل' }}
       </v-card-title>
       <template>
-        <v-form
-          v-model="valid"
+        <form
           :disabled="!permissions.update"
           @submit.prevent="submitForm()"
         >
@@ -833,7 +832,7 @@
               {{ this.$route.params.id ? 'حفظ' : 'اضافة' }}
             </v-btn>
           </v-container>
-        </v-form>
+        </form>
       </template>
     </v-card>
     <v-snackbar
@@ -872,7 +871,7 @@
     data: (vm) => ({
       permissions: {},
       dataLoading: false,
-      valid: false,
+      valid: true,
       newLogo: false,
       data: {
         cs_name: '',
