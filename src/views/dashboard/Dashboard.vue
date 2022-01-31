@@ -150,7 +150,7 @@
             eager
           >
             <myTreatment
-              :status="7"
+              :status="[7]"
             />
           </v-tab-item>
           <!-- مسودة -->
@@ -160,7 +160,7 @@
           >
             <myTreatment
               :type="4"
-              :status="1"
+              :status="[1]"
             />
           </v-tab-item>
           <!-- تحت التقييم -->
@@ -170,7 +170,7 @@
           >
             <myTreatment
               :type="1"
-              :status="2"
+              :status="[2]"
             />
           </v-tab-item>
           <!-- تحت المراجعة -->
@@ -180,7 +180,7 @@
           >
             <myTreatment
               :type="2"
-              :status="3"
+              :status="[3]"
             />
           </v-tab-item>
           <!-- قيد الاعتماد -->
@@ -190,7 +190,7 @@
           >
             <myTreatment
               :type="3"
-              :status="4"
+              :status="[4]"
             />
           </v-tab-item>
           <!-- المعتمدة -->
@@ -200,7 +200,7 @@
           >
             <myTreatment
               :type="3"
-              :status="5"
+              :status="[5]"
             />
           </v-tab-item>
         </v-tabs-items>

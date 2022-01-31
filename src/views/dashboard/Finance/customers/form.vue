@@ -987,7 +987,7 @@
 
         buildFormData(formData, this.data)
 
-        // ? deleting cs_logo key if there is on image to upload
+        // ? deleting cs_logo key if there is No image to upload
         if (!this.newLogo) {
           formData.delete('cs_logo')
         }

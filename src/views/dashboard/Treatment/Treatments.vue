@@ -784,7 +784,7 @@
     },
     props: {
       type: { type: Number, required: false, default: 0 },
-      status: { type: Number, required: false, default: 0 },
+      status: { type: Array, required: false, default: () => ([]) },
     },
     data: () => ({
       errorSnackbar: false,
