@@ -1120,7 +1120,7 @@
            */
           // * customer logo
           const customerLogo = pdfData.customer.cs_logo
-          pdfData.customer.cs_logo = customerLogo.startsWith('http') ? customerLogo : `https://devproject.millennium.sa/${customerLogo}`
+          pdfData.customer.cs_logo = customerLogo?.startsWith('http') ? customerLogo : `https://devproject.millennium.sa/${customerLogo}`
 
           // * transaction images'
           let images = []
@@ -1148,7 +1148,11 @@
           const defaultImage = facility?.logo
 
           // ! REPLACE IT WITH POSITION ABSOLUTE
-          const defaultImageAfterResize = await this.resizeImg(defaultImage, 100, 50)
+          let defaultImageAfterResize
+
+          if (defaultImage) {
+            defaultImageAfterResize = await this.resizeImg(defaultImage, 100, 50)
+          }
           pdfData.images = await this.margeImg(images, defaultImageAfterResize)
           // console.log(pdfData.images)
           /**
