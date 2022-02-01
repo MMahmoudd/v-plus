@@ -6,7 +6,7 @@
   >
     <v-card>
       <v-card-title>
-        تقرير المستخدمين
+        تقرير العمولات للمتستخدم
         <v-spacer />
       </v-card-title>
       <v-data-table
@@ -24,12 +24,6 @@
         :server-items-length="total"
         :page-count="numberOfPages"
       >
-        <template v-slot:[`item.name`]="{ item }">
-          <router-link :to="'/reports/userReportById/' + item.id">
-            {{ item.name }}
-          </router-link>
-        </template>
-
         <template
           v-slot:no-data
           loading
@@ -87,20 +81,15 @@
       errorMessage: '',
       disabled: false,
       headers: [
-        { text: 'المستخدم', sortable: true, value: 'name' },
-        { text: 'يناير', sortable: true, value: 'Jan.total' },
-        { text: 'فبراير', sortable: true, value: 'Feb.total' },
-        { text: 'مارس', sortable: true, value: 'Mar.total' },
-        { text: 'ابريل', sortable: true, value: 'Apr.total' },
-        { text: 'مايو', sortable: true, value: 'May.total' },
-        { text: 'يونيو', sortable: true, value: 'Jun.total' },
-        { text: 'يوليو', sortable: true, value: 'Jul.total' },
-        { text: 'اغسطس', sortable: true, value: 'Aug.total' },
-        { text: 'سبتمبر', sortable: true, value: 'Sep.total' },
-        { text: 'اكتوبر', sortable: true, value: 'Oct.total' },
-        { text: 'نوفمبر', sortable: true, value: 'Nov.total' },
-        { text: 'ديسمبر', sortable: true, value: 'Dec.total' },
-        { text: 'الاجمالي', value: 'totalYear', sortable: true },
+        { text: 'رقم المعاملة', sortable: true, value: 'transaction.transaction_id' },
+        { text: 'العميل', sortable: true, value: 'Jan.total' },
+        { text: 'تم التوجية بواسطة', sortable: true, value: 'Feb.total' },
+        { text: 'المستخدم', sortable: true, value: 'user.name' },
+        { text: 'نوع العقار', sortable: true, value: 'Apr.total' },
+        { text: 'المدينة', sortable: true, value: 'May.total' },
+        { text: 'الحالة', sortable: true, value: 'Jun.total' },
+        { text: 'السعر', sortable: true, value: 'Jul.total' },
+        { text: 'العمولة', sortable: true, value: 'Aug.total' },
       ],
     }),
     mounted () {
@@ -115,9 +104,8 @@
       async fetchOneItem (id) {
         this.dataLoading = true
         const items = await Service.fetchOneItem(id)
-
-        console.log('items.data :>> ', items)
-        // this.items = items.data
+        this.items = items.data
+        this.total = items.total
         this.dataLoading = false
       },
     },

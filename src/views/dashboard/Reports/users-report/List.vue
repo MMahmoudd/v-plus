@@ -71,6 +71,23 @@
               />
             </v-menu>
           </v-col>
+          <v-col
+            cols="12"
+            sm="6"
+            md="4"
+          >
+            <v-select
+              v-model="search.status"
+              :items="statusList"
+              class="mx-2"
+              item-text="name"
+              item-value="id"
+              label="الحالة"
+              outlined
+              required
+              chips
+            />
+          </v-col>
         </v-row>
         <label>فرز حسب المستخدمين والعملاء</label>
         <v-row class="pt-3">
@@ -158,6 +175,14 @@
           </v-col>
         </v-row>
       </v-card-text>
+      <v-card-actions>
+        <v-btn
+          color="green"
+          @click="fetchAllItems()"
+        >
+          فرز
+        </v-btn>
+      </v-card-actions>
     </v-card>
     <v-card>
       <v-card-title>
@@ -176,7 +201,6 @@
       <v-data-table
         :loading="dataLoading"
         :headers="headers"
-        :search="search"
         :items="items"
         :items-per-page="20"
         :footer-props="{
@@ -252,6 +276,16 @@
       regionList: [],
       cityList: [],
       neighborhoodList: [],
+      statusList: [
+        { id: 1, name: 'مسودة' },
+        { id: 2, name: 'تحت التقييم' },
+        { id: 3, name: 'تحت المراجعة' },
+        { id: 4, name: 'قيد الاعتماد' },
+        { id: 5, name: 'معتمدة' },
+        { id: 6, name: 'مرسلة' },
+        { id: 7, name: 'معلقة' },
+        { id: 8, name: 'ملغية' },
+      ],
       permissions: {},
       fixedHeader: true,
       dataLoading: false,
@@ -313,7 +347,7 @@
         this.dataLoading = true
         const { page, itemsPerPage } = this.options
         const pageNumber = page - 1
-        const items = await Service.getAllItems(itemsPerPage, page, pageNumber)
+        const items = await Service.getAllItems(itemsPerPage, page, pageNumber, this.search)
         this.items = items.data.data.map(item => {
           const newItem = { name: item.name, id: item.id, totalYear: item.months.reduce((p, i) => p + (+i.total + +i.total_other), 0) }
           item.months.forEach((month) => {

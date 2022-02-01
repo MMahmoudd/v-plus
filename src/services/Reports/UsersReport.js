@@ -4,11 +4,11 @@ import { API_URL } from '../../config'
 
 const resource = `${API_URL}`
 export default {
-  getAllItems (itemsPerPage, page, pageNumber) {
+  getAllItems (itemsPerPage, page, pageNumber, keywords) {
     const paginate = (itemsPerPage && itemsPerPage !== '') ? '&itemsPerPage=' + itemsPerPage : ''
     const pageN = (page && page !== '') ? '&page=' + page : ''
     const pagination = pageN + paginate
-      return Service.post(`${resource}/customers-reports?${pagination}`)
+      return Service.post(`${resource}/customers-reports?${pagination}`, { ...keywords })
         .then((response) => {
             if (response.status === 200) {
                 return response
