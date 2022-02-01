@@ -10,10 +10,37 @@
   -->
   <v-container>
     <div class="custom-table_wrapper">
-      <h1 class="table_title">
-        تقرير المصروفات
-        <v-text-field />
-      </h1>
+      <div
+        class="table_title"
+        style="display:flex;justify-content:space-between;align-items:center;"
+      >
+        <span>
+          تقرير المصروفات
+        </span>
+        <v-form @submit.prevent="filterExpenses">
+          <v-text-field
+            v-model="filterForm.year"
+            type="number"
+            label="السنة"
+            outlined
+            single-line
+            style="display:inline-flex;width:300px;"
+            hide-details
+            dense
+            :disabled="loading.list"
+          />
+          <v-btn
+            class="time-chip"
+            color="primary"
+            label
+            text-color="white"
+            type="submit"
+            :disabled="loading.list"
+          >
+            اذهب
+          </v-btn>
+        </v-form>
+      </div>
       <div class="custom-table">
         <table>
           <thead>
@@ -50,7 +77,7 @@
                 المصاريف الثابتة
               </td>
               <td
-                v-for="(item,index) in list.expenses_static"
+                v-for="(item,index) in list.expenses_fixed"
                 :key="index"
                 :data-prefix="listHeader[index].month_name"
               >
@@ -148,6 +175,9 @@
         items: 0,
         next_page: 1,
       },
+      filterForm: {
+        year: '',
+      },
       listHeader: Object.freeze([
         {
           month_name: 'يناير',
@@ -206,9 +236,9 @@
       this.fetchAll()
     },
     methods: {
-      async fetchAll () {
+      async fetchAll (options = {}) {
         this.loading.list = true
-        const { data } = await expensesReportService.getAllItems()
+        const { data } = await expensesReportService.getAllItems(options)
         this.list = this.formatList(data)
         this.loading.list = false
       },
@@ -239,6 +269,10 @@
 
         return newObject
       },
+      async filterExpenses () {
+        this.fetchAll({ year: this.filterForm.year })
+        this.filterForm.year = ''
+      },
     },
   }
 </script>
@@ -256,7 +290,9 @@
 }
 .table_title {
     /* border-radius: 4px 4px 0px 0px ; */
+    display:flex;justify-content:space-between;align-items:center;
     padding-right: 10px;
+    padding-left:10px;
     font-size: 18px;
     font-weight: 500;
     padding-top: 24px;

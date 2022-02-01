@@ -123,9 +123,9 @@
               role: true,
             },
             {
-              title: 'تقرير المصروفات (قريبا)',
+              title: 'تقرير المصروفات',
               permission: 'تقرير المصروفات',
-              // to: '/price-offers',
+              to: '/reports/expenses-report',
               role: true,
             },
             {
