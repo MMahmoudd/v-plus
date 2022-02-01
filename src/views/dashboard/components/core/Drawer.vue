@@ -117,7 +117,7 @@
           role: true,
           children: [
             {
-              title: 'تفرير المستخدمين',
+              title: 'تقرير المستخدمين',
               permission: 'تقرير المستخدمين',
               to: '/reports/users-report',
               role: true,
