@@ -759,10 +759,11 @@
                             label="المنطقة"
                             outlined
                             required
+                            multiple
                           />
                           <v-select
                             v-model="item.city_list"
-                            :items="cityList.filter(city => city.regionId === item.region_id)"
+                            :items="cityList.filter(city => item.region_id.includes(city.regionId))"
                             class="mx-2"
                             item-text="name"
                             item-value="id"
@@ -978,7 +979,7 @@
       addNewPricing () {
         this.data.pricing.push({
           customer_id: null,
-          region_id: null,
+          region_id: [],
           use_property: [],
           property_type: [],
           city_list: [],
