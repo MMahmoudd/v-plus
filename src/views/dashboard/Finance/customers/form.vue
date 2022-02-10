@@ -147,7 +147,7 @@
                 <br>
                 <img
                   width="50"
-                  :src="data.cs_logo.startsWith('http') ? data.cs_lgo : `https://devproject.millennium.sa/${data.cs_logo}`"
+                  :src="newLogo ? base64Logo : cs_logo"
                   alt="Image"
                 >
               </v-col>
@@ -813,6 +813,7 @@
                 md="6"
               >
                 <v-btn
+                  type="button"
                   medium
                   class="mx-1 my-1"
                   color="blue"
@@ -897,15 +898,16 @@
         evaluation_stage_sign_show: 1,
         review_stage_sign_show: 1,
         adoption_stage_sign_show: 1,
-        input_stage_name_show: '',
-        evaluation_stage_name_show: '',
-        review_stage_name_show: '',
-        adoption_stage_name_show: '',
+        input_stage_name_show: -1,
+        evaluation_stage_name_show: -1,
+        review_stage_name_show: -1,
+        adoption_stage_name_show: -1,
         facility_stamp_name: '',
         land_default_price: 0,
         building_default_price: 0,
         pricing: [],
       },
+      base64Logo: '',
       data_fount_color: false,
       subdata_fount_color: false,
       data_frame_color: false,
@@ -919,7 +921,6 @@
       cityList: [],
       propertyList: [],
       propertyTypeList: [],
-      cs_logo: null,
       successSnackbar: false,
       errorSnackbar: false,
       timeout: 3000,
@@ -928,6 +929,20 @@
       loading: false,
       disabled: false,
     }),
+    computed: {
+      cs_logo () {
+        if (!this.newLogo) {
+          if (this.data.cs_logo && typeof this.data.cs_logo === 'string' && this.data.cs_logo.startsWith('http')) {
+            return this.data.cs_logo
+          } else if (this.data.cs_logo === '') {
+            return ''
+          } else {
+            return `https://devproject.millennium.sa/${this.data.cs_logo}`
+          }
+        }
+        return ''
+      },
+    },
     created () {
       if (this.$route.params.id) {
         this.fetchOneItem(this.$route.params.id)
@@ -947,9 +962,18 @@
       handleClearLogo () {
         this.newLogo = false
       },
-      handleUploadLogo (file) {
+      async handleUploadLogo (file) {
         this.data.cs_logo = file
+        this.base64Logo = await this.fileToBase64(file)
         this.newLogo = true
+      },
+      fileToBase64 (file) {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader()
+          reader.readAsDataURL(file)
+          reader.onload = () => resolve(reader.result)
+          reader.onerror = error => reject(error)
+        })
       },
       addNewPricing () {
         this.data.pricing.push({
