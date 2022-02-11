@@ -750,7 +750,13 @@
                           </v-btn>
                         </v-card-title>
                         <v-row class="px-5 py-5">
-                          <v-select
+                          <multi-select
+                            v-model="item.region_id"
+                            :items="regionList"
+                            label="المنطقة"
+                            :on-change="() => onChangeRegions(index)"
+                          />
+                          <!-- <v-select
                             v-model="item.region_id"
                             :items="regionList"
                             class="mx-2"
@@ -760,43 +766,51 @@
                             outlined
                             required
                             multiple
+                          /> -->
+                          <multi-select
+                            v-model="item.city_list"
+                            :items="cityList.filter(city => item.region_id.includes(city.regionId))"
+                            label="المدينة"
                           />
-                          <v-select
+                          <!-- <v-select
                             v-model="item.city_list"
                             :items="cityList.filter(city => item.region_id.includes(city.regionId))"
                             class="mx-2"
                             item-text="name"
                             item-value="id"
-                            label="المدينة"
                             outlined
                             required
                             multiple
                             chips
-                          />
-                          <v-select
+                          /> -->
+                          <multi-select
                             v-model="item.use_property"
+                            label="استخدام العقار"
                             :items="propertyList"
+                          />
+                          <!-- <v-select
                             class="mx-2"
                             item-text="name"
                             item-value="id"
-                            label="استخدام العقار"
                             outlined
                             required
                             multiple
                             chips
-                          />
-                          <v-select
+                          /> -->
+                          <multi-select
                             v-model="item.property_type"
                             :items="propertyTypeList"
+                            label="نوع العقار"
+                          />
+                          <!-- <v-select
                             class="mx-2"
                             item-text="name"
                             item-value="id"
-                            label="نوع العقار"
                             outlined
                             required
                             multiple
                             chips
-                          />
+                          /> -->
                           <v-text-field
                             v-model="item.custom_price"
                             label="السعر المخصص"
@@ -858,6 +872,7 @@
   </v-container>
 </template>
 <script>
+  import multiSelect from '../../../../views/dashboard/component/MultiSelect.vue'
   import { ServiceFactory } from '../../../../services/ServiceFactory'
   const CustomersService = ServiceFactory.get('Customers')
   const RegionsService = ServiceFactory.get('Regions')
@@ -870,6 +885,9 @@
 
   export default {
     name: 'Companies',
+    components: {
+      multiSelect,
+    },
     data: (vm) => ({
       permissions: {},
       dataLoading: false,
@@ -1126,6 +1144,12 @@
         const { data } = await ReportTypesServices.getAllItems()
         this.reportList = data.data
         this.loading = false
+      },
+      onChangeRegions (index) {
+        // eslint-disable-next-line camelcase
+        const _city_list = this.cityList.filter(city => this.data.pricing[index].region_id.includes(city.regionId)).map(item => item.id)
+        console.log(_city_list)
+        this.data.pricing[index].city_list = this.data.pricing[index].city_list.filter(value => _city_list.includes(value))
       },
     },
   }

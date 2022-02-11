@@ -808,7 +808,7 @@
       fetchPrice: async function () {
         const { data: { pricing } } = await CustomersServices.fetchOneItem(this.data.customer_id)
         const customerPriceObject = pricing.find(item => {
-          if (item.region_id === this.data.region_id) {
+          if (item.region_id.includes(this.data.region_id)) {
             if (item.city_list.includes(this.data.city_id)) {
               if (item.use_property.includes(this.data.property_rating_id)) {
                 if (item.property_type.includes(this.data.property_type_id)) {
