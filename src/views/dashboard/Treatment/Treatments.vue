@@ -1070,7 +1070,7 @@
           const facility = await this.getFacility()
           this.progressNumber = 20
           const transReportTypeName = await this.getReportType(pdfData.trans_Report_type)
-          const reportName = await this.getReportType(pdfData.customer.report_id)
+          // const reportName = await this.getReportType(pdfData.customer.report_id)
           this.progressNumber = 30
           await this.getPropertyTypes()
           this.progressNumber = 40
@@ -1086,6 +1086,61 @@
           pdfData.facility = facility
           pdfData.propTypeList = []
           pdfData.transConstructionList = []
+
+          /**
+           * report Name
+           */
+
+          // const reportNameList = [
+          //   {
+          //     name: 'رقم المعاملة',
+          //     id: 1,
+          //   },
+          //   {
+          //     name: 'رمز العقار / رقم الموقع / رقم العميل',
+          //     id: 2,
+          //   },
+          //   {
+          //     name: 'رقم التكليف',
+          //     id: 3,
+          //   },
+          //   {
+          //     name: 'رقم الصك',
+          //     id: 4,
+          //   },
+          //   {
+          //     name: 'اسم العميل',
+          //     id: 5,
+          //   },
+          //   {
+          //     name: 'اسم العميل – رقم التكليف',
+          //     id: 6,
+          //   },
+          // ]
+          const { data: oneTransactionData } = await TransactionsServices.fetchOneItem(id)
+          let reportName = ''
+          switch (pdfData.customer.report_id) {
+            case 1 :
+              reportName = oneTransactionData?.transaction_id || ''
+              break
+            case 2:
+              reportName = oneTransactionData?.trans_deposit_code_site_num_customer_num || ''
+              break
+            case 3:
+              reportName = 1
+              break
+            case 4:
+              reportName = oneTransactionData?.trans_instrument_num || ''
+              break
+            case 5 :
+              reportName = pdfData?.customer?.cs_name || ''
+              break
+            case 6 :
+              reportName = pdfData?.customer?.cs_name || ''
+              break
+            default:
+              reportName = ''
+          }
           pdfData.customer.reportName = reportName
           /**
            * ? adding colors
@@ -1099,7 +1154,7 @@
           this.styleSubData.color = pdfData.customer.cs_subdata_fount_color
           this.styleSubData['border-color'] = pdfData.customer.cs_subdata_frame_color
           //
-          const { data: oneTransactionData } = await TransactionsServices.fetchOneItem(id)
+          // const { data: oneTransactionData } = await TransactionsServices.fetchOneItem(id)
           pdfData.conditioners = oneTransactionData.transactions_conditioners
           const buildings = [
             { building_type: 'الأرض', space: 0, price: 0, total: 0 },

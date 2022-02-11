@@ -172,7 +172,7 @@
                     <label>اسم التقرير</label>
                     <v-select
                       v-model="data.report_id"
-                      :items="reportList"
+                      :items="reportNameList"
                       item-text="name"
                       item-value="id"
                       outlined
@@ -893,6 +893,32 @@
       dataLoading: false,
       valid: true,
       newLogo: false,
+      reportNameList: Object.freeze([
+        {
+          name: 'رقم المعاملة',
+          id: 1,
+        },
+        {
+          name: 'رمز العقار / رقم الموقع / رقم العميل',
+          id: 2,
+        },
+        {
+          name: 'رقم التكليف',
+          id: 3,
+        },
+        {
+          name: 'رقم الصك',
+          id: 4,
+        },
+        {
+          name: 'اسم العميل',
+          id: 5,
+        },
+        {
+          name: 'اسم العميل – رقم التكليف',
+          id: 6,
+        },
+      ]),
       data: {
         cs_name: '',
         cs_phone: '',
@@ -902,7 +928,7 @@
         sample_id: 0,
         cs_vat_num: '',
         cs_logo: '',
-        report_id: 0,
+        report_id: 1,
         show_logo: '',
         cs_data_fount_color: '',
         cs_data_frame_color: '',
