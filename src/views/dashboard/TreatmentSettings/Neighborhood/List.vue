@@ -159,7 +159,6 @@
 </template>
 <script>
   import { ServiceFactory } from '../../../../services/ServiceFactory'
-  import moment from 'moment'
   const CitiesService = ServiceFactory.get('Cites')
   const NeighborhoodsService = ServiceFactory.get('Neighborhoods')
 
@@ -214,7 +213,7 @@
         const items = await NeighborhoodsService.getAllItems(itemsPerPage, page, pageNumber)
         const cities = await CitiesService.getAllItems(itemsPerPage, page, pageNumber)
         items.data.data.map(item => {
-          item.created_at = moment(item.created_at).format('YYYY-MM-DD hh:mm a')
+          item.created_at &&= new Date(item.created_at).toLocaleString('ar-eg')
           item.status = item.status === '1' ? 'مفعل' : 'غير مفعل'
           item.city = cities.data.data.find((city) => city.id === item.city_id)?.name || ''
         })

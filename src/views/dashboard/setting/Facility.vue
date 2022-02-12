@@ -569,7 +569,6 @@
 </template>
 <script>
   import { ServiceFactory } from '../../../services/ServiceFactory'
-  import moment from 'moment'
   const SettingService = ServiceFactory.get('Setting')
   export default {
     name: 'Companies',
@@ -676,7 +675,7 @@
         const data = await SettingService.getFacility()
         this.data = data.data
         if (data.data.license_date) {
-          data.data.license_date = moment(data.data.license_date).format('YYYY-MM-DD')
+          data.data.license_date = new Date(data.data.license_date).toLocaleDateString('en-CA')
         }
         this.dataLoading = false
       },

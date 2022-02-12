@@ -65,7 +65,6 @@ const i18n = new VueI18n({
   locale: userLang,
   messages: language,
 })
-Vue.use(require('vue-moment'))
 Vue.use(VueResource)
 // Vue Mixins
 Vue.mixin({

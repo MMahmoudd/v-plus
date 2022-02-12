@@ -159,7 +159,6 @@
 </template>
 <script>
   import { ServiceFactory } from '../../../../services/ServiceFactory'
-  import moment from 'moment'
   const CitiesService = ServiceFactory.get('Cites')
   const RegionsService = ServiceFactory.get('Regions')
 
@@ -216,7 +215,7 @@
         // console.log(regions)
         // console.log('Users', items)
         items.data.data.map(item => {
-          item.created_at = moment(item.created_at).format('YYYY-MM-DD hh:mm a')
+          item.created_at &&= new Date(item.created_at).toLocaleString('ar-eg')
           item.status = item.status === '1' ? 'مفعل' : 'غير مفعل'
           item.region = regions.data.data.find((region) => region.id === item.region_id).name
         })

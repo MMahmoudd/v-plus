@@ -159,7 +159,6 @@
 </template>
 <script>
   import { ServiceFactory } from '../../../../services/ServiceFactory'
-  import moment from 'moment'
   const constructionConditionsService = ServiceFactory.get('constructionConditions')
   export default {
     name: 'Users',
@@ -211,7 +210,7 @@
         const pageNumber = page - 1
         const items = await constructionConditionsService.getAllItems(itemsPerPage, page, pageNumber)
         items.data.data.map(item => {
-          item.created_at = moment(item.created_at).format('YYYY-MM-DD hh:mm a')
+          item.created_at &&= new Date(item.created_at).toLocaleString('ar-eg')
           item.status = item.status === '1' ? 'مفعل' : 'غير مفعل'
         })
         this.items = items.data.data

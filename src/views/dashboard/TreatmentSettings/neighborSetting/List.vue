@@ -159,7 +159,6 @@
 </template>
 <script>
   import { ServiceFactory } from '../../../../services/ServiceFactory'
-  import moment from 'moment'
   const SettingService = ServiceFactory.get('neighborSetting')
 
   export default {
@@ -211,7 +210,7 @@
         const pageNumber = page - 1
         const items = await SettingService.getAllItems(itemsPerPage, page, pageNumber)
         items.data.map(item => {
-          item.created_at = moment(item.created_at).format('YYYY-MM-DD hh:mm a')
+          item.created_at &&= new Date(item.created_at).toLocaleString('ar-eg')
           item.status = item.status === 1 ? 'مفعل' : 'غير مفعل'
         })
         this.items = items.data

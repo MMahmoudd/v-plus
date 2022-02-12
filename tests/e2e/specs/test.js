@@ -3,6 +3,6 @@
 describe('My First Test', () => {
   it('Visits the app root url', () => {
     cy.visit('/')
-    cy.url().should('be.equal', 'http://localhost:8081/login')
+    cy.url().should('be.equal', 'http://localhost:8080/login')
   })
 })

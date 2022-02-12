@@ -1,9 +1,10 @@
 // https://docs.cypress.io/api/introduction/api.html
 
 describe('Login page', () => {
+    const { email, password, badEmail, badPassword } = Cypress.env('login')
     it('Visits the app login url', () => {
       cy.visit('/')
-      cy.url().should('be.equal', 'http://localhost:8081/login')
+      cy.url().should('be.equal', 'http://localhost:8080/login')
     })
 
     it('should show email & password inputs', () => {
@@ -18,17 +19,13 @@ describe('Login page', () => {
     })
 
     it('show redirect after login with the right credentials and hit enter', () => {
-        const email = 'x@demo.com'
-        const password = '123'
         cy.visit('/login')
         cy.get('input[name=email]').type(email)
         cy.get('input[name=password]').type(`${password}{enter}`)
-        cy.url().should('eq', 'http://localhost:8081/')
+        cy.url().should('eq', 'http://localhost:8080/')
     })
 
     it('show redirect after login with the right credentials and click on button', () => {
-        const email = 'x@demo.com'
-        const password = '123'
         cy.visit('/login')
         cy.get('input[name=email]').type(email)
         cy.get('input[name=password]').type(`${password}{enter}`)
@@ -36,21 +33,17 @@ describe('Login page', () => {
     })
 
     it('should show message when email field is not a valid email', () => {
-        const email = 'xcom'
-        const password = '123'
         cy.visit('/login')
-        cy.get('input[name=email]').type(email)
+        cy.get('input[name=email]').type(badEmail)
         cy.get('input[name=password]').type(`${password}{enter}`)
         cy.get('button[type=submit]').click()
         cy.get('.v-alert__content').should('contain', 'The email must be a valid email address.')
     })
 
     it('should show message  after login with the wrong credentials', () => {
-        const email = 'x@demo.co'
-        const password = '1234'
         cy.visit('/login')
         cy.get('input[name=email]').type(email)
-        cy.get('input[name=password]').type(`${password}{enter}`)
+        cy.get('input[name=password]').type(`${badPassword}{enter}`)
         cy.get('button[type=submit]').click()
         cy.get('.v-alert__content').should('contain', 'Incorrect Details')
     })

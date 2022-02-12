@@ -159,7 +159,6 @@
 </template>
 <script>
   import { ServiceFactory } from '../../../../services/ServiceFactory'
-  import moment from 'moment'
   const EvaluationCurrenciesService = ServiceFactory.get('EvaluationCurrencies')
   export default {
     name: 'EvaluationCurrencies',
@@ -212,7 +211,7 @@
         const items = await EvaluationCurrenciesService.getAllItems(itemsPerPage, page, pageNumber)
         console.log('Users', items)
         items.data.data.map(item => {
-          item.created_at = moment(item.created_at).format('YYYY-MM-DD hh:mm a')
+          item.created_at &&= new Date(item.created_at).toLocaleString('ar-eg')
           item.status = item.status === '1' ? 'مفعل' : 'غير مفعل'
         })
         this.items = items.data.data

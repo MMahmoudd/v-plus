@@ -55,7 +55,7 @@
                 {{ item.customer.cs_name }}
               </td>
               <td data-prefix="التاريخ">
-                {{ new Date(item.created_at).toLocaleString('ar') }}
+                {{ new Date(item.created_at).toLocaleString('ar-eg') }}
               </td>
               <td data-prefix="المنطقة">
                 {{ item.region.name }}

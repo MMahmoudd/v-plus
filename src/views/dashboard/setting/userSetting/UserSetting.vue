@@ -159,7 +159,6 @@
 </template>
 <script>
   import { ServiceFactory } from '../../../../services/ServiceFactory'
-  // import moment from 'moment'
   const UserSettingService = ServiceFactory.get('UserSetting')
   export default {
     name: 'UserSetting',

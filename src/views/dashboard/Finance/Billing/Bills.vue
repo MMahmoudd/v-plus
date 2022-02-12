@@ -146,7 +146,6 @@
 
 <script>
   import { ServiceFactory } from '../../../../services/ServiceFactory'
-  import moment from 'moment'
   import VueHtml2pdf from 'vue-html2pdf'
   import CustomProgress from '../../component/progress.vue'
   import PdfContent from '../PdfContent.vue'
@@ -254,7 +253,7 @@
           pageNumber
         )
         items.data.data.map((item) => {
-          item.created_at = moment(item.created_at).format('YYYY-MM-DD hh:mm a')
+          item.created_at &&= new Date(item.created_at).toLocaleString('ar-eg')
         })
         this.items = items.data.data
         this.total = items.total
@@ -264,7 +263,7 @@
         this.dataLoading = true
         const item = await BillsService.fetchOneItem(id)
         if (item.data.created_at) {
-          item.data.created_at = moment(item.data.created_at).format('YYYY-MM-DD')
+          item.data.created_at = new Date(item.data.created_at).toLocaleDateString('ar-eg')
         }
         this.pdfData.tableData = item.data
         console.log('this.pdfData.tableData :>> ', this.pdfData.tableData)
@@ -274,7 +273,7 @@
         this.dataLoading = true
         const data = await SettingService.getFacility()
         if (data.data.license_date) {
-          data.data.license_date = moment(data.data.license_date).format('YYYY-MM-DD')
+          data.data.license_date = new Date(data.data.license_date).toLocaleDateString('ar-eg')
         }
         this.pdfData.FacilityData = data.data
         this.dataLoading = false

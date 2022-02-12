@@ -153,7 +153,6 @@
 
 <script>
   import { ServiceFactory } from '../../../../services/ServiceFactory'
-  import moment from 'moment'
   const CustomersService = ServiceFactory.get('Customers')
 
   export default {
@@ -219,7 +218,7 @@
         )
         console.log('Users', items)
         items.data.data.map((item) => {
-          item.created_at = moment(item.created_at).format('YYYY-MM-DD hh:mm a')
+          item.created_at &&= new Date(item.created_at).toLocaleString('ar-eg')
         })
         this.items = items.data.data
         this.total = items.total
