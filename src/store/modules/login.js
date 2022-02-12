@@ -70,13 +70,17 @@ const Login = {
             window.location.href = process.env.BASE_URL
           } else {
             console.log('response', response)
-            state.loginErrorMessage = response.data.error_message
+            if (response.data.error_message) {
+              state.loginErrorMessage = response.data.error_message
+            } else if (response.errors.email) {
+              state.loginErrorMessage = response.data.errors.email[0]
+            }
             state.isLoading = true
           }
         })
         .catch(error => {
-          console.log('error', error)
-          state.loginErrorMessage = error
+          console.log('error', { error })
+          state.loginErrorMessage = error.response.data.error_message || error.response.data.errors.email[0]
           state.isLoading = true
         })
     },

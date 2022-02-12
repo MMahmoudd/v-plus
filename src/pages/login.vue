@@ -20,6 +20,7 @@
           <v-form @submit.prevent="loginSubmit()">
             <v-text-field
               v-model="userLogin.email"
+              name="email"
               type="email"
               outlined
               :rules="[rules.required]"
@@ -27,6 +28,7 @@
             />
             <v-text-field
               v-model="userLogin.password"
+              name="password"
               :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
               :rules="[rules.required, rules.min]"
               :type="show1 ? 'text' : 'password'"
@@ -36,24 +38,26 @@
               :placeholder="$t('login.password')"
               @click:append="show1 = !show1"
             />
+            <v-card-actions>
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    class="mr-4 submit"
+                    v-bind="attrs"
+                    type="submit"
+                    :class="{'is-loading': isLoading}"
+                    :disabled="!formValid"
+                    v-on="on"
+                    @click="loginSubmit"
+                  >
+                    {{ $t('login.login') }}
+                  </v-btn>
+                </template>
+                <span>{{ $t('login.login') }}</span>
+              </v-tooltip>
+            </v-card-actions>
           </v-form>
-          <v-card-actions>
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                  class="mr-4 submit"
-                  v-bind="attrs"
-                  :class="{'is-loading': isLoading}"
-                  :disabled="formValid"
-                  v-on="on"
-                  @click="loginSubmit"
-                >
-                  {{ $t('login.login') }}
-                </v-btn>
-              </template>
-              <span>{{ $t('login.login') }}</span>
-            </v-tooltip>
-          </v-card-actions>
+
           <template v-if="loginErrorMessage">
             <v-alert
               type="error"
@@ -107,9 +111,9 @@
       userLogin: {
         handler (val) {
           if (this.userLogin.email && this.userLogin.password) {
-            this.formValid = false
-          } else {
             this.formValid = true
+          } else {
+            this.formValid = false
           }
         },
         deep: true,
@@ -123,7 +127,7 @@
         'doLogin',
       ]),
       loginSubmit () {
-        if (!this.formValid) {
+        if (this.formValid) {
           this.doLogin({
             email: this.userLogin.email,
             password: this.userLogin.password,
