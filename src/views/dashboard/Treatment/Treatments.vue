@@ -776,6 +776,8 @@
 
 <script>
   import { ServiceFactory } from '../../../services/ServiceFactory'
+  import { reportNameList } from '../../../staticLists/customers'
+  import { getFieldByKey, getKey } from '../../../Utils/transactionPdf'
   // import mergeImages from 'merge-images'
   /**
    * ? static data
@@ -1047,7 +1049,7 @@
         }, 1000)
       },
       // pdf
-      generateReport: async function (id) {
+      generateReport: async function (selectedTransactionId) {
         // ?
         function split (string) {
           if (!string) {
@@ -1064,8 +1066,8 @@
           this.progressNumber = 0
           this.pdfDataLoading = true
           this.showProgress = true
-          const pdfData = this.itemsTr.find(item => item.id === id)
-          console.log(pdfData)
+          const pdfData = this.itemsTr.find(transaction => transaction.id === selectedTransactionId)
+          // console.log(pdfData)
           this.progressNumber = 10
           const facility = await this.getFacility()
           this.progressNumber = 20
@@ -1087,60 +1089,9 @@
           pdfData.propTypeList = []
           pdfData.transConstructionList = []
 
-          /**
-           * report Name
-           */
-
-          // const reportNameList = [
-          //   {
-          //     name: 'رقم المعاملة',
-          //     id: 1,
-          //   },
-          //   {
-          //     name: 'رمز العقار / رقم الموقع / رقم العميل',
-          //     id: 2,
-          //   },
-          //   {
-          //     name: 'رقم التكليف',
-          //     id: 3,
-          //   },
-          //   {
-          //     name: 'رقم الصك',
-          //     id: 4,
-          //   },
-          //   {
-          //     name: 'اسم العميل',
-          //     id: 5,
-          //   },
-          //   {
-          //     name: 'اسم العميل – رقم التكليف',
-          //     id: 6,
-          //   },
-          // ]
-          const { data: oneTransactionData } = await TransactionsServices.fetchOneItem(id)
-          let reportName = ''
-          switch (pdfData.customer.report_id) {
-            case 1 :
-              reportName = oneTransactionData?.transaction_id || ''
-              break
-            case 2:
-              reportName = oneTransactionData?.trans_deposit_code_site_num_customer_num || ''
-              break
-            case 3:
-              reportName = 1
-              break
-            case 4:
-              reportName = oneTransactionData?.trans_instrument_num || ''
-              break
-            case 5 :
-              reportName = pdfData?.customer?.cs_name || ''
-              break
-            case 6 :
-              reportName = pdfData?.customer?.cs_name || ''
-              break
-            default:
-              reportName = ''
-          }
+          const { data: oneTransactionData } = await TransactionsServices.fetchOneItem(selectedTransactionId)
+          const resportNameKey = getKey(reportNameList, (item) => item.id === (pdfData.customer.report_id || 1), 'key')
+          const reportName = getFieldByKey(oneTransactionData, resportNameKey, pdfData)
           pdfData.customer.reportName = reportName
           /**
            * ? adding colors

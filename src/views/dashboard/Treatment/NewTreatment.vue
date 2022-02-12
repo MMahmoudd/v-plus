@@ -383,6 +383,21 @@
                   </v-menu>
                 </v-col>
 
+                <v-col
+                  cols="12"
+                  lg="3"
+                  md="4"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >رقم التكليف</label>
+                  <v-text-field
+                    v-model="data.trans_assignment_number"
+                    label="رقم التكليف"
+                    single-line
+                    outlined
+                  />
+                </v-col>
                 <!-- <v-col
                   cols="12"
                   lg="3"
@@ -2568,6 +2583,7 @@
         trans_report_phone: '',
         trans_value_basis: '',
         value_hypothesis: '',
+        trans_assignment_number: '',
         trans_assignment_date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
         trans_evaluation_date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
         trans_inspection_date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),

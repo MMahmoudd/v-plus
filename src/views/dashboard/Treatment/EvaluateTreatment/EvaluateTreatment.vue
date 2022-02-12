@@ -329,7 +329,21 @@
                         />
                       </v-menu>
                     </v-col>
-
+                    <v-col
+                      cols="12"
+                      lg="3"
+                      md="4"
+                    >
+                      <label
+                        class="d-block mb-3 font-weight-bold"
+                      >رقم التكليف</label>
+                      <v-text-field
+                        v-model="data.trans_assignment_number"
+                        label="رقم التكليف"
+                        single-line
+                        outlined
+                      />
+                    </v-col>
                     <v-col
                       cols="12"
                       lg="3"
