@@ -62,6 +62,7 @@ const Login = {
             })
             localStorage.setItem('token', response.data.token)
             localStorage.setItem('userData', JSON.stringify(response.data.user))
+            localStorage.setItem('userLang', 'ar')
             state.userData = response.data.user
             localStorage.setItem('userPermissions', JSON.stringify(permissions))
             state.userToken = response.data.token

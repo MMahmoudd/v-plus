@@ -24,6 +24,12 @@
         :server-items-length="total"
         :page-count="numberOfPages"
       >
+        <template v-slot:[`item.amount`]="{ item }">
+          {{ +item.amount + +item.other_amount }}
+        </template>
+        <template v-slot:[`item.status`]="{ item }">
+          {{ statuses[item.status] }}
+        </template>
         <template
           v-slot:no-data
           loading
@@ -80,16 +86,26 @@
       successMessage: '',
       errorMessage: '',
       disabled: false,
+      statuses: {
+        1: 'مسودة',
+        2: 'تحت التقييم',
+        3: 'تحت المراجعة',
+        4: 'قيد الاعتماد',
+        5: 'معتمدة',
+        6: 'مرسلة',
+        7: 'معلقة',
+        8: 'ملغية',
+      },
       headers: [
         { text: 'رقم المعاملة', sortable: true, value: 'transaction.transaction_id' },
-        { text: 'العميل', sortable: true, value: 'Jan.total' },
-        { text: 'تم التوجية بواسطة', sortable: true, value: 'Feb.total' },
+        { text: 'العميل', sortable: true, value: 'transaction.customer.cs_name' },
+        { text: 'تم التوجية بواسطة', sortable: true, value: 'transaction.addby.name' },
         { text: 'المستخدم', sortable: true, value: 'user.name' },
-        { text: 'نوع العقار', sortable: true, value: 'Apr.total' },
-        { text: 'المدينة', sortable: true, value: 'May.total' },
-        { text: 'الحالة', sortable: true, value: 'Jun.total' },
-        { text: 'السعر', sortable: true, value: 'Jul.total' },
-        { text: 'العمولة', sortable: true, value: 'Aug.total' },
+        { text: 'نوع العقار', sortable: true, value: 'transaction.propertytype.name' },
+        { text: 'المدينة', sortable: true, value: 'transaction.city.name' },
+        { text: 'الحالة', sortable: true, value: 'status' },
+        { text: 'السعر', sortable: true, value: 'transaction.trans_report_price' },
+        { text: 'العمولة', sortable: true, value: 'amount' },
       ],
     }),
     mounted () {
