@@ -421,15 +421,25 @@
                 </v-col>
               </v-row>
             </v-row>
-            <v-btn
-              type="submit"
-              class="mx-auto my-auto d-flex"
-              color="indigo"
-              :loading="loading"
-              :disabled="disabled || !permissions.update"
-            >
-              {{ this.$route.params.id ? 'حفظ' : 'اضافة' }}
-            </v-btn>
+            <div class="text-center mt-10">
+              <v-btn
+                to="/Users"
+                type="submit"
+                class="mx-2"
+                color="indigo"
+              >
+                رجوع
+              </v-btn>
+              <v-btn
+                type="submit"
+                class="mx-2"
+                color="indigo"
+                :loading="loading"
+                :disabled="disabled || !permissions.update"
+              >
+                {{ this.$route.params.id ? 'حفظ' : 'اضافة' }}
+              </v-btn>
+            </div>
           </v-container>
         </v-form>
       </template>
