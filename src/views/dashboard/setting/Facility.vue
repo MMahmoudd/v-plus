@@ -106,6 +106,28 @@
                     />
                   </v-col>
                 </v-row>
+                <v-row>
+                  <v-col
+                    cols="12"
+                    md="3"
+                  >
+                    <v-subheader>صورة المنشأة:</v-subheader>
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    md="9"
+                  >
+                    <v-file-input
+                      outlined
+                      chips
+                      dense
+                      label="إضافة صورة"
+                      prepend-icon="mdi-camera"
+                      accept="image/png, image/jpeg, image/bmp"
+                      @change="onNewFileSelected3()"
+                    />
+                  </v-col>
+                </v-row>
               </v-card>
             </v-col>
             <v-col
@@ -633,6 +655,9 @@
       },
       onNewFileSelected2 (event) {
         this.data.seal_url = event
+      },
+      onNewFileSelected3 (event) {
+        this.data.logo = event
       },
       async updateContent () {
         const formData = new FormData()

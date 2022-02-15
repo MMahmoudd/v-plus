@@ -61,6 +61,17 @@
             تسجيل خروج <v-icon>mdi-logout</v-icon>
           </v-btn>
         </v-list-item>
+        <v-list-item>
+          <router-link :to="'/reports/userReportById/' + usersData.id">
+            <v-btn
+              class="ml-2"
+              min-width="0"
+              text
+            >
+              تقريري <v-icon> mdi-file-account </v-icon>
+            </v-btn>
+          </router-link>
+        </v-list-item>
       </v-list>
     </v-menu>
     <v-spacer />
