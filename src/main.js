@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import VueResource from 'vue-resource'
+// import VueResource from 'vue-resource'
 import App from './App.vue'
 import router from '../src/router/router'
 import store from './store/store'
@@ -12,9 +12,9 @@ import DatetimePicker from 'vuetify-datetime-picker'
 import axios from 'axios'
 import { API_URL } from './config/index.js'
 // Language Plugin
-import VueI18n from 'vue-i18n'
-import en from './locales/en.json'
-import ar from './locales/ar.json'
+// import VueI18n from 'vue-i18n'
+// import en from './locales/en.json'
+// import ar from './locales/ar.json'
 import * as VueGoogleMaps from 'vue2-google-maps'
 // Import Style
 import './assets/main.css'
@@ -26,7 +26,7 @@ Vue.use(VueEllipseProgress)
 
 Vue.use(UUID)
 Vue.use(DatetimePicker)
-Vue.use(VueI18n)
+// Vue.use(VueI18n)
 Vue.use(VueGoogleMaps, {
   load: {
     // mine
@@ -39,14 +39,14 @@ Vue.use(VueGoogleMaps, {
   },
 })
 // Ready translated locale messages
-const language = {
-  en: en,
-  ar: ar,
-}
-let userLang = 'ar'
-if (localStorage.getItem('userLang')) {
-  userLang = localStorage.getItem('userLang')
-}
+// const language = {
+//   en: en,
+//   ar: ar,
+// }
+// let userLang = 'ar'
+// if (localStorage.getItem('userLang')) {
+//   userLang = localStorage.getItem('userLang')
+// }
 
 // config file with base endpoint url
 axios.defaults.baseURL = `${API_URL}`
@@ -61,11 +61,11 @@ if (userToken) {
 }
 
 // Create VueI18n instance with options
-const i18n = new VueI18n({
-  locale: userLang,
-  messages: language,
-})
-Vue.use(VueResource)
+// const i18n = new VueI18n({
+//   locale: userLang,
+//   messages: language,
+// })
+// Vue.use(VueResource)
 // Vue Mixins
 Vue.mixin({
   mixins: [mixins],
@@ -74,6 +74,6 @@ new Vue({
   router,
   store,
   vuetify,
-  i18n,
+  // i18n,
   render: h => h(App),
 }).$mount('#app')
