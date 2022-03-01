@@ -6,10 +6,10 @@
         alt="Stop"
       >
       <h1>
-        {{ $t('auth.NotAuthorized') }}
+        قف هنا
       </h1>
       <p>
-        {{ $t('auth.YouAreNotAuthorizedToViewThisPage') }}
+       لا تملك الصلاحيات لتصفح هذه الصفحة!
       </p>
     </div>
   </div>

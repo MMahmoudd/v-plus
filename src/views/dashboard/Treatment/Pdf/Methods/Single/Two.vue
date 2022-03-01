@@ -80,7 +80,7 @@
             class="field"
             :style="styleSubData"
           >
-            القيمة السوقية باستخدام طريقة رسملة الدخل
+            طريقة الاستثمار (رسملة الدخل)
           </td>
           <td>{{ formatCurrency(data.market_v_income_c_method) }}</td>
         </tr>

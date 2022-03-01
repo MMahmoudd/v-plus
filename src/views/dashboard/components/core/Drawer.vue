@@ -30,10 +30,11 @@
 <script>
 // Utilities
   import { mapState } from 'vuex'
-
+  import { ServiceFactory } from '../../../../services/ServiceFactory'
+  const LinksService = ServiceFactory.get('Links')
+  // TODO : "important links" rount can be expand but can't be clicked to visit
   export default {
     name: 'DashboardCoreDrawer',
-
     props: {
       expandOnHover: {
         type: Boolean,
@@ -135,8 +136,8 @@
               permission: 'تقرير الإيرادات',
             },
             {
-              title: 'تقرير الارباح (قريبا)',
-              // to: '/expenses',
+              title: 'تقرير الارباح',
+              to: '/reports/profits-reports',
               role: true,
               permission: 'تقرير الارباح',
             },
@@ -146,29 +147,10 @@
           title: 'روابط هامة',
           icon: 'fa-link',
           role: true,
+          name: 'links',
           to: '/links',
-          // children: [
-          //   {
-          //     title: 'رابط 1 (قريبا)',
-          //     // to: '/customers',
-          //     role: true,
-          //   },
-          //   {
-          //     title: 'رابط 2 (قريبا)',
-          //     // to: '/price-offers',
-          //     role: true,
-          //   },
-          //   {
-          //     title: 'رابط 3 (قريبا)',
-          //     // to: '/Bills',
-          //     role: true,
-          //   },
-          //   {
-          //     title: 'رابط 4 (قريبا)',
-          //     // to: '/expenses',
-          //     role: true,
-          //   },
-          // ],
+          children: [
+          ],
         },
         {
           title: 'دليل الاستخدام (قريبا)',
@@ -359,8 +341,19 @@
             },
           ],
         },
+        {
+          title: 'الربط والتكامل',
+          icon: 'fa-cogs',
+          role: true,
+          children: [
+            { title: 'جوجل ماب', to: '/' },
+          ],
+        },
       ],
     }),
+    mounted () {
+      this.fetchLinks()
+    },
     computed: {
       ...mapState(['barColor'], {
         role: (state) => state.login.userDataPermission,
@@ -407,6 +400,14 @@
     // this.checkLinksRole()
     },
     methods: {
+      async fetchLinks () {
+        const linksIndex = this.sidebarList.findIndex(item => item.name === 'links')
+        const { data } = await LinksService.getAllItems()
+        console.log(this.sidebarList[linksIndex])
+        this.sidebarList[linksIndex].children = data.map(item => ({ title: item.name, to: item.link, popup: true }))
+        this.$nextTick()
+        console.log(this.sidebarList[linksIndex])
+      },
       mapItem (item) {
         return {
           ...item,

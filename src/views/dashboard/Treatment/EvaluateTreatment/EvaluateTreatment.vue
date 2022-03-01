@@ -3249,7 +3249,7 @@
                         >
                           <v-checkbox
                             v-model="data.evaluation_criteria"
-                            label="طريقة الاستثمار رسملة الدخل"
+                            label="طريقة الاستثمار (رسملة الدخل)"
                             value="2"
                           />
                         </v-col>
@@ -3324,15 +3324,18 @@
                                         class="mt-3"
                                         single-line
                                         outlined
+                                        @input="changeSettlement('cm_space_settlement','cm_space')"
                                       />
                                     </td>
                                     <td>
                                       <v-select
                                         v-model="data.cm_operation_type"
                                         class="mt-3"
-                                        :items="items"
+                                        :items="operationTypeList"
                                         single-line
                                         outlined
+                                        item-value="id"
+                                        item-text="name"
                                       />
                                     </td>
                                     <td>
@@ -3403,15 +3406,18 @@
                                         class="mt-3"
                                         single-line
                                         outlined
+                                        @input="changeSettlement('cm_space_settlement2','cm_space_2')"
                                       />
                                     </td>
                                     <td>
                                       <v-select
                                         v-model="data.cm_operation_type_2"
                                         class="mt-3"
-                                        :items="items"
+                                        :items="operationTypeList"
                                         single-line
                                         outlined
+                                        item-value="id"
+                                        item-text="name"
                                       />
                                     </td>
                                     <td>
@@ -3474,15 +3480,18 @@
                                         class="mt-3"
                                         single-line
                                         outlined
+                                        @input="changeSettlement('cm_space_settlement3','cm_space_3')"
                                       />
                                     </td>
                                     <td>
                                       <v-select
                                         v-model="data.cm_operation_type_3"
                                         class="mt-3"
-                                        :items="items"
+                                        :items="operationTypeList"
                                         single-line
                                         outlined
+                                        item-value="id"
+                                        item-text="name"
                                       />
                                     </td>
                                     <td>
@@ -3795,6 +3804,7 @@
                                         outlined
                                         type="number"
                                         suffix="%"
+                                        disabled
                                       />
                                     </td>
                                     <td>
@@ -3805,6 +3815,7 @@
                                         outlined
                                         type="number"
                                         suffix="%"
+                                        disabled
                                       />
                                     </td>
                                     <td>
@@ -3815,6 +3826,7 @@
                                         outlined
                                         type="number"
                                         suffix="%"
+                                        disabled
                                       />
                                     </td>
                                   </tr>
@@ -3998,7 +4010,7 @@
                                   </tr>
                                   <tr>
                                     <td>
-                                      <label class="v-label theme--light font-weight-bold">القيمة السوقية بطريقة البيوع المقارنة</label>
+                                      <label class="v-label theme--light font-weight-bold text-danger">القيمة السوقية باستخدام طريقة البيوع المقارنة</label>
                                     </td>
                                     <td colspan="3">
                                       <vuetify-money
@@ -4077,36 +4089,20 @@
                                         outlined
                                         hide-details=""
                                         type="number"
-                                        @input="updateTotalRent(item.id)"
+                                        @input="updateTotalRent(item)"
                                       />
                                     </td>
                                     <td>
-                                      <!-- <v-text-field
-                                v-model="item.unit_rent"
-                                label="إيجار الوحدة"
-                                single-line
-                                outlined
-                                hide-details=""
-                                @input="updateTotalRent(item.id)"
-                              /> -->
                                       <vuetify-money
                                         v-model="item.unit_rent"
                                         outlined
                                         single-line
                                         :options="moneyInputOptions"
                                         hide-details
-                                        @input="updateTotalRent(item.id)"
+                                        @input="() => updateTotalRent(item)"
                                       />
                                     </td>
                                     <td>
-                                      <!-- <v-text-field
-                                v-model="item.total_rent"
-                                label="مجموع الإيجارات"
-                                single-line
-                                outlined
-                                hide-details=""
-                                disabled
-                              /> -->
                                       <vuetify-money
                                         v-model="item.total_rent"
                                         outlined
@@ -4116,23 +4112,49 @@
                                         disabled
                                       />
                                     </td>
-                                    <td>
-                                      <!-- <v-text-field
-                                v-model="item.total_rent"
-                                label="مجموع الإيجارات"
-                                single-line
-                                outlined
-                                hide-details=""
-                                disabled
-                              /> -->
+                                    <!--
+                                      status === 1 ==> money
+                                      status === 2 ==> percent
+                                    -->
+                                    <td style="position:relative;">
+                                      <!-- money input -->
                                       <vuetify-money
+                                        v-if="item.status === 1"
                                         v-model="item.deduction_losses"
                                         outlined
                                         single-line
-                                        :options="moneyInputOptions"
+                                        :options="{...moneyInputOptions, prefix : '$'}"
                                         hide-details
-                                        @input="updateTotalRent(item.id)"
+                                        @input="updateTotalRent(item)"
                                       />
+                                      <v-text-field
+                                        v-else
+                                        v-model="item.deduction_losses"
+                                        prefix="%"
+                                        outlined
+                                        single-line
+                                        hide-details
+                                        type="number"
+                                        @input="updateTotalRent(item)"
+                                      />
+                                      <!--change from price ot percent or vice versa-->
+                                      <v-btn
+                                        text
+                                        icon
+                                        style="
+                                        padding:0;
+                                        height:auto;
+                                        width:auto;
+                                        margin:0;
+                                        position: absolute;
+                                        bottom: -14px;
+                                        left: 16px;"
+                                        @click="changeType(item)"
+                                      >
+                                        <v-icon>
+                                          mdi-swap-horizontal
+                                        </v-icon>
+                                      </v-btn>
                                     </td>
                                     <td>
                                       <!-- <v-text-field
@@ -4561,6 +4583,10 @@
                       outlined
                     /> -->
                           </v-col>
+                          <!--
+                            TODO :
+                            حقل النفقات التشغيلية والراسمالية نسبة او رقم ، النسبة تؤخذ من حقل اجمالي الدخل الفعلي مع توضيح الرقم (حاصل ضرب النسبة في الحقل) اذا تم اختيار النسبة
+                          -->
                           <v-col
                             cols="12"
                             lg="3"
@@ -4572,13 +4598,40 @@
                             cols="12"
                             lg="9"
                             sm="8"
+                            style="position:relative;"
                           >
                             <vuetify-money
                               v-model="data.m_operating_c_expenditures"
                               outlined
                               single-line
-                              :options="moneyInputOptions"
+                              :options="{...moneyInputOptions, prefix : `${data.m_operating_c_expenditures_status === 1 ? '$' : '%'}`}
+                              "
                             />
+                            <!-- {{ data.m_operating_c_expenditures_status }} -->
+                            <!--change from price ot percent or vice versa-->
+                            <v-btn
+                              text
+                              icon
+                              style="
+                                        padding:0;
+                                        height:auto;
+                                        width:auto;
+                                        margin:0;
+                                        position: absolute;
+                                        right: 16px;
+                                        bottom:14px;"
+                              @click="changeOperatingExpenditures()"
+                            >
+                              <v-icon large>
+                                mdi-swap-horizontal
+                              </v-icon>
+                              <span
+                                v-if="data.m_operating_c_expenditures_status === 2"
+                                style="display:inline-block; margin-right:10px; font-weight:bold;"
+                              >
+                                {{ m_operating_c_expenditures_from_percent.toFixed(2) }}
+                              </span>
+                            </v-btn>
                             <!-- <v-text-field
                       v-model="data.m_operating_c_expenditures"
                       single-line
@@ -4639,7 +4692,7 @@
                             lg="3"
                             sm="4"
                           >
-                            <label class="v-label theme--light font-weight-bold text-danger">القيمة السوقية باستخدام طريقة رسملة الدخل</label>
+                            <label class="v-label theme--light font-weight-bold text-danger">طريقة الاستثمار (رسملة الدخل)</label>
                           </v-col>
                           <v-col
                             cols="12"
@@ -4730,6 +4783,7 @@
                           >
                             <v-text-field
                               v-model="b.space"
+                              :disabled="b.building_type === 'الأرض'"
                               value="153"
                               single-line
                               outlined
@@ -5340,7 +5394,7 @@
                                 </tr>
                                 <tr>
                                   <td>
-                                    <label class="v-label theme--light">إجمالى الإهلاك</label>
+                                    <label class="v-label theme--light font-weight-bold">إجمالى الإهلاك</label>
                                   </td>
                                   <td>
                                     <v-text-field
@@ -5444,7 +5498,7 @@
                                 </tr>
                                 <tr>
                                   <td>
-                                    <label class="v-label theme--light text-danger font-weight-bold">القيمة السوقية بأسلوب التكلفة</label>
+                                    <label class="v-label theme--light text-danger font-weight-bold">القيمة السوقية باستخدام أسلوب التكلفة</label>
                                   </td>
                                   <td colspan="2">
                                     <vuetify-money
@@ -5477,7 +5531,7 @@
                                     البيان
                                   </th>
                                   <th>
-                                    القيمة السوقية بطريقة البيوع المقارنة
+                                    القيمة السوقية باستخدام طريقة البيوع المقارنة
                                   </th>
                                   <th>
                                     القيمة السوقية بطريقة رسملة الدخل

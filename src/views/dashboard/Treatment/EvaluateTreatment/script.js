@@ -1,13 +1,18 @@
  /* eslint-disable vue/valid-v-model */
   // import TransactionsBar from './TransactionsBar.vue'
   // import Swal from 'sweetalert2'
+  // ! TODO : REPLACE IT WITH NATIVE CODE
   import { copyText } from 'vue3-clipboard'
+  // ! TODO : DO YOU NEED THIS ?
   import { Loader } from '@googlemaps/js-api-loader'
   import { ServiceFactory } from '../../../../services/ServiceFactory'
   import staticLists from '../staticData.json'
   import { uuid } from 'vue-uuid'
+  // TODO : YOU CAN GRAP IT AFTER THE PAGE LOADING
   import NumbersToWords from 'tafgeetjs'
+  // TODO : YOU CAN GRAP IT AFTER THE PAGE LOADING
   import draggable from 'vuedraggable'
+  import { operationTypeList } from '../staticLists'
   const loader = new Loader('AIzaSyACo4RXxzSABqvI3S_Q3_nQ2YIW4HfJuXI')
   const CustomersService = ServiceFactory.get('Customers')
   const EvaluationPurposeService = ServiceFactory.get('EvaluationPurpose')
@@ -132,6 +137,7 @@ westFacadeSetting: [],
         7: 'معلقة',
         8: 'ملغية',
       }),
+      operationTypeList,
       staticLists: { ...staticLists },
       customersList: [],
       evaluationPurposeList: [],
@@ -145,629 +151,12 @@ westFacadeSetting: [],
       appraisalValueList: [],
       samplesList: [],
       valuesUsedList: [
-        {
-          id: 'القيمة السوقية',
-          name: 'القيمة السوقية',
-        },
-        {
-          id: 'الإيجار السوقي',
-          name: 'الإيجار السوقي',
-        },
-        {
-          id: 'القيمة المنصفة',
-          name: 'القيمة المنصفة',
-        },
-        {
-          id: 'القيمة الاستثمارية',
-          name: 'القيمة الاستثمارية',
-        },
-        {
-          id: 'القيمة التكاملية',
-          name: 'القيمة التكاملية',
-        },
-        {
-          id: 'قيمة التصفية',
-          name: 'قيمة التصفية',
-        },
-        {
-          id: 'القيمة العادلة',
-          name: 'القيمة العادلة',
-        },
-        {
-          id: 'القيمة السوقية العادلة',
-          name: 'القيمة السوقية العادلة',
-        },
-        {
-          id: 'أخرى',
-          name: 'أخرى',
-        },
       ],
       feesUsedValuesList: [
-
       ],
       propTypeList: [
-        {
-          id: 'فيلا سكنية',
-          name: 'فيلا سكنية',
-        },
-        {
-          id: 'فيلا',
-          name: 'فيلا',
-        },
-        {
-          id: 'أرض',
-          name: 'أرض',
-        },
-        {
-          id: 'برج مكتبي',
-          name: 'برج مكتبي',
-        },
-        {
-          id: 'برج',
-          name: 'برج',
-        },
-        {
-          id: 'عماره',
-          name: 'عماره',
-        },
-        {
-          id: 'معارض',
-          name: 'معارض',
-        },
-        {
-          id: 'مواقف + مستودعات',
-          name: 'مواقف + مستودعات',
-        },
-        {
-          id: 'مستودعات',
-          name: 'مستودعات',
-        },
-        {
-          id: 'ورشة',
-          name: 'ورشة',
-        },
-        {
-          id: 'محلات',
-          name: 'محلات',
-        },
-        {
-          id: 'عمائر',
-          name: 'عمائر',
-        },
-        {
-          id: 'مبنى أرض مقهى',
-          name: 'مبنى أرض مقهى',
-        },
-        {
-          id: 'فلل',
-          name: 'فلل',
-        },
-        {
-          id: 'مدرسة',
-          name: 'مدرسة',
-        },
-        {
-          id: 'منجرة',
-          name: 'منجرة',
-        },
-        {
-          id: 'مركز تجاري',
-          name: 'مركز تجاري',
-        },
-        {
-          id: 'عدد 4 قطع أراضي فضاء',
-          name: 'عدد 4 قطع أراضي فضاء',
-        },
-        {
-          id: 'أرض فضاء',
-          name: 'أرض فضاء',
-        },
-        {
-          id: 'حوش',
-          name: 'حوش',
-        },
-        {
-          id: 'بيت شعبي',
-          name: 'بيت شعبي',
-        },
-        {
-          id: 'إستراحة',
-          name: 'إستراحة',
-        },
-        {
-          id: 'قصر',
-          name: 'قصر',
-        },
-        {
-          id: 'مرفق تعليمي',
-          name: 'مرفق تعليمي',
-        },
-        {
-          id: 'مخطط سكني تجاري',
-          name: 'مخطط سكني تجاري',
-        },
-        {
-          id: 'مصنع',
-          name: 'مصنع',
-        },
-        {
-          id: 'مجمع تجاري مكتبي',
-          name: 'مجمع تجاري مكتبي',
-        },
-        {
-          id: 'أرض وبناء',
-          name: 'أرض وبناء',
-        },
-        {
-          id: 'عمارة مكتبية',
-          name: 'عمارة مكتبية',
-        },
-        {
-          id: 'أرض مقام عليها مصنع خرسانه',
-          name: 'أرض مقام عليها مصنع خرسانه',
-        },
-        {
-          id: 'مبنى اداري',
-          name: 'مبنى اداري',
-        },
-        {
-          id: 'محطة',
-          name: 'محطة',
-        },
-        {
-          id: 'أرض وبناء',
-          name: 'أرض وبناء',
-        },
-        {
-          id: 'عمارتين سكني تجاري',
-          name: 'عمارتين سكني تجاري',
-        },
-        {
-          id: 'ارض صناعي',
-          name: 'ارض صناعي',
-        },
-        {
-          id: 'عمارة سكنية',
-          name: 'عمارة سكنية',
-        },
-        {
-          id: 'سكن عمال',
-          name: 'سكن عمال',
-        },
-        {
-          id: 'شقة',
-          name: 'شقة',
-        },
-        {
-          id: 'عمارة تجاري',
-          name: 'عمارة تجاري',
-        },
-        {
-          id: 'أرض خام',
-          name: 'أرض خام',
-        },
-        {
-          id: 'تعليمي',
-          name: 'تعليمي',
-        },
-        {
-          id: 'أرض مقام عليها فيلا',
-          name: 'أرض مقام عليها فيلا',
-        },
-        {
-          id: 'ارض مقام عليها اساسات',
-          name: 'ارض مقام عليها اساسات',
-        },
-        {
-          id: 'مــزرعــــة',
-          name: 'مــزرعــــة',
-        },
-        {
-          id: 'ارض مقام عليها اساسات',
-          name: 'ارض مقام عليها اساسات',
-        },
-        {
-          id: 'عمارة + فيلا',
-          name: 'عمارة + فيلا',
-        },
-        {
-          id: 'عمارة + فلتين',
-          name: 'عمارة + فلتين',
-        },
-        {
-          id: 'محطه',
-          name: 'محطه',
-        },
-        {
-          id: 'مبنى (مقر بنك ساب)',
-          name: 'مبنى (مقر بنك ساب)',
-        },
-        {
-          id: 'أرض زراعي',
-          name: 'أرض زراعي',
-        },
-        {
-          id: 'أرض مقام عليها محطة عظم',
-          name: 'أرض مقام عليها محطة عظم',
-        },
-        {
-          id: 'مجمع فلل',
-          name: 'مجمع فلل',
-        },
-        {
-          id: 'مستودع',
-          name: 'مستودع',
-        },
-        {
-          id: 'فندق الروضة',
-          name: 'فندق الروضة',
-        },
-        {
-          id: 'عمارة مكتبية ومعارض',
-          name: 'عمارة مكتبية ومعارض',
-        },
-        {
-          id: 'أرض مقام عليها مباني',
-          name: 'أرض مقام عليها مباني',
-        },
-        {
-          id: 'فندق',
-          name: 'فندق',
-        },
-        {
-          id: 'عمارة شقق مفروشة',
-          name: 'عمارة شقق مفروشة',
-        },
-        {
-          id: 'أرض مسورة',
-          name: 'أرض مسورة',
-        },
-        {
-          id: 'مستودع + مكاتب إداريه',
-          name: 'مستودع + مكاتب إداريه',
-        },
-        {
-          id: 'مجمع تجاري',
-          name: 'مجمع تجاري',
-        },
-        {
-          id: 'شاليه + ملعب',
-          name: 'شاليه + ملعب',
-        },
-        {
-          id: 'محلات + عمارة',
-          name: 'محلات + عمارة',
-        },
-        {
-          id: 'ارض مسورة بها مظلة',
-          name: 'ارض مسورة بها مظلة',
-        },
-        {
-          id: 'صالات عرض ومبنى اداري',
-          name: 'صالات عرض ومبنى اداري',
-        },
-        {
-          id: 'عمارتين + فلتين',
-          name: 'عمارتين + فلتين',
-        },
-        {
-          id: 'محل تجاري',
-          name: 'محل تجاري',
-        },
-        {
-          id: 'شاليه',
-          name: 'شاليه',
-        },
-        {
-          id: 'مطعم',
-          name: 'مطعم',
-        },
-        {
-          id: 'عمارة مكتبية',
-          name: 'عمارة مكتبية',
-        },
-        {
-          id: 'ارض زراعية',
-          name: 'ارض زراعية',
-        },
-        {
-          id: 'معرض سيارات',
-          name: 'معرض سيارات',
-        },
-        {
-          id: 'مبنى',
-          name: 'مبنى',
-        },
-        {
-          id: 'ارض مسوره',
-          name: 'ارض مسوره',
-        },
-        {
-          id: 'معرض',
-          name: 'معرض',
-        },
-        {
-          id: 'ارض تجارية',
-          name: 'ارض تجارية',
-        },
-        {
-          id: 'ارض سكنية',
-          name: 'ارض سكنية',
-        },
-        {
-          id: 'ارض مقام عليها مباني',
-          name: 'ارض مقام عليها مباني',
-        },
-        {
-          id: 'سكن عائلي',
-          name: 'سكن عائلي',
-        },
-        {
-          id: 'سكني تجاري',
-          name: 'سكني تجاري',
-        },
-        {
-          id: 'عمارة تجارية',
-          name: 'عمارة تجارية',
-        },
-        {
-          id: 'فيلا دبلكس',
-          name: 'فيلا دبلكس',
-        },
-        {
-          id: 'فيلا روف',
-          name: 'فيلا روف',
-        },
-        {
-          id: 'قصر سكني',
-          name: 'قصر سكني',
-        },
-        {
-          id: 'مجمع سكني',
-          name: 'مجمع سكني',
-        },
-        {
-          id: 'مخطط تحت التطوير',
-          name: 'مخطط تحت التطوير',
-        },
-        {
-          id: 'مقر شركة',
-          name: 'مقر شركة',
-        },
-        {
-          id: 'ملاحق أرضية',
-          name: 'ملاحق أرضية',
-        },
-        {
-          id: 'منتزه ترفيهي',
-          name: 'منتزه ترفيهي',
-        },
-        {
-          id: 'وحدة سكنية',
-          name: 'وحدة سكنية',
-        },
-        {
-          id: 'مجمع مدراس',
-          name: 'مجمع مدراس',
-        },
-        {
-          id: 'معارض تجارية',
-          name: 'معارض تجارية',
-        },
-        {
-          id: 'عمارة سكنية تجارية مكتبية (شقق مفروشة)',
-          name: 'عمارة سكنية تجارية مكتبية (شقق مفروشة)',
-        },
-        {
-          id: 'عمارة سكنية + مستودعات',
-          name: 'عمارة سكنية + مستودعات',
-        },
-        {
-          id: 'مجمع مكتبي',
-          name: 'مجمع مكتبي',
-        },
-        {
-          id: 'مجمع تجاري مكتبي سكني',
-          name: 'مجمع تجاري مكتبي سكني',
-        },
-        {
-          id: 'مخطط سكني تجاري',
-          name: 'مخطط سكني تجاري',
-        },
-        {
-          id: 'محلات+ سكن + استراحة',
-          name: 'محلات+ سكن + استراحة',
-        },
-        {
-          id: 'عمارة + محلات',
-          name: 'عمارة + محلات',
-        },
-        {
-          id: 'مكتب تجاري',
-          name: 'مكتب تجاري',
-        },
-        {
-          id: 'اختبار',
-          name: 'اختبار',
-        },
-        {
-          id: 'حسب الواقع',
-          name: 'حسب الواقع',
-        },
-        {
-          id: 'دور',
-          name: 'دور',
-        },
-        {
-          id: 'سوق تجاري',
-          name: 'سوق تجاري',
-        },
-        {
-          id: 'ستريب مول',
-          name: 'ستريب مول',
-        },
-        {
-          id: 'عمارة تجارية مكتبية',
-          name: 'عمارة تجارية مكتبية',
-        },
-        {
-          id: 'سكني تجاري وشقق مفروشة',
-          name: 'سكني تجاري وشقق مفروشة',
-        },
-        {
-          id: 'عمارة تجارية مكتبية + مستودع',
-          name: 'عمارة تجارية مكتبية + مستودع',
-        },
-        {
-          id: 'مزرعة صك رقم (213202004985)',
-          name: 'مزرعة صك رقم (213202004985)',
-        },
-        {
-          id: 'عماره + مستودعات',
-          name: 'عماره + مستودعات',
-        },
-        {
-          id: 'مزرعة صك رقم( 630801010713)',
-          name: 'مزرعة صك رقم( 630801010713)',
-        },
-        {
-          id: 'مقهى',
-          name: 'مقهى',
-        },
-        {
-          id: 'مباني فقط',
-          name: 'مباني فقط',
-        },
-        {
-          id: 'مزرعة ( الصك رقم 330114012614 )',
-          name: 'مزرعة ( الصك رقم 330114012614 )',
-        },
-        {
-          id: 'المزرعة صك رقم 371705005464',
-          name: 'المزرعة صك رقم 371705005464',
-        },
       ],
       propRatingsList: [
-        {
-          id: 'سكني',
-          name: 'سكني',
-        },
-        {
-          id: 'تجاري',
-          name: 'تجاري',
-        },
-        {
-          id: 'سكني تجاري',
-          name: 'سكني تجاري',
-        },
-        {
-          id: 'زراعي',
-          name: 'زراعي',
-        },
-        {
-          id: 'صناعي',
-          name: 'صناعي',
-        },
-        {
-          id: 'ورش',
-          name: 'ورش',
-        },
-        {
-          id: 'مستودعات',
-          name: 'مستودعات',
-        },
-        {
-          id: 'خام',
-          name: 'خام',
-        },
-        {
-          id: 'مرفق',
-          name: 'مرفق',
-        },
-        {
-          id: 'أخرى',
-          name: 'أخرى',
-        },
-        {
-          id: 'تعليمي',
-          name: 'تعليمي',
-        },
-        {
-          id: 'مكتبي',
-          name: 'مكتبي',
-        },
-        {
-          id: 'اخرى',
-          name: 'اخرى',
-        },
-        {
-          id: 'ماكولات بحرية',
-          name: 'ماكولات بحرية',
-        },
-        {
-          id: 'ترفيهي',
-          name: 'ترفيهي',
-        },
-        {
-          id: 'استثماري',
-          name: 'استثماري',
-        },
-        {
-          id: 'استراحات',
-          name: 'استراحات',
-        },
-        {
-          id: 'فضاء',
-          name: 'فضاء',
-        },
-        {
-          id: 'مناطق بحرية',
-          name: 'مناطق بحرية',
-        },
-        {
-          id: 'مجمع مكتبي',
-          name: 'مجمع مكتبي',
-        },
-        {
-          id: 'فندقي',
-          name: 'فندقي',
-        },
-        {
-          id: 'فندقي',
-          name: 'فندقي',
-        },
-        {
-          id: 'مستودعات - تجاري',
-          name: 'مستودعات - تجاري',
-        },
-        {
-          id: 'تجاري اداري',
-          name: 'تجاري اداري',
-        },
-        {
-          id: 'تجاري مكتبي',
-          name: 'تجاري مكتبي',
-        },
-        {
-          id: 'معارض سيارات',
-          name: 'معارض سيارات',
-        },
-        {
-          id: 'مرفق حكومي ( دفاع مدني )',
-          name: 'مرفق حكومي ( دفاع مدني )',
-        },
-        {
-          id: 'مركز إجتماعي',
-          name: 'مركز إجتماعي',
-        },
-        {
-          id: 'صناعية',
-          name: 'صناعية',
-        },
-        {
-          id: 'سكني تجاري مكتبي',
-          name: 'سكني تجاري مكتبي',
-        },
       ],
       transCurrencyList: [],
       cityName: '',
@@ -1148,6 +537,7 @@ westFacadeSetting: [],
         deduction_losses: '',
         total_actual_income: '',
         m_operating_c_expenditures: '',
+        m_operating_c_expenditures_status: 1,
         net_operating_income: '',
         capitalization_rate: '',
         market_v_income_c_method: '',
@@ -1159,6 +549,7 @@ westFacadeSetting: [],
         trans_currency: '',
         income_valuation: [
           {
+            status: 1, // percent or money
             unit_name: '', // اسم الوحدة
             unit_number: '', // عدد الوحدة
             unit_rent: '', // ايجار الوحدة
@@ -1317,6 +708,13 @@ westFacadeSetting: [],
         })
         return data
       },
+      m_operating_c_expenditures_from_percent: function () {
+        if (this.data.m_operating_c_expenditures_status === 2) {
+          return (this.data.m_operating_c_expenditures / 100) * this.data.total_actual_income
+        }
+
+        return ''
+      },
     },
     watch: {
       'data.cm_time_factor_adjustment': function () {
@@ -1423,7 +821,7 @@ westFacadeSetting: [],
         this.contribution_comparative_p_relative_weight(3)
       },
 
-      // القيمة السوقية بطريقة البيوع المقارنة
+      // القيمة السوقية باستخدام طريقة البيوع المقارنة
       'data.cm_contribution_comparative_p_relative_weight': function () {
         this.cm_market_v_comparative_sales_method()
       },
@@ -1435,17 +833,18 @@ westFacadeSetting: [],
       },
       // تقييم الايجارات
       'data.income_valuation': {
-        handler: function (val, oldVal) {
+        handler: function () {
           this.data.total_annual_income = this.data.income_valuation?.reduce((p, c) => p + c.total_rent, 0)
           this.data.deduction_losses = this.data.income_valuation?.reduce((p, c) => p + c.deduction_losses_total, 0)
         },
         deep: true,
       },
+      // إجمالي الدخل السنوي؟
+      // m_operating_c_expenditures_status
       'data.total_annual_income': function () {
         // إجمالي الدخل الفعلي
         this.data.total_actual_income = this.data.total_annual_income - this.data.deduction_losses
-        // صافي الدخل التشغيلي
-        this.data.net_operating_income = this.data.total_actual_income - this.data.m_operating_c_expenditures
+        this.calculateNetOpertationIncom()
       },
       'data.deduction_losses': function () {
         // إجمالي الدخل الفعلي
@@ -1454,10 +853,21 @@ westFacadeSetting: [],
       // ناقصا النفقات التشغيلية والرأسمالية
       'data.m_operating_c_expenditures': function () {
         // صافي الدخل التشغيلي
-        this.data.net_operating_income = this.data.total_actual_income - this.data.m_operating_c_expenditures
+        // TODO : check `m_operating_c_expenditures_status` if it's money
+        // TODO : add it like it is, if it's a percent taken from `total_actual_income`
+
+        // const totalFromPercent = (this.data.m_operating_c_expenditures / 100) * this.data.total_actual_income
+        // console.log('this.data.total_actual_income', this.data.total_actual_income)
+        // console.log('this.data.m_operating_c_expenditures', this.data.m_operating_c_expenditures)
+        // console.log('totalFromPercent', totalFromPercent)
+        this.calculateNetOpertationIncom()
+        // this.data.net_operating_income = this.data.total_actual_income - this.data.m_operating_c_expenditures
       },
       'data.total_actual_income': function () {
-        this.data.net_operating_income = this.data.total_actual_income - this.data.m_operating_c_expenditures
+        // TODO : check `m_operating_c_expenditures_status` if it's money
+        // TODO : add it like it is, if it's a percent taken from `total_actual_income`
+        this.calculateNetOpertationIncom()
+        // this.data.net_operating_income = this.data.total_actual_income - this.data.m_operating_c_expenditures
       },
 
       // صافي الدخل التشغيلي
@@ -1705,6 +1115,11 @@ westFacadeSetting: [],
         }
         this.data.files_to_deleted.push(+id)
       },
+      // move it later
+      changeSettlement: function (settlement, space) {
+        this.data[settlement] =
+        ((Number(this.data.land_area) / Number(this.data[space])) * 100).toFixed(2)
+      },
       fetchOneItem: async function (id) {
         const { data } = await TransactionsServices.fetchOneItem(id)
         for (const key in data) {
@@ -1714,6 +1129,15 @@ westFacadeSetting: [],
             this.data[key] = data[key]
           }
         }
+
+        // TODO : MOVE TO ANOTHER METHODS FOR READABILTY
+
+        this.data.cm_space_settlement =
+        ((Number(this.data.land_area) / Number(this.data.cm_space)) * 100).toFixed(2)
+        this.data.cm_space_settlement2 =
+        ((Number(this.data.land_area) / Number(this.data.cm_space_2)) * 100).toFixed(2)
+        this.data.cm_space_settlement3 =
+        ((Number(this.data.land_area) / Number(this.data.cm_space_3)) * 100).toFixed(2)
 
         if (this.data.trans_finishing_internal?.length === 0) {
           this.data.trans_finishing_internal = data.trans_finishing_internal
@@ -1754,7 +1178,7 @@ westFacadeSetting: [],
 
         if (!data.transactions_buildings || data.transactions_buildings.length === 0) {
           this.data.transactions_buildings = [
-            { building_type: 'الأرض', space: 0, price: 0, total: 0, __uuid: uuid.v4() },
+            { building_type: 'الأرض', space: Number(this.data.land_area), price: 0, total: 0, __uuid: uuid.v4() },
             { building_type: 'القبو', space: 0, price: 0, total: 0, __uuid: uuid.v4() },
             { building_type: 'دور أرضي', space: 0, price: 0, total: 0, __uuid: uuid.v4() },
             { building_type: 'دور أول', space: 0, price: 0, total: 0, __uuid: uuid.v4() },
@@ -2050,6 +1474,7 @@ westFacadeSetting: [],
         reader.onload = (e) => {
           item.image = e.target.result
           images.push(item)
+          // TODO : Do it in a another function
           images.sort((a, b) => {
             if (+a.status === 0 && +b.status === 1) {
               return 1
@@ -2079,6 +1504,7 @@ westFacadeSetting: [],
         this.data.images[index].type = 'edit'
         console.log(this.data.images[index])
         // }
+        // TODO : Do it in a another function
         this.data.images.sort((a, b) => {
           if (+a.status === 0 && +b.status === 1) {
             return 1
@@ -2102,7 +1528,6 @@ westFacadeSetting: [],
       removeParticipant: function (item) {
         item.participant = false
       },
-
       // cm_total_funding_market_adjustments
       setTotalFunding: function (n) {
         switch (n) {
@@ -2160,22 +1585,52 @@ westFacadeSetting: [],
           }
         })
       },
-      updateTotalRent: function (id) {
-        this.data.income_valuation = this.data.income_valuation.map(item => {
-          if (item.id === id) {
+      // تقييم الايجارات
+      //!  this is updating not only total rent, but final_income & deduction_losses_total too
+      updateTotalRent: function (item) {
+        // this.data.income_valuation = this.data.income_valuation.map(item => {
+          // if (item.id === id) {
+            // console.log(item)
             const totalRent = +item.unit_number * +item.unit_rent
-            const deductionLossesTotal = +item.unit_number * (+item.deduction_losses || 0)
-            return ({
-              ...item,
-              total_rent: totalRent,
-              deduction_losses_total: deductionLossesTotal,
-              final_income: totalRent - deductionLossesTotal,
-            })
-          }
-          return item
-        })
-      },
+            item.total_rent = totalRent
 
+            if (item.status === 1) {
+              const deductionLossesTotal = +item.unit_number * (+item.deduction_losses || 0)
+              item.deduction_losses_total = deductionLossesTotal
+              item.final_income = totalRent - deductionLossesTotal
+            } else {
+              this.updateTotalRentFromPercent(item)
+            }
+            // return ({
+            //   ...item,
+            //   total_rent: totalRent,
+            //   deduction_losses_total: deductionLossesTotal,
+            //   final_income: totalRent - deductionLossesTotal,
+            // })
+          // }
+          // return item
+        // })
+      },
+      /**
+       * take the total rent
+       */
+      updateTotalRentFromPercent: function (item) {
+        const totalRent = +item.unit_number * +item.unit_rent
+        // console.log(totalRent * item.deduction_losses / 100)
+        const deductionLossesTotal = totalRent * item.deduction_losses / 100
+        item.deduction_losses_total = deductionLossesTotal
+        item.final_income = totalRent - deductionLossesTotal
+      },
+      // change from price ot percent or vice versa (income_valuation)
+      changeType (item) {
+        // console.log('status before ', item.status)
+        item.status = item.status === 1 ? 2 : 1
+        item.deduction_losses = ''
+        item.final_income = ''
+        item.deduction_losses_total = ''
+
+        // console.log('status after', item.status)
+      },
       // تقييم الارض والمباني
       setMultiOfSpaceAndPrice: function (uuid) {
         // const index = this.data.transactions_buildings.findIndex(b => b.uuid === uuid)
@@ -2473,6 +1928,22 @@ westFacadeSetting: [],
           number: '',
           id: uuid.v4(),
         })
+      },
+      // رسملة
+      calculateNetOpertationIncom: function () {
+        if (this.data.m_operating_c_expenditures_status === 2) {
+          const totalFromPercent = (this.data.m_operating_c_expenditures / 100) * this.data.total_actual_income
+          this.data.net_operating_income = this.data.total_actual_income - totalFromPercent
+        } else {
+          this.data.net_operating_income = this.data.total_actual_income - this.data.m_operating_c_expenditures
+        }
+      },
+      changeOperatingExpenditures: function () {
+        if (this.data.m_operating_c_expenditures_status === 1) {
+          this.data.m_operating_c_expenditures_status = 2
+        } else {
+          this.data.m_operating_c_expenditures_status = 1
+        }
       },
       // changePcOfCom: function (id) {
       //   // const index = this.data.achievement.stages.findIndex(s => s.id === id)

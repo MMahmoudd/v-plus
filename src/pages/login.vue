@@ -24,7 +24,7 @@
               type="email"
               outlined
               :rules="[rules.required]"
-              :placeholder="$t('login.userName')"
+              placeholder="أسم المستخدم"
             />
             <v-text-field
               v-model="userLogin.password"
@@ -35,7 +35,7 @@
               counter
               outlined
               minlength="8"
-              :placeholder="$t('login.password')"
+              placeholder="كلمة المرور"
               @click:append="show1 = !show1"
             />
             <v-card-actions>
@@ -50,10 +50,10 @@
                     v-on="on"
                     @click="loginSubmit"
                   >
-                    {{ $t('login.login') }}
+                    تسجيل دخول"
                   </v-btn>
                 </template>
-                <span>{{ $t('login.login') }}</span>
+                <span>تسجيل دخول"</span>
               </v-tooltip>
             </v-card-actions>
           </v-form>

@@ -3,8 +3,9 @@
     :href="href"
     :rel="href && href !== '#' ? 'noopener' : undefined"
     :target="href && href !== '#' ? '_blank' : undefined"
-    :to="item.to"
+    :to="!item.popup ? item.to : undefined"
     :active-class="`primary ${!isDark ? 'black' : 'white'}--text`"
+    @click="handleClick(item)"
   >
     <v-list-item-icon
       v-if="text"
@@ -63,6 +64,15 @@
       },
       href () {
         return this.item.href || (!this.item.to ? '#' : undefined)
+      },
+    },
+
+    methods: {
+      handleClick (item) {
+        // console.log(item)
+        if (item.popup) {
+          window.open(item.to, 'DescriptiveWindowName', 'popup')
+        }
       },
     },
   }

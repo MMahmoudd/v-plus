@@ -289,7 +289,7 @@
             class="field"
             :style="styleSubData"
           >
-            القيمة السوقية بأسلوب التكلفة
+            القيمة السوقية باستخدام أسلوب التكلفة
           </td>
           <td colspan="2">
             {{ formatCurrency(data.cm_total_market_value) }}

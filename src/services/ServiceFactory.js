@@ -43,7 +43,7 @@ import LinksServices from './LinksServices'
 import usersReport from './Reports/UsersReport'
 import expensesReport from './Reports/ExpensesReport'
 import revenuesReport from './Reports/RevenuesReport'
-
+import profitsReport from './Reports/ProfitsReport'
 const services = {
   Users: usersService,
   Customers: customersService,
@@ -109,6 +109,8 @@ const services = {
   expensesReport: expensesReport,
   // تقرير الإيرادات
   revenuesReport: revenuesReport,
+  // تقرير الأرباح
+  profitsReport: profitsReport,
 }
 
 export const ServiceFactory = {

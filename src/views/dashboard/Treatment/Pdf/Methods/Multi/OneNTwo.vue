@@ -291,7 +291,7 @@
             class="field"
             :style="styleSubData"
           >
-            القيمة السوقية بطريقة البيوع المقارنة
+            القيمة السوقية باستخدام طريقة البيوع المقارنة
           </td>
           <td colspan="3">
             {{ formatCurrency(data.cm_market_v_comparative_sales_method) }}
@@ -377,7 +377,7 @@
             class="field"
             :style="styleSubData"
           >
-            القيمة السوقية باستخدام طريقة رسملة الدخل
+            طريقة الاستثمار (رسملة الدخل)
           </td>
           <td>{{ formatCurrency(data.market_v_income_c_method) }}</td>
         </tr>
@@ -397,7 +397,7 @@
             class="field"
             :style="styleSubData"
           >
-            القيمة السوقية بطريقة البيوع المقارنة
+            القيمة السوقية باستخدام طريقة البيوع المقارنة
           </td>
           <td
             class="field"
