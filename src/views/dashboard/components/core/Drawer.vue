@@ -181,6 +181,12 @@
               role: true,
               permission: 'الاشتراكات',
             },
+            {
+              title: 'التكاملات',
+              icon: 'fa-cogs',
+              role: true,
+              to: '/integrations/google-maps',
+            },
           ],
         },
         {
@@ -339,14 +345,6 @@
               to: '/treatment-settings/structureConstructionSetting',
               role: true,
             },
-          ],
-        },
-        {
-          title: 'الربط والتكامل',
-          icon: 'fa-cogs',
-          role: true,
-          children: [
-            { title: 'جوجل ماب', to: '/integrations/google-maps' },
           ],
         },
       ],

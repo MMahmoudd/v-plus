@@ -52,25 +52,51 @@
       </template>
       <v-list>
         <v-list-item>
+          <router-link
+            :to="'/reports/userReportById/' + usersData.id"
+            style="text-decoration:none;"
+          >
+            <v-btn
+              class="ml-2"
+              min-width="0"
+              text
+            >
+              <v-icon left>
+                mdi-file-account
+              </v-icon>
+              تقريري
+            </v-btn>
+          </router-link>
+        </v-list-item>
+        <v-list-item>
+          <router-link
+            to="/profile"
+            style="text-decoration:none;"
+          >
+            <v-btn
+              class="ml-2"
+              min-width="0"
+              text
+            >
+              <v-icon left>
+                mdi-pencil-outline
+              </v-icon>
+              تعديل الحساب
+            </v-btn>
+          </router-link>
+        </v-list-item>
+        <v-list-item>
           <v-btn
             class="ml-2"
             min-width="0"
             text
             @click="logout()"
           >
-            تسجيل خروج <v-icon>mdi-logout</v-icon>
+            <v-icon left>
+              mdi-logout
+            </v-icon>
+            تسجيل خروج
           </v-btn>
-        </v-list-item>
-        <v-list-item>
-          <router-link :to="'/reports/userReportById/' + usersData.id">
-            <v-btn
-              class="ml-2"
-              min-width="0"
-              text
-            >
-              تقريري <v-icon> mdi-file-account </v-icon>
-            </v-btn>
-          </router-link>
         </v-list-item>
       </v-list>
     </v-menu>
