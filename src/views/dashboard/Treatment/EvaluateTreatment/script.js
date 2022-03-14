@@ -1,4 +1,6 @@
  /* eslint-disable vue/valid-v-model */
+  import { loadGmapApi } from 'vue2-google-maps'
+
   // import TransactionsBar from './TransactionsBar.vue'
   // import Swal from 'sweetalert2'
   // ! TODO : REPLACE IT WITH NATIVE CODE
@@ -31,6 +33,7 @@
   const constructionConditionsService = ServiceFactory.get('constructionConditions')
   const WorkingStatusesServices = ServiceFactory.get('WorkingStatuses')
   const EvaluationCurrenciesServices = ServiceFactory.get('EvaluationCurrencies')
+  const googleMapsService = ServiceFactory.get('googleMaps')
   /**
    * * third library
    */
@@ -715,6 +718,16 @@ westFacadeSetting: [],
 
         return ''
       },
+    },
+    async beforeMount () {
+      const { data } = await googleMapsService.fetchOneItem()
+
+      loadGmapApi({
+        key: data?.google_maps_key || 'AIzaSyD9w2tU1GEpr4q2ECu-oTuB9ZC3nYOug3Q',
+        libraries: 'places',
+        language: 'ar',
+        region: 'SA',
+      })
     },
     watch: {
       'data.cm_time_factor_adjustment': function () {

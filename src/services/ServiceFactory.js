@@ -44,6 +44,9 @@ import usersReport from './Reports/UsersReport'
 import expensesReport from './Reports/ExpensesReport'
 import revenuesReport from './Reports/RevenuesReport'
 import profitsReport from './Reports/ProfitsReport'
+
+import googleMaps from './Integrations/googleMaps.js'
+
 const services = {
   Users: usersService,
   Customers: customersService,
@@ -111,6 +114,8 @@ const services = {
   revenuesReport: revenuesReport,
   // تقرير الأرباح
   profitsReport: profitsReport,
+
+  googleMaps: googleMaps,
 }
 
 export const ServiceFactory = {

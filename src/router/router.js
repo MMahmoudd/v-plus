@@ -654,6 +654,12 @@ const router = new Router({
           meta: { requiresAuth: true, permissions: 'تقرير الارباح' },
           component: () => import('@/views/dashboard/Reports/profits-reports/List.vue'),
         },
+        {
+          name: 'GoogleMap',
+          path: '/integrations/google-maps',
+          meta: { requiresAuth: true },
+          component: () => import('@/views/dashboard/integrations/GoogleMap.vue'),
+        },
         { path: '*', redirect: '/login' },
       ],
     },

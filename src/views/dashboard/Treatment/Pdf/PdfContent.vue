@@ -3233,6 +3233,8 @@
 <script>
   // import defaultValues from './defaultValuesForPdf.js'
   // import { pdfMixin } from '../../../../mixins/pdfMixin.js'
+  import { loadGmapApi } from 'vue2-google-maps'
+  import { ServiceFactory } from '../../../../services/ServiceFactory'
   import OneNTwo from './Methods/Multi/OneNTwo.vue'
   import OneNThree from './Methods/Multi/OneNThree.vue'
   import TwoNThree from './Methods/Multi/TwoNThree.vue'
@@ -3240,6 +3242,8 @@
   import One from './Methods/Single/One.vue'
   import Two from './Methods/Single/Two.vue'
   import Three from './Methods/Single/Three.vue'
+
+  const googleMapsService = ServiceFactory.get('googleMaps')
 
   export default ({
     name: 'PdfContent',
@@ -3344,6 +3348,16 @@
         }
         return totalPriceSpace / counterTotalPriceSpace
       },
+    },
+    async beforeMount () {
+      const { data } = await googleMapsService.fetchOneItem()
+
+      loadGmapApi({
+        key: data?.google_maps_key || 'AIzaSyD9w2tU1GEpr4q2ECu-oTuB9ZC3nYOug3Q',
+        libraries: 'places',
+        language: 'ar',
+        region: 'SA',
+      })
     },
     methods: {
       join: function (array) {

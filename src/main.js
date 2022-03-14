@@ -27,7 +27,10 @@ Vue.use(VueEllipseProgress)
 Vue.use(UUID)
 Vue.use(DatetimePicker)
 // Vue.use(VueI18n)
-Vue.use(VueGoogleMaps, {
+Vue.use(VueGoogleMaps)
+
+/**
+ * , {
   load: {
     // mine
     // key: 'AIzaSyCVqitAS9u-YPDAsQzPS6xomUn5Qe6-ukg',
@@ -37,7 +40,8 @@ Vue.use(VueGoogleMaps, {
     language: 'ar',
     region: 'SA',
   },
-})
+}
+ */
 // Ready translated locale messages
 // const language = {
 //   en: en,

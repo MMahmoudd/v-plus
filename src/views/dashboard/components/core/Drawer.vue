@@ -346,7 +346,7 @@
           icon: 'fa-cogs',
           role: true,
           children: [
-            { title: 'جوجل ماب', to: '/' },
+            { title: 'جوجل ماب', to: '/integrations/google-maps' },
           ],
         },
       ],
