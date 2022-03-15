@@ -1,6 +1,15 @@
 import axios from 'axios'
 import { API_URL } from '../../config'
-import router from '../../router/router'
+// import router from '../../router/router'
+import { deleteAllCookies } from '../../Utils/cookies'
+
+function setCookie (cname, cvalue, exdays) {
+  const d = new Date()
+  d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000))
+  const expires = 'expires=' + d.toUTCString()
+  document.cookie = cname + '=' + cvalue + ';' + expires + ';path=/'
+}
+
 const Login = {
   state: {
     // isLoading: false,
@@ -33,7 +42,9 @@ const Login = {
       localStorage.removeItem('token')
       localStorage.removeItem('userData')
       localStorage.removeItem('userPermissions')
-      router.push('/login')
+      localStorage.removeItem('domain')
+      deleteAllCookies()
+      document.location.href = '/'
     },
     //  Set Token
     setToken (state, data) {
@@ -52,6 +63,7 @@ const Login = {
         .then((response) => {
           state.isLoading = true
           if (response.data.token) {
+            console.log(response.data)
             /**
              * * converting roles to objects instead of array
              */
@@ -61,6 +73,7 @@ const Login = {
               permissions[item.model_name] = { ...item }
             })
             localStorage.setItem('token', response.data.token)
+            setCookie('token', response.data.token, 1000)
             localStorage.setItem('userData', JSON.stringify(response.data.user))
             localStorage.setItem('userLang', 'ar')
             state.userData = response.data.user
@@ -68,7 +81,9 @@ const Login = {
             state.userToken = response.data.token
             // state.userDataPermission = response.data.userPolicy
             // dispatch('checkUserData')
-            window.location.href = process.env.BASE_URL
+            // ! WE DON'T KNOW THE DOMAIN YET. I NEED IT IN THE RESPONSE.
+            window.localStorage.setItem('domain', response.data.facility.url)
+            window.location.href = process.env.BASE_URL + response.data.facility.url
           } else {
             console.log('response', response)
             if (response.data.error_message) {

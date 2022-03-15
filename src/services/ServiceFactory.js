@@ -46,9 +46,11 @@ import revenuesReport from './Reports/RevenuesReport'
 import profitsReport from './Reports/ProfitsReport'
 
 import googleMaps from './Integrations/googleMaps.js'
+import ProfileService from './ProfileService'
 
 const services = {
   Users: usersService,
+  Profile: ProfileService,
   Customers: customersService,
   Setting: SettingServices,
   Samples: SamplesServices,

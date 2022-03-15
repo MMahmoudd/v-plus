@@ -74,8 +74,15 @@ if (userToken) {
 Vue.mixin({
   mixins: [mixins],
 })
+
+// Vue.use(fetch)
+// console.log(typeof router)
+// console.log(router)
+
+// axios.get('https://google.com')
+
 new Vue({
-  router,
+  router: router,
   store,
   vuetify,
   // i18n,

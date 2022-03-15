@@ -40,7 +40,7 @@
             size="56"
           >
             <img
-              :src="'https://taqeeem.millennium.sa/' + userData.image"
+              :src="userData.image"
               alt="profile image"
             >
           </v-avatar>
@@ -70,7 +70,7 @@
         </v-list-item>
         <v-list-item>
           <router-link
-            to="/profile"
+            to="/me"
             style="text-decoration:none;"
           >
             <v-btn

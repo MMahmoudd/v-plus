@@ -1,8 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import { deleteAllCookies } from '../Utils/cookies'
 // import { fetchPermisson } from '../Utils/permissons'
 // import qs from 'qs'
 Vue.use(Router)
+
+// console.log(localStorage.getItem('userData').name)
 
 // function isIModuleHasPermissions (userPermissions, role) {
 //     for (var key in userPermissions) {
@@ -35,7 +38,7 @@ Vue.use(Router)
 
 const router = new Router({
   mode: 'history',
-  base: process.env.BASE_URL,
+  base: process.env.BASE_URL + window.domain,
   // parseQuery: qs.parse,
   // stringifyQuery: (query) => qs.stringify(query,{}),
   // https://router.vuejs.org/guide/advanced/scroll-behavior.html
@@ -47,12 +50,12 @@ const router = new Router({
       path: '/login',
       component: () => import('@/pages/login'),
     },
-    {
-      name: 'pdf',
-      path: '/pdf',
-      component: () => import('@/views/dashboard/Finance/PdfContent.vue'),
-      meta: { requiresAuth: true },
-    },
+    // {
+    //   name: 'pdf',
+    //   path: '/pdf',
+    //   component: () => import('@/views/dashboard/Finance/PdfContent.vue'),
+    //   meta: { requiresAuth: true },
+    // },
     {
       name: 'Inter Phone Number',
       path: '/ResetPassword',
@@ -70,8 +73,8 @@ const router = new Router({
     },
     {
       path: '/',
-      // beforeEnter: routerGuard,
       redirect: '/',
+      // beforeEnter: routerGuard,
       component: () => import('@/views/dashboard/Index'),
       children: [
         // unAuthorized Page
@@ -104,6 +107,12 @@ const router = new Router({
           path: '/userForm/:id?',
           component: () => import('@/views/dashboard/users/Form.vue'),
           meta: { requiresAuth: true, permissions: 'المستخدمين', actions: true },
+        },
+        {
+          name: 'Profile',
+          path: '/me',
+          component: () => import('@/views/dashboard/users/Profile.vue'),
+          meta: { requiresAuth: true },
         },
         // Start Finance
         // Start Treatments
@@ -660,7 +669,7 @@ const router = new Router({
           meta: { requiresAuth: true },
           component: () => import('@/views/dashboard/integrations/GoogleMap.vue'),
         },
-        { path: '*', redirect: '/login' },
+        { path: '*', redirect: '/' },
       ],
     },
   ],
@@ -712,6 +721,11 @@ const canActions = (modelName, action) => {
   }
 }
 
+// router.beforeEach(to => {
+//   // console.log(to, ' <== to')
+//   router.addRoute()
+// })
+
 router.beforeEach(async (to, from, next) => {
   const token = localStorage.getItem('token')
   // console.log('token', token ? ' : I have A TOKEN' : 'NO I DONT')
@@ -733,9 +747,8 @@ router.beforeEach(async (to, from, next) => {
      * * if the user does not has a token, redirect him to the login page
      */
     if (!token) {
-      next({
-        name: 'Login',
-      })
+      deleteAllCookies()
+      document.location.href = '/login'
     } else {
       /**
        * * if the user has a token
@@ -785,5 +798,16 @@ router.beforeEach(async (to, from, next) => {
     next()
   }
 })
+
+// router.beforeEach((to, from, next) => {
+//   console.log('to ==>', to)
+//   // to.params.companyName = 'hi'
+//   next()
+// })
+// router.beforeEach(async (to, from, next) => {
+//   // router.addRoute(Object.assign(to, { path: to.path }))
+//   router.addRoute()
+//   // console.log(router.currentRoute.fullPath)
+// })
 
 export default router
