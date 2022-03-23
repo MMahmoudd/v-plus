@@ -306,28 +306,7 @@
                       <label
                         class="d-block mb-3 font-weight-bold"
                       >تاريخ التكليف</label>
-                      <v-menu
-                        v-model="trans_assignment_date"
-                        :close-on-content-click="false"
-                        transition="scale-transition"
-                        offset-y
-                        min-width="auto"
-                      >
-                        <template v-slot:activator="{ on, attrs }">
-                          <v-text-field
-                            v-model="data.trans_assignment_date"
-                            readonly
-                            v-bind="attrs"
-                            single-line
-                            outlined
-                            v-on="on"
-                          />
-                        </template>
-                        <v-date-picker
-                          v-model="data.trans_assignment_date"
-                          @input="trans_assignment_date = false"
-                        />
-                      </v-menu>
+                      <custom-date v-model="data.trans_assignment_date" />
                     </v-col>
                     <v-col
                       cols="12"
@@ -728,28 +707,7 @@
                       <label
                         class="d-block mb-3 font-weight-bold"
                       >تاريخ الصك</label>
-                      <v-menu
-                        v-model="trans_instrument_date"
-                        :close-on-content-click="false"
-                        transition="scale-transition"
-                        offset-y
-                        min-width="auto"
-                      >
-                        <template v-slot:activator="{ on, attrs }">
-                          <v-text-field
-                            v-model="data.trans_instrument_date"
-                            readonly
-                            v-bind="attrs"
-                            single-line
-                            outlined
-                            v-on="on"
-                          />
-                        </template>
-                        <v-date-picker
-                          v-model="data.trans_instrument_date"
-                          @input="trans_instrument_date = false"
-                        />
-                      </v-menu>
+                      <custom-date v-model="data.trans_instrument_date" />
                     </v-col>
 
                     <v-col
@@ -776,28 +734,7 @@
                       <label
                         class="d-block mb-3 font-weight-bold"
                       >تاريخ رخصة البناء</label>
-                      <v-menu
-                        v-model="trans_building_permit_date"
-                        :close-on-content-click="false"
-                        transition="scale-transition"
-                        offset-y
-                        min-width="auto"
-                      >
-                        <template v-slot:activator="{ on, attrs }">
-                          <v-text-field
-                            v-model="data.trans_building_permit_date"
-                            readonly
-                            v-bind="attrs"
-                            single-line
-                            outlined
-                            v-on="on"
-                          />
-                        </template>
-                        <v-date-picker
-                          v-model="data.trans_building_permit_date"
-                          @input="trans_building_permit_date = false"
-                        />
-                      </v-menu>
+                      <custom-date v-model="data.trans_building_permit_date" />
                     </v-col>
 
                     <v-col
@@ -840,28 +777,7 @@
                       <label
                         class="d-block mb-3 font-weight-bold"
                       >تاريخ محضر التجزئة</label>
-                      <v-menu
-                        v-model="trans_retail_record_date"
-                        :close-on-content-click="false"
-                        transition="scale-transition"
-                        offset-y
-                        min-width="auto"
-                      >
-                        <template v-slot:activator="{ on, attrs }">
-                          <v-text-field
-                            v-model="data.trans_retail_record_date"
-                            readonly
-                            v-bind="attrs"
-                            single-line
-                            outlined
-                            v-on="on"
-                          />
-                        </template>
-                        <v-date-picker
-                          v-model="data.trans_retail_record_date"
-                          @input="trans_retail_record_date = false"
-                        />
-                      </v-menu>
+                      <custom-date v-model="data.trans_retail_record_date" />
                     </v-col>
                     <v-col
                       cols="12"
@@ -871,28 +787,7 @@
                       <label
                         class="d-block mb-3 font-weight-bold"
                       >تاريخ التقييم</label>
-                      <v-menu
-                        v-model="trans_evaluation_date"
-                        :close-on-content-click="false"
-                        transition="scale-transition"
-                        offset-y
-                        min-width="auto"
-                      >
-                        <template v-slot:activator="{ on, attrs }">
-                          <v-text-field
-                            v-model="data.trans_evaluation_date"
-                            readonly
-                            v-bind="attrs"
-                            single-line
-                            outlined
-                            v-on="on"
-                          />
-                        </template>
-                        <v-date-picker
-                          v-model="data.trans_evaluation_date"
-                          @input="trans_evaluation_date = false"
-                        />
-                      </v-menu>
+                      <custom-date v-model="data.trans_evaluation_date" />
                     </v-col>
                     <v-col
                       cols="12"
@@ -902,28 +797,7 @@
                       <label
                         class="d-block mb-3 font-weight-bold"
                       >تاريخ المعاينة</label>
-                      <v-menu
-                        v-model="trans_inspection_date"
-                        :close-on-content-click="false"
-                        transition="scale-transition"
-                        offset-y
-                        min-width="auto"
-                      >
-                        <template v-slot:activator="{ on, attrs }">
-                          <v-text-field
-                            v-model="data.trans_inspection_date"
-                            readonly
-                            v-bind="attrs"
-                            single-line
-                            outlined
-                            v-on="on"
-                          />
-                        </template>
-                        <v-date-picker
-                          v-model="data.trans_inspection_date"
-                          @input="trans_inspection_date = false"
-                        />
-                      </v-menu>
+                      <custom-date v-model="data.trans_inspection_date" />
                     </v-col>
                     <v-col
                       cols="12"
@@ -991,28 +865,7 @@
                         <label
                           class="d-block mb-3 font-weight-bold"
                         >تاريخ بدء النشاط</label>
-                        <v-menu
-                          v-model="menu4"
-                          :close-on-content-click="false"
-                          transition="scale-transition"
-                          offset-y
-                          min-width="auto"
-                        >
-                          <template v-slot:activator="{ on, attrs }">
-                            <v-text-field
-                              v-model="data.additional_component_3"
-                              readonly
-                              v-bind="attrs"
-                              single-line
-                              outlined
-                              v-on="on"
-                            />
-                          </template>
-                          <v-date-picker
-                            v-model="data.additional_component_3"
-                            @input="menu4 = false"
-                          />
-                        </v-menu>
+                        <custom-date v-model="data.additional_component_3" />
                       </v-col>
 
                       <v-col
@@ -3339,12 +3192,7 @@
                                       />
                                     </td>
                                     <td>
-                                      <v-text-field
-                                        v-model="data.operation_date"
-                                        class="mt-3"
-                                        single-line
-                                        outlined
-                                      />
+                                      <custom-date v-model="data.operation_date" />
                                     </td>
                                     <td>
                                       <vuetify-money
@@ -3421,12 +3269,7 @@
                                       />
                                     </td>
                                     <td>
-                                      <v-text-field
-                                        v-model="data.operation_date_2"
-                                        class="mt-3"
-                                        single-line
-                                        outlined
-                                      />
+                                      <custom-date v-model="data.operation_date_2" />
                                     </td>
                                     <td>
                                       <vuetify-money
@@ -3495,12 +3338,7 @@
                                       />
                                     </td>
                                     <td>
-                                      <v-text-field
-                                        v-model="data.operation_date_3"
-                                        class="mt-3"
-                                        single-line
-                                        outlined
-                                      />
+                                      <custom-date v-model="data.operation_date_3" />
                                     </td>
                                     <td>
                                       <vuetify-money

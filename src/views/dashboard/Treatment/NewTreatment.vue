@@ -350,7 +350,6 @@
                     outlined
                   />
                 </v-col>
-
                 <v-col
                   cols="12"
                   lg="3"
@@ -359,28 +358,7 @@
                   <label
                     class="d-block mb-3 font-weight-bold"
                   >تاريخ التكليف</label>
-                  <v-menu
-                    v-model="trans_assignment_date"
-                    :close-on-content-click="false"
-                    transition="scale-transition"
-                    offset-y
-                    min-width="auto"
-                  >
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-text-field
-                        v-model="data.trans_assignment_date"
-                        readonly
-                        v-bind="attrs"
-                        single-line
-                        outlined
-                        v-on="on"
-                      />
-                    </template>
-                    <v-date-picker
-                      v-model="data.trans_assignment_date"
-                      @input="trans_assignment_date = false"
-                    />
-                  </v-menu>
+                  <customDate v-model="data.trans_assignment_date" />
                 </v-col>
 
                 <v-col
@@ -555,28 +533,7 @@
                   <label
                     class="d-block mb-3 font-weight-bold"
                   >تاريخ الصك</label>
-                  <v-menu
-                    v-model="trans_instrument_date"
-                    :close-on-content-click="false"
-                    transition="scale-transition"
-                    offset-y
-                    min-width="auto"
-                  >
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-text-field
-                        v-model="data.trans_instrument_date"
-                        readonly
-                        v-bind="attrs"
-                        single-line
-                        outlined
-                        v-on="on"
-                      />
-                    </template>
-                    <v-date-picker
-                      v-model="data.trans_instrument_date"
-                      @input="trans_instrument_date = false"
-                    />
-                  </v-menu>
+                  <custom-date v-model="data.trans_instrument_date" />
                 </v-col>
                 <v-col
                   cols="12"
@@ -1183,28 +1140,7 @@
                   <label
                     class="d-block mb-3 font-weight-bold"
                   >تاريخ رخصة البناء</label>
-                  <v-menu
-                    v-model="trans_building_permit_date"
-                    :close-on-content-click="false"
-                    transition="scale-transition"
-                    offset-y
-                    min-width="auto"
-                  >
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-text-field
-                        v-model="data.trans_building_permit_date"
-                        readonly
-                        v-bind="attrs"
-                        single-line
-                        outlined
-                        v-on="on"
-                      />
-                    </template>
-                    <v-date-picker
-                      v-model="data.trans_building_permit_date"
-                      @input="trans_building_permit_date = false"
-                    />
-                  </v-menu>
+                  <customDate v-model="data.trans_building_permit_date" />
                 </v-col>
 
                 <!-- <v-col
@@ -1247,28 +1183,7 @@
                   <label
                     class="d-block mb-3 font-weight-bold"
                   >تاريخ محضر التجزئة</label>
-                  <v-menu
-                    v-model="trans_retail_record_date"
-                    :close-on-content-click="false"
-                    transition="scale-transition"
-                    offset-y
-                    min-width="auto"
-                  >
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-text-field
-                        v-model="data.trans_retail_record_date"
-                        readonly
-                        v-bind="attrs"
-                        single-line
-                        outlined
-                        v-on="on"
-                      />
-                    </template>
-                    <v-date-picker
-                      v-model="data.trans_retail_record_date"
-                      @input="trans_retail_record_date = false"
-                    />
-                  </v-menu>
+                  <customDate v-model="data.trans_retail_record_date" />
                 </v-col>
 
                 <!-- <v-col
@@ -2471,6 +2386,7 @@
   // import Swal from 'sweetalert2'
   // import { copyText } from 'vue3-clipboard'
   // import { Loader } from '@googlemaps/js-api-loader'
+  import customDate from '../../dashboard/component/Date.vue'
   import staticLists from './staticData.json'
   // const loader = new Loader('AIzaSyACo4RXxzSABqvI3S_Q3_nQ2YIW4HfJuXI')
 
@@ -2492,7 +2408,9 @@
 
   export default {
     name: 'NewTreatment',
-
+    components: {
+      customDate,
+    },
     data: () => ({
       errorMessage: '',
       successMessage: '',
@@ -2993,11 +2911,13 @@
         const { data } = await SamplesServices.getAllItems()
         this.samplesList = data.filter(sample => sample.status === '1')
       },
+
       // get one item
       fetchOneItem: async function (id) {
         const { data } = await TransactionsServices.fetchOneItem(id)
         this.data = data
       },
+
       // files
       handleFileUpload: function (files, name) {
         if (name === 'instrument_file') {
@@ -3011,6 +2931,7 @@
         }
         // this.createImage(files[0], name)
       },
+
       addDropFile (e, name) {
         /**
          * ? الصك غير محدد instrument_file
@@ -3020,6 +2941,7 @@
          */
         this.files = Array.from(e.dataTransfer.files)
       },
+
       createImage (file, name) {
         const reader = new FileReader()
         reader.onload = (e) => {
@@ -3027,16 +2949,19 @@
         }
         reader.readAsDataURL(file)
       },
+
       // ! TODO : cheange this with proper endpoint
       getUsers: async function () {
         const { data: { data: users } } = await UsersServices.getAllItems()
         const usersList = users.map(({ id, name }) => ({ id, name }))
+
         // ? https://vuedose.tips/improve-performance-on-large-lists-in-vue-js
         this.usersList = Object.freeze(users)
         this.appraisersList = Object.freeze(usersList)
         this.previewsList = Object.freeze(usersList)
         this.coordinatorsList = Object.freeze(usersList)
       },
+
       // get current customers
       getCustomers: async function () {
         // console.log('hi')
@@ -3048,6 +2973,7 @@
           })
         })
       },
+
       // add city
       addCity: async function (cityName, regionId) {
         await CitesServices.addCity(cityName, regionId)

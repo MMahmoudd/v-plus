@@ -1,6 +1,8 @@
  /* eslint-disable vue/valid-v-model */
   import { loadGmapApi } from 'vue2-google-maps'
 
+  import customDate from '../../../dashboard/component/Date.vue'
+
   // import TransactionsBar from './TransactionsBar.vue'
   // import Swal from 'sweetalert2'
   // ! TODO : REPLACE IT WITH NATIVE CODE
@@ -56,6 +58,7 @@
     order: 7,
     components: {
       draggable,
+      customDate,
       // TransactionsBar,
     },
     filters: {
@@ -498,9 +501,9 @@ westFacadeSetting: [],
         cm_price_after_settling_financing_terms: '',
         cm_price_after_settling_financing_terms2: '',
         cm_price_after_settling_financing_terms3: '',
-        cm_space_settlement: '',
-        cm_space_settlement2: '',
-        cm_space_settlement3: '',
+        cm_space_settlement: 0,
+        cm_space_settlement2: 0,
+        cm_space_settlement3: 0,
         cm_other_settlement: '',
         cm_other_settlement2: '',
         cm_other_settlement3: '',
@@ -666,9 +669,6 @@ westFacadeSetting: [],
       outNorm: 'الواجهات دهان، نوعية الأبواب الخارجية، نوعية أرضيات الساحات الخارجية غالباً من بلاط بلدي،',
       inNorm: 'نوعية أرضيات المداخل والمجالس وصالات الطعام تتكون من السيراميك العادي أو بلاط بلدي لفرش الموكيت، نوعية الأبواب الداخلية، لا يوجد عوازل، الشبابيك عادية جداً، نوعية التسليك والسباكة، نوعية الدهان الداخلي، لا يوجد جبس بالأسقف، نوعية التكييف شباك.',
     }),
-    // mounted () {
-    //   this.getMap(this.lat, this.long)
-    // },
     computed: {
       dragOptions () {
         return {
@@ -739,7 +739,8 @@ westFacadeSetting: [],
       'data.cm_settling_market_conditions': function () {
         this.setTotalFunding(1)
       },
-      'data.cm_space_settlement': function () {
+      'data.cm_space_settlement': function (newv, oldv) {
+        console.log('data.cm_space_settlement', oldv, newv)
         this.setTotalFunding(1)
       },
       'data.cm_other_settlement': function () {
@@ -1152,13 +1153,33 @@ westFacadeSetting: [],
         }
 
         // TODO : MOVE TO ANOTHER METHODS FOR READABILTY
+        console.log('before: ', this.data.cm_space_settlement)
+        console.log(this.data.land_area)
+        console.log(this.data.cm_space)
+        /**
+         * dividing on 0 will get INFINTY
+         */
+        function noZero (value) {
+          const toNumber = Number(value)
+
+          if (String(toNumber) === 'NaN') {
+            return 1
+          } else if (
+            toNumber === 0
+          ) {
+            return 1
+          }
+
+          return toNumber
+        }
 
         this.data.cm_space_settlement =
-        ((Number(this.data.land_area) / Number(this.data.cm_space)) * 100).toFixed(2)
+        ((noZero(this.data.land_area) / noZero(this.data.cm_space)) * 100).toFixed(2)
+        console.log('after: ', this.data.cm_space_settlement)
         this.data.cm_space_settlement2 =
-        ((Number(this.data.land_area) / Number(this.data.cm_space_2)) * 100).toFixed(2)
+        ((noZero(this.data.land_area) / noZero(this.data.cm_space_2)) * 100).toFixed(2)
         this.data.cm_space_settlement3 =
-        ((Number(this.data.land_area) / Number(this.data.cm_space_3)) * 100).toFixed(2)
+        ((noZero(this.data.land_area) / noZero(this.data.cm_space_3)) * 100).toFixed(2)
 
         if (this.data.trans_finishing_internal?.length === 0) {
           this.data.trans_finishing_internal = data.trans_finishing_internal
