@@ -890,7 +890,7 @@
                         </template>
                         <v-date-picker
                           v-model="data.trans_evaluation_date"
-                          @input="menu2 = false"
+                          @input="trans_evaluation_date = false"
                         />
                       </v-menu>
                     </v-col>

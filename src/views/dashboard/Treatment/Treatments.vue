@@ -587,6 +587,33 @@
           </vue-html2pdf>
         </div>
       </template>
+      <!--pdf content fernch-->
+      <template>
+        <div>
+          <vue-html2pdf
+            ref="html2PdfFrench"
+            :show-layout="false"
+            :float-layout="true"
+            :enable-download="false"
+            :preview-modal="true"
+            :paginate-elements-by-height="1400"
+            filename="نموذج التقرير"
+            :pdf-quality="2"
+            :manual-pagination="true"
+            pdf-format="a4"
+            pdf-orientation="portrait"
+            pdf-content-width="100%"
+            @beforeDownload="beforeDownload($event)"
+          >
+            <pdf-french
+              slot="pdf-content"
+              :data="pdfData"
+              :style-data="styleData"
+              :style-sub-data="styleSubData"
+            />
+          </vue-html2pdf>
+        </div>
+      </template>
       <template>
         <v-data-table
           :loading="isLoading"
@@ -814,6 +841,7 @@
       CustomProgress: () => import('../component/progress.vue'),
       SelectSample: () => import('./SelectSample.vue'),
       PdfContentAnother: () => import('./Pdf/PdfContentAnother.vue'),
+      PdfFrench: () => import('./Pdf/pdfFrench.vue'),
     },
     props: {
       type: { type: Number, required: false, default: 0 },
@@ -1343,7 +1371,12 @@
             this.$refs.html2PdfAnother.generatePdf()
           } else {
             this.pdfData.evaluation_criteria = (oneTransactionData.evaluation_criteria || [1, 2, 3]).map(x => +x)
-            this.$refs.html2Pdf.generatePdf()
+
+            if (pdfData.sample.name === 'نموذج البنك الفرنسى - شركات') {
+              this.$refs.html2PdfFrench.generatePdf()
+            } else {
+              this.$refs.html2Pdf.generatePdf()
+            }
           }
         } catch (err) {
           console.log(err)

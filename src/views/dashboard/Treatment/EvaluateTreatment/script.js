@@ -1139,7 +1139,15 @@ westFacadeSetting: [],
           if (data[key] === null) {
             this.data[key] = this.data[key]
           } else {
-            this.data[key] = data[key]
+            if (data[key] instanceof Date) {
+              if (data[key].length > 10) {
+                this.data[key] = (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)
+              } else {
+                this.data[key] = data[key]
+              }
+            } else {
+              this.data[key] = data[key]
+            }
           }
         }
 
