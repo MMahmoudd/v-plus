@@ -359,28 +359,28 @@ westFacadeSetting: [],
         eastern_facade: '',
         western_facade: '',
         south_facade: '',
-        masjid: '',
+        masjid: '0',
         masjid_note: '',
         masjid_distance: '',
-        market: '',
+        market: '0',
         market_note: '',
         market_distance: '',
-        medical_facility: '',
+        medical_facility: '0',
         medical_facility_note: '',
         medical_facility_distance: '',
-        security_facility: '',
+        security_facility: '0',
         security_facility_note: '',
         security_facility_distance: '',
-        public_garden: '',
+        public_garden: '0',
         public_garden_note: '',
         public_garden_distance: '',
-        educational_facility: '',
+        educational_facility: '0',
         educational_facility_note: '',
         educational_facility_distance: '',
-        government_office: '',
+        government_office: '0',
         government_office_note: '',
         government_office_distance: '',
-        highway: '',
+        highway: '0',
         highway_note: '',
         highway_distance: '',
         is_telephone: '',
@@ -1153,9 +1153,9 @@ westFacadeSetting: [],
         }
 
         // TODO : MOVE TO ANOTHER METHODS FOR READABILTY
-        console.log('before: ', this.data.cm_space_settlement)
-        console.log(this.data.land_area)
-        console.log(this.data.cm_space)
+        // console.log('before: ', this.data.cm_space_settlement)
+        // console.log(this.data.land_area)
+        // console.log(this.data.cm_space)
         /**
          * dividing on 0 will get INFINTY
          */
@@ -1205,7 +1205,7 @@ westFacadeSetting: [],
         /**
          * * default values for transactions_conditioners
          */
-        if (!data.transactions_conditioners || data.transactions_buildings.length === 0) {
+        if (!data.transactions_conditioners || data.transactions_conditioners.length === 0) {
           this.data.transactions_conditioners = [
             { type: 'مركزي', compound: 0, not_compound: 0 },
             { type: 'منفصل', compound: 0, not_compound: 0 },
@@ -1832,6 +1832,25 @@ westFacadeSetting: [],
       save: async function (status) {
         // console.log(status)
         this.dataLoading = true
+        /**
+         * ... ☑️
+         */
+        const services = ['masjid',
+         'market',
+         'medical_facility',
+         'security_facility',
+         'public_garden',
+         'educational_facility',
+         'government_office',
+         'highway']
+
+         services.forEach(service => {
+           if (this.data[`${service}_note`].trim() || this.data[`${service}_distance`].trim()) {
+             this.data[service] = '1'
+           } else {
+            this.data[service] = '0'
+           }
+         })
         /**
          * ? converting meters array to string
          */

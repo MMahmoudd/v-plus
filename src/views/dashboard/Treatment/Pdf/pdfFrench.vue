@@ -100,8 +100,8 @@
           <td />
           <td />
           <td>{{ data.trans_evaluation_date || '' }}</td>
+          <td>{{ data.propTypeList.find(item => item.id === data.property_type_id).name || '' }}</td>
           <td>{{ data.customer.cs_name || '' }}</td>
-          <td />
           <td />
           <td />
         </tr>
@@ -175,7 +175,7 @@
     <table class="table-fixed">
       <thead :style="styleData">
         <tr>
-          <th colspan="13">
+          <th colspan="14">
             <div class="header">
               <div class="header-text">
                 البيانات الأساسية
@@ -263,7 +263,7 @@
     <table class="table-fixed">
       <thead :style="styleData">
         <tr>
-          <th colspan="6">
+          <th colspan="9">
             <div class="header">
               <div class="header-text">
                 وصف تشطيبات العقار والأعمال الإنشائية
@@ -306,7 +306,7 @@
       >
         <thead :style="styleData">
           <tr>
-            <th>
+            <th colspan="4">
               <div class="header">
                 <div class="header-text">
                   تقييم الأرض والمباني
@@ -355,9 +355,12 @@
           </tr>
           <tr>
             <td>نسبة الربح</td>
-            <td>...</td>
-            <td>نسبة الإهلاك...</td>
-            <td>الإجمالي هنا</td>
+            <td>{{ addPercentage(data.cm_developer_earnings_ratio) }}</td>
+            <td>
+              نسبة الإهلاك
+              {{ addPercentage(data.cm_total_depreciation_ratio) }}
+            </td>
+            <td>{{ data.cm_space_total || 0 }}</td>
           </tr>
         </tbody>
       </table>
@@ -366,7 +369,7 @@
         <table>
           <thead :style="styleData">
             <tr>
-              <th>
+              <th colspan="4">
                 <div class="header">
                   <div class="header-text">
                     خدمات الكهرباء والمياة بالمبنى
@@ -413,17 +416,22 @@
           <tbody>
             <tr>
               <td>
-                عدد الشقق ( ) إیجارھا ( ) ر
+                عدد الشقق (
+                {{ data.income_valuation&&data.income_valuation.reduce((c,p) => {return c.unit_number + p},0) }}
+                )
+                إيجارها (
+                {{ data.income_valuation&&data.income_valuation.reduce((c,p) => {return c.total_rent + p},0) }}
+                )
               </td>
             </tr>
-            <tr>
+            <!-- <tr>
               <td>
                 عدد المحلات التجاریة ( ) إیجارھا ( ) ر
               </td>
-            </tr>
+            </tr> -->
             <tr>
               <td>
-                مجموع الإیجارات ( ) ر
+                مجموع الإیجارات ({{ data.income_valuation&&data.income_valuation.reduce((c,p) => {return c.total_rent + p},0) }} )
               </td>
             </tr>
           </tbody>
@@ -451,7 +459,7 @@
             </tr>
             <tr>
               <td>
-                تكالیف الصیانة التقدیریة ( ) ریال
+                تكالیف الصیانة التقدیریة (0 ) ریال
               </td>
             </tr>
           </tbody>
@@ -474,9 +482,7 @@
           <tbody>
             <tr>
               <td>
-                العقار عباره عن شقة رقم 344/2/35 بالطابق التاسع یتكون من مجلس وصالھ ومطبخ و غرفتین نوم وغرفة شغالھ
-                و 3 دورات میاه . - تم الاعتماد على مساحة الوحدة مشاعا المذكورة في محضر فرز المرفق من قبل العمیل وذلك
-                لعدم ذكره في الصك .
+                {{ data.review_note || '' }}
               </td>
             </tr>
           </tbody>
@@ -484,8 +490,10 @@
       </div>
     </div>
 
+    <div class="html2pdf__page-break" />
+
     <!-- لمسح الشامل على منطقة العقار وتحلیل العوامل المھمھ والمؤثره في قیمة العقا -->
-    <table
+    <!-- <table
       class="table-fixed"
       style="display:flex;"
     >
@@ -519,10 +527,10 @@
           <td />
         </tr>
       </tbody>
-    </table>
+    </table> -->
 
     <!--الخدمات والمرافق المتوفرة في الموقع-->
-    <table class="table-fixed">
+    <table class="table-fixed first">
       <thead :style="styleData">
         <tr>
           <th colspan="4">
@@ -562,70 +570,65 @@
           </td>
         </tr>
         <tr>
-          <td rowspan="3">
+          <td rowspan="2">
             الخدمات والمراكز العامة
           </td>
           <td>دوائر حكومية</td>
-          <td>صح</td>
-          <td>لا</td>
-        </tr>
-        <tr>
-          <td>بنوك</td>
-          <td>صح</td>
-          <td>لا</td>
+          <td>{{ data.government_office === '1' ? '☑️' : '' }}</td>
+          <td>{{ data.government_office === '0' ? '☑️' : '' }}</td>
         </tr>
         <tr>
           <td>مراكز طبية</td>
-          <td>صح</td>
-          <td>لا</td>
+          <td>{{ data.medical_facility === '1' ? '☑️' : '' }}</td>
+          <td>{{ data.medical_facility === '0' ? '☑️' : '' }}</td>
         </tr>
         <!-- -->
         <tr>
-          <td rowspan="3">
+          <td rowspan="1">
             خدمات تجارية
           </td>
           <td>مراكز تجارية</td>
-          <td>صح</td>
-          <td>لا</td>
+          <td>{{ data.market === '1' ? '☑️' : '' }}</td>
+          <td>{{ data.market === '0' ? '☑️' : '' }}</td>
         </tr>
-        <tr>
+        <!-- <tr>
           <td>مطاعم</td>
           <td>صح</td>
-          <td>لا</td>
+          <td>☑️</td>
         </tr>
         <tr>
           <td>محطات وقود</td>
           <td>صح</td>
-          <td>لا</td>
-        </tr>
+          <td>☑️</td>
+        </tr> -->
         <!-- -->
         <tr>
           <td rowspan="5">
             خدمات البنیة التحتیة
           </td>
           <td>شبكة الكھرباء</td>
-          <td>صح</td>
-          <td>لا</td>
+          <td />
+          <td>☑️</td>
         </tr>
         <tr>
           <td>شبكة الصرف الصحي</td>
-          <td>صح</td>
-          <td>لا</td>
+          <td />
+          <td>☑️</td>
         </tr>
         <tr>
           <td>شبكة المیاه</td>
-          <td>صح</td>
-          <td>لا</td>
+          <td />
+          <td>☑️</td>
         </tr>
         <tr>
           <td>شبكة الھاتف</td>
-          <td>صح</td>
-          <td>لا</td>
+          <td />
+          <td>☑️</td>
         </tr>
         <tr>
           <td>شبكة تصریف السیول</td>
-          <td>صح</td>
-          <td>لا</td>
+          <td />
+          <td>☑️</td>
         </tr>
         <!-- -->
         <tr>
@@ -633,21 +636,21 @@
             مرافق عامة
           </td>
           <td>مساجد</td>
-          <td>صح</td>
-          <td>لا</td>
+          <td>{{ data.masjid === '1' ? '☑️' : '' }}</td>
+          <td>{{ data.masjid === '0' ? '☑️' : '' }}</td>
         </tr>
         <tr>
           <td>حدائق</td>
-          <td>صح</td>
-          <td>لا</td>
+          <td>{{ data.public_garden === '1' ? '☑️' : '' }}</td>
+          <td>{{ data.public_garden === '0' ? '☑️' : '' }}</td>
         </tr>
         <tr>
           <td>تعلیم</td>
-          <td>صح</td>
-          <td>لا</td>
+          <td>{{ data.educational_facility === '1' ? '☑️' : '' }}</td>
+          <td>{{ data.educational_facility === '0' ? '☑️' : '' }}</td>
         </tr>
         <!-- -->
-        <tr>
+        <!-- <tr>
           <td rowspan="4">
             تجھیزات البلدیة
           </td>
@@ -669,7 +672,7 @@
           <td>تشجیر</td>
           <td>صح</td>
           <td>لا</td>
-        </tr>
+        </tr> -->
       </tbody>
     </table>
 
@@ -677,7 +680,7 @@
     <table class="table-fixed">
       <thead :style="styleData">
         <tr>
-          <th colspan="4">
+          <th colspan="7">
             <div class="header">
               <div class="header-text">
                 المقارنات
@@ -775,7 +778,7 @@
     <table class="table-fixed">
       <thead :style="styleData">
         <tr>
-          <th colspan="4">
+          <th>
             <div class="header">
               <div class="header-text">
                 الغرض من التقييم
@@ -824,7 +827,7 @@
     <table>
       <thead :style="styleData">
         <tr>
-          <th colspan="4">
+          <th>
             <div class="header">
               <div class="header-text">
                 فرضیات تقریر التقییم
@@ -851,7 +854,7 @@
     <table class="table-fixed">
       <thead :style="styleData">
         <tr>
-          <th colspan="4">
+          <th>
             <div class="header">
               <div class="header-text">
                 طریقة التقییم
@@ -878,116 +881,117 @@
     <table class="table-fixed">
       <tbody class="has-fields">
         <tr>
-          <td class="field">
+          <td
+            class="field"
+            :style="styleSubData"
+          >
             البيان
-          </td>
-          <td class="field">
-            المساحة
-          </td>
-          <td class="field">
-            سعر المتر
-          </td>
-          <td class="field">
-            الاجمالي
-          </td>
-        </tr>
-
-        <tr>
-          <td class="field">
-            الأرض
-          </td>
-          <td class="field">
-            {{ data.land_area }}
-          </td>
-          <td class="field">
-            سعر المتر
-          </td>
-          <td class="field">
-            الاجمالي
-          </td>
-        </tr>
-
-        <tr>
-          <td class="field">
-            الدور الأرضي
-          </td>
-          <td class="field">
-            -
-          </td>
-          <td class="field">
-            -
-          </td>
-          <td class="field">
-            -
-          </td>
-        </tr>
-
-        <tr>
-          <td class="field">
-            نسبة الربح
           </td>
           <td
             class="field"
+            :style="styleSubData"
+          >
+            المساحة
+          </td>
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            سعر المتر
+          </td>
+          <td
+            class="field"
+            :style="styleSubData"
+          >
+            الاجمالي
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            الأرض
+          </td>
+          <td>
+            {{ data.transactions_buildings.filter(t => t.type === 'الأرض').space || '' }}
+          </td>
+          <td>
+            {{ data.transactions_buildings.filter(t => t.type === 'الأرض').price || '' }}
+          </td>
+          <td>
+            {{ data.transactions_buildings.filter(t => t.type === 'الأرض').total || '' }}
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            الدور الأرضي
+          </td>
+          <td>
+            {{ data.transactions_buildings.filter(t => t.type === 'دور أرضي').space || '' }}
+          </td>
+          <td>
+            {{ data.transactions_buildings.filter(t => t.type === 'دور أرضي').price || '' }}
+          </td>
+          <td>
+            {{ data.transactions_buildings.filter(t => t.type === 'دور أرضي').total || '' }}
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            نسبة الربح
+          </td>
+          <td
+
             colspan="2"
           >
             {{ data.cm_developer_earnings_ratio }} %
           </td>
-          <td
-            class="field"
-            rowspan="2"
-          >
-            -
-          </td>
+          <td rowspan="2" />
         </tr>
 
         <tr>
-          <td class="field">
+          <td>
             نسبة الإهلاك
           </td>
-          <td class="field">
-            المساحة
-          </td>
-          <td class="field">
-            سعر المتر
-          </td>
-          <td class="field">
-            الاجمالي
+          <td colspan="2">
+            {{ data.cm_total_depreciation_ratio || 0 }} %
           </td>
         </tr>
 
         <tr>
           <td
-            class="field"
+
             colspan="3"
           >
             إجمالي العقار رقما
           </td>
-          <td class="field">
-            {{ data.market_value_weighting_number }}
+          <td>
+            {{ data.market_value_weighting_number || '' }}
           </td>
         </tr>
 
         <tr>
-          <td class="field">
+          <td>
             الإجمالي كتابة
           </td>
           <td
-            class="field"
+
             colspan="3"
           >
-            {{ data.market_value_weighting_text }}
+            {{ data.market_value_weighting_text || '' }}
           </td>
         </tr>
 
         <tr>
-          <td class="field">
+          <td>
             ملاحظات
           </td>
           <td
-            class="field"
+
             colspan="3"
           >
-            {{ data.trans_internal_notes }}
+            {{ data.trans_internal_notes || '' }}
           </td>
         </tr>
       </tbody>
@@ -1046,8 +1050,10 @@
         </tr>
       </tbody>
     </table>
+    <div class="html2pdf__page-break" />
+
     <!-- -->
-    <table>
+    <table class="first">
       <tbody class="has-fields">
         <tr>
           <td
@@ -1219,7 +1225,9 @@
       </tbody>
     </table>
     <!-- -->
-    <table>
+
+    <div class="html2pdf__page-break" />
+    <table class="first">
       <thead :style="styleData">
         <tr>
           <th colspan="6">
@@ -1279,9 +1287,6 @@
   }
   export default ({
     name: 'PdfFrench',
-    // components: {},
-    // components: { OneNTwo, TwoNThree, OneNThree, One, Two, Three },
-    // mixins: [pdfMixin],
     props: {
       data: {
         type: Object,
@@ -1306,221 +1311,229 @@
         }),
       },
     },
-    data: (vm) => ({
-      totalPages: 10,
-      static1: [{ item: 'الموقع', cols: 2 }, { item: 'حدود العقار', cols: 4 }, { item: 'الموقع العام', cols: 1 }, { item: 'تصنيف العقار', cols: 1 }, { item: 'التصميم', cols: 1 }, { item: 'المنسوب', cols: 1 }, { item: 'الخدمات', cols: 1 }, { item: 'الشوارع', cols: 1 }, { item: 'الجار', cols: 1 }, { item: 'حالة المبنى', cols: 1 }],
-      static11: [
-        [
-          { item: 'المدينة' },
-          { item: vm.data.city.name },
-          { item: 'شمالا' },
-          { item: '-' },
-          { item: 'طول' },
-          { item: vm.data.tall_northern },
-          { item: vm.data.trans_general_site },
-
-          { item: '' },
-
-          { item: vm.data.trans_the_design },
-          { item: vm.data.trans_attributable },
-          // الخدمات
-          { item: '' },
-
-          { item: vm.data.trans_streets },
-          { item: vm.data.trans_neighbor },
-          { item: vm.data.trans_construction_condition },
-
-        ],
-        [
-          { item: 'الحي' },
-          { item: vm.data.neighborhood.name },
-          { item: 'جنوبا' },
-          { item: '-' },
-          { item: 'طول' },
-          { item: vm.data.tall_southern },
-          { item: '' },
-
-          { item: '' },
-
-          { item: '' },
-          { item: '' },
-          // الخدمات
-          { item: '' },
-
-          { item: '' },
-          { item: '' },
-          { item: '' },
-
-        ],
-        [
-          { item: 'رقم المخطط' },
-          { item: vm.data.residential_plan_no },
-          { item: 'شرقا' },
-          { item: 'مسبح بطول' },
-          { item: 'طول' },
-          { item: vm.data.tall_eastern },
-          { item: '' },
-
-          { item: '' },
-
-          { item: '' },
-          { item: '' },
-          // الخدمات
-          { item: '' },
-
-          { item: '' },
-          { item: '' },
-          { item: '' },
-
-        ],
-        [
-          { item: 'رقم القطعة' },
-          { item: vm.data.trans_part_num },
-          { item: 'غربا' },
-          { item: '-' },
-          { item: 'طول' },
-          { item: vm.data.tall_western },
-          { item: '' },
-
-          { item: 'نوع التشطيب' },
-          { item: '' },
-
-          { item: '' },
-          // الخدمات
-          { item: '' },
-
-          { item: '' },
-          { item: '' },
-          { item: '' },
-
-        ],
-        [
-          { item: 'رقم البلك' },
-          { item: vm.data.trans_Albulk_num },
-          { item: 'اقرب شارع', cols: 2 },
-          { item: '-', cols: 9 },
-        ],
-      ],
-      description_finshed: [
-        [
-          {
-            value: 'نوع الأرضيات',
-            type: 'field',
-            cols: 2,
-          },
-          {
-            value: 'نوع الواجهات',
-            type: 'field',
-            cols: 2,
-          },
-          {
-            value: 'مميزات العقار',
-            type: 'field',
-            cols: 2,
-          },
-          {
-            value: 'نوع التكييف',
-            type: 'field',
-          },
-          {
-            value: 'الهيكل الإنشائي',
-            type: 'field',
-          },
-          {
-            value: 'نوع الأسقف',
-            type: 'field',
-          },
-        ],
-        [
-          {
-            value: 'الأحواش',
-            field: '',
-          },
-          {
-            value: vm.data.trans_the_type_of_yard_floor,
-            field: '',
-          },
-          {
-            value: 'الشمالية',
-            field: '',
-          },
-          {
-            value: vm.data.north_facade,
-            field: '',
-          },
-          {
-            value: 'حوائط مزدوجة',
-            field: '',
-          },
-          {
-            value: 'سلالم',
-            field: '',
-          },
-          {
-            value: 'مركزي',
-            field: '',
-          },
-          new Field('خرساني'),
-          new Field('خرسانة مسلحة'),
-        ],
-        [
-          new Field('الإستقبال'),
-          new Field(''),
-          new Field('الغربیة'),
-          new Field(vm.data.data.western_facade),
-          new Field('زجاج مزدوج'),
-          new Field('كراج كھربائي'),
-          new Field('منفصل'),
-
-          new Field(vm.data.trans_structural_structure),
-          new Field(vm.data.trans_bishop_type),
-        ],
-        [
-          new Field('المدخل'),
-          new Field(''),
-          new Field('الشرقیة'),
-          new Field(vm.data.eastern_facade),
-          new Field(' جبس بالسقف'),
-          new Field(' كراج عادي'),
-          new Field(' شباك'),
-          new Field(''),
-          new Field(''),
-        ],
-        [
-          new Field('الغرف'),
-          new Field(''),
-          new Field('الجنوبية'),
-          new Field(vm.data.south_facade),
-          new Field('إضاءة مخفية'),
-          new Field('بوبات'),
-          new Field('مركب'),
-          new Field(''),
-          new Field(''),
-        ],
-        [
-          new Field(''),
-          new Field(''),
-          new Field(''),
-          new Field(''),
-
-          new Field('مصاعد'),
-          new Field('سخانات'),
-          new Field('غير مركب'),
-          new Field('الأبواب الخارجية', 'field'),
-          new Field(vm.data.trans_bolt_the_outer_doors),
-        ],
-        [
-          new Field('نوع العزل', 'field'),
-          new Field(vm.data.trans_insulation_type, '', 3),
-          new Field('حمام عربي'),
-          new Field('حمام افرنجي'),
-          new Field('توصيلات فقط'),
-          new Field('الأبواب الداخلية', 'field'),
-          new Field(vm.data.trans_wool_interior_doors),
-        ],
-      ],
-    }),
     computed: {
+      static1 () {
+        return (
+          [{ item: 'الموقع', cols: 2 }, { item: 'حدود العقار', cols: 4 }, { item: 'الموقع العام', cols: 1 }, { item: 'تصنيف العقار', cols: 1 }, { item: 'التصميم', cols: 1 }, { item: 'المنسوب', cols: 1 }, { item: 'الخدمات', cols: 1 }, { item: 'الشوارع', cols: 1 }, { item: 'الجار', cols: 1 }, { item: 'حالة المبنى', cols: 1 }]
+        )
+      },
+      static11 () {
+        return [
+          [
+            { item: 'المدينة' },
+            { item: this.data.city.name },
+            { item: 'شمالا' },
+            { item: '-' },
+            { item: 'طول' },
+            { item: this.data.tall_northern },
+            { item: this.data.trans_general_site },
+
+            { item: '' },
+
+            { item: this.data.trans_the_design },
+            { item: this.data.trans_attributable },
+            // الخدمات
+            { item: '' },
+
+            { item: this.data.trans_streets },
+            { item: this.data.trans_neighbor },
+            { item: this.data.trans_construction_condition },
+
+          ],
+          [
+            { item: 'الحي' },
+            { item: this.data.neighborhood.name },
+            { item: 'جنوبا' },
+            { item: '-' },
+            { item: 'طول' },
+            { item: this.data.tall_southern },
+            { item: '' },
+
+            { item: '' },
+
+            { item: '' },
+            { item: '' },
+            // الخدمات
+            { item: '' },
+
+            { item: '' },
+            { item: '' },
+            { item: '' },
+
+          ],
+          [
+            { item: 'رقم المخطط' },
+            { item: this.data.residential_plan_no },
+            { item: 'شرقا' },
+            { item: 'مسبح بطول' },
+            { item: 'طول' },
+            { item: this.data.tall_eastern },
+            { item: '' },
+
+            { item: '' },
+
+            { item: '' },
+            { item: '' },
+            // الخدمات
+            { item: '' },
+
+            { item: '' },
+            { item: '' },
+            { item: '' },
+
+          ],
+          [
+            { item: 'رقم القطعة' },
+            { item: this.data.trans_part_num },
+            { item: 'غربا' },
+            { item: '-' },
+            { item: 'طول' },
+            { item: this.data.tall_western },
+            { item: '' },
+
+            { item: 'نوع التشطيب' },
+            { item: '' },
+
+            { item: '' },
+            // الخدمات
+            { item: '' },
+
+            { item: '' },
+            { item: '' },
+            { item: '' },
+
+          ],
+          [
+            { item: 'رقم البلك' },
+            { item: this.data.trans_Albulk_num },
+            { item: 'اقرب شارع', cols: 2 },
+            { item: '-', cols: 9 },
+          ],
+        ]
+      },
+
+      description_finshed () {
+        return (
+          [
+            [
+              {
+                value: 'نوع الأرضيات',
+                type: 'field',
+                cols: 2,
+              },
+              {
+                value: 'نوع الواجهات',
+                type: 'field',
+                cols: 2,
+              },
+              {
+                value: 'مميزات العقار',
+                type: 'field',
+                cols: 2,
+              },
+              {
+                value: 'نوع التكييف',
+                type: 'field',
+              },
+              {
+                value: 'الهيكل الإنشائي',
+                type: 'field',
+              },
+              {
+                value: 'نوع الأسقف',
+                type: 'field',
+              },
+            ],
+            [
+              {
+                value: 'الأحواش',
+                field: '',
+              },
+              {
+                value: this.data.trans_the_type_of_yard_floor,
+                field: '',
+              },
+              {
+                value: 'الشمالية',
+                field: '',
+              },
+              {
+                value: this.data.north_facade,
+                field: '',
+              },
+              {
+                value: 'حوائط مزدوجة',
+                field: '',
+              },
+              {
+                value: 'سلالم',
+                field: '',
+              },
+              {
+                value: 'مركزي',
+                field: '',
+              },
+              new Field('خرساني'),
+              new Field('خرسانة مسلحة'),
+            ],
+            [
+              new Field('الإستقبال'),
+              new Field(''),
+              new Field('الغربیة'),
+              new Field(this.data.western_facade),
+              new Field('زجاج مزدوج'),
+              new Field('كراج كھربائي'),
+              new Field('منفصل'),
+
+              new Field(this.data.trans_structural_structure),
+              new Field(this.data.trans_bishop_type),
+            ],
+            [
+              new Field('المدخل'),
+              new Field(''),
+              new Field('الشرقیة'),
+              new Field(this.data.eastern_facade),
+              new Field(' جبس بالسقف'),
+              new Field(' كراج عادي'),
+              new Field(' شباك'),
+              new Field(''),
+              new Field(''),
+            ],
+            [
+              new Field('الغرف'),
+              new Field(''),
+              new Field('الجنوبية'),
+              new Field(this.data.south_facade),
+              new Field('إضاءة مخفية'),
+              new Field('بوبات'),
+              new Field('مركب'),
+              new Field(''),
+              new Field(''),
+            ],
+            [
+              new Field(''),
+              new Field(''),
+              new Field(''),
+              new Field(''),
+
+              new Field('مصاعد'),
+              new Field('سخانات'),
+              new Field('غير مركب'),
+              new Field('الأبواب الخارجية', 'field'),
+              new Field(this.data.trans_bolt_the_outer_doors),
+            ],
+            [
+              new Field('نوع العزل', 'field'),
+              new Field(this.data.trans_insulation_type, '', 3),
+              new Field('حمام عربي'),
+              new Field('حمام افرنجي'),
+              new Field('توصيلات فقط'),
+              new Field('الأبواب الداخلية', 'field'),
+              new Field(this.data.trans_wool_interior_doors),
+            ],
+          ]
+        )
+      },
       // styleData () {
       //   return ({
       //     'background-color': this.data.customer.cs_data_background_color,
@@ -1646,14 +1659,14 @@
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2&display=swap');
 #pdf-content {
-  width: 90%;
+  width: 95%;
   margin: 30px auto;
 }
 .first {
-  margin-top: 30px;
+  margin-top: 20px;
 }
 .last {
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 .collapse {
   visibility: collapse;
@@ -1665,7 +1678,7 @@
   text-align: right;
 }
 .container-header h1 {
-  font-size: 28px;
+  font-size: 24px;
 }
 .container-header .color {
   color: #187F7B;
@@ -1679,10 +1692,10 @@
   margin-bottom:10px;
 }
 .container-header .sub-header h2 {
-  font-size: 20px;
+  font-size: 16px;
 }
 .container-header .sub-header h3 {
-  font-size: 16px;
+  font-size: 12px;
   /* color: #57585A; */
 }
 
@@ -1694,17 +1707,19 @@
 .not-empty {
   min-height: 60px;
 }
+
 .divider {
   width: 100%;
   height: 1px;
   background-color: #57585A;
   margin-bottom: 30px;
 }
-*:not(.v-icon){
-    font-family: 'Baloo Bhaijaan 2', cursive;
-  font-weight: normal;
 
+*:not(.v-icon){
+  font-family: 'Baloo Bhaijaan 2', cursive;
+  font-weight: normal;
 }
+
 table {
   width:100%;
   direction: rtl;
@@ -1723,10 +1738,10 @@ table:not(:first-child), table:not(:first-child) th {
   padding: 3px;
 }
 td,.td{
-  padding: 7px 5px;
+  padding: 3px 5px;
 }
 tbody td {
-  text-align: center;
+  text-align: right;
 }
 table thead, .thead {
   background: #187F7B;
@@ -1739,17 +1754,17 @@ table thead.diff {
 table thead .header {
   display: flex;
   justify-content: space-between;
-  padding: 8px 15px;
+  padding: 3px 15px;
 }
 table thead th {
   text-align: right;
-  font-size:14px;
+  font-size:12px;
 }
 table tbody td ,.td{
-  font-size: 12px !important;
+  font-size: 10px !important;
 }
 table tbody td.small {
-  font-size: 10px !important;
+  font-size: 9px !important;
 }
 .td {
   text-align: center;
@@ -1782,7 +1797,8 @@ tbody.images {
   position: relative;
 }
 
-.image-transaction, .image-transaction img {
+.image-transaction,
+.image-transaction img {
   width: 352px !important;
   height:240px !important;
   object-fit: contain;

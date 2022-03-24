@@ -2821,6 +2821,7 @@
                         class="d-block mb-3 font-weight-bold"
                       >جامع</label>
                       <v-text-field
+                        v-model="data.masjid_note"
                         label="تفاصيل"
                         single-line
                         outlined
@@ -2835,6 +2836,7 @@
                         class="d-block mb-3 font-weight-bold"
                       >يبعد</label>
                       <v-text-field
+                        v-model="data.masjid_distance"
                         label=""
                         single-line
                         outlined
@@ -2849,6 +2851,7 @@
                         class="d-block mb-3 font-weight-bold"
                       >مرفق طبى</label>
                       <v-text-field
+                        v-model="data.medical_facility_note"
                         label="تفاصيل"
                         single-line
                         outlined
@@ -2863,6 +2866,7 @@
                         class="d-block mb-3 font-weight-bold"
                       >يبعد</label>
                       <v-text-field
+                        v-model="data.medical_facility_distance"
                         label=""
                         single-line
                         outlined
@@ -2877,6 +2881,7 @@
                         class="d-block mb-3 font-weight-bold"
                       >مرفق أمنى</label>
                       <v-text-field
+                        v-model="data.security_facility_note"
                         label="تفاصيل"
                         single-line
                         outlined
@@ -2891,6 +2896,7 @@
                         class="d-block mb-3 font-weight-bold"
                       >يبعد</label>
                       <v-text-field
+                        v-model="data.security_facility_distance"
                         label=""
                         single-line
                         outlined
@@ -2905,6 +2911,7 @@
                         class="d-block mb-3 font-weight-bold"
                       >سوق تجارى</label>
                       <v-text-field
+                        v-model="data.market_note"
                         label="تفاصيل"
                         single-line
                         outlined
@@ -2919,6 +2926,7 @@
                         class="d-block mb-3 font-weight-bold"
                       >يبعد</label>
                       <v-text-field
+                        v-model="data.market_distance"
                         label=""
                         single-line
                         outlined
@@ -2933,6 +2941,7 @@
                         class="d-block mb-3 font-weight-bold"
                       >حديقة</label>
                       <v-text-field
+                        v-model="data.public_garden_note"
                         label="تفاصيل"
                         single-line
                         outlined
@@ -2947,6 +2956,7 @@
                         class="d-block mb-3 font-weight-bold"
                       >يبعد</label>
                       <v-text-field
+                        v-model="data.public_garden_distance"
                         label=""
                         single-line
                         outlined
@@ -2961,6 +2971,7 @@
                         class="d-block mb-3 font-weight-bold"
                       >مرفق تعليمى</label>
                       <v-text-field
+                        v-model="data.educational_facility_note"
                         label="تفاصيل"
                         single-line
                         outlined
@@ -2975,6 +2986,7 @@
                         class="d-block mb-3 font-weight-bold"
                       >يبعد</label>
                       <v-text-field
+                        v-model="data.educational_facility_distance"
                         label=""
                         single-line
                         outlined
@@ -2989,6 +3001,7 @@
                         class="d-block mb-3 font-weight-bold"
                       >مقر حكومى</label>
                       <v-text-field
+                        v-model="data.government_office_note"
                         label="تفاصيل"
                         single-line
                         outlined
@@ -3003,6 +3016,7 @@
                         class="d-block mb-3 font-weight-bold"
                       >يبعد</label>
                       <v-text-field
+                        v-model="data.government_office_distance"
                         label=""
                         single-line
                         outlined
@@ -3017,6 +3031,7 @@
                         class="d-block mb-3 font-weight-bold"
                       >طريق سريع</label>
                       <v-text-field
+                        v-model="data.highway_note"
                         label="تفاصيل"
                         single-line
                         outlined
@@ -3031,6 +3046,7 @@
                         class="d-block mb-3 font-weight-bold"
                       >يبعد</label>
                       <v-text-field
+                        v-model="data.highway_distance"
                         label=""
                         single-line
                         outlined
