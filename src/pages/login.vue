@@ -17,6 +17,7 @@
             >
             <span>Valuation Plus <small style="font-size:12px">إصدار تجريبي</small></span>
           </div>
+
           <v-form @submit.prevent="loginSubmit()">
             <v-text-field
               v-model="userLogin.email"
@@ -48,7 +49,6 @@
                     :class="{'is-loading': isLoading}"
                     :disabled="!formValid"
                     v-on="on"
-                    @click="loginSubmit"
                   >
                     تسجيل دخول"
                   </v-btn>
@@ -58,6 +58,11 @@
             </v-card-actions>
           </v-form>
 
+          <div class="forgot-password-link">
+            <router-link to="/forgot-password">
+              هل نسيت كلمة السر؟
+            </router-link>
+          </div>
           <template v-if="loginErrorMessage">
             <v-alert
               type="error"
@@ -95,8 +100,8 @@
           password: '',
         },
         rules: {
-          required: value => !!value || 'Required.',
-          min: v => v.length >= 8 || 'Min 8 characters',
+          required: value => !!value || 'مطلوب.',
+          min: v => v.length >= 8 || '8 حروف على الأقل',
         },
       }
     },
@@ -235,6 +240,15 @@
     }
     .v-avatar{
       margin: 0 15px;
+    }
+
+    .forgot-password-link {
+      display: flex;
+      justify-content: center;
+
+      a {
+        text-decoration: none;
+      }
     }
   }
 </style>

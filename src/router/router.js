@@ -57,14 +57,14 @@ const router = new Router({
     //   meta: { requiresAuth: true },
     // },
     {
-      name: 'Inter Phone Number',
-      path: '/ResetPassword',
-      component: () => import('@/pages/ResetPassword/EnterPhone'),
+      name: 'forgotPassword',
+      path: '/forgot-password',
+      component: () => import('@/pages/ResetPassword/ForgotPassword'),
     },
     {
-      name: 'Inter Code',
-      path: '/enterCode',
-      component: () => import('@/pages/ResetPassword/RessetCode'),
+      name: 'EnterCode',
+      path: '/enter-code',
+      component: () => import('@/pages/ResetPassword/EnterCode'),
     },
     {
       name: 'Enter New Password',
