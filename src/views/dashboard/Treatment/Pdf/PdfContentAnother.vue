@@ -747,7 +747,7 @@
     </table>
     <!-- وصف العقار-->
     <table>
-      <thead class="diff">
+      <thead :style="styleData">
         <tr>
           <th colspan="4">
             <div class="header ">
