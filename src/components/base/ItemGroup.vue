@@ -5,8 +5,13 @@
     :sub-group="subGroup"
     append-icon="mdi-menu-down"
     color="#ff9800"
+    :persist-value="item.open ? true : false"
+    :value="item.open ? true : false"
+    @click="(e) => handleClick(e, item)"
   >
-    <template v-slot:activator>
+    <template
+      v-slot:activator
+    >
       <v-list-item-icon
         v-if="text"
         class="v-list-item__icon--text"
@@ -23,7 +28,9 @@
       </v-list-item-avatar>
 
       <v-list-item-content>
-        <v-list-item-title v-text="item.title" />
+        <v-list-item-title
+          v-text="item.title"
+        />
       </v-list-item-content>
     </template>
 
@@ -53,7 +60,6 @@
     name: 'ItemGroup',
 
     inheritAttrs: false,
-
     props: {
       item: {
         type: Object,
@@ -73,6 +79,9 @@
         default: false,
       },
     },
+    data: () => ({
+      openStatus: false,
+    }),
 
     computed: {
       ...mapState(['barColor']),
@@ -97,7 +106,11 @@
         return this.genGroup(this.item.children)
       },
     },
-
+    created () {
+      if (this.item.open) {
+        this.openStatus = true
+      }
+    },
     methods: {
       genGroup (children) {
         return children
@@ -112,6 +125,14 @@
 
             return group
           }).join('|')
+      },
+
+      handleClick (e, item) {
+        if (item.click) {
+          if (!this.$route.path.startsWith('/links')) {
+            this.$router.push(item.to)
+          }
+        }
       },
     },
   }

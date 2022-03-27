@@ -33,6 +33,7 @@
   import { ServiceFactory } from '../../../../services/ServiceFactory'
   const LinksService = ServiceFactory.get('Links')
   // TODO : "important links" rount can be expand but can't be clicked to visit
+
   export default {
     name: 'DashboardCoreDrawer',
     props: {
@@ -146,6 +147,8 @@
         {
           title: 'روابط هامة',
           icon: 'fa-link',
+          open: true,
+          click: () => { this.$router.push('/links') },
           role: true,
           name: 'links',
           to: '/links',
