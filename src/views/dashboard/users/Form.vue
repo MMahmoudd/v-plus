@@ -466,6 +466,8 @@
 </template>
 <script>
   import { ServiceFactory } from '../../../services/ServiceFactory'
+  import { format } from 'date-fns'
+
   const UsersService = ServiceFactory.get('Users')
   const UserSettingService = ServiceFactory.get('UserSetting')
   export default {
@@ -547,30 +549,15 @@
         }
         this.loading = true
         this.disabled = true
+
         const formData = new FormData()
-        this.data.name && formData.append('name', this.data.name)
-        this.data.email && formData.append('email', this.data.email)
-        this.data.password && formData.append('password', this.data.password)
-        this.data.role_id && formData.append('role_id', this.data.role_id)
-        this.profile_image && formData.append('image', this.profile_image)
-        this.data.phone && formData.append('phone', this.data.phone)
-        this.data.username && formData.append('username', this.data.username)
-        this.data.id_number && formData.append('id_number', this.data.id_number)
-        this.data.beneficiary_name && formData.append('beneficiary_name', this.data.beneficiary_name)
-        this.data.bank_number && formData.append('bank_number', this.data.bank_number)
-        this.data.bank_IBAN && formData.append('bank_IBAN', this.data.bank_IBAN)
-        this.bank_statement_image && formData.append('bank_statement_image', this.bank_statement_image)
-        this.data.other_user_id && formData.append('other_user_id', this.data.other_user_id)
-        formData.append('membership_no', this.data.membership_no)
-        formData.append('end_membership', this.data.end_membership)
-        this.data.commission_accreditation_stage_amount && formData.append('commission_accreditation_stage_amount', this.data.commission_accreditation_stage_amount)
-        this.data.commission_accreditation_stage_rate && formData.append('commission_accreditation_stage_rate', this.data.commission_accreditation_stage_rate)
-        this.data.commission_evaluation_stage_rate && formData.append('commission_evaluation_stage_rate', this.data.commission_evaluation_stage_rate)
-        this.data.commission_evaluation_stage_amount && formData.append('commission_evaluation_stage_amount', this.data.commission_evaluation_stage_amount)
-        this.data.commission_input_stage_amount && formData.append('commission_input_stage_amount', this.data.commission_input_stage_amount)
-        this.data.commission_input_stage_rate && formData.append('commission_input_stage_rate', this.data.commission_input_stage_rate)
-        this.data.commission_revision_stage_rate && formData.append('commission_revision_stage_rate', this.data.commission_revision_stage_rate)
-        this.data.commission_revision_stage_amount && formData.append('commission_revision_stage_amount', this.data.commission_revision_stage_amount)
+
+        for (const key in this.data) {
+          formData.append(key, this.data[key])
+        }
+        // TODO : Ask the backend to delete this column from the datebase as it's not required anymore for the project.
+        formData.append('start_membership', format(new Date(), 'yyyy-MM-dd'))
+
         if (this.$route.params.id) {
           this.updateContent(this.$route.params.id, formData)
         } else {
