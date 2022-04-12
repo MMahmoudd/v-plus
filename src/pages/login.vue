@@ -26,7 +26,17 @@
               outlined
               :rules="[rules.required]"
               placeholder="أسم المستخدم"
+              @change="onEmailChange"
             />
+            <v-app>
+              <v-select
+                v-model="userLogin.facility_id"
+                :items="facilities"
+                item-text="name"
+                item-value="id"
+                outlined
+              />
+            </v-app>
             <v-text-field
               v-model="userLogin.password"
               name="password"
@@ -37,6 +47,7 @@
               outlined
               minlength="8"
               placeholder="كلمة المرور"
+              :disabled="!userLogin.email || !userLogin.facility_id"
               @click:append="show1 = !show1"
             />
             <v-card-actions>
@@ -92,12 +103,14 @@
     },
     data () {
       return {
+        list: [],
         formValid: false,
         isValid: true,
         show1: false,
         userLogin: {
           email: '',
           password: '',
+          facility_id: '',
         },
         rules: {
           required: value => !!value || 'مطلوب.',
@@ -110,6 +123,7 @@
         isLoading: state => state.login.isLoading,
         loginErrorMessage: state => state.login.loginErrorMessage,
         loginSuccessful: state => state.login.loggingIn,
+        facilities: state => state.login.facilities,
       }),
     },
     watch: {
@@ -123,6 +137,12 @@
         },
         deep: true,
       },
+      facilities: {
+        handler (n, o) {
+          this.list = n
+        },
+        deep: true,
+      },
     },
     methods: {
       gotohomepage () {
@@ -130,6 +150,7 @@
       },
       ...mapActions([
         'doLogin',
+        'getFacilities',
       ]),
       loginSubmit () {
         if (this.formValid) {
@@ -138,6 +159,9 @@
             password: this.userLogin.password,
           })
         }
+      },
+      onEmailChange (value) {
+        this.getFacilities(value)
       },
     },
   }
@@ -250,5 +274,9 @@
         text-decoration: none;
       }
     }
+  }
+  .v-application--wrap {
+    height: auto;
+    min-height: auto !important;
   }
 </style>

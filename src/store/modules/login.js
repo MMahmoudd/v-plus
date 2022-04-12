@@ -5,7 +5,7 @@ import { deleteAllCookies } from '../../Utils/cookies'
 
 function setCookie (cname, cvalue, exdays) {
   const d = new Date()
-  d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000))
+  d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000)
   const expires = 'expires=' + d.toUTCString()
   document.cookie = cname + '=' + cvalue + ';' + expires + ';path=/'
 }
@@ -22,21 +22,24 @@ const Login = {
     userData: JSON.parse(localStorage.getItem('userData')),
     successMessage: '',
     successMessageReset: '',
-
+    facilities: [],
   },
   getters: {
     token (state) {
-        return state.token
+      return state.token
     },
   },
   mutations: {
+    setFacilities (state, payload) {
+      state.facilities = payload
+    },
     resetState (state) {
       state.isLoading = false
       state.loginErrorMessage = null
       state.loginSuccessful = false
       state.successMessage = ''
       state.successMessageReset = ''
-  },
+    },
     // Logout
     logout () {
       localStorage.removeItem('token')
@@ -50,16 +53,20 @@ const Login = {
     setToken (state, data) {
       localStorage.setItem('token', data.token)
       state.token = data.token
-  },
+    },
   },
   actions: {
     doLogin ({ commit, state, dispatch }, loginData) {
       commit('resetState')
+
       const userData = {
         email: loginData.email.replace(/\s+/g, ''),
         password: loginData.password,
+        facility_id: loginData.facility_id,
       }
-      axios.post(`${API_URL}/login`, userData)
+
+      axios
+        .post(`${API_URL}/login`, userData)
         .then((response) => {
           state.isLoading = true
           if (response.data.token) {
@@ -69,21 +76,28 @@ const Login = {
              */
             const permissions = {}
             const arrayOfRoles = response.data.role.permission
-            arrayOfRoles.forEach(item => {
+            arrayOfRoles.forEach((item) => {
               permissions[item.model_name] = { ...item }
             })
             localStorage.setItem('token', response.data.token)
             setCookie('token', response.data.token, 1000)
-            localStorage.setItem('userData', JSON.stringify(response.data.user))
+            localStorage.setItem(
+              'userData',
+              JSON.stringify(response.data.user)
+            )
             localStorage.setItem('userLang', 'ar')
             state.userData = response.data.user
-            localStorage.setItem('userPermissions', JSON.stringify(permissions))
+            localStorage.setItem(
+              'userPermissions',
+              JSON.stringify(permissions)
+            )
             state.userToken = response.data.token
             // state.userDataPermission = response.data.userPolicy
             // dispatch('checkUserData')
             // ! WE DON'T KNOW THE DOMAIN YET. I NEED IT IN THE RESPONSE.
             window.localStorage.setItem('domain', response.data.facility.url)
-            window.location.href = process.env.BASE_URL + response.data.facility.url
+            window.location.href =
+              process.env.BASE_URL + response.data.facility.url
           } else {
             console.log('response', response)
             if (response.data.error_message) {
@@ -94,11 +108,24 @@ const Login = {
             state.isLoading = true
           }
         })
-        .catch(error => {
+        .catch((error) => {
           console.log('error', { error })
-          state.loginErrorMessage = error.response.data.error_message || error.response.data.errors.email[0]
+          state.loginErrorMessage =
+            error.response.data.error_message ||
+            error.response.data.errors.email[0]
           state.isLoading = true
         })
+    },
+    async getFacilities ({ commit, state }, email) {
+      state.isLoading = true
+      const { data } = await axios.get(`${API_URL}/get-facilities-by-email`, {
+        params: {
+          email,
+        },
+      })
+      const { facilities } = data
+      commit('setFacilities', facilities.map(({ id, name }) => ({ id, name })))
+      state.isLoading = false
     },
   },
 }
