@@ -41,7 +41,6 @@
                 <v-text-field
                   v-model="data.cs_phone"
                   outlined
-                  required
                   type="phone"
                 />
               </v-col>
@@ -54,7 +53,6 @@
                 <v-text-field
                   v-model="data.cs_email"
                   outlined
-                  required
                   type="email"
                 />
               </v-col>
@@ -67,7 +65,6 @@
                 <v-text-field
                   v-model="data.cs_email_cc"
                   outlined
-                  required
                   type="email"
                 />
               </v-col>
@@ -105,7 +102,6 @@
                   item-text="name"
                   item-value="id"
                   outlined
-                  required
                 />
               </v-col>
               <v-col
@@ -117,7 +113,6 @@
                 <v-text-field
                   v-model="data.cs_vat_num"
                   outlined
-                  required
                 />
               </v-col>
               <v-col
@@ -129,7 +124,6 @@
                 <v-file-input
                   show-size
                   chips
-                  required
                   outlined
                   prepend-icon="mdi-camera"
                   accept="image/png, image/jpeg, image/bmp"
@@ -176,7 +170,6 @@
                       item-text="name"
                       item-value="id"
                       outlined
-                      required
                     />
                   </v-col>
                   <v-col
@@ -227,7 +220,6 @@
                           prepend-icon="fa-palette"
                           readonly
                           outlined
-                          required
                           v-bind="attrs"
                           v-on="on"
                         />
@@ -261,7 +253,6 @@
                           prepend-icon="fa-palette"
                           readonly
                           outlined
-                          required
                           v-bind="attrs"
                           v-on="on"
                         />
@@ -295,7 +286,6 @@
                           prepend-icon="fa-palette"
                           readonly
                           outlined
-                          required
                           v-bind="attrs"
                           v-on="on"
                         />
@@ -336,7 +326,6 @@
                           prepend-icon="fa-palette"
                           readonly
                           outlined
-                          required
                           v-bind="attrs"
                           v-on="on"
                         />
@@ -370,7 +359,6 @@
                           prepend-icon="fa-palette"
                           readonly
                           outlined
-                          required
                           v-bind="attrs"
                           v-on="on"
                         />
@@ -405,7 +393,6 @@
                           prepend-icon="fa-palette"
                           readonly
                           outlined
-                          required
                           v-bind="attrs"
                           v-on="on"
                         />
@@ -548,7 +535,6 @@
                       item-text="name"
                       item-value="id"
                       outlined
-                      required
                       :disabled="data.input_stage_sign_show === 2"
                     />
                   </v-col>
@@ -600,7 +586,6 @@
                       item-text="name"
                       item-value="id"
                       outlined
-                      required
                       :disabled="data.evaluation_stage_sign_show === 2"
                     />
                   </v-col>
@@ -652,7 +637,6 @@
                       item-text="name"
                       item-value="id"
                       outlined
-                      required
                       :disabled="data.review_stage_sign_show === 2"
                     />
                   </v-col>
@@ -704,7 +688,6 @@
                       item-text="name"
                       item-value="id"
                       outlined
-                      required
                       :disabled="data.adoption_stage_sign_show === 2"
                     />
                   </v-col>
@@ -815,7 +798,6 @@
                             v-model="item.custom_price"
                             label="السعر المخصص"
                             outlined
-                            required
                           />
                         </v-row>
                       </v-card>
@@ -929,16 +911,16 @@
         cs_vat_num: '',
         cs_logo: '',
         report_id: 1,
-        show_logo: '',
+        show_logo: '1',
         cs_data_fount_color: '',
         cs_data_frame_color: '',
         cs_data_background_color: '',
         cs_subdata_fount_color: '',
         cs_subdata_frame_color: '',
         cs_subdata_background_color: '',
-        image_per_page: '',
-        date_time_show: '',
-        map_show: '',
+        image_per_page: '6',
+        date_time_show: '1',
+        map_show: '1',
         input_stage_sign_show: 1,
         evaluation_stage_sign_show: 1,
         review_stage_sign_show: 1,

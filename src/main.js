@@ -61,7 +61,7 @@ if (userToken) {
   // axios.defaults.headers.common['x-access-token'] = 'Bearer ' + userData.token
   axios.defaults.headers.common.Authorization = 'Bearer ' + userToken
   axios.defaults.headers['Content-type'] = 'application/json'
-  axios.defaults.headers.accept = '*/*'
+  axios.defaults.headers.accept = 'application/json'
 }
 
 // Create VueI18n instance with options

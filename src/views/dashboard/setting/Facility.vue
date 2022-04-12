@@ -677,10 +677,16 @@
         // }
         // buildFormData(formData, this.data)
         for (const key in this.data) {
+          if (key === 'seal_url') {
+            if (this.data[key] && !this.data[key].startsWith('public')) {
+              formData.append(key, this.data[key])
+            }
+          } else {
+            formData.append(key, this.data[key])
+          }
           // if (Array.isArray(this.data[key])) {
           //   formData.append(key, JSON.stringify(this.data[key]))
           // } else {
-          formData.append(key, this.data[key])
           // }
         }
         console.log('formData', formData)
