@@ -9,6 +9,7 @@
     <template v-slot:activator="{ on, attrs }">
       <v-text-field
         v-model="value"
+        prepend-icon="mdi-calendar"
         readonly
         v-bind="attrs"
         single-line
@@ -42,9 +43,16 @@
     }),
     watch: {
       value: {
-        handler (newVal, oldVal) {
+        handler (newVal) {
+          if (newVal === 'Invalid Date') {
+            this.$emit('input', '')
+            return
+          }
           if (newVal.length > 10) {
             this.$emit('input', format(new Date(newVal), 'yyyy-MM-dd'))
+          } else if (String(newVal) === 'null' ||
+            typeof newVal === 'undefined') {
+            this.$emit('input', '')
           }
         },
       },

@@ -185,29 +185,7 @@
                     cols="12"
                     md="9"
                   >
-                    <v-menu
-                      v-model="Commercial_Registration_date"
-                      :close-on-content-click="false"
-                      :nudge-right="40"
-                      transition="scale-transition"
-                      offset-y
-                      min-width="auto"
-                    >
-                      <template v-slot:activator="{ on, attrs }">
-                        <v-text-field
-                          v-model="data.Commercial_Registration_date"
-                          prepend-icon="mdi-calendar"
-                          readonly
-                          outlined
-                          v-bind="attrs"
-                          v-on="on"
-                        />
-                      </template>
-                      <v-date-picker
-                        v-model="data.Commercial_Registration_date"
-                        @input="Commercial_Registration_date = false"
-                      />
-                    </v-menu>
+                    <custom-date v-model="data.Commercial_Registration_date" />
                   </v-col>
                 </v-row>
                 <v-row>
@@ -221,29 +199,7 @@
                     cols="12"
                     md="9"
                   >
-                    <v-menu
-                      v-model="Commercial_Registration_expiry_date"
-                      :close-on-content-click="false"
-                      :nudge-right="40"
-                      transition="scale-transition"
-                      offset-y
-                      min-width="auto"
-                    >
-                      <template v-slot:activator="{ on, attrs }">
-                        <v-text-field
-                          v-model="data.Commercial_Registration_expiry_date"
-                          prepend-icon="mdi-calendar"
-                          readonly
-                          outlined
-                          v-bind="attrs"
-                          v-on="on"
-                        />
-                      </template>
-                      <v-date-picker
-                        v-model="data.Commercial_Registration_expiry_date"
-                        @input="Commercial_Registration_expiry_date = false"
-                      />
-                    </v-menu>
+                    <custom-date v-model="data.Commercial_Registration_expiry_date" />
                   </v-col>
                 </v-row>
               </v-card>
@@ -417,29 +373,7 @@
                 <label>
                   <strong>تاريخ الترخيص</strong>
                 </label>
-                <v-menu
-                  v-model="license_date"
-                  :close-on-content-click="false"
-                  :nudge-right="40"
-                  transition="scale-transition"
-                  offset-y
-                  min-width="auto"
-                >
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-text-field
-                      v-model="data.license_date"
-                      prepend-icon="mdi-calendar"
-                      readonly
-                      outlined
-                      v-bind="attrs"
-                      v-on="on"
-                    />
-                  </template>
-                  <v-date-picker
-                    v-model="data.license_date"
-                    @input="license_date = false"
-                  />
-                </v-menu>
+                <custom-date v-model="data.license_date" />
               </v-col>
             </v-row>
           </v-card>
@@ -591,9 +525,14 @@
 </template>
 <script>
   import { ServiceFactory } from '../../../services/ServiceFactory'
+  import CustomDate from '../../dashboard/component/Date.vue'
   const SettingService = ServiceFactory.get('Setting')
+
   export default {
     name: 'Companies',
+    components: {
+      CustomDate,
+    },
     data: (vm) => ({
       permissions: {},
       dataLoading: false,
@@ -660,36 +599,29 @@
         this.data.logo = event
       },
       async updateContent () {
+        this.loading = true
         const formData = new FormData()
         /**
          * ? converting the json object to a form-data format
          */
-        // function buildFormData (formData, data, parentKey) {
-        //   if (data && typeof data === 'object' && !(data instanceof Date) && !(data instanceof File)) {
-        //     Object.keys(data).forEach(key => {
-        //       buildFormData(formData, data[key], parentKey ? `${parentKey}[${key}]` : key)
-        //     })
-        //   } else {
-        //     const value = data == null ? '' : data
-
-        //     formData.append(parentKey, value)
-        //   }
-        // }
-        // buildFormData(formData, this.data)
-        for (const key in this.data) {
-          if (key === 'seal_url') {
-            if (this.data[key] && !this.data[key].startsWith('public')) {
-              formData.append(key, this.data[key])
-            }
+        function buildFormData (formData, data, parentKey) {
+          if (data && typeof data === 'object' && !(data instanceof Date) && !(data instanceof File)) {
+            Object.keys(data).forEach(key => {
+              buildFormData(formData, data[key], parentKey ? `${parentKey}[${key}]` : key)
+            })
           } else {
-            formData.append(key, this.data[key])
+            if (parentKey === 'seal_url' || parentKey === 'logo') {
+              if (data instanceof File) {
+                formData.append(parentKey, data)
+              }
+            } else {
+              const value = data == null ? '' : data
+              formData.append(parentKey, value)
+            }
           }
-          // if (Array.isArray(this.data[key])) {
-          //   formData.append(key, JSON.stringify(this.data[key]))
-          // } else {
-          // }
         }
-        console.log('formData', formData)
+        buildFormData(formData, this.data)
+
         const item = await SettingService.updateFacility(formData, this.data.id)
         if (item.success === true) {
           this.successMessage = 'Successful'

@@ -157,6 +157,7 @@
           this.doLogin({
             email: this.userLogin.email,
             password: this.userLogin.password,
+            facility_id: this.userLogin.facility_id,
           })
         }
       },
