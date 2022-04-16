@@ -155,12 +155,12 @@
           children: [
           ],
         },
-        {
-          title: 'دليل الاستخدام (قريبا)',
-          icon: 'fa-retweet',
-          // to: '/',
-          role: true,
-        },
+        // {
+        //   title: 'دليل الاستخدام (قريبا)',
+        //   icon: 'fa-retweet',
+        //   // to: '/',
+        //   role: true,
+        // },
         {
           title: 'الاعدادات',
           icon: 'fa-cog',
