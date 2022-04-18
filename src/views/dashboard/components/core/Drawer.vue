@@ -249,6 +249,11 @@
               role: true,
             },
             {
+              title: 'الغرض من التقييم',
+              to: '/treatment-settings/EvaluationPurpose',
+              role: true,
+            },
+            {
               title: 'اساس القيمة',
               to: '/treatment-settings/ValueBasiLists',
               role: true,

@@ -3,7 +3,7 @@ import { API_URL } from '../config'
 
 const resource = `${API_URL}`
 export default {
-  getAllItems (itemsPerPage, page, pageNumber) {
+    getAllItems (itemsPerPage, page, pageNumber) {
         return Service.get(`${resource}/value_hypothesis_lists`)
         .then((response) => {
             if (response.status === 200) {

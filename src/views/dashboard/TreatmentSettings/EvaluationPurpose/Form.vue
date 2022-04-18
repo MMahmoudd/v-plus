@@ -22,7 +22,7 @@
               >
                 <label
                   class="d-block mb-3 font-weight-bold"
-                >الإسم</label>
+                >الاسم</label>
                 <v-text-field
                   v-model="data.name"
                   outlined
@@ -30,7 +30,7 @@
                 />
               </v-col>
             </v-row>
-            <!-- <v-row class="mx-md-16 px-md-16">
+            <v-row class="mx-md-16 px-md-16">
               <v-col
                 cols="12"
                 md="6"
@@ -54,7 +54,7 @@
                   />
                 </v-radio-group>
               </v-col>
-            </v-row> -->
+            </v-row>
             <v-btn
               type="submit"
               class="mx-auto my-auto d-flex"
@@ -92,16 +92,20 @@
 </template>
 <script>
   import { ServiceFactory } from '../../../../services/ServiceFactory'
-  const RegionsService = ServiceFactory.get('Regions')
+  const SettingService = ServiceFactory.get('EvaluationPurpose')
+
   export default {
     name: 'Companies',
     data: (vm) => ({
       permissions: {},
       dataLoading: false,
+      regionsLoading: false,
       valid: false,
+      regionsList: [],
       data: {
         id: null,
         name: '',
+        status: null,
       },
       successSnackbar: false,
       errorSnackbar: false,
@@ -125,6 +129,7 @@
         this.disabled = true
         const formData = {
           name: this.data.name,
+          status: this.data.status,
         }
         if (this.$route.params.id) {
           this.updateContent(this.$route.params.id, formData)
@@ -133,12 +138,12 @@
         }
       },
       async newItem (data) {
-        const item = await RegionsService.addOneItem(data)
-        if (item.success === true) {
+        const item = await SettingService.addOneItem(data)
+        if (item.success) {
           this.successMessage = 'تمت الاضافة بنجاح'
           this.successSnackbar = true
           setTimeout(() => {
-            this.$router.push('/treatment-settings/regions')
+            this.$router.push('/treatment-settings/EvaluationPurpose')
           }, 1500)
         } else {
           this.errorMessage = item.message
@@ -148,12 +153,12 @@
         this.loading = false
       },
       async updateContent (id, data) {
-        const item = await RegionsService.updateOneItem(id, data)
-        if (item.success === true) {
+        const item = await SettingService.updateOneItem(id, data)
+        if (item.success) {
           this.successMessage = 'تم التعديل بنجاح'
           this.successSnackbar = true
           setTimeout(() => {
-            this.$router.push('/treatment-settings/regions')
+            this.$router.push('/treatment-settings/EvaluationPurpose')
           }, 1500)
         } else {
           this.errorMessage = 'يوجد مشكلة في التعديل'
@@ -164,7 +169,10 @@
       },
       async fetchOneItem (id) {
         this.dataLoading = true
-        const user = await RegionsService.fetchOneItem(id)
+        const user = await SettingService.fetchOneItem(id)
+        if (user.data.status) {
+          user.data.status = user.data.status.toString()
+        }
         this.data = user.data
         this.dataLoading = false
       },

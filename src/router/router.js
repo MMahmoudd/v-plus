@@ -330,6 +330,19 @@ const router = new Router({
           component: () => import('@/views/dashboard/TreatmentSettings/EvaluationCurrencies/Form.vue'),
           meta: { requiresAuth: true, permissions: 'تخصيص المعاملة', actions: true },
         },
+        // /treatment-settings/evaluationPurpose
+        {
+          name: 'EvaluationPurpose',
+          path: '/treatment-settings/EvaluationPurpose',
+          component: () => import('@/views/dashboard/TreatmentSettings/EvaluationPurpose/List.vue'),
+          meta: { requiresAuth: true, permissions: 'تخصيص المعاملة' },
+        },
+        {
+          name: 'EvaluationPurposeForm',
+          path: '/treatment-settings/EvaluationPurposeForm/:id?',
+          component: () => import('@/views/dashboard/TreatmentSettings/EvaluationPurpose/Form.vue'),
+          meta: { requiresAuth: true, permissions: 'تخصيص المعاملة', actions: true },
+        },
         // /treatment-settings/ReportTypes
         {
           name: 'ReportTypes',
