@@ -458,9 +458,16 @@
       color="red"
       bottom
       left
-      :timeout="timeout"
+      :timeout="5000"
     >
-      {{ errorMessage }}
+      <template>
+        <p
+          v-for="(msg,index) in errorMessage"
+          :key="index"
+        >
+          {{ msg }}
+        </p>
+      </template>
     </v-snackbar>
   </v-container>
 </template>
@@ -574,7 +581,12 @@
             this.$router.push('/Users')
           }, 1500)
         } else {
-          this.errorMessage = item.message
+          // for (const key in item.errors) {
+          //   if (item.errors[key][0].match('The (\w+) field is required.')) {
+
+          //   }
+          // }
+          this.errorMessage = Object.values(item.errors).flat(2)
           this.errorSnackbar = true
         }
         this.disabled = false
@@ -589,7 +601,7 @@
             this.$router.push('/Users')
           }, 1500)
         } else {
-          this.errorMessage = 'يوجد مشكلة في التعديل'
+          this.errorMessage = Object.values(item.errors).flat(2)
           this.errorSnackbar = true
         }
         this.disabled = false
