@@ -657,6 +657,7 @@ westFacadeSetting: [],
 
       ],
       imageSorting: [],
+      imgs_drag_status: null,
       // Map
       location: null,
       gettingLocation: false,
@@ -1500,20 +1501,31 @@ westFacadeSetting: [],
           }
         })
       },
-      // Show Image After Upload
-      onFileChange (e) {
-        var files = e.target.files || e.dataTransfer.files
+     /**
+      *
+      *
+      *  images
+      *
+      *
+      */
+      onFileChange (files) {
+        console.log({ files })
         if (!files.length) {
           return
         }
-        this.createImage(files[0])
+        this.createImages(files)
+      },
+      createImages (files) {
+        files.forEach(this.createImage)
       },
       createImage (file) {
+        console.log(file)
         // var image = new Image()
         const item = { status: '1', image: false, id: uuid.v4(), sort_number: 1, type: 'add' }
         const images = this.data.images
         const reader = new FileReader()
         reader.onload = (e) => {
+          console.log(e.target.result, 'onload')
           item.image = e.target.result
           images.push(item)
           // TODO : Do it in a another function
@@ -1557,12 +1569,38 @@ westFacadeSetting: [],
         })
         // this.images.push(this.images.splice(index, 1)[0])
       },
-      dragChange: function (...args) {
-        console.log(args)
+      handleDragEnter: function (e) {
+        this.imgs_drag_status = 'enter'
+        e.preventDefault()
+        e.stopPropagation()
+
+        console.log('ENTER')
       },
-      dargUpdate: function (...args) {
-        console.log(args)
+      handleDragLeave: function (e) {
+        this.imgs_drag_status = 'leave'
+        e.preventDefault()
+        e.stopPropagation()
       },
+      handleDragOver: function (e) {
+        this.imgs_drag_status = 'over'
+        e.preventDefault()
+        e.stopPropagation()
+      },
+      handleDrop: function (e) {
+        this.imgs_drag_status = 'drop'
+        const dataTransfer = e.dataTransfer
+        this.onFileChange(dataTransfer.files)
+        e.preventDefault()
+        e.stopPropagation()
+      },
+      /**
+       *
+       *
+       *
+       * end images
+       *
+       *
+       */
       // Adding & Remove Participant
       addParticipant: function () {
         this.participants.push({ participant: true })

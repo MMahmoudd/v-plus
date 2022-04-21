@@ -5512,10 +5512,17 @@
                   </h2>
                 </v-expansion-panel-header>
                 <v-expansion-panel-content>
-                  <div>
+                  <div
+                    :class="imgs_drag_status === 'over' ? 'image_over' : '' "
+                    dropzone="copy"
+                    @dragenter="handleDragEnter"
+                    @dragleave="handleDragLeave"
+                    @dragover="handleDragOver"
+                    @drop="handleDrop"
+                  >
                     <!-- {{ data.images }} -->
                     <!-- <v-row> -->
-                    <draggable
+                      <draggable
                       v-model="data.images"
                       @change="dragChange($event)"
                       @update="dargUpdate($event)"
@@ -5609,7 +5616,8 @@
                       <div>
                         <input
                           type="file"
-                          @change="onFileChange($event)"
+                          multiple
+                          @change="(e) => onFileChange(e.target.files)"
                         >
                         <v-icon left>
                           far fa-image
@@ -6306,4 +6314,17 @@ img {
 .no-move {
   transition: transform 0s;
 } */
+/* @keyframes glowing_blue {
+  from {
+    box-shadow: 0px 0px 1px 1px blue;
+  }
+
+  to {
+    box-shadow: 0px 0px 0px 0px blue;
+  }
+} */
+.image_over {
+  box-shadow: 0px 0px 1px 1px blue;
+  animation: glowing_blue 3s infinite backwards;
+}
 </style>
