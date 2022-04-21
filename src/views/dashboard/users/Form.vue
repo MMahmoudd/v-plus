@@ -27,10 +27,14 @@
                 md="6"
               >
                 <v-text-field
+                  id="name"
                   v-model="data.name"
+                  :error="errors.name"
+                  :error-messages="errors.name"
                   label="الاسم"
                   outlined
                   required
+                  @input="()=>{touched.name = true}"
                 />
               </v-col>
               <v-col
@@ -103,8 +107,6 @@
                   id="membership_no"
                   v-model="data.membership_no"
                   label="رقم العضوية"
-                  :error="errors.membership_no"
-                  :error-messages="errors.membership_no"
                   outlined
                   required
                 />
@@ -126,8 +128,6 @@
                       id="end_membership"
                       v-model="data.end_membership"
                       label="نهاية العضوية"
-                      :error="errors.end_membership"
-                      :error-messages="errors.end_membership"
                       readonly
                       v-bind="attrs"
                       outlined
@@ -185,11 +185,15 @@
                 md="4"
               >
                 <v-text-field
+                  id="email"
                   v-model="data.email"
                   label="البريد الاليكتروني"
+                  :error="errors.email"
+                  :error-messages="errors.email"
                   type="email"
                   outlined
                   required
+                  @input="()=>{touched.email = true}"
                 />
               </v-col>
               <v-col
@@ -521,7 +525,26 @@
       loading: false,
       disabled: false,
       errors: {},
+      touched: {},
     }),
+    watch: {
+      data: {
+        handler (n) {
+          if (this.errors.name && n.name.trim() !== '') {
+            delete this.errors.name
+          } else if (n.name.trim() === '' && this.touched.name === true) {
+            this.errors.name = 'هذا الحقل مطلوب'
+          }
+
+          if (this.errors.email && n.email.trim() !== '') {
+            delete this.errors.email
+          } else if (n.email.trim() === '' && this.touched.email === true) {
+            this.errors.email = 'هذا الحقل مطلوب'
+          }
+        },
+        deep: true,
+      },
+    },
     created () {
       if (this.$route.params.id) {
         this.fetchOneItem(this.$route.params.id)
@@ -544,11 +567,11 @@
          * ? simple validtion
          */
         this.errors = {}
-        if (!this.data.membership_no) {
-          this.errors.membership_no = 'هذا الحقل مطلوب'
+        if (!this.data.name) {
+          this.errors.name = 'هذا الحقل مطلوب'
         }
-        if (!this.data.end_membership) {
-          this.errors.end_membership = 'هذا الحقل مطلوب'
+        if (!this.data.email) {
+          this.errors.email = 'هذا الحقل مطلوب'
         }
         if (Object.keys(this.errors).length !== 0) {
           this.$el.querySelector(`#${Object.keys(this.errors)[0]}`).scrollIntoView({ behavior: 'smooth', block: 'center' })
