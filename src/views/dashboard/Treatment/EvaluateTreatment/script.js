@@ -1573,8 +1573,6 @@ westFacadeSetting: [],
         this.imgs_drag_status = 'enter'
         e.preventDefault()
         e.stopPropagation()
-
-        console.log('ENTER')
       },
       handleDragLeave: function (e) {
         this.imgs_drag_status = 'leave'

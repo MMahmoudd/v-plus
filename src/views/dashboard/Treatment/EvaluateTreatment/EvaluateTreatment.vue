@@ -5522,7 +5522,7 @@
                   >
                     <!-- {{ data.images }} -->
                     <!-- <v-row> -->
-                      <draggable
+                    <draggable
                       v-model="data.images"
                       @change="dragChange($event)"
                       @update="dargUpdate($event)"

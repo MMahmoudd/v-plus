@@ -30,6 +30,10 @@
                 <v-col
                   cols="12"
                   md="6"
+                  @dragenter="handleDragEnter($event, 'instrument_file')"
+                  @dragleave="handleDragLeave($event, 'instrument_file')"
+                  @dragover="handleDragOver($event, 'instrument_file')"
+                  @drop="handleDrop($event, 'instrument_file')"
                 >
                   <v-file-input
                     chips
@@ -39,14 +43,29 @@
                     label="الصك"
                     @change="handleFileUpload( $event , 'instrument_file')"
                   >
-                    <template v-slot:selection="{ text }">
-                      <v-chip
-                        small
-                        label
-                        color="primary"
-                      >
-                        {{ text }}
-                      </v-chip>
+                    <template
+                      v-slot:selection="{ text }"
+                    >
+                      <div :x="text">
+                        <v-chip
+                          v-for="(file, i) in data.instrument_file"
+                          :key="i"
+                          small
+                          label
+                          color="primary"
+                        >
+                          {{ file.name }}
+                        </v-chip>
+                      </div>
+                    </template>
+                    <template v-slot:counter="">
+                      <div class="v-text-field__details">
+                        <div class="v-messages theme--light">
+                          <div class="v-messages__wrapper" />
+                        </div><div class="v-counter theme--light">
+                          {{ data.instrument_file.length }} ملفات
+                        </div>
+                      </div>
                     </template>
                   </v-file-input>
                   <v-chip
@@ -2412,6 +2431,7 @@
       customDate,
     },
     data: () => ({
+      imgs_drag_status: {},
       errorMessage: '',
       successMessage: '',
       successSnackbar: false,
@@ -2932,7 +2952,7 @@
         // this.createImage(files[0], name)
       },
 
-      addDropFile (e, name) {
+      addDropFile (e) {
         /**
          * ? الصك غير محدد instrument_file
          * ? خطاب التكليف 4 assignment_letter_file
@@ -2941,15 +2961,28 @@
          */
         this.files = Array.from(e.dataTransfer.files)
       },
-
-      createImage (file, name) {
-        const reader = new FileReader()
-        reader.onload = (e) => {
-          this.data[name] = e.target.result
-        }
-        reader.readAsDataURL(file)
+      handleDragEnter: function (e, name) {
+        this.imgs_drag_status[name] = 'enter'
+        e.preventDefault()
+        e.stopPropagation()
       },
-
+      handleDragLeave: function (e, name) {
+        this.imgs_drag_status[name] = 'leave'
+        e.preventDefault()
+        e.stopPropagation()
+      },
+      handleDragOver: function (e, name) {
+        this.imgs_drag_status[name] = 'over'
+        e.preventDefault()
+        e.stopPropagation()
+      },
+      handleDrop: function (e, name) {
+        this.imgs_drag_status[name] = 'drop'
+        const dataTransfer = e.dataTransfer
+        this.handleFileUpload(Array.from(dataTransfer.files), name)
+        e.preventDefault()
+        e.stopPropagation()
+      },
       // ! TODO : cheange this with proper endpoint
       getUsers: async function () {
         const { data: { data: users } } = await UsersServices.getAllItems()
