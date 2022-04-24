@@ -30,44 +30,12 @@
                 <v-col
                   cols="12"
                   md="6"
-                  @dragenter="handleDragEnter($event, 'instrument_file')"
-                  @dragleave="handleDragLeave($event, 'instrument_file')"
-                  @dragover="handleDragOver($event, 'instrument_file')"
-                  @drop="handleDrop($event, 'instrument_file')"
                 >
-                  <v-file-input
-                    chips
-                    multiple
-                    counter
-                    show-size
+                  <input-file
+                    v-model="data.instrument_file"
                     label="الصك"
-                    @change="handleFileUpload( $event , 'instrument_file')"
-                  >
-                    <template
-                      v-slot:selection="{ text }"
-                    >
-                      <div :x="text">
-                        <v-chip
-                          v-for="(file, i) in data.instrument_file"
-                          :key="i"
-                          small
-                          label
-                          color="primary"
-                        >
-                          {{ file.name }}
-                        </v-chip>
-                      </div>
-                    </template>
-                    <template v-slot:counter="">
-                      <div class="v-text-field__details">
-                        <div class="v-messages theme--light">
-                          <div class="v-messages__wrapper" />
-                        </div><div class="v-counter theme--light">
-                          {{ data.instrument_file.length }} ملفات
-                        </div>
-                      </div>
-                    </template>
-                  </v-file-input>
+                    @change="handleChangeInput($event , 'instrument_file')"
+                  />
                   <v-chip
                     v-if="this.$route.query.edit && data.instrument_file"
                     small
@@ -85,24 +53,11 @@
                   cols="12"
                   md="6"
                 >
-                  <v-file-input
-                    chips
-                    multiple
-                    counter
-                    show-size
+                  <input-file
+                    v-model="data.attached_file"
                     label="المخطط"
-                    @change="handleFileUpload( $event , 'attached_file')"
-                  >
-                    <template v-slot:selection="{ text }">
-                      <v-chip
-                        small
-                        label
-                        color="primary"
-                      >
-                        {{ text }}
-                      </v-chip>
-                    </template>
-                  </v-file-input>
+                    @change="handleChangeInput( $event , 'attached_file')"
+                  />
                   <v-chip
                     v-if="this.$route.query.edit && data.attached_file"
                     small
@@ -120,24 +75,11 @@
                   cols="12"
                   md="6"
                 >
-                  <v-file-input
-                    chips
-                    multiple
-                    counter
-                    show-size
+                  <input-file
+                    v-model="data.assignment_letter_file"
                     label="خطاب التكليف"
-                    @change="handleFileUpload( $event , 'assignment_letter_file')"
-                  >
-                    <template v-slot:selection="{ text }">
-                      <v-chip
-                        small
-                        label
-                        color="primary"
-                      >
-                        {{ text }}
-                      </v-chip>
-                    </template>
-                  </v-file-input>
+                    @change="handleChangeInput( $event , 'assignment_letter_file')"
+                  />
                   <v-chip
                     v-if="this.$route.query.edit && data.assignment_letter_file"
                     link
@@ -153,24 +95,12 @@
                   cols="12"
                   md="6"
                 >
-                  <v-file-input
-                    chips
-                    multiple
-                    counter
-                    show-size
+                  <input-file
+                    v-model="data.schema_file"
                     label="الأرشيف"
-                    @change="handleFileUpload( $event , 'schema_file')"
-                  >
-                    <template v-slot:selection="{ text }">
-                      <v-chip
-                        small
-                        label
-                        color="primary"
-                      >
-                        {{ text }}
-                      </v-chip>
-                    </template>
-                  </v-file-input>
+                    @change="handleChangeInput( $event , 'schema_file')"
+                  />
+
                   <v-chip
                     v-if="this.$route.query.edit && data.schema_file"
                     small
@@ -2406,6 +2336,8 @@
   // import { copyText } from 'vue3-clipboard'
   // import { Loader } from '@googlemaps/js-api-loader'
   import customDate from '../../dashboard/component/Date.vue'
+  import inputFile from '../../dashboard/component/InputFile.vue'
+
   import staticLists from './staticData.json'
   // const loader = new Loader('AIzaSyACo4RXxzSABqvI3S_Q3_nQ2YIW4HfJuXI')
 
@@ -2429,6 +2361,7 @@
     name: 'NewTreatment',
     components: {
       customDate,
+      inputFile,
     },
     data: () => ({
       imgs_drag_status: {},
@@ -2507,7 +2440,7 @@
         neighborhood_id: 0,
         prop_Albulk_num: '',
         prop_apartment_num: '',
-        prop_part_num: '',
+        prop_part_num: '1',
         transaction_id: '',
         trans_number: '',
         instrument_file: [],
@@ -2533,7 +2466,7 @@
         residential_plan_name: '',
         residential_plan_no: '',
         trans_Albulk_num: '',
-        trans_part_num: '',
+        trans_part_num: '123',
         trans_owner_name: '',
         trans_owner_phone: '',
         property_type_id: '',
@@ -2936,53 +2869,63 @@
       fetchOneItem: async function (id) {
         const { data } = await TransactionsServices.fetchOneItem(id)
         this.data = data
+        this.data.instrument_file = data.media.filter(i => i.collection_name === 'instrument_file')
+        this.data.assignment_letter_file = data.media.filter(i => i.collection_name === 'assignment_letter_file')
+        this.data.attached_file = data.media.find(i => i.collection_name === 'attached_file')
+        this.data.schema_file = data.media.filter(i => i.collection_name === 'schema_file')
       },
 
       // files
-      handleFileUpload: function (files, name) {
-        if (name === 'instrument_file') {
-          this.data[name].push(...files)
-        } else if (name === 'assignment_letter_file') {
-          this.data[name].push(...files)
-        } else if (name === 'schema_file') {
+      // handleFileUpload: function (files, name) {
+      //   if (name === 'instrument_file') {
+      //     this.data[name].push(...files)
+      //   } else if (name === 'assignment_letter_file') {
+      //     this.data[name].push(...files)
+      //   } else if (name === 'schema_file') {
+      //     this.data[name].push(...files)
+      //   } else {
+      //     this.data[name] = files[0]
+      //   }
+      //   // this.createImage(files[0], name)
+      // },
+      handleChangeInput (files, name) {
+        if (name !== 'attached_file') {
           this.data[name].push(...files)
         } else {
           this.data[name] = files[0]
         }
-        // this.createImage(files[0], name)
       },
-
-      addDropFile (e) {
-        /**
-         * ? الصك غير محدد instrument_file
-         * ? خطاب التكليف 4 assignment_letter_file
-         * ? المخطط صورة attached_file
-         * ? الارشيف ملف واحد
-         */
-        this.files = Array.from(e.dataTransfer.files)
-      },
-      handleDragEnter: function (e, name) {
-        this.imgs_drag_status[name] = 'enter'
-        e.preventDefault()
-        e.stopPropagation()
-      },
-      handleDragLeave: function (e, name) {
-        this.imgs_drag_status[name] = 'leave'
-        e.preventDefault()
-        e.stopPropagation()
-      },
-      handleDragOver: function (e, name) {
-        this.imgs_drag_status[name] = 'over'
-        e.preventDefault()
-        e.stopPropagation()
-      },
-      handleDrop: function (e, name) {
-        this.imgs_drag_status[name] = 'drop'
-        const dataTransfer = e.dataTransfer
-        this.handleFileUpload(Array.from(dataTransfer.files), name)
-        e.preventDefault()
-        e.stopPropagation()
-      },
+      // addDropFile (e) {
+      //   /**
+      //    * ? الصك غير محدد instrument_file
+      //    * ? خطاب التكليف 4 assignment_letter_file
+      //    * ? المخطط صورة attached_file
+      //    * ? الارشيف ملف واحد
+      //    */
+      //   this.files = Array.from(e.dataTransfer.files)
+      // },
+      // handleDragEnter: function (e, name) {
+      //   this.imgs_drag_status[name] = 'enter'
+      //   e.preventDefault()
+      //   e.stopPropagation()
+      // },
+      // handleDragLeave: function (e, name) {
+      //   this.imgs_drag_status[name] = 'leave'
+      //   e.preventDefault()
+      //   e.stopPropagation()
+      // },
+      // handleDragOver: function (e, name) {
+      //   this.imgs_drag_status[name] = 'over'
+      //   e.preventDefault()
+      //   e.stopPropagation()
+      // },
+      // handleDrop: function (e, name) {
+      //   this.imgs_drag_status[name] = 'drop'
+      //   const dataTransfer = e.dataTransfer
+      //   this.handleFileUpload(Array.from(dataTransfer.files), name)
+      //   e.preventDefault()
+      //   e.stopPropagation()
+      // },
       // ! TODO : cheange this with proper endpoint
       getUsers: async function () {
         const { data: { data: users } } = await UsersServices.getAllItems()

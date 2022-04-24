@@ -2969,7 +2969,7 @@
       <div
         :key="index"
         :class="index !== 0 ? 'first' : ''"
-        style="height:950px;background:red;"
+        style="height:950px;background:transparent;"
       >
         <img
           :src="image.original_url"

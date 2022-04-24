@@ -3658,7 +3658,6 @@
                                         outlined
                                         type="number"
                                         suffix="%"
-                                        disabled
                                       />
                                     </td>
                                     <td>
@@ -3669,7 +3668,6 @@
                                         outlined
                                         type="number"
                                         suffix="%"
-                                        disabled
                                       />
                                     </td>
                                     <td>
@@ -3680,7 +3678,6 @@
                                         outlined
                                         type="number"
                                         suffix="%"
-                                        disabled
                                       />
                                     </td>
                                   </tr>

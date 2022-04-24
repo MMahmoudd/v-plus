@@ -1160,27 +1160,27 @@ westFacadeSetting: [],
         /**
          * dividing on 0 will get INFINTY
          */
-        function noZero (value) {
-          const toNumber = Number(value)
+        // function noZero (value) {
+        //   const toNumber = Number(value)
 
-          if (String(toNumber) === 'NaN') {
-            return 1
-          } else if (
-            toNumber === 0
-          ) {
-            return 1
-          }
+        //   if (String(toNumber) === 'NaN') {
+        //     return 1
+        //   } else if (
+        //     toNumber === 0
+        //   ) {
+        //     return 1
+        //   }
 
-          return toNumber
-        }
+        //   return toNumber
+        // }
 
-        this.data.cm_space_settlement =
-        ((noZero(this.data.land_area) / noZero(this.data.cm_space)) * 100).toFixed(2)
-        console.log('after: ', this.data.cm_space_settlement)
-        this.data.cm_space_settlement2 =
-        ((noZero(this.data.land_area) / noZero(this.data.cm_space_2)) * 100).toFixed(2)
-        this.data.cm_space_settlement3 =
-        ((noZero(this.data.land_area) / noZero(this.data.cm_space_3)) * 100).toFixed(2)
+        // this.data.cm_space_settlement =
+        // ((noZero(this.data.land_area) / noZero(this.data.cm_space)) * 100).toFixed(2)
+        // console.log('after: ', this.data.cm_space_settlement)
+        // this.data.cm_space_settlement2 =
+        // ((noZero(this.data.land_area) / noZero(this.data.cm_space_2)) * 100).toFixed(2)
+        // this.data.cm_space_settlement3 =
+        // ((noZero(this.data.land_area) / noZero(this.data.cm_space_3)) * 100).toFixed(2)
 
         if (this.data.trans_finishing_internal?.length === 0) {
           this.data.trans_finishing_internal = data.trans_finishing_internal
