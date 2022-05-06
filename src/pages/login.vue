@@ -1,34 +1,36 @@
 <template>
-  <v-container
-    id="regular-tables"
-    tag="section"
-  >
-    <v-row>
-      <v-card
-        class="col-12"
-        raised
-      >
-        <div class="form-content">
-          <div class="header">
-            <img
-              src="../assets/logos.png"
-              alt="logo"
-              class="logo"
-            >
-            <span>Valuation Plus <small style="font-size:12px">إصدار تجريبي</small></span>
-          </div>
+  <v-app class="login-layout">
+    <v-container
+      id="regular-tables"
+      tag="section"
+    >
+      <v-row>
+        <v-card
+          class="col-12"
+          raised
+        >
+          <div class="form-content">
+            <!-- logo -->
+            <div class="header">
+              <img
+                src="../assets/logos.png"
+                alt="logo"
+                class="logo"
+              >
+              <span>Valuation Plus <small style="font-size:12px">إصدار تجريبي</small></span>
+            </div>
 
-          <v-form @submit.prevent="loginSubmit()">
-            <v-text-field
-              v-model="userLogin.email"
-              name="email"
-              type="email"
-              outlined
-              :rules="[rules.required]"
-              placeholder="أسم المستخدم"
-              @change="onEmailChange"
-            />
-            <v-app>
+            <v-form @submit.prevent="loginSubmit()">
+              <v-text-field
+                v-model="userLogin.email"
+                name="email"
+                type="email"
+                outlined
+                :rules="[rules.required]"
+                placeholder="أسم المستخدم"
+                @change="onEmailChange"
+              />
+
               <v-select
                 v-model="userLogin.facility_id"
                 :items="facilities"
@@ -36,62 +38,65 @@
                 item-value="id"
                 outlined
               />
-            </v-app>
-            <v-text-field
-              v-model="userLogin.password"
-              name="password"
-              :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-              :rules="[rules.required, rules.min]"
-              :type="show1 ? 'text' : 'password'"
-              counter
-              outlined
-              minlength="8"
-              placeholder="كلمة المرور"
-              :disabled="!userLogin.email || !userLogin.facility_id"
-              @click:append="show1 = !show1"
-            />
-            <v-card-actions>
-              <v-tooltip bottom>
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn
-                    class="mr-4 submit"
-                    v-bind="attrs"
-                    type="submit"
-                    :class="{'is-loading': isLoading}"
-                    :disabled="!formValid"
-                    v-on="on"
-                  >
-                    تسجيل دخول"
-                  </v-btn>
-                </template>
-                <span>تسجيل دخول"</span>
-              </v-tooltip>
-            </v-card-actions>
-          </v-form>
 
-          <div class="forgot-password-link">
-            <router-link to="/forgot-password">
-              هل نسيت كلمة السر؟
-            </router-link>
+              <v-text-field
+                v-model="userLogin.password"
+                name="password"
+                :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                :rules="[rules.required, rules.min]"
+                :type="show1 ? 'text' : 'password'"
+                counter
+                outlined
+                minlength="8"
+                placeholder="كلمة المرور"
+                :disabled="!userLogin.email || !userLogin.facility_id"
+                @click:append="show1 = !show1"
+              />
+              <v-card-actions>
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                      class="mr-4 submit"
+                      v-bind="attrs"
+                      type="submit"
+                      :class="{'is-loading': isLoading}"
+                      :disabled="!formValid"
+                      v-on="on"
+                    >
+                      تسجيل دخول"
+                    </v-btn>
+                  </template>
+                  <span>تسجيل دخول"</span>
+                </v-tooltip>
+              </v-card-actions>
+            </v-form>
+
+            <div class="forgot-password-link">
+              <router-link to="/forgot-password">
+                هل نسيت كلمة السر؟
+              </router-link>
+            </div>
+            <template v-if="loginErrorMessage">
+              <v-alert
+                type="error"
+                color="#ff5252"
+              >
+                {{ loginErrorMessage }}
+              </v-alert>
+            </template>
           </div>
-          <template v-if="loginErrorMessage">
-            <v-alert
-              type="error"
-              color="#ff5252"
+          <!-- right image -->
+          <div class="image d-none d-lg-block">
+            <img
+              src="../assets/login.png"
+              alt="background"
             >
-              {{ loginErrorMessage }}
-            </v-alert>
-          </template>
-        </div>
-        <div class="image">
-          <img
-            src="../assets/login.png"
-            alt="background"
-          >
-        </div>
-      </v-card>
-    </v-row>
-  </v-container>
+          </div>
+        <!-- end right image -->
+        </v-card>
+      </v-row>
+    </v-container>
+  </v-app>
 </template>
 <script>
   import { mapState, mapActions } from 'vuex'
@@ -168,8 +173,11 @@
   }
 </script>
 <style lang="scss">
+.login-layout {
+  direction: ltr;
+}
   .v-card{
-    max-width: 70% ;
+    max-width: 90% ;
     max-height: fit-content;
     margin: auto;
     display: flex;
@@ -184,8 +192,8 @@
       width: 100%;
       }
     }
-    .form-content{
-      width: 50%;
+    .form-content {
+      width: 100%;
     }
     .submit{
       left: 50%;
@@ -279,5 +287,22 @@
   .v-application--wrap {
     height: auto;
     min-height: auto !important;
+  }
+
+  @media screen  {
+    @media (min-width: 1264px) {
+      .v-application .form-content {
+        width: 50% !important;
+      }
+      .v-application .v-card {
+        width: 70% !important;
+      }
+    }
+
+    @media (max-width: 1264px) {
+      .form-content {
+        padding: 15px 0px;
+      }
+    }
   }
 </style>

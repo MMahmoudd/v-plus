@@ -1,96 +1,98 @@
 <template>
-  <v-container
-    id="regular-tables"
-    tag="section"
-  >
-    <v-row>
-      <v-card
-        class="col-12"
-        raised
-      >
-        <div class="form-content">
-          <div class="header">
-            <img
-              src="../../assets/logos.png"
-              alt="logo"
-              class="logo"
-            >
-            <span>Valuation Plus <small style="font-size:12px">إصدار تجريبي</small></span>
-          </div>
+  <v-app class="login-layout">
+    <v-container
+      id="regular-tables"
+      tag="section"
+    >
+      <v-row>
+        <v-card
+          class="col-12"
+          raised
+        >
+          <div class="form-content">
+            <div class="header">
+              <img
+                src="../../assets/logos.png"
+                alt="logo"
+                class="logo"
+              >
+              <span>Valuation Plus <small style="font-size:12px">إصدار تجريبي</small></span>
+            </div>
 
-          <v-form @submit.prevent="handleSubmit">
-            <v-text-field
-              v-model="data.code"
-              name="code"
-              type="text"
-              outlined
-              :rules="[rules.required]"
-              placeholder="الكود"
-            />
-            <v-text-field
-              v-model="data.new_password"
-              name="new_password"
-              outlined
-              placeholder="كلمة السر الجديدة"
-              :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-              :rules="[rules.required, rules.min]"
-              :type="show1 ? 'text' : 'password'"
-              @click:append="show1 = !show1"
-            />
-            <v-text-field
-              v-model="data.new_password_confirmation"
-              name="new_password_confirmation"
-              outlined
-              placeholder="تأكيد كلمة السر"
-              :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
-              :rules="[rules.required, rules.min]"
-              :type="show2 ? 'text' : 'password'"
-              @click:append="show2 = !show2"
-            />
-            <v-card-actions>
-              <v-tooltip bottom>
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn
-                    class="mr-4 submit"
-                    v-bind="attrs"
-                    type="submit"
-                    :loading="isLoading"
-                    :disabled="!formValid"
-                    v-on="on"
-                  >
-                    إرسال
-                  </v-btn>
-                </template>
-                <span>إرسال</span>
-              </v-tooltip>
-            </v-card-actions>
-          </v-form>
-          <template v-if="errorMessage">
-            <v-alert
-              type="error"
-              color="#ff5252"
+            <v-form @submit.prevent="handleSubmit">
+              <v-text-field
+                v-model="data.code"
+                name="code"
+                type="text"
+                outlined
+                :rules="[rules.required]"
+                placeholder="الكود"
+              />
+              <v-text-field
+                v-model="data.new_password"
+                name="new_password"
+                outlined
+                placeholder="كلمة السر الجديدة"
+                :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                :rules="[rules.required, rules.min]"
+                :type="show1 ? 'text' : 'password'"
+                @click:append="show1 = !show1"
+              />
+              <v-text-field
+                v-model="data.new_password_confirmation"
+                name="new_password_confirmation"
+                outlined
+                placeholder="تأكيد كلمة السر"
+                :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
+                :rules="[rules.required, rules.min]"
+                :type="show2 ? 'text' : 'password'"
+                @click:append="show2 = !show2"
+              />
+              <v-card-actions>
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                      class="mr-4 submit"
+                      v-bind="attrs"
+                      type="submit"
+                      :loading="isLoading"
+                      :disabled="!formValid"
+                      v-on="on"
+                    >
+                      إرسال
+                    </v-btn>
+                  </template>
+                  <span>إرسال</span>
+                </v-tooltip>
+              </v-card-actions>
+            </v-form>
+            <template v-if="errorMessage">
+              <v-alert
+                type="error"
+                color="#ff5252"
+              >
+                {{ errorMessage }}
+              </v-alert>
+            </template>
+            <template v-if="successMessage">
+              <v-alert
+                type="success"
+                color="#4caf50"
+              >
+                {{ successMessage }}
+              </v-alert>
+            </template>
+          </div>
+          <div class="image d-none d-lg-block">
+            <img
+              src="../../assets/login.png"
+              alt="background"
             >
-              {{ errorMessage }}
-            </v-alert>
-          </template>
-          <template v-if="successMessage">
-            <v-alert
-              type="success"
-              color="#4caf50"
-            >
-              {{ successMessage }}
-            </v-alert>
-          </template>
-        </div>
-        <div class="image">
-          <img
-            src="../../assets/login.png"
-            alt="background"
-          >
-        </div>
-      </v-card>
-    </v-row>
-  </v-container>
+          </div>
+        </v-card>
+      </v-row>
+    </v-container>
+  </v-app>
 </template>
 <script>
   import { required, string, password } from 'vuelidate/lib/validators'
@@ -183,8 +185,11 @@
   }
 </script>
 <style lang="scss">
+.login-layout {
+  direction: ltr;
+}
   .v-card{
-    max-width: 70% ;
+    max-width: 90% ;
     max-height: fit-content;
     margin: auto;
     display: flex;
@@ -199,8 +204,8 @@
       width: 100%;
       }
     }
-    .form-content{
-      width: 50%;
+    .form-content {
+      width: 100%;
     }
     .submit{
       left: 50%;
@@ -288,6 +293,22 @@
 
       a {
         text-decoration: none;
+      }
+    }
+  }
+   @media screen  {
+    @media (min-width: 1264px) {
+      .v-application .form-content {
+        width: 50% !important;
+      }
+      .v-application .v-card {
+        width: 70% !important;
+      }
+    }
+
+    @media (max-width: 1264px) {
+      .form-content {
+        padding: 15px 0px;
       }
     }
   }

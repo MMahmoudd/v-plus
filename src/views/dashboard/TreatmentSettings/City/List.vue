@@ -214,7 +214,7 @@
         const regions = await RegionsService.getAllItems(itemsPerPage, page, pageNumber)
         // console.log(regions)
         // console.log('Users', items)
-        items.data.data.map(item => {
+        items.data.data.forEach(item => {
           item.created_at &&= new Date(item.created_at).toLocaleString('ar-eg')
           item.status = item.status === '1' ? 'مفعل' : 'غير مفعل'
           item.region = regions.data.data.find((region) => region.id === item.region_id).name

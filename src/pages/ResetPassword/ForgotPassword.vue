@@ -1,4 +1,5 @@
 <template>
+ <v-app class="login-layout">
   <v-container
     id="regular-tables"
     tag="section"
@@ -62,7 +63,7 @@
             </v-alert>
           </template>
         </div>
-        <div class="image">
+        <div class="image d-none d-lg-block">
           <img
             src="../../assets/login.png"
             alt="background"
@@ -71,6 +72,7 @@
       </v-card>
     </v-row>
   </v-container>
+ </v-app>
 </template>
 <script>
   import { required, email, password } from 'vuelidate/lib/validators'
@@ -156,8 +158,11 @@
   }
 </script>
 <style lang="scss">
+.login-layout {
+  direction: ltr;
+}
   .v-card{
-    max-width: 70% ;
+    max-width: 90% ;
     max-height: fit-content;
     margin: auto;
     display: flex;
@@ -172,8 +177,8 @@
       width: 100%;
       }
     }
-    .form-content{
-      width: 50%;
+    .form-content {
+      width: 100%;
     }
     .submit{
       left: 50%;
@@ -261,6 +266,22 @@
 
       a {
         text-decoration: none;
+      }
+    }
+  }
+  @media screen  {
+    @media (min-width: 1264px) {
+      .v-application .form-content {
+        width: 50% !important;
+      }
+      .v-application .v-card {
+        width: 70% !important;
+      }
+    }
+
+    @media (max-width: 1264px) {
+      .form-content {
+        padding: 15px 0px;
       }
     }
   }
