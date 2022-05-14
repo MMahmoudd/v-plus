@@ -21,7 +21,9 @@ import './assets/main.css'
 import './plugins/vuetify-money.js'
 import UUID from 'vue-uuid'
 import VueEllipseProgress from 'vue-ellipse-progress'
+import VueDatetimeJs from 'vue-datetime-js'
 
+Vue.component('date-picker', VueDatetimeJs)
 Vue.use(VueEllipseProgress)
 
 Vue.use(UUID)

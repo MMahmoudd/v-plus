@@ -145,12 +145,9 @@
                   <label
                     class="d-block mb-3 font-weight-bold"
                   >السعر</label>
-                  <vuetify-money
+                  <input-numbers
                     v-model="price"
-                    outlined
-                    single-line
                     disabled
-                    :options="moneyInputOptions"
                   />
                 </v-col>
               </v-row>
@@ -184,12 +181,9 @@
 
                     class="d-block mb-3 font-weight-bold"
                   >العمولات</label>
-                  <vuetify-money
+                  <input-numbers
                     v-model="p.amount"
-                    outlined
-                    single-line
                     disabled
-                    :options="moneyInputOptions"
                     @change="calcTotal(index)"
                   />
                 </v-col>
@@ -293,6 +287,8 @@
 <script>
   import { ServiceFactory } from '../../../services/ServiceFactory'
   import { uuid } from 'vue-uuid'
+  import inputNumbers from '../../dashboard/component/InputNumbers.vue'
+
   /**
    * ? Services
    */
@@ -302,7 +298,9 @@
 
   export default {
     name: 'NewTreatment',
-
+    components: {
+      inputNumbers,
+    },
     data: () => ({
       successSnackbar: false,
       errorSnackbar: false,

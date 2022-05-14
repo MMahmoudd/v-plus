@@ -25,6 +25,11 @@
         <div>
           <form>
             <div>
+              <!-- <date-picker
+                v-model="testDate"
+                :locale="'ar-sa'"
+                :calendar="'hijri'"
+              /> -->
               <h2>الملحقات</h2>
               <v-row>
                 <v-col
@@ -482,6 +487,11 @@
                   <label
                     class="d-block mb-3 font-weight-bold"
                   >تاريخ الصك</label>
+                  <!-- <date-picker
+                    v-model="data.trans_instrument_date"
+                    :locale="'ar-sa'"
+                    :calendar="'hijri'"
+                  /> -->
                   <custom-date v-model="data.trans_instrument_date" />
                 </v-col>
                 <v-col
@@ -2364,6 +2374,7 @@
       inputFile,
     },
     data: () => ({
+      testDate: '',
       imgs_drag_status: {},
       errorMessage: '',
       successMessage: '',

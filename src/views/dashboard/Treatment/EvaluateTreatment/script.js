@@ -2,7 +2,7 @@
   import { loadGmapApi } from 'vue2-google-maps'
 
   import customDate from '../../../dashboard/component/Date.vue'
-
+  import inputNumbers from '../../../dashboard/component/InputNumbers.vue'
   // import TransactionsBar from './TransactionsBar.vue'
   // import Swal from 'sweetalert2'
   // ! TODO : REPLACE IT WITH NATIVE CODE
@@ -59,6 +59,7 @@
     components: {
       draggable,
       customDate,
+      inputNumbers,
       // TransactionsBar,
     },
     filters: {
@@ -637,7 +638,8 @@ westFacadeSetting: [],
         prefix: '',
         suffix: '',
         length: 11,
-        precision: 2,
+        precision: 1,
+
       },
       evaluateType: ['evaluateType1'],
       items: ['Item 1', 'Item 2', 'Item 3', 'Item 4'],

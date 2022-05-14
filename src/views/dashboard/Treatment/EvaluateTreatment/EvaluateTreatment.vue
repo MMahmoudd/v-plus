@@ -3208,16 +3208,23 @@
                                       />
                                     </td>
                                     <td>
-                                      <custom-date v-model="data.operation_date" />
+                                      <custom-date
+                                        v-model="data.operation_date"
+                                        extra-class="mt-3"
+                                      />
                                     </td>
                                     <td>
-                                      <vuetify-money
+                                      <input-numbers
+                                        v-model="data.cm_price"
+                                        class="mt-3"
+                                      />
+                                      <!-- <input-numbers
                                         v-model="data.cm_price"
                                         outlined
                                         single-line
                                         class="mt-3"
                                         :options="moneyInputOptions"
-                                      />
+                                      /> -->
                                       <!-- <v-text-field
                                 type="number"
                                 :value="data.cm_price | money"
@@ -3285,15 +3292,15 @@
                                       />
                                     </td>
                                     <td>
-                                      <custom-date v-model="data.operation_date_2" />
+                                      <custom-date
+                                        v-model="data.operation_date_2"
+                                        extra-class="mt-3"
+                                      />
                                     </td>
                                     <td>
-                                      <vuetify-money
+                                      <input-numbers
                                         v-model="data.cm_price_2"
-                                        outlined
-                                        single-line
                                         class="mt-3"
-                                        :options="moneyInputOptions"
                                       />
                                     </td>
                                     <td>
@@ -3354,15 +3361,15 @@
                                       />
                                     </td>
                                     <td>
-                                      <custom-date v-model="data.operation_date_3" />
+                                      <custom-date
+                                        v-model="data.operation_date_3"
+                                        extra-class="mt-3"
+                                      />
                                     </td>
                                     <td>
-                                      <vuetify-money
+                                      <input-numbers
                                         v-model="data.cm_price_3"
-                                        outlined
-                                        single-line
                                         class="mt-3"
-                                        :options="moneyInputOptions"
                                       />
                                     </td>
                                     <td>
@@ -3594,12 +3601,9 @@
                                       <label class="v-label theme--light">سعر البيع بعد تسوية شروط التمويل وظروف السوق</label>
                                     </td>
                                     <td>
-                                      <vuetify-money
+                                      <input-numbers
                                         v-model="data.cm_price_after_settling_financing_terms"
-                                        outlined
-                                        single-line
                                         class="mt-3"
-                                        :options="moneyInputOptions"
                                         disabled
                                       />
                                       <!-- <v-text-field
@@ -3612,12 +3616,9 @@
                               /> -->
                                     </td>
                                     <td>
-                                      <vuetify-money
+                                      <input-numbers
                                         v-model="data.cm_price_after_settling_financing_terms2"
-                                        outlined
-                                        single-line
                                         class="mt-3"
-                                        :options="moneyInputOptions"
                                         disabled
                                       />
                                       <!-- <v-text-field
@@ -3629,12 +3630,9 @@
                               /> -->
                                     </td>
                                     <td>
-                                      <vuetify-money
+                                      <input-numbers
                                         v-model="data.cm_price_after_settling_financing_terms3"
-                                        outlined
-                                        single-line
                                         class="mt-3"
-                                        :options="moneyInputOptions"
                                         disabled
                                       />
                                       <!-- <v-text-field
@@ -3759,32 +3757,23 @@
                                       <label class="v-label theme--light">سعر البيع بعد التسويات</label>
                                     </td>
                                     <td>
-                                      <vuetify-money
+                                      <input-numbers
                                         v-model="data.cm_selling_p_a_settlement"
-                                        outlined
-                                        single-line
                                         class="mt-3"
-                                        :options="moneyInputOptions"
                                         disabled
                                       />
                                     </td>
                                     <td>
-                                      <vuetify-money
+                                      <input-numbers
                                         v-model="data.cm_selling_p_a_settlement2"
-                                        outlined
-                                        single-line
                                         class="mt-3"
-                                        :options="moneyInputOptions"
                                         disabled
                                       />
                                     </td>
                                     <td>
-                                      <vuetify-money
+                                      <input-numbers
                                         v-model="data.cm_selling_p_a_settlement3"
-                                        outlined
-                                        single-line
                                         class="mt-3"
-                                        :options="moneyInputOptions"
                                         disabled
                                       />
                                     </td>
@@ -3829,32 +3818,23 @@
                                       <label class="v-label theme--light">مساهمة العقارات المقارنة حسب الوزن النسبى</label>
                                     </td>
                                     <td>
-                                      <vuetify-money
+                                      <input-numbers
                                         v-model="data.cm_contribution_comparative_p_relative_weight"
-                                        outlined
-                                        single-line
                                         class="mt-3"
-                                        :options="moneyInputOptions"
                                         disabled
                                       />
                                     </td>
                                     <td>
-                                      <vuetify-money
+                                      <input-numbers
                                         v-model="data.cm_contribution_comparative_p_relative_weight2"
-                                        outlined
-                                        single-line
                                         class="mt-3"
-                                        :options="moneyInputOptions"
                                         disabled
                                       />
                                     </td>
                                     <td>
-                                      <vuetify-money
+                                      <input-numbers
                                         v-model="data.cm_contribution_comparative_p_relative_weight3"
-                                        outlined
-                                        single-line
                                         class="mt-3"
-                                        :options="moneyInputOptions"
                                         disabled
                                       />
                                     </td>
@@ -3864,12 +3844,9 @@
                                       <label class="v-label theme--light font-weight-bold text-danger">القيمة السوقية باستخدام طريقة البيوع المقارنة</label>
                                     </td>
                                     <td colspan="3">
-                                      <vuetify-money
+                                      <input-numbers
                                         v-model="data.cm_market_v_comparative_sales_method"
-                                        outlined
-                                        single-line
                                         class="mt-3"
-                                        :options="moneyInputOptions"
                                         disabled
                                       />
                                     </td>
@@ -3944,21 +3921,15 @@
                                       />
                                     </td>
                                     <td>
-                                      <vuetify-money
+                                      <input-numbers
                                         v-model="item.unit_rent"
-                                        outlined
-                                        single-line
-                                        :options="moneyInputOptions"
                                         hide-details
                                         @input="() => updateTotalRent(item)"
                                       />
                                     </td>
                                     <td>
-                                      <vuetify-money
+                                      <input-numbers
                                         v-model="item.total_rent"
-                                        outlined
-                                        single-line
-                                        :options="moneyInputOptions"
                                         hide-details
                                         disabled
                                       />
@@ -3969,12 +3940,9 @@
                                     -->
                                     <td style="position:relative;">
                                       <!-- money input -->
-                                      <vuetify-money
+                                      <input-numbers
                                         v-if="item.status === 1"
                                         v-model="item.deduction_losses"
-                                        outlined
-                                        single-line
-                                        :options="{...moneyInputOptions, prefix : '$'}"
                                         hide-details
                                         @input="updateTotalRent(item)"
                                       />
@@ -4016,11 +3984,8 @@
                                 hide-details=""
                                 disabled
                               /> -->
-                                      <vuetify-money
+                                      <input-numbers
                                         v-model="item.deduction_losses_total"
-                                        outlined
-                                        single-line
-                                        :options="moneyInputOptions"
                                         hide-details
                                         disabled
                                       />
@@ -4034,11 +3999,8 @@
                                 hide-details=""
                                 disabled
                               /> -->
-                                      <vuetify-money
+                                      <input-numbers
                                         v-model="item.final_income"
-                                        outlined
-                                        single-line
-                                        :options="moneyInputOptions"
                                         hide-details
                                         disabled
                                       />
@@ -4376,10 +4338,8 @@
                             lg="9"
                             sm="8"
                           >
-                            <vuetify-money
+                            <input-numbers
                               v-model="data.total_annual_income"
-                              outlined
-                              single-line
                               :options="moneyInputOptions"
                               disabled
                             />
@@ -4401,11 +4361,8 @@
                       single-line
                       outlined
                     /> -->
-                            <vuetify-money
+                            <input-numbers
                               v-model="data.deduction_losses"
-                              outlined
-                              single-line
-                              :options="moneyInputOptions"
                               disabled
                             />
                           </v-col>
@@ -4421,11 +4378,8 @@
                             lg="9"
                             sm="8"
                           >
-                            <vuetify-money
+                            <input-numbers
                               v-model="data.total_actual_income"
-                              outlined
-                              single-line
-                              :options="moneyInputOptions"
                               disabled
                             />
                             <!-- <v-text-field
@@ -4451,7 +4405,8 @@
                             sm="8"
                             style="position:relative;"
                           >
-                            <vuetify-money
+                            <!-- TODO : FIX -->
+                            <input-numbers
                               v-model="data.m_operating_c_expenditures"
                               outlined
                               single-line
@@ -4506,11 +4461,8 @@
                       single-line
                       outlined
                     /> -->
-                            <vuetify-money
+                            <input-numbers
                               v-model="data.net_operating_income"
-                              outlined
-                              single-line
-                              :options="moneyInputOptions"
                               disabled
                             />
                           </v-col>
@@ -4526,11 +4478,8 @@
                             lg="9"
                             sm="8"
                           >
-                            <vuetify-money
+                            <input-numbers
                               v-model="data.capitalization_rate"
-                              outlined
-                              single-line
-                              :options="moneyInputOptions"
                             />
                             <!-- <v-text-field
                       v-model="data.capitalization_rate"
@@ -4555,11 +4504,8 @@
                       single-line
                       outlined
                     /> -->
-                            <vuetify-money
+                            <input-numbers
                               v-model="data.market_v_income_c_method"
-                              outlined
-                              single-line
-                              :options="moneyInputOptions"
                               disabled
                             />
                           </v-col>
@@ -4647,17 +4593,8 @@
                             cols="4"
                             md="3"
                           >
-                            <vuetify-money
+                            <input-numbers
                               v-model.number="b.price"
-                              outlined
-                              single-line
-                              :options="{
-                                locale: 'en-US',
-                                prefix: '',
-                                suffix: '',
-                                length: 11,
-                                precision: 2,
-                              }"
                               hide-details
                               @input="setMultiOfSpaceAndPrice(b.id||b.__uuid)"
                             />
@@ -4666,17 +4603,8 @@
                             cols="4"
                             md="3"
                           >
-                            <vuetify-money
+                            <input-numbers
                               v-model="b.total"
-                              outlined
-                              single-line
-                              :options="{
-                                locale: 'en-US',
-                                prefix: '',
-                                suffix: '',
-                                length: 11,
-                                precision: 2,
-                              }"
                               disabled
                               hide-details
                             />
@@ -4710,7 +4638,7 @@
                       md="3"
                     >
                       <label class="d-block mb-3 font-weight-bold">سعر المتر</label>
-                      <vuetify-money
+                      <input-numbers
                         v-model="data.cm_land_price"
                         outlined
                         single-line
@@ -4723,7 +4651,7 @@
                       md="3"
                     >
                       <label class="d-block mb-3 font-weight-bold">المجموع</label>
-                      <vuetify-money
+                      <input-numbers
                         v-model="data.cm_land_s_p_total"
                         outlined
                         single-line
@@ -4759,7 +4687,7 @@
                       cols="4"
                       md="3"
                     >
-                      <vuetify-money
+                      <input-numbers
                         v-model="data.cm_building_price"
                         outlined
                         single-line
@@ -4771,7 +4699,7 @@
                       cols="4"
                       md="3"
                     >
-                      <vuetify-money
+                      <input-numbers
                         v-model="data.cm_building_s_p_total"
                         outlined
                         single-line
@@ -4807,7 +4735,7 @@
                       cols="4"
                       md="3"
                     >
-                      <vuetify-money
+                      <input-numbers
                         v-model="data.cm_basement_price"
                         outlined
                         single-line
@@ -4819,7 +4747,7 @@
                       cols="4"
                       md="3"
                     >
-                      <vuetify-money
+                      <input-numbers
                         v-model="data.cm_basement_s_p_total"
                         outlined
                         single-line
@@ -4854,7 +4782,7 @@
                       cols="4"
                       md="3"
                     >
-                      <vuetify-money
+                      <input-numbers
                         v-model="data.cm_supplement_price"
                         outlined
                         single-line
@@ -4866,7 +4794,7 @@
                       cols="4"
                       md="3"
                     >
-                      <vuetify-money
+                      <input-numbers
                         v-model="data.cm_supplement_s_p_total"
                         outlined
                         single-line
@@ -4901,7 +4829,7 @@
                       cols="4"
                       md="3"
                     >
-                      <vuetify-money
+                      <input-numbers
                         v-model="data.cm_fences_price"
                         outlined
                         single-line
@@ -4913,7 +4841,7 @@
                       cols="4"
                       md="3"
                     >
-                      <vuetify-money
+                      <input-numbers
                         v-model="data.cm_fences_s_p_total"
                         outlined
                         single-line
@@ -4948,7 +4876,7 @@
                       cols="4"
                       md="3"
                     >
-                      <vuetify-money
+                      <input-numbers
                         v-model="data.cm_other_price"
                         outlined
                         single-line
@@ -4960,7 +4888,7 @@
                       cols="4"
                       md="3"
                     >
-                      <vuetify-money
+                      <input-numbers
                         v-model="data.cm_other_s_p_total"
                         outlined
                         single-line
@@ -5006,11 +4934,8 @@
                             md="3"
                           >
                             <label class="v-label d-block mb-3 theme--light">متوسط سعر المتر</label>
-                            <vuetify-money
+                            <input-numbers
                               v-model="data.cm_space_price_average"
-                              outlined
-                              single-line
-                              :options="moneyInputOptions"
                               disabled
                             />
                           </v-col>
@@ -5019,11 +4944,8 @@
                             md="3"
                           >
                             <label class="v-label d-block mb-3 theme--light">الإجمالي</label>
-                            <vuetify-money
+                            <input-numbers
                               v-model="data.cm_method_total"
-                              outlined
-                              single-line
-                              :options="moneyInputOptions"
                               disabled
                             />
                           </v-col>
@@ -5044,11 +4966,8 @@
                             md="3"
                           >
                             <label class="d-block mb-3 font-weight-bold">القيمة</label>
-                            <vuetify-money
+                            <input-numbers
                               v-model="data.cm_exchange_value"
-                              outlined
-                              single-line
-                              :options="moneyInputOptions"
                               @input="setCostTotal(index)"
                             />
                           </v-col>
@@ -5075,11 +4994,8 @@
                             cols="6"
                             md="3"
                           >
-                            <vuetify-money
+                            <input-numbers
                               v-model="data.cm_direct_costs"
-                              outlined
-                              single-line
-                              :options="moneyInputOptions"
                               @input="setCostTotal()"
                             />
                           </v-col>
@@ -5105,11 +5021,8 @@
                             cols="6"
                             md="3"
                           >
-                            <vuetify-money
+                            <input-numbers
                               v-model="data.cm_indirect_costs"
-                              outlined
-                              single-line
-                              :options="moneyInputOptions"
                               @input="setCostTotal()"
                             />
                           </v-col>
@@ -5135,11 +5048,8 @@
                             cols="12"
                             md="9"
                           >
-                            <vuetify-money
+                            <input-numbers
                               v-model="data.cm_cost_total"
-                              outlined
-                              single-line
-                              :options="moneyInputOptions"
                               disabled
                             />
                           </v-col>
@@ -5181,11 +5091,8 @@
                                     />
                                   </td>
                                   <td>
-                                    <vuetify-money
+                                    <input-numbers
                                       v-model="data.cm_physical_deterioration_value"
-                                      outlined
-                                      single-line
-                                      :options="moneyInputOptions"
                                       disabled
                                       class="mt-3"
                                     />
@@ -5207,11 +5114,8 @@
                                     />
                                   </td>
                                   <td>
-                                    <vuetify-money
+                                    <input-numbers
                                       v-model="data.cm_occupational_limitations_value"
-                                      outlined
-                                      single-line
-                                      :options="moneyInputOptions"
                                       disabled
                                       class="mt-3"
                                     />
@@ -5233,11 +5137,8 @@
                                     />
                                   </td>
                                   <td>
-                                    <vuetify-money
+                                    <input-numbers
                                       v-model="data.cm_economic_obsolescence_value"
-                                      outlined
-                                      single-line
-                                      :options="moneyInputOptions"
                                       disabled
                                       class="mt-3"
                                     />
@@ -5259,11 +5160,8 @@
                                     />
                                   </td>
                                   <td>
-                                    <vuetify-money
+                                    <input-numbers
                                       v-model="data.cm_total_depreciation_value"
-                                      outlined
-                                      single-line
-                                      :options="moneyInputOptions"
                                       disabled
                                       class="mt-3"
                                     />
@@ -5285,11 +5183,8 @@
                                     />
                                   </td>
                                   <td>
-                                    <vuetify-money
+                                    <input-numbers
                                       v-model="data.cm_depreciation_buildings_value"
-                                      outlined
-                                      single-line
-                                      :options="moneyInputOptions"
                                       disabled
                                       class="mt-3"
                                     />
@@ -5311,11 +5206,8 @@
                                     />
                                   </td>
                                   <td>
-                                    <vuetify-money
+                                    <input-numbers
                                       v-model="data.cm_depreciation_s_business_value"
-                                      outlined
-                                      single-line
-                                      :options="moneyInputOptions"
                                       disabled
                                       class="mt-3"
                                     />
@@ -5337,12 +5229,9 @@
                                     />
                                   </td>
                                   <td>
-                                    <vuetify-money
+                                    <input-numbers
                                       v-model="data.cm_developer_earnings_value"
                                       class="mt-3"
-                                      outlined
-                                      single-line
-                                      :options="moneyInputOptions"
                                       disabled
                                     />
                                   </td>
@@ -5352,12 +5241,9 @@
                                     <label class="v-label theme--light text-danger font-weight-bold">القيمة السوقية باستخدام أسلوب التكلفة</label>
                                   </td>
                                   <td colspan="2">
-                                    <vuetify-money
+                                    <input-numbers
                                       v-model="data.cm_total_market_value"
                                       class="mt-3"
-                                      outlined
-                                      single-line
-                                      :options="moneyInputOptions"
                                       disabled
                                     />
                                   </td>
@@ -5433,32 +5319,23 @@
                                     <label class="v-label theme--light">مساهمة الطرق المستخدمة حسب الوزن النسبى</label>
                                   </td>
                                   <td>
-                                    <vuetify-money
+                                    <input-numbers
                                       v-model="data.relative_market_value_relative_weights_roads_used"
                                       class="mt-3"
-                                      outlined
-                                      single-line
-                                      :options="moneyInputOptions"
                                       disabled
                                     />
                                   </td>
                                   <td>
-                                    <vuetify-money
+                                    <input-numbers
                                       v-model="data.relative_market_value_income_capitalization"
                                       class="mt-3"
-                                      outlined
-                                      single-line
-                                      :options="moneyInputOptions"
                                       disabled
                                     />
                                   </td>
                                   <td>
-                                    <vuetify-money
+                                    <input-numbers
                                       v-model="data.relative_market_value_cost"
                                       class="mt-3"
-                                      outlined
-                                      single-line
-                                      :options="moneyInputOptions"
                                       disabled
                                     />
                                   </td>
@@ -5468,12 +5345,9 @@
                                     <label class="v-label theme--light">القيمة السوقية بعد الترجيح رقماً</label>
                                   </td>
                                   <td colspan="3">
-                                    <vuetify-money
+                                    <input-numbers
                                       v-model="data.market_value_weighting_number"
                                       class="mt-3"
-                                      outlined
-                                      single-line
-                                      :options="moneyInputOptions"
                                       disabled
                                     />
                                   </td>
@@ -6123,7 +5997,6 @@
 
 <script src="./script.js">
 </script>
-
 <style lang="scss" scoped>
 .pdf-container{
   display: flex;

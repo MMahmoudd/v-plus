@@ -9,6 +9,7 @@
     <template v-slot:activator="{ on, attrs }">
       <v-text-field
         v-model="value"
+        :class="extraClass"
         prepend-icon="mdi-calendar"
         readonly
         v-bind="attrs"
@@ -36,6 +37,10 @@
           return (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)
         },
         required: true,
+      },
+      extraClass: {
+        type: String,
+        default: '',
       },
     },
     data: () => ({

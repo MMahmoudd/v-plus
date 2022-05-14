@@ -149,6 +149,12 @@
             v-if="showSuspended"
             eager
           >
+            {{ blabla }}
+            <br>
+            <input-numbers
+              v-model="money"
+              @input="value => blabla = value"
+            />
             <myTreatment
               :status="[7]"
             />
@@ -265,6 +271,7 @@
   import myTreatment from '../dashboard/Treatment/Treatments.vue'
   import PieChart from '../../components/PieChart.vue'
   import SelectSample from './Treatment/SelectSample.vue'
+  import InputNumbers from './component/InputNumbers.vue'
   // import BarChart from '../../components/BarChart.vue'
   export default {
     name: 'Dashboard',
@@ -273,9 +280,12 @@
       PieChart,
       // BarChart,
       myTreatment,
+      InputNumbers,
     },
     data () {
       return {
+        money: 0,
+        blabla: '',
         permissons: {
           approval: {},
           reviwer: {},
