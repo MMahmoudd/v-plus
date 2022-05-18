@@ -14,7 +14,7 @@
   import staticLists from '../staticData.json'
   import { uuid } from 'vue-uuid'
   // TODO : YOU CAN GRAP IT AFTER THE PAGE LOADING
-  import NumbersToWords from 'tafgeetjs'
+  import NumbersToWords from '../../../../Utils/tafqeet'
   // TODO : YOU CAN GRAP IT AFTER THE PAGE LOADING
   import draggable from 'vuedraggable'
   import { operationTypeList } from '../staticLists'
@@ -971,17 +971,17 @@ westFacadeSetting: [],
       'data.relative_market_value_cost': function () {
         const total = +this.data.relative_market_value_cost + +this.data.relative_market_value_income_capitalization + +this.data.relative_market_value_relative_weights_roads_used
         this.data.market_value_weighting_number = total
-        this.data.market_value_weighting_text = (isNaN(total) || total <= 0) ? '' : new NumbersToWords(total, 'SAR').parse()
+        this.data.market_value_weighting_text = (isNaN(total) || total <= 0) ? '' : NumbersToWords(total)
       },
       'data.relative_market_value_income_capitalization': function () {
         const total = +this.data.relative_market_value_cost + +this.data.relative_market_value_income_capitalization + +this.data.relative_market_value_relative_weights_roads_used
         this.data.market_value_weighting_number = total
-        this.data.market_value_weighting_text = (isNaN(total) || total <= 0) ? '' : new NumbersToWords(total, 'SAR').parse()
+        this.data.market_value_weighting_text = (isNaN(total) || total <= 0) ? '' : NumbersToWords(total)
       },
       'data.relative_market_value_relative_weights_roads_used': function () {
         const total = +this.data.relative_market_value_cost + +this.data.relative_market_value_income_capitalization + +this.data.relative_market_value_relative_weights_roads_used
         this.data.market_value_weighting_number = total
-        this.data.market_value_weighting_text = (isNaN(total) || total <= 0) ? '' : new NumbersToWords(total, 'SAR').parse()
+        this.data.market_value_weighting_text = (isNaN(total) || total <= 0) ? '' : NumbersToWords(total)
       },
 
       // تقييم الانجاز
