@@ -2,6 +2,7 @@
   import { loadGmapApi } from 'vue2-google-maps'
 
   import customDate from '../../../dashboard/component/Date.vue'
+  import HejriDate from '../../component/HejriDate.vue'
   import inputNumbers from '../../../dashboard/component/InputNumbers.vue'
   // import TransactionsBar from './TransactionsBar.vue'
   // import Swal from 'sweetalert2'
@@ -60,6 +61,7 @@
       draggable,
       customDate,
       inputNumbers,
+      HejriDate,
       // TransactionsBar,
     },
     filters: {

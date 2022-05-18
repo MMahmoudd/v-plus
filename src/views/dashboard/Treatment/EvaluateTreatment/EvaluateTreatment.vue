@@ -707,7 +707,7 @@
                       <label
                         class="d-block mb-3 font-weight-bold"
                       >تاريخ الصك</label>
-                      <custom-date v-model="data.trans_instrument_date" />
+                      <hejri-date v-model="data.trans_instrument_date" />
                     </v-col>
 
                     <v-col
@@ -734,7 +734,7 @@
                       <label
                         class="d-block mb-3 font-weight-bold"
                       >تاريخ رخصة البناء</label>
-                      <custom-date v-model="data.trans_building_permit_date" />
+                      <hejri-date v-model="data.trans_building_permit_date" />
                     </v-col>
 
                     <v-col

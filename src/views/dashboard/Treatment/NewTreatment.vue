@@ -487,12 +487,7 @@
                   <label
                     class="d-block mb-3 font-weight-bold"
                   >تاريخ الصك</label>
-                  <!-- <date-picker
-                    v-model="data.trans_instrument_date"
-                    :locale="'ar-sa'"
-                    :calendar="'hijri'"
-                  /> -->
-                  <custom-date v-model="data.trans_instrument_date" />
+                  <hejri-date v-model="data.trans_instrument_date" />
                 </v-col>
                 <v-col
                   cols="12"
@@ -1099,7 +1094,7 @@
                   <label
                     class="d-block mb-3 font-weight-bold"
                   >تاريخ رخصة البناء</label>
-                  <customDate v-model="data.trans_building_permit_date" />
+                  <hejri-date v-model="data.trans_building_permit_date" />
                 </v-col>
 
                 <!-- <v-col
@@ -2341,12 +2336,14 @@
 </template>
 
 <script>
+  import { format } from 'date-fns/esm'
   import { ServiceFactory } from '../../../services/ServiceFactory'
   // import Swal from 'sweetalert2'
   // import { copyText } from 'vue3-clipboard'
   // import { Loader } from '@googlemaps/js-api-loader'
   import customDate from '../../dashboard/component/Date.vue'
   import inputFile from '../../dashboard/component/InputFile.vue'
+  import HejriDate from '../component/HejriDate.vue'
 
   import staticLists from './staticData.json'
   // const loader = new Loader('AIzaSyACo4RXxzSABqvI3S_Q3_nQ2YIW4HfJuXI')
@@ -2372,6 +2369,7 @@
     components: {
       customDate,
       inputFile,
+      HejriDate,
     },
     data: () => ({
       testDate: '',
@@ -2483,9 +2481,9 @@
         property_type_id: '',
         property_rating_id: '',
         trans_instrument_num: '',
-        trans_instrument_date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+        trans_instrument_date: format(Date.now(), 'yyyy-MM-dd HH:mm'),
         trans_building_permit_number: '',
-        trans_building_permit_date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+        trans_building_permit_date: format(Date.now(), 'yyyy-MM-dd HH:mm'),
         trans_construction_age: '',
         trans_retail_record_num: '',
         trans_retail_record_date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),

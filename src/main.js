@@ -24,6 +24,11 @@ import VueEllipseProgress from 'vue-ellipse-progress'
 import VueDatetimeJs from 'vue-datetime-js'
 
 Vue.component('date-picker', VueDatetimeJs)
+// Vue.use(VueDatetimeJs, {
+//   name: 'date-picker',
+//   props: {
+//   },
+// })
 Vue.use(VueEllipseProgress)
 
 Vue.use(UUID)
