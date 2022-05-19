@@ -762,6 +762,21 @@
                     >
                       <label
                         class="d-block mb-3 font-weight-bold"
+                      >العمر الإفتراضي</label>
+                      <v-text-field
+                        v-model="data.trans_lifespan"
+                        label="عمر البناء"
+                        single-line
+                        outlined
+                      />
+                    </v-col>
+                    <v-col
+                      cols="12"
+                      lg="3"
+                      md="4"
+                    >
+                      <label
+                        class="d-block mb-3 font-weight-bold"
                       >رقم محضر التجزئة</label>
                       <v-text-field
                         v-model="data.trans_retail_record_num"

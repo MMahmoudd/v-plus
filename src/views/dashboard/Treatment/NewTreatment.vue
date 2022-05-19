@@ -2485,6 +2485,7 @@
         trans_building_permit_number: '',
         trans_building_permit_date: format(Date.now(), 'yyyy-MM-dd HH:mm'),
         trans_construction_age: '',
+        trans_lifespan: '',
         trans_retail_record_num: '',
         trans_retail_record_date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
         trans_construction_condition: '',
