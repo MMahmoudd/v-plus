@@ -1875,22 +1875,22 @@ westFacadeSetting: [],
         /**
          * ... ☑️
          */
-        const services = ['masjid',
-         'market',
-         'medical_facility',
-         'security_facility',
-         'public_garden',
-         'educational_facility',
-         'government_office',
-         'highway']
+        // const services = ['masjid',
+        //  'market',
+        //  'medical_facility',
+        //  'security_facility',
+        //  'public_garden',
+        //  'educational_facility',
+        //  'government_office',
+        //  'highway']
 
-         services.forEach(service => {
-           if (this.data[`${service}_note`].trim() || this.data[`${service}_distance`].trim()) {
-             this.data[service] = '1'
-           } else {
-            this.data[service] = '0'
-           }
-         })
+        //  services.forEach(service => {
+        //    if (this.data[`${service}_note`].trim() || this.data[`${service}_distance`].trim()) {
+        //      this.data[service] = '1'
+        //    } else {
+        //     this.data[service] = '0'
+        //    }
+        //  })
         /**
          * ? converting meters array to string
          */

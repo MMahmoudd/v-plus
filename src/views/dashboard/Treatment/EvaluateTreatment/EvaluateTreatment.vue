@@ -2817,9 +2817,15 @@
                       sm="4"
                       lg="2"
                     >
-                      <label
-                        class="d-block mb-3 font-weight-bold"
-                      >جامع</label>
+                      <v-checkbox
+                        v-model="data.masjid"
+                        :true-value="'1'"
+                        :false-value="'0'"
+                        hide-details=""
+                        class="mb-3 pt-0 mt-0 aqar"
+                        label="جامع"
+                      />
+
                       <v-text-field
                         v-model="data.masjid_note"
                         label="تفاصيل"
@@ -2847,9 +2853,14 @@
                       sm="4"
                       lg="2"
                     >
-                      <label
-                        class="d-block mb-3 font-weight-bold"
-                      >مرفق طبى</label>
+                      <v-checkbox
+                        v-model="data.medical_facility"
+                        :true-value="'1'"
+                        :false-value="'0'"
+                        hide-details=""
+                        class="mb-3 pt-0 mt-0 aqar"
+                        label="مرفق طبى"
+                      />
                       <v-text-field
                         v-model="data.medical_facility_note"
                         label="تفاصيل"
@@ -2877,9 +2888,14 @@
                       sm="4"
                       lg="2"
                     >
-                      <label
-                        class="d-block mb-3 font-weight-bold"
-                      >مرفق أمنى</label>
+                      <v-checkbox
+                        v-model="data.security_facility"
+                        :true-value="'1'"
+                        :false-value="'0'"
+                        hide-details=""
+                        class="mb-3 pt-0 mt-0 aqar"
+                        label="مرفق أمنى"
+                      />
                       <v-text-field
                         v-model="data.security_facility_note"
                         label="تفاصيل"
@@ -2907,9 +2923,14 @@
                       sm="4"
                       lg="2"
                     >
-                      <label
-                        class="d-block mb-3 font-weight-bold"
-                      >سوق تجارى</label>
+                      <v-checkbox
+                        v-model="data.market"
+                        :true-value="'1'"
+                        :false-value="'0'"
+                        hide-details=""
+                        class="mb-3 pt-0 mt-0 aqar"
+                        label="سوق تجارى"
+                      />
                       <v-text-field
                         v-model="data.market_note"
                         label="تفاصيل"
@@ -2937,9 +2958,15 @@
                       sm="4"
                       lg="2"
                     >
-                      <label
-                        class="d-block mb-3 font-weight-bold"
-                      >حديقة</label>
+                      <v-checkbox
+                        v-model="data.public_garden"
+                        :true-value="'1'"
+                        :false-value="'0'"
+                        hide-details=""
+                        class="mb-3 pt-0 mt-0 aqar"
+                        label="حديقة"
+                      />
+
                       <v-text-field
                         v-model="data.public_garden_note"
                         label="تفاصيل"
@@ -2967,9 +2994,14 @@
                       sm="4"
                       lg="2"
                     >
-                      <label
-                        class="d-block mb-3 font-weight-bold"
-                      >مرفق تعليمى</label>
+                      <v-checkbox
+                        v-model="data.educational_facility"
+                        :true-value="'1'"
+                        :false-value="'0'"
+                        hide-details=""
+                        class="mb-3 pt-0 mt-0 aqar"
+                        label="مرفق تعليمى"
+                      />
                       <v-text-field
                         v-model="data.educational_facility_note"
                         label="تفاصيل"
@@ -2997,9 +3029,14 @@
                       sm="4"
                       lg="2"
                     >
-                      <label
-                        class="d-block mb-3 font-weight-bold"
-                      >مقر حكومى</label>
+                      <v-checkbox
+                        v-model="data.government_office"
+                        :true-value="'1'"
+                        :false-value="'0'"
+                        hide-details=""
+                        class="mb-3 pt-0 mt-0 aqar"
+                        label="مقر حكومى"
+                      />
                       <v-text-field
                         v-model="data.government_office_note"
                         label="تفاصيل"
@@ -3027,9 +3064,14 @@
                       sm="4"
                       lg="2"
                     >
-                      <label
-                        class="d-block mb-3 font-weight-bold"
-                      >طريق سريع</label>
+                      <v-checkbox
+                        v-model="data.highway"
+                        :true-value="'1'"
+                        :false-value="'0'"
+                        hide-details=""
+                        class="mb-3 pt-0 mt-0 aqar"
+                        label="طريق سريع"
+                      />
                       <v-text-field
                         v-model="data.highway_note"
                         label="تفاصيل"
@@ -6196,5 +6238,9 @@ img {
 .image_over {
   box-shadow: 0px 0px 1px 1px blue;
   animation: glowing_blue 3s infinite backwards;
+}
+.aqar .v-label {
+  color:#000;
+  font-weight: bold;
 }
 </style>
