@@ -80,9 +80,11 @@
                       sm="6"
                     >
                       <label class="d-block mb-3 font-weight-bold">المخطط</label>
-                      <div class="pdf-container">
+                      <div
+                        v-if="data.attached_files.length > 0"
+                        class="pdf-container"
+                      >
                         <a
-                          v-show="data.attached_files.length > 0"
                           :href="data.attached_files[0].original_url"
                           target="_blank"
                         >
