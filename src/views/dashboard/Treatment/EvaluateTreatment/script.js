@@ -18,6 +18,7 @@
   // TODO : YOU CAN GRAP IT AFTER THE PAGE LOADING
   import draggable from 'vuedraggable'
   import { operationTypeList } from '../staticLists'
+import { watchers } from './souqMethods'
   const loader = new Loader('AIzaSyACo4RXxzSABqvI3S_Q3_nQ2YIW4HfJuXI')
   const CustomersService = ServiceFactory.get('Customers')
   const EvaluationPurposeService = ServiceFactory.get('EvaluationPurpose')
@@ -736,121 +737,6 @@ westFacadeSetting: [],
       })
     },
     watch: {
-      'data.cm_time_factor_adjustment': function () {
-        this.setTotalFunding(1)
-      },
-      'data.cm_settlement_financing_terms': function () {
-        this.setTotalFunding(1)
-      },
-      'data.cm_settling_market_conditions': function () {
-        this.setTotalFunding(1)
-      },
-      'data.cm_space_settlement': function (newv, oldv) {
-        console.log('data.cm_space_settlement', oldv, newv)
-        this.setTotalFunding(1)
-      },
-      'data.cm_other_settlement': function () {
-        this.setTotalFunding(1)
-      },
-
-      'data.cm_time_factor_adjustment_2': function () {
-        this.setTotalFunding(2)
-      },
-      'data.cm_settlement_financing_terms_2': function () {
-        this.setTotalFunding(2)
-      },
-      'data.cm_settling_market_conditions_2': function () {
-        this.setTotalFunding(2)
-      },
-      'data.cm_space_settlement2': function () {
-        this.setTotalFunding(2)
-      },
-      'data.cm_other_settlement2': function () {
-        this.setTotalFunding(2)
-      },
-
-      'data.cm_time_factor_adjustment_3': function () {
-        this.setTotalFunding(3)
-      },
-      'data.cm_settlement_financing_terms_3': function () {
-        this.setTotalFunding(3)
-      },
-      'data.cm_settling_market_conditions_3': function () {
-        this.setTotalFunding(3)
-      },
-      'data.cm_space_settlement3': function () {
-        this.setTotalFunding(3)
-      },
-      'data.cm_other_settlement3': function () {
-        this.setTotalFunding(3)
-      },
-      // change the total
-      'data.cm_total_funding_market_adjustments': function () {
-        this.data.cm_price_after_settling_financing_terms = +this.data.cm_price + (this.data.cm_price * this.data.cm_total_funding_market_adjustments) / 100
-      },
-      'data.cm_price': function () {
-        this.data.cm_price_after_settling_financing_terms = +this.data.cm_price + (this.data.cm_price * this.data.cm_total_funding_market_adjustments) / 100
-        this.sellingAftersettlement(1)
-      },
-
-      'data.cm_total_funding_market_adjustments_2': function () {
-        this.data.cm_price_after_settling_financing_terms2 = +this.data.cm_price_2 + (this.data.cm_price_2 * this.data.cm_total_funding_market_adjustments_2) / 100
-      },
-      'data.cm_price_2': function () {
-        this.data.cm_price_after_settling_financing_terms2 = +this.data.cm_price_2 + (this.data.cm_price_2 * this.data.cm_total_funding_market_adjustments_2) / 100
-        this.sellingAftersettlement(2)
-      },
-      'data.cm_total_funding_market_adjustments_3': function () {
-        this.data.cm_price_after_settling_financing_terms3 = +this.data.cm_price_3 + (this.data.cm_price_3 * this.data.cm_total_funding_market_adjustments_3) / 100
-      },
-      'data.cm_price_3': function () {
-        this.data.cm_price_after_settling_financing_terms3 = +this.data.cm_price_3 + (this.data.cm_price_3 * this.data.cm_total_funding_market_adjustments_3) / 100
-        this.sellingAftersettlement(3)
-      },
-
-      // سعر البيع بعد التسويات
-      'data.cm_total_settlement': function () {
-        this.sellingAftersettlement(1)
-      },
-      'data.cm_total_settlement2': function () {
-        this.sellingAftersettlement(2)
-      },
-      'data.cm_total_settlement3': function () {
-        this.sellingAftersettlement(3)
-      },
-
-      // مساهمة العقارات المقارنة حسب الوزن النسبي
-      'data.cm_selling_p_a_settlement': function () {
-        this.contribution_comparative_p_relative_weight(1)
-      },
-      'data.cm_relative_w_comparable_p': function () {
-        this.contribution_comparative_p_relative_weight(1)
-      },
-
-      'data.cm_selling_p_a_settlement2': function () {
-        this.contribution_comparative_p_relative_weight(2)
-      },
-      'data.cm_relative_w_comparable_p2': function () {
-        this.contribution_comparative_p_relative_weight(2)
-      },
-
-      'data.cm_selling_p_a_settlement3': function () {
-        this.contribution_comparative_p_relative_weight(3)
-      },
-      'data.cm_relative_w_comparable_p3': function () {
-        this.contribution_comparative_p_relative_weight(3)
-      },
-
-      // القيمة السوقية باستخدام طريقة البيوع المقارنة
-      'data.cm_contribution_comparative_p_relative_weight': function () {
-        this.cm_market_v_comparative_sales_method()
-      },
-      'data.cm_contribution_comparative_p_relative_weight2': function () {
-        this.cm_market_v_comparative_sales_method()
-      },
-      'data.cm_contribution_comparative_p_relative_weight3': function () {
-        this.cm_market_v_comparative_sales_method()
-      },
       // تقييم الايجارات
       'data.income_valuation': {
         handler: function () {
@@ -1006,6 +892,12 @@ westFacadeSetting: [],
           }))
         }
       },
+    },
+    created () {
+      const souqWatchers = watchers()
+      for (const key in souqWatchers) {
+        this.$watch(key, souqWatchers[key].bind(this))
+      }
     },
     mounted () {
       // * get the height of the main bar
@@ -1632,13 +1524,22 @@ westFacadeSetting: [],
       sellingAftersettlement: function (n) {
         switch (n) {
           case 1:
-            this.data.cm_selling_p_a_settlement = +this.data.cm_price * (this.data.cm_total_settlement / 100)
+            this.data.cm_selling_p_a_settlement =
+            +this.data.cm_price *
+            (this.data.cm_total_settlement / 100) +
+            this.data.cm_price_after_settling_financing_terms
             break
           case 2:
-            this.data.cm_selling_p_a_settlement2 = +this.data.cm_price_2 * (this.data.cm_total_settlement2 / 100)
+            this.data.cm_selling_p_a_settlement2 =
+            +this.data.cm_price_2 *
+             (this.data.cm_total_settlement2 / 100) +
+             this.data.cm_price_after_settling_financing_terms2
             break
           case 3:
-            this.data.cm_selling_p_a_settlement3 = +this.data.cm_price_3 * (this.data.cm_total_settlement3 / 100)
+            this.data.cm_selling_p_a_settlement3 =
+            +this.data.cm_price_3 *
+             (this.data.cm_total_settlement3 / 100) +
+             this.data.cm_price_after_settling_financing_terms3
             break
         }
       },
@@ -1657,7 +1558,8 @@ westFacadeSetting: [],
         }
       },
       cm_market_v_comparative_sales_method: function () {
-        this.data.cm_market_v_comparative_sales_method = +this.data.cm_contribution_comparative_p_relative_weight + +this.data.cm_contribution_comparative_p_relative_weight2 + +this.data.cm_contribution_comparative_p_relative_weight3
+        this.data.cm_market_v_comparative_sales_method =
+        (+this.data.cm_contribution_comparative_p_relative_weight + +this.data.cm_contribution_comparative_p_relative_weight2 + +this.data.cm_contribution_comparative_p_relative_weight3) * +this.data.land_area
       },
 
       // تقييم الايجارات
@@ -1765,14 +1667,25 @@ westFacadeSetting: [],
       // أسلوب التكلفه
       setCostTotal: function () {
         this.data.cm_cost_total = +this.data.cm_exchange_value + +this.data.cm_direct_costs + +this.data.cm_indirect_costs
+        this.setDepreciationValueAndTotal()
       },
       setDepreciationValueAndTotal: function (name) {
-        this.data[`cm_${name}_value`] = (this.data[`cm_${name}_ratio`] * this.data.cm_cost_total) / 100
+        // تغيير القيمة للإهلاك على حسب النسبة
+        if (name) {
+          this.setDepreciationValue(name)
+        } else {
+          this.setAllDepreciationValues()
+        }
 
+        // إجمالى الإهلاك كنسبة و كقيمة
         this.data.cm_total_depreciation_ratio = +this.data.cm_physical_deterioration_ratio + +this.data.cm_occupational_limitations_ratio + +this.data.cm_economic_obsolescence_ratio
         this.data.cm_total_depreciation_value = +this.data.cm_physical_deterioration_value + +this.data.cm_occupational_limitations_value + +this.data.cm_economic_obsolescence_value
       },
-
+      setAllDepreciationValues: function () {
+        this.data.cm_physical_deterioration_value = (this.data.cm_physical_deterioration_ratio * this.data.cm_cost_total) / 100
+        this.data.cm_occupational_limitations_value = (this.data.cm_occupational_limitations_ratio * this.data.cm_cost_total) / 100
+        this.data.cm_economic_obsolescence_value = (this.data.cm_economic_obsolescence_ratio * this.data.cm_cost_total) / 100
+      },
       setDepreciationValue: function (name) {
         this.data[`cm_${name}_value`] = (this.data[`cm_${name}_ratio`] * this.data.cm_cost_total) / 100
       },

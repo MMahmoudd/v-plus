@@ -6,7 +6,7 @@
       class="mx-0 mt-4"
     >
       <h1 class="font-weight-bold">
-        معاملة رقم 1920215841
+        معاملة رقم {{data.transaction_id}}
       </h1>
       <v-chip
         class="ma-2 time-chip"
