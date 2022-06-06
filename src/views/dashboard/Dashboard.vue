@@ -149,12 +149,6 @@
             v-if="showSuspended"
             eager
           >
-            {{ blabla }}
-            <br>
-            <input-numbers
-              v-model="money"
-              @input="value => blabla = value"
-            />
             <myTreatment
               :status="[7]"
             />
@@ -285,7 +279,6 @@
     data () {
       return {
         money: 0,
-        blabla: '',
         permissons: {
           approval: {},
           reviwer: {},
