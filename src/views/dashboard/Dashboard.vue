@@ -265,7 +265,6 @@
   import myTreatment from '../dashboard/Treatment/Treatments.vue'
   import PieChart from '../../components/PieChart.vue'
   import SelectSample from './Treatment/SelectSample.vue'
-  import InputNumbers from './component/InputNumbers.vue'
   // import BarChart from '../../components/BarChart.vue'
   export default {
     name: 'Dashboard',
@@ -274,7 +273,6 @@
       PieChart,
       // BarChart,
       myTreatment,
-      InputNumbers,
     },
     data () {
       return {
@@ -372,8 +370,6 @@
       this.permissons.reviwer = this.can('مرحلة المراجعة')
       this.permissons.added = this.can('مرحلة الادخال')
       this.permissons.underEvaluation = this.can('مرحلة التقييم')
-      // console.log('x', x)
-      // console.log('y', y)
       this.my_transactions_total = this.$store.state.my_transactions_total
     },
     methods: {

@@ -808,10 +808,12 @@ westFacadeSetting: [],
       // cm_total_market_value
       'data.cm_method_total': function () {
         this.data.cm_total_market_value = (+this.data.cm_method_total + +this.data.cm_cost_total + +this.data.cm_developer_earnings_value) -
+
           (+this.data.cm_depreciation_buildings_value + +this.data.cm_depreciation_s_business_value + +this.data.cm_total_depreciation_value)
       },
       'data.cm_cost_total': function () {
         this.data.cm_total_market_value = (+this.data.cm_method_total + +this.data.cm_cost_total + +this.data.cm_developer_earnings_value) -
+
           (+this.data.cm_depreciation_buildings_value + +this.data.cm_depreciation_s_business_value + +this.data.cm_total_depreciation_value)
       },
       'data.cm_developer_earnings_value': function () {
@@ -1034,6 +1036,9 @@ westFacadeSetting: [],
       },
       fetchOneItem: async function (id) {
         const { data } = await TransactionsServices.fetchOneItem(id)
+        if (data.trans_professional_standard === '') {
+          data.trans_professional_standard = this.data.trans_professional_standard
+        }
         for (const key in data) {
           if (data[key] === null) {
             this.data[key] = this.data[key]

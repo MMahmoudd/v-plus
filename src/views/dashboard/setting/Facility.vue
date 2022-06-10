@@ -102,7 +102,7 @@
                       chips
                       dense
                       label="إضافة مرفق"
-                      @change="onNewFileSelected2()"
+                      @change="onNewFileSelected2"
                     />
                   </v-col>
                 </v-row>
@@ -124,7 +124,7 @@
                       label="إضافة صورة"
                       prepend-icon="mdi-camera"
                       accept="image/png, image/jpeg, image/bmp"
-                      @change="onNewFileSelected3()"
+                      @change="onNewFileSelected3"
                     />
                   </v-col>
                 </v-row>
@@ -605,6 +605,7 @@
          * ? converting the json object to a form-data format
          */
         function buildFormData (formData, data, parentKey) {
+          // console.log('parentKey', parentKey)
           if (data && typeof data === 'object' && !(data instanceof Date) && !(data instanceof File)) {
             Object.keys(data).forEach(key => {
               buildFormData(formData, data[key], parentKey ? `${parentKey}[${key}]` : key)

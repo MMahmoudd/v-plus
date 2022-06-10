@@ -765,7 +765,7 @@
                       >العمر الإفتراضي</label>
                       <v-text-field
                         v-model="data.trans_lifespan"
-                        label="عمر البناء"
+                        label="العمر الإفتراضي"
                         single-line
                         outlined
                       />
@@ -3247,7 +3247,7 @@
                                       />
                                     </td>
                                     <td>
-                                      <v-text-field
+                                      <input-numbers
                                         v-model="data.cm_space"
                                         class="mt-3"
                                         single-line
@@ -3331,7 +3331,7 @@
                                       />
                                     </td>
                                     <td>
-                                      <v-text-field
+                                      <input-numbers
                                         v-model="data.cm_space_2"
                                         class="mt-3"
                                         single-line
@@ -3400,7 +3400,7 @@
                                       />
                                     </td>
                                     <td>
-                                      <v-text-field
+                                      <input-numbers
                                         v-model="data.cm_space_3"
                                         class="mt-3"
                                         single-line
@@ -4637,13 +4637,11 @@
                             cols="4"
                             md="3"
                           >
-                            <v-text-field
+                            <input-numbers
                               v-model="b.space"
                               :disabled="b.building_type === 'الأرض'"
-                              value="153"
                               single-line
                               outlined
-                              type="number"
                               hide-details
                               @input="setMultiOfSpaceAndPrice(b.id||b.__uuid)"
                             />

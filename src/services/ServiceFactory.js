@@ -20,6 +20,7 @@ import ValueBasiListsServices from './ValueBasiListsServices'
 import ValueHypothesisListsServices from './ValueHypothesisListsServices'
 import WorkingStatusesServices from './WorkingStatusesServices'
 
+import facilityStandards from './TreatmentSetting/facilityStandards'
 import bishopTypeSetting from './TreatmentSetting/bishop_type_setting'
 import designSetting from './TreatmentSetting/design_setting'
 import eastFacadeSetting from './TreatmentSetting/east_facade_setting'
@@ -72,6 +73,7 @@ const services = {
   ValueBasiLists: ValueBasiListsServices,
   ValueHypothesisLists: ValueHypothesisListsServices,
   WorkingStatuses: WorkingStatusesServices,
+  facilityStandards: facilityStandards,
   // نوع الاسقف
   bishopTypeSetting: bishopTypeSetting,
   // التصميم

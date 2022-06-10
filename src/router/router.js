@@ -234,6 +234,12 @@ const router = new Router({
           component: () => import('@/views/dashboard/TreatmentSettings/Region/List.vue'),
         },
         {
+          name: 'facilityStandards',
+          path: '/treatment-settings/standards',
+          component: () => import('@/views/dashboard/TreatmentSettings/facilityStandards/Form.vue'),
+          meta: { requiresAuth: true, permissions: 'تخصيص المعاملة', actions: true },
+        },
+        {
           name: 'regionsForm',
           path: '/treatment-settings/regionsForm/:id?',
           component: () => import('@/views/dashboard/TreatmentSettings/Region/Form.vue'),
@@ -322,7 +328,6 @@ const router = new Router({
           path: '/treatment-settings/EvaluationCurrencies',
           component: () => import('@/views/dashboard/TreatmentSettings/EvaluationCurrencies/List.vue'),
           meta: { requiresAuth: true, permissions: 'تخصيص المعاملة' },
-
         },
         {
           name: 'EvaluationCurrenciesForm',
