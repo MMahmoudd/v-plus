@@ -199,6 +199,11 @@
           permission: 'تخصيص المعاملة',
           children: [
             {
+              title: 'المعايير',
+              to: '/treatment-settings/standards',
+              role: true,
+            },
+            {
               title: 'النماذج',
               to: '/treatment-settings/sample',
               role: true,

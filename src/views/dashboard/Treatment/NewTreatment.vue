@@ -2363,6 +2363,7 @@
   const ValueHypothesisListsServices = ServiceFactory.get('ValueHypothesisLists')
   const ValueBasiListsServices = ServiceFactory.get('ValueBasiLists')
   const SamplesServices = ServiceFactory.get('Samples')
+  const facilityStandards = ServiceFactory.get('facilityStandards')
 
   export default {
     name: 'NewTreatment',
@@ -3129,6 +3130,17 @@
             total_amount: '',
             stage: '3',
           })
+          // شوف لو في معايير في النظام ، هاتها وحطها
+          try {
+            const response = await facilityStandards.getAll()
+            const { data } = response.data
+            if (data.length !== 0) {
+              const content = data[0].Content
+              data.trans_professional_standard = content
+            }
+          } catch (err) {
+
+          }
 
           await TransactionsServices.updateOneItem(data.id, data)
           this.successMessage = successMessage[status]

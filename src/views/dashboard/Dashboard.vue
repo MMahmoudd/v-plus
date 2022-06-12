@@ -249,9 +249,7 @@
   import userAchievements from './statistics/userStatistics/userAchievements.vue'
   import PieChart from '../../components/PieChart.vue'
   import SelectSample from './Treatment/SelectSample.vue'
-  import InputNumbers from './component/InputNumbers.vue'
   const Service = ServiceFactory.get('statistics')
-  // import BarChart from '../../components/BarChart.vue'
   export default {
     name: 'Dashboard',
     components: {
@@ -259,10 +257,7 @@
       lastRegisterd,
       userAchievements,
       PieChart,
-      // BarChart,
       myTreatment,
-      // eslint-disable-next-line vue/no-unused-components
-      InputNumbers,
     },
     data () {
       return {
