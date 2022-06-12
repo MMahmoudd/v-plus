@@ -64,9 +64,7 @@
                 >
                   fas fa-search-plus
                 </v-icon>
-                <span>
-                  تحت التقييم
-                </span>
+                <span> تحت التقييم </span>
               </div>
             </div>
           </v-tab>
@@ -85,9 +83,7 @@
                 >
                   mdi-camera-enhance-outline
                 </v-icon>
-                <span>
-                  تحت المراجعة
-                </span>
+                <span> تحت المراجعة </span>
               </div>
             </div>
           </v-tab>
@@ -107,9 +103,7 @@
                 >
                   far fa-thumbs-up
                 </v-icon>
-                <span>
-                  قيد الإعتماد
-                </span>
+                <span> قيد الإعتماد </span>
               </div>
             </div>
           </v-tab>
@@ -129,17 +123,13 @@
                 >
                   far fa-thumbs-up
                 </v-icon>
-                <span>
-                  معتمدة
-                </span>
+                <span> معتمدة </span>
               </div>
             </div>
           </v-tab>
         </v-tabs>
       </v-col>
-      <v-col
-        cols="12"
-      >
+      <v-col cols="12">
         <v-tabs-items v-model="tab">
           <div class="select-samples-button-container">
             <select-sample />
@@ -149,9 +139,7 @@
             v-if="showSuspended"
             eager
           >
-            <myTreatment
-              :status="[7]"
-            />
+            <myTreatment :status="[7]" />
           </v-tab-item>
           <!-- مسودة -->
           <v-tab-item
@@ -207,53 +195,46 @@
       </v-col>
       <v-col
         cols="12"
-        md="3"
       >
         <v-card>
-          <v-card-title>
-            احصائيات العملاء
-          </v-card-title>
+          <v-card-title> احصائيات المستخدمين </v-card-title>
           <v-container>
-            <pie-chart />
+            <v-row>
+              <v-col
+                cols="12"
+                md="6"
+              >
+                <lastRegisterd />
+              </v-col>
+              <v-col
+                cols="12"
+                md="6"
+              >
+                <userAchievements />
+              </v-col>
+            </v-row>
           </v-container>
         </v-card>
       </v-col>
       <v-col
         cols="12"
-        md="3"
       >
         <v-card>
           <v-card-title>
-            احصائيات المستخدمين
+            الاحصائيات المالية
+            <v-spacer />
+            <v-spacer />
+            <v-text-field
+              v-model="chartData.year"
+              label="السنة"
+              placeholder="السنة"
+              outlined
+              @input="getChartData(chartData.year)"
+            />
           </v-card-title>
+
           <v-container>
-            <pie-chart />
-          </v-container>
-        </v-card>
-      </v-col>
-      <v-col
-        cols="12"
-        md="3"
-      >
-        <v-card>
-          <v-card-title>
-            المعاملات المعلقة
-          </v-card-title>
-          <v-container>
-            <pie-chart />
-          </v-container>
-        </v-card>
-      </v-col>
-      <v-col
-        cols="12"
-        md="3"
-      >
-        <v-card>
-          <v-card-title>
-            المعاملات النقدية
-          </v-card-title>
-          <v-container>
-            <pie-chart />
+            <pie-chart :chartdata="chartData" />
           </v-container>
         </v-card>
       </v-col>
@@ -262,22 +243,30 @@
 </template>
 
 <script>
+  import { ServiceFactory } from '../../services/ServiceFactory'
   import myTreatment from '../dashboard/Treatment/Treatments.vue'
+  import lastRegisterd from './statistics/userStatistics/LatestRegisteredUser.vue'
+  import userAchievements from './statistics/userStatistics/userAchievements.vue'
   import PieChart from '../../components/PieChart.vue'
   import SelectSample from './Treatment/SelectSample.vue'
   import InputNumbers from './component/InputNumbers.vue'
+  const Service = ServiceFactory.get('statistics')
   // import BarChart from '../../components/BarChart.vue'
   export default {
     name: 'Dashboard',
     components: {
       SelectSample,
+      lastRegisterd,
+      userAchievements,
       PieChart,
       // BarChart,
       myTreatment,
+      // eslint-disable-next-line vue/no-unused-components
       InputNumbers,
     },
     data () {
       return {
+
         money: 0,
         permissons: {
           approval: {},
@@ -285,14 +274,15 @@
           added: {},
           underEvaluation: {},
         },
+        chartData: {
+          year: new Date().getFullYear(),
+          expenses_static: [],
+          expenses_fixed: [],
+          revenues: [],
+          commissions: [],
+        },
         my_transactions_total: {},
         tab: null,
-        chartData: {
-          Books: 24,
-          Magazine: 30,
-          Newspapers: 10,
-        },
-        labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
         fill: true,
         gradients: ['#774a00', '#E9BB70'],
         padding: 15,
@@ -372,113 +362,134 @@
       this.permissons.reviwer = this.can('مرحلة المراجعة')
       this.permissons.added = this.can('مرحلة الادخال')
       this.permissons.underEvaluation = this.can('مرحلة التقييم')
-      // console.log('x', x)
-      // console.log('y', y)
       this.my_transactions_total = this.$store.state.my_transactions_total
     },
+    created () { this.getChartData(this.chartData.year) },
     methods: {
       complete (index) {
         this.list[index] = !this.list[index]
+      },
+      async getChartData (year) {
+        this.dataLoading = true
+        const Expenses = await Service.getExpenses(year)
+        const revenues = await Service.getRevenues(year)
+        const commissions = await Service.getCommissions(year)
+        this.chartData.expenses_fixed = Expenses.expenses_fixed
+        this.chartData.expenses_static = Expenses.expenses_static
+        this.chartData.revenues = revenues.data
+        this.chartData.commissions = commissions.data
+        this.dataLoading = false
       },
     },
   }
 </script>
 <style lang="scss">
-  // :root{
-  //   --items:3
-  // }
-  h1{
-    font-weight: 300;
-  }
-  .select-samples-button-container {
-    background-color: #ffff;
-    z-index: 100;
-  }
-  .select-samples-button {
-    // place-self: flex-end;
-    float: left;
-    z-index: 100;
-  }
+// :root{
+//   --items:3
+// }
+h1 {
+  font-weight: 300;
+}
+.select-samples-button-container {
+  background-color: #ffff;
+  z-index: 100;
+}
+.select-samples-button {
+  // place-self: flex-end;
+  float: left;
+  z-index: 100;
+}
 
-  .v-item-group .v-window-item .form-container.v-card {
-    margin-top: 0px;
-    margin-bottom: 0px;
-  }
+.v-item-group .v-window-item .form-container.v-card {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
 
-  .my_transactions_total {
-    display: inline-block;
-    color: #fff;
-    font-weight: bold;
-    border-radius: 7px;
-    padding: 11px 13px;
-    margin-left: 8px;
-  }
-  #my_transactions_total_suspened {
-    background-color: #e74b4bed;
-  }
-  #my_transactions_total_added {
-    background-color: #B8B8C7;
-  }
-  #my_transactions_total_added_icon {
-    color: #B8B8C7;
-  }
-  #my_transactions_total_underEvaluation {
-    background-color: #3772FF;
-  }
-  #my_transactions_total_underEvaluation_icon {
-    color: #3772FF;
-  }
-  #my_transactions_total_underReview {
-    background-color: #FDCA40;
-  }
-  #my_transactions_total_underReview_icon {
-    color: #FDCA40;
-  }
-  #my_transactions_total_underApproval {
-    background-color: #0000AF;
-  }
-  #my_transactions_total_underApproval_icon {
-    color: #0000AF;
-  }
-  #my_transactions_total_approvaed {
-    background-color: #11b63a;
-  }
-  #my_transactions_total_approvaed_icon {
-    color: #11b63a;
-  }
-  .icon_text__wrapper {
-        display: flex;
-    text-align: right;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  .transaction-tab-item {
-    padding: 24px 10px;
-    font-weight: bold;
-    letter-spacing: initial;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-  }
-  .v-slide-group__content {
-    display: grid;
-    grid-template-columns: repeat(var(--items), 1fr);
-    width: 100%;
-    grid-column-gap: 30px;
-    padding: 15px 97px;
-  }
+.my_transactions_total {
+  display: inline-block;
+  color: #fff;
+  font-weight: bold;
+  border-radius: 7px;
+  padding: 11px 13px;
+  margin-left: 8px;
+}
+#my_transactions_total_suspened {
+  background-color: #e74b4bed;
+}
+#my_transactions_total_added {
+  background-color: #b8b8c7;
+}
+#my_transactions_total_added_icon {
+  color: #b8b8c7;
+}
+#my_transactions_total_underEvaluation {
+  background-color: #3772ff;
+}
+#my_transactions_total_underEvaluation_icon {
+  color: #3772ff;
+}
+#my_transactions_total_underReview {
+  background-color: #fdca40;
+}
+#my_transactions_total_underReview_icon {
+  color: #fdca40;
+}
+#my_transactions_total_underApproval {
+  background-color: #0000af;
+}
+#my_transactions_total_underApproval_icon {
+  color: #0000af;
+}
+#my_transactions_total_approvaed {
+  background-color: #11b63a;
+}
+#my_transactions_total_approvaed_icon {
+  color: #11b63a;
+}
+.icon_text__wrapper {
+  display: flex;
+  text-align: right;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.transaction-tab-item {
+  padding: 24px 10px;
+  font-weight: bold;
+  letter-spacing: initial;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+.v-slide-group__content {
+  display: grid;
+  grid-template-columns: repeat(var(--items), 1fr);
+  width: 100%;
+  grid-column-gap: 30px;
+  padding: 15px 97px;
+}
 
-  .v-application--is-rtl .v-tabs--align-with-title > .v-tabs-bar:not(.v-tabs-bar--show-arrows):not(.v-slide-group--is-overflowing) > .v-slide-group__wrapper > .v-tabs-bar__content > .v-tab:first-child, .v-application--is-rtl .v-tabs--align-with-title > .v-tabs-bar:not(.v-tabs-bar--show-arrows):not(.v-slide-group--is-overflowing) > .v-slide-group__wrapper > .v-tabs-bar__content > .v-tabs-slider-wrapper + .v-tab {
-    margin-right: unset;
-  }
+.v-application--is-rtl
+  .v-tabs--align-with-title
+  > .v-tabs-bar:not(.v-tabs-bar--show-arrows):not(.v-slide-group--is-overflowing)
+  > .v-slide-group__wrapper
+  > .v-tabs-bar__content
+  > .v-tab:first-child,
+.v-application--is-rtl
+  .v-tabs--align-with-title
+  > .v-tabs-bar:not(.v-tabs-bar--show-arrows):not(.v-slide-group--is-overflowing)
+  > .v-slide-group__wrapper
+  > .v-tabs-bar__content
+  > .v-tabs-slider-wrapper
+  + .v-tab {
+  margin-right: unset;
+}
 
-  .v-tabs--fixed-tabs > .v-tabs-bar .v-tab  {
-        box-shadow: 1px 1px 3px 1px #eee;
-            border-radius: 7px;
-
-  }
-  .v-tabs-bar {
-    height: auto !important;
-  }
+.v-tabs--fixed-tabs > .v-tabs-bar .v-tab {
+  box-shadow: 1px 1px 3px 1px #eee;
+  border-radius: 7px;
+}
+.v-tabs-bar {
+  height: auto !important;
+}
 </style>

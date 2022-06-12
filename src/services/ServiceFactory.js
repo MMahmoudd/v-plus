@@ -48,78 +48,82 @@ import profitsReport from './Reports/ProfitsReport'
 import googleMaps from './Integrations/googleMaps.js'
 import ProfileService from './ProfileService'
 
-const services = {
-  Users: usersService,
-  Profile: ProfileService,
-  Customers: customersService,
-  Setting: SettingServices,
-  Samples: SamplesServices,
-  Links: LinksServices,
-  EvaluationPurpose: EvaluationPurposesServices,
-  Cites: CitesServices,
-  Regions: RegionServices,
-  Neighborhoods: NeighborhoodsServices,
-  PropertyRatings: PropertyRatingsServices,
-  PropertyTypes: PropertyTypesServices,
-  UserSetting: UserSettingServices,
-  Transactions: TransactionsServices,
-  Offers: OffersServices,
-  Bills: BillingServices,
-  Expense: ExpenseServices,
-  constructionConditions: constructionConditionsService,
-  EvaluationCurrencies: EvaluationCurrenciesServices,
-  ReportTypes: ReportTypesServices,
-  ValueBasiLists: ValueBasiListsServices,
-  ValueHypothesisLists: ValueHypothesisListsServices,
-  WorkingStatuses: WorkingStatusesServices,
-  // نوع الاسقف
-  bishopTypeSetting: bishopTypeSetting,
-  // التصميم
-  designSetting: designSetting,
-  // الواجهة الشرقية
-  eastFacadeSetting: eastFacadeSetting,
-  // التيار الكهربي
-  electricCurrentSetting: electricCurrentSetting,
-  // نوع أرضية المدخل
-  entranceFloorTypeSetting: entranceFloorTypeSetting,
-  // الموقع العام
-  generalLocation: generalLocation,
-  // نوع أرضية الأحواش
-  indoorTypeSetting: indoorTypeSetting,
-  // نوع العزل
-  insulationTypeSetting: insulationTypeSetting,
-  // الجار
-  neighborSetting: neighborSetting,
-  // الواجهة الشمالية
-  northFacadeSetting: northFacadeSetting,
-  // المنسوب
-  propertyLevelSetting: propertyLevelSetting,
-  // نوع أرضية الاستقبال
-  receptionFloorTypeSetting: receptionFloorTypeSetting,
-  // نوع أرضية الغرف
-  roomFloorTypeSetting: roomFloorTypeSetting,
-  // الواجهة الجنوبية
-  southFacadeSetting: southFacadeSetting,
-  // اضاءه الشوارع
-  streetLightingSetting: streetLightingSetting,
-  // الشوارع
-  streetSetting: streetSetting,
-  // الهيكل الانشائي
-  structureConstructionSetting: structureConstructionSetting,
-  // الواجهة الغربية
-  westFacadeSetting: westFacadeSetting,
-  // تقرير المستخدمين
-  usersReport: usersReport,
-  // تقرير المصروفات
-  expensesReport: expensesReport,
-  // تقرير الإيرادات
-  revenuesReport: revenuesReport,
-  // تقرير الأرباح
-  profitsReport: profitsReport,
+import statistics from '@/services/statistics/statistics'
 
-  googleMaps: googleMaps,
+const services = {
+    Users: usersService,
+    Profile: ProfileService,
+    Customers: customersService,
+    Setting: SettingServices,
+    Samples: SamplesServices,
+    Links: LinksServices,
+    EvaluationPurpose: EvaluationPurposesServices,
+    Cites: CitesServices,
+    Regions: RegionServices,
+    Neighborhoods: NeighborhoodsServices,
+    PropertyRatings: PropertyRatingsServices,
+    PropertyTypes: PropertyTypesServices,
+    UserSetting: UserSettingServices,
+    Transactions: TransactionsServices,
+    Offers: OffersServices,
+    Bills: BillingServices,
+    Expense: ExpenseServices,
+    constructionConditions: constructionConditionsService,
+    EvaluationCurrencies: EvaluationCurrenciesServices,
+    ReportTypes: ReportTypesServices,
+    ValueBasiLists: ValueBasiListsServices,
+    ValueHypothesisLists: ValueHypothesisListsServices,
+    WorkingStatuses: WorkingStatusesServices,
+    // نوع الاسقف
+    bishopTypeSetting: bishopTypeSetting,
+    // التصميم
+    designSetting: designSetting,
+    // الواجهة الشرقية
+    eastFacadeSetting: eastFacadeSetting,
+    // التيار الكهربي
+    electricCurrentSetting: electricCurrentSetting,
+    // نوع أرضية المدخل
+    entranceFloorTypeSetting: entranceFloorTypeSetting,
+    // الموقع العام
+    generalLocation: generalLocation,
+    // نوع أرضية الأحواش
+    indoorTypeSetting: indoorTypeSetting,
+    // نوع العزل
+    insulationTypeSetting: insulationTypeSetting,
+    // الجار
+    neighborSetting: neighborSetting,
+    // الواجهة الشمالية
+    northFacadeSetting: northFacadeSetting,
+    // المنسوب
+    propertyLevelSetting: propertyLevelSetting,
+    // نوع أرضية الاستقبال
+    receptionFloorTypeSetting: receptionFloorTypeSetting,
+    // نوع أرضية الغرف
+    roomFloorTypeSetting: roomFloorTypeSetting,
+    // الواجهة الجنوبية
+    southFacadeSetting: southFacadeSetting,
+    // اضاءه الشوارع
+    streetLightingSetting: streetLightingSetting,
+    // الشوارع
+    streetSetting: streetSetting,
+    // الهيكل الانشائي
+    structureConstructionSetting: structureConstructionSetting,
+    // الواجهة الغربية
+    westFacadeSetting: westFacadeSetting,
+    // تقرير المستخدمين
+    usersReport: usersReport,
+    // تقرير المصروفات
+    expensesReport: expensesReport,
+    // تقرير الإيرادات
+    revenuesReport: revenuesReport,
+    // تقرير الأرباح
+    profitsReport: profitsReport,
+
+    googleMaps: googleMaps,
+
+    statistics: statistics,
 }
 
 export const ServiceFactory = {
-  get: (name) => services[name],
+    get: (name) => services[name],
 }
