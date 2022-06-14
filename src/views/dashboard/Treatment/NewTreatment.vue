@@ -497,7 +497,7 @@
                   <label class="d-block mb-3 font-weight-bold">جهة الإصدار</label>
                   <v-text-field
                     v-model="data.issuer"
-                    label="رقم الصك"
+                    label="جهة الإصدار"
                     single-line
                     outlined
                   />
