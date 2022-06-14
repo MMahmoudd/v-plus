@@ -1034,8 +1034,8 @@ westFacadeSetting: [],
       },
       // move it later
       changeSettlement: function (settlement, space) {
-        this.data[settlement] =
-        ((Number(this.data.land_area) / Number(this.data[space])) * 100).toFixed(2)
+        // this.data[settlement] =
+        // ((Number(this.data.land_area) / Number(this.data[space])) * 100).toFixed(2)
       },
       fetchOneItem: async function (id) {
         const { data } = await TransactionsServices.fetchOneItem(id)
