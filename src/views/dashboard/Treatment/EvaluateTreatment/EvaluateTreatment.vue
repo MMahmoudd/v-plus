@@ -5933,7 +5933,7 @@
                   <v-icon left>
                     fas fa-save
                   </v-icon>
-                  حفظ
+                  حفظ كمسودة
                 </v-btn>
                 <v-btn
                   v-if="data.status < 4"
@@ -5948,7 +5948,7 @@
                   <v-icon left>
                     far fa-paper-plane
                   </v-icon>
-                  إرسال
+                  إرسال إلى المرحلة القادمة
                 </v-btn>
                 <v-btn
                   v-show="data.status === 4"
