@@ -96,7 +96,7 @@
                 md="3"
               >
                 <label>النموذج الافتراضي</label>
-                <v-select
+                <v-autocomplete
                   v-model="data.sample_id"
                   :items="sampleList"
                   item-text="name"
@@ -164,7 +164,7 @@
                     md="6"
                   >
                     <label>اسم التقرير</label>
-                    <v-select
+                    <v-autocomplete
                       v-model="data.report_id"
                       :items="reportNameList"
                       item-text="name"
@@ -529,7 +529,7 @@
                     md="4"
                   >
                     <label>المستخدم الذي سيظهر في التقرير</label>
-                    <v-select
+                    <v-autocomplete
                       v-model="data.input_stage_name_show"
                       :items="ListUsers"
                       item-text="name"
@@ -580,7 +580,7 @@
                     md="4"
                   >
                     <label>الاسم الذي سيظهر في التوقيع</label>
-                    <v-select
+                    <v-autocomplete
                       v-model="data.evaluation_stage_name_show"
                       :items="ListUsers"
                       item-text="name"
@@ -631,7 +631,7 @@
                     md="4"
                   >
                     <label>الاسم الذي سيظهر في التوقيع</label>
-                    <v-select
+                    <v-autocomplete
                       v-model="data.review_stage_name_show"
                       :items="ListUsers"
                       item-text="name"
@@ -682,7 +682,7 @@
                     md="4"
                   >
                     <label>الاسم الذي سيظهر في التوقيع</label>
-                    <v-select
+                    <v-autocomplete
                       v-model="data.adoption_stage_name_show"
                       :items="ListUsers"
                       item-text="name"
@@ -739,7 +739,7 @@
                             label="المنطقة"
                             :on-change="() => onChangeRegions(index)"
                           />
-                          <!-- <v-select
+                          <!-- <v-autocomplete
                             v-model="item.region_id"
                             :items="regionList"
                             class="mx-2"
@@ -755,7 +755,7 @@
                             :items="cityList.filter(city => item.region_id.includes(city.regionId))"
                             label="المدينة"
                           />
-                          <!-- <v-select
+                          <!-- <v-autocomplete
                             v-model="item.city_list"
                             :items="cityList.filter(city => item.region_id.includes(city.regionId))"
                             class="mx-2"
@@ -771,7 +771,7 @@
                             label="استخدام العقار"
                             :items="propertyList"
                           />
-                          <!-- <v-select
+                          <!-- <v-autocomplete
                             class="mx-2"
                             item-text="name"
                             item-value="id"
@@ -785,7 +785,7 @@
                             :items="propertyTypeList"
                             label="نوع العقار"
                           />
-                          <!-- <v-select
+                          <!-- <v-autocomplete
                             class="mx-2"
                             item-text="name"
                             item-value="id"

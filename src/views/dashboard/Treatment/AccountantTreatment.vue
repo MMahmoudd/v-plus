@@ -40,7 +40,7 @@
                     md="3"
                   >
                     <label class="d-block mb-3 font-weight-bold">الاسم</label>
-                    <v-select
+                    <v-autocomplete
                       v-model="p.user_id"
                       label="الاسم"
                       single-line

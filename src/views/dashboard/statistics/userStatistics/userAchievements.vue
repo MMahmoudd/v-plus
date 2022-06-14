@@ -44,7 +44,7 @@
             cols="12"
             md="6"
           >
-            <v-select
+            <v-autocomplete
               v-model="search.status"
               :items="status"
               item-text="name"

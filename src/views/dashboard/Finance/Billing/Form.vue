@@ -20,7 +20,7 @@
                 cols="12"
                 md="6"
               >
-                <v-select
+                <v-autocomplete
                   v-model="data.customer_id"
                   :items="customers"
                   item-text="cs_name"
@@ -34,7 +34,7 @@
                 cols="12"
                 sm="6"
               >
-                <v-select
+                <v-autocomplete
                   v-model="data.purpose"
                   :items="purpose"
                   label="الغرض"

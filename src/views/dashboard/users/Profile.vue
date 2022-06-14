@@ -71,7 +71,7 @@
                 sm="6"
                 md="4"
               >
-                <v-select
+                <v-autocomplete
                   v-model="data.role_id"
                   :items="roles"
                   item-text="role_name"
@@ -196,7 +196,7 @@
                 sm="6"
                 md="8"
               >
-                <v-select
+                <v-autocomplete
                   v-model="data.other_user_id"
                   :items="usersList"
                   item-text="name"

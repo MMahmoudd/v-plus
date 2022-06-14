@@ -31,7 +31,7 @@
                 @change="onEmailChange"
               />
 
-              <v-select
+              <v-autocomplete
                 v-model="userLogin.facility_id"
                 :items="facilities"
                 item-text="name"

@@ -23,7 +23,7 @@
                 <label
                   class="d-block mb-3 font-weight-bold"
                 >المدينة</label>
-                <v-select
+                <v-autocomplete
                   v-model="data.city_id"
                   :loading="citiesLoading"
                   :items="citiesList"

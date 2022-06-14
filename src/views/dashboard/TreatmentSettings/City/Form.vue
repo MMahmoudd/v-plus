@@ -23,7 +23,7 @@
                 <label
                   class="d-block mb-3 font-weight-bold"
                 >المنطقة</label>
-                <v-select
+                <v-autocomplete
                   v-model="data.region_id"
                   :loading="regionsLoading"
                   :items="regionsList"

@@ -48,7 +48,7 @@
                       sm="12"
                     >
                       <label class="d-block mb-3 font-weight-bold">العميل</label>
-                      <v-select
+                      <v-autocomplete
                         v-model="data.customer_id"
                         :items="customersList"
                         label="العميل"
@@ -204,7 +204,7 @@
                       md="6"
                     >
                       <label class="d-block mb-3 font-weight-bold">المدخل</label>
-                      <v-select
+                      <v-autocomplete
                         v-model="data.add_by"
                         :items="usersList"
                         item-text="name"
@@ -220,7 +220,7 @@
                       md="6"
                     >
                       <label class="d-block mb-3 font-weight-bold">المقيم</label>
-                      <v-select
+                      <v-autocomplete
                         v-model="data.resident_id"
                         :items="usersList"
                         item-text="name"
@@ -236,7 +236,7 @@
                       md="6"
                     >
                       <label class="d-block mb-3 font-weight-bold">المراجع</label>
-                      <v-select
+                      <v-autocomplete
                         v-model="data.reviewer_id"
                         :items="usersList"
                         item-text="name"
@@ -252,7 +252,7 @@
                       md="6"
                     >
                       <label class="d-block mb-3 font-weight-bold">المعمد</label>
-                      <v-select
+                      <v-autocomplete
                         v-model="data.approved_id"
                         :items="usersList"
                         item-text="name"
@@ -268,7 +268,7 @@
                       md="6"
                     >
                       <label class="d-block mb-3 font-weight-bold">الغرض من التقييم</label>
-                      <v-select
+                      <v-autocomplete
                         v-model="data.evaluation_purpose_id"
                         :items="evaluationPurposeList"
                         label="الغرض من التقييم"
@@ -283,7 +283,7 @@
                       md="6"
                     >
                       <label class="d-block mb-3 font-weight-bold">نوع العقار</label>
-                      <v-select
+                      <v-autocomplete
                         v-model="data.property_type_id"
                         :items="propTypeList"
                         item-text="name"
@@ -298,7 +298,7 @@
                       md="6"
                     >
                       <label class="d-block mb-3 font-weight-bold">تصنيف العقار</label>
-                      <v-select
+                      <v-autocomplete
                         v-model="data.property_rating_id"
                         :items="propRatingsList"
                         item-text="name"
@@ -313,7 +313,7 @@
                       lg="6"
                     >
                       <label class="d-block mb-3 font-weight-bold">المنطقة</label>
-                      <v-select
+                      <v-autocomplete
                         v-model="data.region_id"
                         :items="regionsList"
                         label="المنطقة"
@@ -328,7 +328,7 @@
                       lg="6"
                     >
                       <label class="d-block mb-3 font-weight-bold">اسم المدينة</label>
-                      <v-select
+                      <v-autocomplete
                         v-model="data.city_id"
                         :items="updateCitesList"
                         label="اسم المدينة"
@@ -343,7 +343,7 @@
                       lg="6"
                     >
                       <label class="d-block mb-3 font-weight-bold">اسم الحى</label>
-                      <v-select
+                      <v-autocomplete
                         v-model="data.neighborhood_id"
                         :items="updateNeighborhoodsList"
                         label="اسم الحى"

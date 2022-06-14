@@ -76,7 +76,7 @@
             sm="6"
             md="4"
           >
-            <v-select
+            <v-autocomplete
               v-model="search.status"
               :items="statusList"
               class="mx-2"
@@ -95,7 +95,7 @@
             cols="12"
             sm="6"
           >
-            <v-select
+            <v-autocomplete
               v-model="search.users_id"
               :items="usersList"
               class="mx-2"
@@ -112,7 +112,7 @@
             cols="12"
             sm="6"
           >
-            <v-select
+            <v-autocomplete
               v-model="search.customers_id"
               :items="customersList"
               class="mx-2"
@@ -132,7 +132,7 @@
             cols="12"
             sm="4"
           >
-            <v-select
+            <v-autocomplete
               v-model="search.region_id"
               :items="regionList"
               class="mx-2"
@@ -147,7 +147,7 @@
             cols="12"
             sm="4"
           >
-            <v-select
+            <v-autocomplete
               v-model="search.city_id"
               :items="cityList.filter(city => city.regionId === search.region_id)"
               class="mx-2"
@@ -162,7 +162,7 @@
             cols="12"
             sm="4"
           >
-            <v-select
+            <v-autocomplete
               v-model="search.neighborhood_id"
               :items="neighborhoodList.filter(neighborhood => neighborhood.city_id === search.city_id)"
               class="mx-2"

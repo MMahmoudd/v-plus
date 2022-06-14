@@ -44,7 +44,7 @@
               md="5"
             >
               <label class="d-block mb-3 font-weight-bold">العميل</label>
-              <v-select
+              <v-autocomplete
                 v-model="customer_id"
                 :items="customersList"
                 item-text="name"
@@ -63,7 +63,7 @@
               md="5"
             >
               <label class="d-block mb-3 font-weight-bold">النموذج</label>
-              <v-select
+              <v-autocomplete
                 v-model="sample_id"
                 :items="samplesList"
                 item-text="name"
