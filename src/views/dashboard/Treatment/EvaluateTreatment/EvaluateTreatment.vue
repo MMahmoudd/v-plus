@@ -3899,6 +3899,16 @@
                                     </td>
                                   </tr>
                                   <tr>
+                                    <td><label class="v-label theme--light">صافي متوسط سعر الأرض ( م2/ريال )</label></td>
+                                    <td colspan="3">
+                                      <input-numbers
+                                        v-model="safi"
+                                        class="mt-3"
+                                        disabled
+                                      />
+                                    </td>
+                                  </tr>
+                                  <tr>
                                     <td>
                                       <label class="v-label theme--light font-weight-bold text-danger">القيمة السوقية باستخدام طريقة البيوع المقارنة</label>
                                     </td>

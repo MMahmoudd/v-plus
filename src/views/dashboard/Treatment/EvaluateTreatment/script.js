@@ -677,6 +677,9 @@ westFacadeSetting: [],
       inNorm: 'نوعية أرضيات المداخل والمجالس وصالات الطعام تتكون من السيراميك العادي أو بلاط بلدي لفرش الموكيت، نوعية الأبواب الداخلية، لا يوجد عوازل، الشبابيك عادية جداً، نوعية التسليك والسباكة، نوعية الدهان الداخلي، لا يوجد جبس بالأسقف، نوعية التكييف شباك.',
     }),
     computed: {
+      safi () {
+        return this.data.cm_contribution_comparative_p_relative_weight + this.data.cm_contribution_comparative_p_relative_weight2 + this.data.cm_contribution_comparative_p_relative_weight3
+      },
       dragOptions () {
         return {
           animation: 200,
