@@ -2928,7 +2928,7 @@
             crossorigin
             style="object-fit:none;object-position: right bottom;"
           >
-          <span class="image_date">{{ img.date }} hi</span>
+          <span class="image_date">{{ img.date }}</span>
         </div>
       </tbody>
     </table>

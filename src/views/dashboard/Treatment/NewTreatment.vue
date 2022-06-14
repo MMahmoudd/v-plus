@@ -2868,7 +2868,8 @@
       this.getBasiLists()
     },
     created () {
-      this.data.sample_id = +this.$route.query.sample_id
+      this.data.sample_id = +this.$route.query.sample_id || ''
+      this.data.customer_id = +this.$route.query.customer_id || ''
     },
     methods: {
       getSamples: async function () {
