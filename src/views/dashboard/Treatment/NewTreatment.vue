@@ -524,10 +524,10 @@
                 >
                   <label
                     class="d-block mb-3 font-weight-bold"
-                  >رقم البلوك</label>
+                  >رقم البلك</label>
                   <v-text-field
                     v-model="data.trans_Albulk_num"
-                    label="رقم البلوك"
+                    label="رقم البلك"
                     single-line
                     outlined
                   />

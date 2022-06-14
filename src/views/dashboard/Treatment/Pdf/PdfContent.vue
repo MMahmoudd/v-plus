@@ -293,7 +293,7 @@
             class="field"
             :style="styleSubData"
           >
-            رقم البلوك
+            رقم البلك
           </td>
           <td>{{ data.trans_Albulk_num || '' }}</td>
           <td
@@ -431,7 +431,7 @@
             class="field"
             :style="styleSubData"
           >
-            رقم البلوك
+            رقم البلك
           </td>
           <td>{{ data.trans_Albulk_num || '' }}</td>
         </tr>
