@@ -11,11 +11,7 @@
               <div class="header-text">
                 العقارات المقارنة
               </div>
-              <div class="header-icon">
-                <v-icon>
-                  far fa-file-pdf
-                </v-icon>
-              </div>
+              <div class="header-icon" />
             </div>
           </th>
         </tr>
@@ -127,11 +123,7 @@
               <div class="header-text">
                 جدول التسويات
               </div>
-              <div class="header-icon">
-                <v-icon>
-                  far fa-file-pdf
-                </v-icon>
-              </div>
+              <div class="header-icon" />
             </div>
           </th>
         </tr>
