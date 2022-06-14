@@ -794,7 +794,7 @@
                       <label
                         class="d-block mb-3 font-weight-bold"
                       >تاريخ محضر التجزئة</label>
-                      <custom-date v-model="data.trans_retail_record_date" />
+                      <hejri-date v-model="data.trans_retail_record_date" />
                     </v-col>
                     <v-col
                       cols="12"

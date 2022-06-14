@@ -132,7 +132,7 @@
                   md="4"
                 >
                   <label class="d-block mb-3 font-weight-bold">المقيم</label>
-                  <v-select
+                  <v-autocomplete
                     v-model="data.resident_id"
                     :items="appraisersList"
                     item-text="name"
@@ -149,7 +149,7 @@
                   md="4"
                 >
                   <label class="d-block mb-3 font-weight-bold">المراجع</label>
-                  <v-select
+                  <v-autocomplete
                     v-model="data.reviewer_id"
                     :items="previewsList"
                     item-text="name"
@@ -166,7 +166,7 @@
                   md="4"
                 >
                   <label class="d-block mb-3 font-weight-bold">المعتمد</label>
-                  <v-select
+                  <v-autocomplete
                     v-model="data.approved_id"
                     :items="coordinatorsList"
                     item-text="name"
@@ -190,7 +190,7 @@
                   md="4"
                 >
                   <label class="d-block mb-3 font-weight-bold">النموذج</label>
-                  <v-select
+                  <v-autocomplete
                     v-model="data.sample_id"
                     :items="samplesList"
                     item-text="name"
@@ -205,7 +205,7 @@
                   md="4"
                 >
                   <label class="d-block mb-3 font-weight-bold">العميل</label>
-                  <v-select
+                  <v-autocomplete
                     v-model="data.customer_id"
                     :items="customersList"
                     item-text="name"
@@ -256,7 +256,7 @@
                   <label
                     class="d-block mb-3 font-weight-bold"
                   >الغرض من التقييم</label>
-                  <v-select
+                  <v-autocomplete
                     v-model="data.evaluation_purpose_id"
                     :items="evaluationPurposeList"
                     item-text="name"
@@ -275,7 +275,7 @@
                   <label
                     class="d-block mb-3 font-weight-bold"
                   >أساس القيمة</label>
-                  <v-select
+                  <v-autocomplete
                     v-model="data.trans_value_basis"
                     :items="valuesUsedList"
                     item-text="name"
@@ -294,7 +294,7 @@
                   <label
                     class="d-block mb-3 font-weight-bold"
                   >فرضية القيمة</label>
-                  <v-select
+                  <v-autocomplete
                     v-model="data.value_hypothesis"
                     :items="feesUsedValuesList"
                     item-text="name"
@@ -402,7 +402,7 @@
                   <label
                     class="d-block mb-3 font-weight-bold"
                   >نوع التقرير</label>
-                  <v-select
+                  <v-autocomplete
                     v-model="data.trans_Report_type"
                     :items="staticLists.trans_Report_type"
                     item-text="name"
@@ -575,7 +575,7 @@
                   <label
                     class="d-block mb-3 font-weight-bold"
                   >اسم المنطقة</label>
-                  <v-select
+                  <v-autocomplete
                     v-model="data.region_id"
                     :items="regionsList"
                     item-text="name"
@@ -594,7 +594,7 @@
                   <label
                     class="d-block mb-3 font-weight-bold"
                   >اسم المدينة</label>
-                  <v-select
+                  <v-autocomplete
                     v-model="data.city_id"
                     :items="updateCitesList"
                     item-text="name"
@@ -611,7 +611,7 @@
                   md="4"
                 >
                   <label class="d-block mb-3 font-weight-bold">اسم الحى</label>
-                  <v-select
+                  <v-autocomplete
                     v-model="data.neighborhood_id"
                     :items="updateNeighborhoodsList"
                     item-text="name"
@@ -771,7 +771,7 @@
                   <label
                     class="d-block mb-3 font-weight-bold"
                   >استخدام العقار</label>
-                  <v-select
+                  <v-autocomplete
                     v-model="data.property_rating_id"
                     :items="propRatingsList"
                     item-text="name"
@@ -790,7 +790,7 @@
                   <label
                     class="d-block mb-3 font-weight-bold"
                   >نوع العقار</label>
-                  <v-select
+                  <v-autocomplete
                     v-model="data.property_type_id"
                     :items="propTypeList"
                     item-text="name"
@@ -927,7 +927,7 @@
                   style="padding-top:0px;"
                 >
                   <label class="d-block mb-3 font-weight-bold">الواجهة الشمالية</label>
-                  <v-select
+                  <v-autocomplete
                     v-model="data.north_facade"
                     item-text="name"
                     item-value="id"
@@ -945,7 +945,7 @@
                   style="padding-top:0px;"
                 >
                   <label class="d-block mb-3 font-weight-bold">الواجهة الجنوبية</label>
-                  <v-select
+                  <v-autocomplete
                     v-model="data.south_facade"
                     item-text="name"
                     item-value="id"
@@ -963,7 +963,7 @@
                   style="padding-top:0px;"
                 >
                   <label class="d-block mb-3 font-weight-bold">الواجهة الشرقية</label>
-                  <v-select
+                  <v-autocomplete
                     v-model="data.eastern_facade"
                     item-text="name"
                     item-value="id"
@@ -981,7 +981,7 @@
                   style="padding-top:0px;"
                 >
                   <label class="d-block mb-3 font-weight-bold">الواجهة الغربية</label>
-                  <v-select
+                  <v-autocomplete
                     v-model="data.western_facade"
                     item-text="name"
                     item-value="id"
@@ -1137,7 +1137,7 @@
                   <label
                     class="d-block mb-3 font-weight-bold"
                   >تاريخ محضر التجزئة</label>
-                  <customDate v-model="data.trans_retail_record_date" />
+                  <hejri-date v-model="data.trans_retail_record_date" />
                 </v-col>
 
                 <!-- <v-col
@@ -1148,7 +1148,7 @@
                   <label
                     class="d-block mb-3 font-weight-bold"
                   >حالة البناء</label>
-                  <v-select
+                  <v-autocomplete
                     v-model="data.trans_construction_condition"
                     :items="staticLists.trans_construction_condition"
                     label="حالة البناء"
@@ -1167,7 +1167,7 @@
                   <label
                     class="d-block mb-3 font-weight-bold"
                   >حالة الأشغال</label>
-                  <v-select
+                  <v-autocomplete
                     v-model="data.trans_occupancy_status"
                     :items="staticLists.trans_occupancy_status"
                     item-text="name"
@@ -1427,7 +1427,7 @@
                     <label
                       class="d-block mb-3 font-weight-bold"
                     >الموقع العام</label>
-                    <v-select
+                    <v-autocomplete
                       v-model="data.trans_general_site"
                       :items="staticLists.trans_general_site"
                       item-text="name"
@@ -1444,7 +1444,7 @@
                     md="4"
                   >
                     <label class="d-block mb-3 font-weight-bold">التصميم</label>
-                    <v-select
+                    <v-autocomplete
                       v-model="data.trans_the_design"
                       :items="staticLists.trans_the_design"
                       item-text="name"
@@ -1461,7 +1461,7 @@
                     md="4"
                   >
                     <label class="d-block mb-3 font-weight-bold">المنسوب</label>
-                    <v-select
+                    <v-autocomplete
                       v-model="data.trans_attributable"
                       label="المنسوب"
                       :items="staticLists.trans_attributable"
@@ -1478,7 +1478,7 @@
                     md="4"
                   >
                     <label class="d-block mb-3 font-weight-bold">الجار</label>
-                    <v-select
+                    <v-autocomplete
                       v-model="data.trans_neighbor"
                       :items="staticLists.trans_neighbor"
                       item-text="name"
@@ -1495,7 +1495,7 @@
                     md="4"
                   >
                     <label class="d-block mb-3 font-weight-bold">الشوارع</label>
-                    <v-select
+                    <v-autocomplete
                       v-model="data.trans_streets"
                       :items="staticLists.trans_streets"
                       item-text="name"
@@ -1514,7 +1514,7 @@
                     <label
                       class="d-block mb-3 font-weight-bold"
                     >اضاءة الشوارع</label>
-                    <v-select
+                    <v-autocomplete
                       v-model="data.trans_Street_lighting"
                       :items="staticLists.trans_Street_lighting"
                       item-text="name"
@@ -1533,7 +1533,7 @@
                     <label
                       class="d-block mb-3 font-weight-bold"
                     >التيار الكهربائى</label>
-                    <v-select
+                    <v-autocomplete
                       v-model="data.trans_electric_current"
                       :items="staticLists.trans_electric_current"
                       item-text="name"
@@ -1550,7 +1550,7 @@
                     md="4"
                   >
                     <label class="d-block mb-3 font-weight-bold">نوع العزل</label>
-                    <v-select
+                    <v-autocomplete
                       v-model="data.trans_insulation_type"
                       :items="staticLists.trans_insulation_type"
                       item-text="name"
@@ -1569,7 +1569,7 @@
                     <label
                       class="d-block mb-3 font-weight-bold"
                     >نوع أرضية الاحواش</label>
-                    <v-select
+                    <v-autocomplete
                       v-model="data.trans_the_type_of_yard_floor"
                       :items="staticLists.trans_the_type_of_yard_floor"
                       item-text="name"
@@ -1588,7 +1588,7 @@
                     <label
                       class="d-block mb-3 font-weight-bold"
                     >نوع أرضية الاستقبال</label>
-                    <v-select
+                    <v-autocomplete
                       v-model="data.trans_reception_floor_type"
                       :items="staticLists.trans_reception_floor_type"
                       item-text="name"
@@ -1607,7 +1607,7 @@
                     <label
                       class="d-block mb-3 font-weight-bold"
                     >نوع أرضية المدخل</label>
-                    <v-select
+                    <v-autocomplete
                       v-model="data.trans_entrance_floor"
                       :items="staticLists.trans_entrance_floor"
                       item-text="name"
@@ -1626,7 +1626,7 @@
                     <label
                       class="d-block mb-3 font-weight-bold"
                     >نوع أرضية الغرف</label>
-                    <v-select
+                    <v-autocomplete
                       v-model="data.trans_room_floor_type"
                       :items="staticLists.trans_room_floor_type"
                       item-text="name"
@@ -1677,7 +1677,7 @@
                     <label
                       class="d-block mb-3 font-weight-bold"
                     >الهيكل الانشائى</label>
-                    <v-select
+                    <v-autocomplete
                       v-model="data.trans_structural_structure"
                       :items="staticLists.trans_structural_structure"
                       label="الهيكل الانشائى"
@@ -1696,7 +1696,7 @@
                     <label
                       class="d-block mb-3 font-weight-bold"
                     >نوع الاسقف</label>
-                    <v-select
+                    <v-autocomplete
                       v-model="data.trans_bishop_type"
                       :items="staticLists.trans_bishop_type"
                       item-text="name"
@@ -1885,7 +1885,7 @@
                     <label
                       class="d-block mb-3 font-weight-bold"
                     >نوعية التركيب</label>
-                    <v-select
+                    <v-autocomplete
                       :items="items"
                       label="نوعية التركيب"
                       single-line
@@ -1946,7 +1946,7 @@
                     <label
                       class="d-block mb-3 font-weight-bold"
                     >نوعية التركيب</label>
-                    <v-select
+                    <v-autocomplete
                       :items="items"
                       label="نوعية التركيب"
                       single-line
@@ -2007,7 +2007,7 @@
                     <label
                       class="d-block mb-3 font-weight-bold"
                     >نوعية التركيب</label>
-                    <v-select
+                    <v-autocomplete
                       :items="items"
                       label="نوعية التركيب"
                       single-line
@@ -2068,7 +2068,7 @@
                     <label
                       class="d-block mb-3 font-weight-bold"
                     >نوعية التركيب</label>
-                    <v-select
+                    <v-autocomplete
                       :items="items"
                       label="نوعية التركيب"
                       single-line
