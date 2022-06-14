@@ -212,16 +212,13 @@
         const pageNumber = page - 1
         const items = await CitiesService.getAllItems(itemsPerPage, page, pageNumber)
         const regions = await RegionsService.getAllItems(itemsPerPage, page, pageNumber)
-        // console.log(regions)
-        // console.log('Users', items)
         items.data.data.forEach(item => {
           item.created_at &&= new Date(item.created_at).toLocaleString('ar-eg')
           item.status = item.status === '1' ? 'مفعل' : 'غير مفعل'
           item.region = regions.data.data.find((region) => region.id === item.region_id).name
         })
         this.items = items.data.data
-        // console.log(this.items)
-        this.total = items.total
+        this.total = items.data.total
         this.dataLoading = false
       },
       async deleteUser (userDetails) {
