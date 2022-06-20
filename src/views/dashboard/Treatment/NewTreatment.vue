@@ -40,6 +40,7 @@
                     v-model="data.instrument_file"
                     label="الصك"
                     @change="handleChangeInput($event , 'instrument_file')"
+                    @delete="handleDeleteInput($event,'instrument_file')"
                   />
                   <v-chip
                     v-if="this.$route.query.edit && data.instrument_file"
@@ -62,6 +63,7 @@
                     v-model="data.attached_file"
                     label="المخطط"
                     @change="handleChangeInput( $event , 'attached_file')"
+                    @delete="handleDeleteInput($event,'attached_file')"
                   />
                   <v-chip
                     v-if="this.$route.query.edit && data.attached_file"
@@ -84,6 +86,7 @@
                     v-model="data.assignment_letter_file"
                     label="خطاب التكليف"
                     @change="handleChangeInput( $event , 'assignment_letter_file')"
+                    @delete="handleDeleteInput($event,'assignment_letter_file')"
                   />
                   <v-chip
                     v-if="this.$route.query.edit && data.assignment_letter_file"
@@ -104,6 +107,7 @@
                     v-model="data.schema_file"
                     label="الأرشيف"
                     @change="handleChangeInput( $event , 'schema_file')"
+                    @delete="handleDeleteInput($event,'schema_file')"
                   />
 
                   <v-chip
@@ -2860,20 +2864,20 @@
           this.errors = this.errors.filter(x => x !== 'resident_id')
         }
       },
-      'data.reviewer_id': function (v) {
-        if (!v) {
-          this.errors.push('reviewer_id')
-        } else {
-          this.errors = this.errors.filter(x => x !== 'reviewer_id')
-        }
-      },
-      'data.approved_id': function (v) {
-        if (!v) {
-          this.errors.push('approved_id')
-        } else {
-          this.errors = this.errors.filter(x => x !== 'approved_id')
-        }
-      },
+      // 'data.reviewer_id': function (v) {
+      //   if (!v) {
+      //     this.errors.push('reviewer_id')
+      //   } else {
+      //     this.errors = this.errors.filter(x => x !== 'reviewer_id')
+      //   }
+      // },
+      // 'data.approved_id': function (v) {
+      //   if (!v) {
+      //     this.errors.push('approved_id')
+      //   } else {
+      //     this.errors = this.errors.filter(x => x !== 'approved_id')
+      //   }
+      // },
     },
     mounted () {
       // this.getCurrentLocation()
@@ -2935,6 +2939,13 @@
           this.data[name].push(...files)
         } else {
           this.data[name] = files[0]
+        }
+      },
+      handleDeleteInput (index, name) {
+        if (Array.isArray(this.data[name])) {
+          this.data[name] = this.data[name].filter((v, i) => i !== index)
+        } else {
+          this.data[name] = null
         }
       },
       // addDropFile (e) {
@@ -3206,12 +3217,12 @@
       },
       // submit
       save: async function (status) {
-        if (!this.data.reviewer_id) {
-          this.errors.push('reviewer_id')
-        }
-        if (!this.data.approved_id) {
-          this.errors.push('approved_id')
-        }
+        // if (!this.data.reviewer_id) {
+        //   this.errors.push('reviewer_id')
+        // }
+        // if (!this.data.approved_id) {
+        //   this.errors.push('approved_id')
+        // }
         if (!this.data.resident_id) {
           this.errors.push('resident_id')
         }

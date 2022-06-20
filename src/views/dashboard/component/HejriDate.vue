@@ -15,22 +15,29 @@
           outlined
           single-line
           clearable
-          :value="computedDate"
+          :value="focus ? innerDate :computedDate"
           prepend-icon="mdi-calendar"
           placeholder="YYYY/MM/DD Format"
           hint="YYYY/MM/DD Format"
           v-bind="attrs"
+          @focus="focus= true"
+          @blur="focus=false"
+          @input="handleInput"
           v-on="on"
         />
       </template>
       <v-date-picker
+        :close-on-content-click="true"
+        class="hijri-date"
         :value="value"
         :element="id"
         calendar="hijri"
         locale="ar-sa"
         format="YYYY-MM-DD HH:mm"
+        transition="scale-transition"
+        offset-y
+        min-width="auto"
         @change="value => handleChange(value)"
-        @input="hejriCallender = false"
       />
     </v-menu>
   </div>
@@ -38,7 +45,7 @@
 <script>
   import { format } from 'date-fns/esm'
   import { uuid } from 'vue-uuid'
-  // import moment from 'moment-hijri'
+  import moment from 'moment-hijri'
 
   export default {
     name: 'HijriDate',
@@ -51,6 +58,8 @@
     data: () => ({
       hejriCallender: false,
       id: '',
+      innerDate: '',
+      focus: false,
     }),
     computed: {
       computedDate () {
@@ -61,9 +70,24 @@
       this.id = uuid.v4()
     },
     methods: {
+      handleInput (value) {
+        try {
+          const m = moment(value, 'iYYYY/iM/iD')
+          this.$emit('input', format(new Date(m.format('YYYY/M/D')), 'yyyy-MM-dd HH:mm'))
+        } catch (err) {
+
+        }
+      },
       handleChange (value) {
         this.$emit('input', format(new Date(value), 'yyyy-MM-dd HH:mm'))
+
+        // console.log(m)
       },
     },
   }
 </script>
+<style>
+.hijri-date.v-card.v-picker--date {
+  margin-top: 0px !important;
+}
+</style>

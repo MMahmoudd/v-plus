@@ -9,7 +9,7 @@
       ${value ? 'v-input--is-label-active v-input--is-dirty' : ''}
       `
     "
-    @click="handleClick"
+    @click.stop="handleClick"
     @dragenter="handleDragEnter"
     @dragleave="handleDragLeave"
     @dragover="handleDragOver"
@@ -42,7 +42,10 @@
               :key="index"
               class="v-chip v-chip--label theme--light v-size--small primary"
             ><span class="v-chip__content">
-              {{ file.name }}
+              {{ file.name }} <span
+                class="delete-icon"
+                @click.stop="handleClickChip(index)"
+              >x</span>
             </span></span>
           </div>
           <div
@@ -52,7 +55,10 @@
             <span
               class="v-chip v-chip--label theme--light v-size--small primary"
             ><span class="v-chip__content">
-              {{ value.name }}
+              {{ value.name }}  <span
+                class="delete-icon"
+                @click.stop="handleClickChip(1)"
+              >x</span>
             </span></span>
           </div>
 
@@ -72,9 +78,16 @@
         <div class="v-messages theme--light">
           <div class="v-messages__wrapper" />
         </div>
-        <div class="v-counter theme--light">
+        <div
+          v-if="Array.isArray(value)"
+          class="v-counter theme--light"
+        >
           {{ value.length }} ملفات
         </div>
+        <div
+          v-else
+          class="v-counter theme--light"
+        />
       </div>
     </div>
   </div>
@@ -106,6 +119,9 @@
       handleInputChange () {
         this.$emit('change', this.$refs.input.files)
       },
+      handleClickChip (index) {
+        this.$emit('delete', index)
+      },
       handleDragEnter: function (e) {
         this.imgs_drag_status = 'enter'
         e.preventDefault()
@@ -134,5 +150,14 @@
 <style scoped>
 .drop-zone.drop-zone-over{
     box-shadow: 0px 0px 1px 1px blue !important;
+}
+.delete-icon {
+    color: #ca3a3a;
+    font-weight: bold;
+    font-size: 18px;
+    margin: 2px;
+    padding: 3px;
+    background: #f1f1f1;
+    cursor: pointer;
 }
 </style>
