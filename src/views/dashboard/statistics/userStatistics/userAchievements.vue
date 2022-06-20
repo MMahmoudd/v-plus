@@ -26,7 +26,8 @@
                   id="searchDates"
                   v-model="dateRangeText"
                   label="تحديد المدة الزمنية"
-                  readonly
+                  placeholder="YYYY-MM-DD Format"
+                  hint="YYYY-MM-DD Format"
                   v-bind="attrs"
                   outlined
                   v-on="on"
