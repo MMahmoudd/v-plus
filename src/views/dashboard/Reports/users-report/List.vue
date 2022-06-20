@@ -29,7 +29,8 @@
                   v-model="search.start_date"
                   label="تاريخ البدء"
                   prepend-icon="mdi-calendar"
-                  readonly
+                  placeholder="YYYY-MM-DD Format"
+                  hint="YYYY-MM-DD Format"
                   outlined
                   v-bind="attrs"
                   v-on="on"
@@ -59,7 +60,8 @@
                   v-model="search.end_date"
                   label="تاريخ الانتهاء"
                   prepend-icon="mdi-calendar"
-                  readonly
+                  placeholder="YYYY-MM-DD Format"
+                  hint="YYYY-MM-DD Format"
                   outlined
                   v-bind="attrs"
                   v-on="on"

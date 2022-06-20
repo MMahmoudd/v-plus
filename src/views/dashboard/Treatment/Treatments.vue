@@ -74,7 +74,8 @@
                           <v-text-field
                             v-model="data.dateFrom"
                             clearable
-                            readonly
+                            placeholder="YYYY-MM-DD Format"
+                            hint="YYYY-MM-DD Format"
                             v-bind="attrs"
                             single-line
                             outlined
@@ -112,7 +113,8 @@
                           <v-text-field
                             v-model="data.dateTo"
                             clearable
-                            readonly
+                            placeholder="YYYY-MM-DD Format"
+                            hint="YYYY-MM-DD Format"
                             v-bind="attrs"
                             single-line
                             outlined

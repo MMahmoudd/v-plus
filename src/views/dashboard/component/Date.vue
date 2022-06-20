@@ -11,7 +11,8 @@
         v-model="value"
         :class="extraClass"
         prepend-icon="mdi-calendar"
-        readonly
+        placeholder="YYYY-MM-DD Format"
+        hint="YYYY-MM-DD Format"
         v-bind="attrs"
         single-line
         outlined

@@ -128,7 +128,8 @@
                       id="end_membership"
                       v-model="data.end_membership"
                       label="نهاية العضوية"
-                      readonly
+                      placeholder="YYYY-MM-DD Format"
+                      hint="YYYY-MM-DD Format"
                       v-bind="attrs"
                       outlined
                       v-on="on"

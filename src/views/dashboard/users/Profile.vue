@@ -125,9 +125,10 @@
                       id="end_membership"
                       v-model="data.end_membership"
                       label="نهاية العضوية"
+                      placeholder="YYYY-MM-DD Format"
+                      hint="YYYY-MM-DD Format"
                       :error="errors.end_membership"
                       :error-messages="errors.end_membership"
-                      readonly
                       v-bind="attrs"
                       outlined
                       v-on="on"
