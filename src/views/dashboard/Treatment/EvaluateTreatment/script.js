@@ -678,7 +678,9 @@ westFacadeSetting: [],
     }),
     computed: {
       safi () {
-        return this.data.cm_contribution_comparative_p_relative_weight + this.data.cm_contribution_comparative_p_relative_weight2 + this.data.cm_contribution_comparative_p_relative_weight3
+        return this.data.cm_contribution_comparative_p_relative_weight +
+        this.data.cm_contribution_comparative_p_relative_weight2 +
+        this.data.cm_contribution_comparative_p_relative_weight3
       },
       dragOptions () {
         return {

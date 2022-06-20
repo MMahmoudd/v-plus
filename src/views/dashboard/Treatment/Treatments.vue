@@ -1,4 +1,3 @@
-
 <template>
   <v-container>
     <v-card class="form-container">
@@ -659,7 +658,10 @@
                   <v-list>
                     <v-list-item>
                       <v-list-item-title>
-                        <a @click="generateReport(item.id)">
+                        <a
+                          target="_blank"
+                          :href="'https://development.millennium.sa/api/v1/generate-PDF-sample-file?transaction_id='+item.id"
+                        >
                           <v-icon>
                             far fa-file-pdf
                           </v-icon>

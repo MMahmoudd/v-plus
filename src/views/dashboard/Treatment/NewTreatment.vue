@@ -133,7 +133,9 @@
                 >
                   <label class="d-block mb-3 font-weight-bold">المقيم</label>
                   <v-autocomplete
+                    id="resident_id"
                     v-model="data.resident_id"
+                    :error="this.errors.includes('resident_id')"
                     :items="appraisersList"
                     item-text="name"
                     item-value="id"
@@ -150,7 +152,9 @@
                 >
                   <label class="d-block mb-3 font-weight-bold">المراجع</label>
                   <v-autocomplete
+                    id="reviewer_id"
                     v-model="data.reviewer_id"
+                    :error="this.errors.includes('reviewer_id')"
                     :items="previewsList"
                     item-text="name"
                     item-value="id"
@@ -167,7 +171,9 @@
                 >
                   <label class="d-block mb-3 font-weight-bold">المعتمد</label>
                   <v-autocomplete
+                    id="approved_id"
                     v-model="data.approved_id"
+                    :error="this.errors.includes('approved_id')"
                     :items="coordinatorsList"
                     item-text="name"
                     item-value="id"
@@ -2373,6 +2379,7 @@
       HejriDate,
     },
     data: () => ({
+      errors: [],
       testDate: '',
       imgs_drag_status: {},
       errorMessage: '',
@@ -2845,6 +2852,29 @@
         return data
       },
     },
+    watch: {
+      'data.resident_id': function (v) {
+        if (!v) {
+          this.errors.push('resident_id')
+        } else {
+          this.errors = this.errors.filter(x => x !== 'resident_id')
+        }
+      },
+      'data.reviewer_id': function (v) {
+        if (!v) {
+          this.errors.push('reviewer_id')
+        } else {
+          this.errors = this.errors.filter(x => x !== 'reviewer_id')
+        }
+      },
+      'data.approved_id': function (v) {
+        if (!v) {
+          this.errors.push('approved_id')
+        } else {
+          this.errors = this.errors.filter(x => x !== 'approved_id')
+        }
+      },
+    },
     mounted () {
       // this.getCurrentLocation()
       if (this.$route.params.id) {
@@ -3176,6 +3206,23 @@
       },
       // submit
       save: async function (status) {
+        if (!this.data.reviewer_id) {
+          this.errors.push('reviewer_id')
+        }
+        if (!this.data.approved_id) {
+          this.errors.push('approved_id')
+        }
+        if (!this.data.resident_id) {
+          this.errors.push('resident_id')
+        }
+        if (this.errors.length !== 0) {
+          const element = document.getElementById(this.errors[0])
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' })
+            return
+          }
+        }
+
         this.dataLoading = true
         this.buttonsLoading[status] = true
 
