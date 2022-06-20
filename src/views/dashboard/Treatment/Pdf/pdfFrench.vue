@@ -268,11 +268,7 @@
               <div class="header-text">
                 وصف تشطيبات العقار والأعمال الإنشائية
               </div>
-              <div class="header-icon">
-                <v-icon>
-                  far fa-file-pdf
-                </v-icon>
-              </div>
+              <div class="header-icon" />
             </div>
           </th>
         </tr>
@@ -505,9 +501,7 @@
                 وصف تشطيبات العقار والأعمال الإنشائية
               </div>
               <div class="header-icon">
-                <v-icon>
-                  far fa-file-pdf
-                </v-icon>
+
               </div>
             </div>
           </th>
@@ -538,11 +532,7 @@
               <div class="header-text">
                 الخدمات والمرافق المتوفرة في الموقع
               </div>
-              <div class="header-icon">
-                <v-icon>
-                  far fa-file-pdf
-                </v-icon>
-              </div>
+              <div class="header-icon" />
             </div>
           </th>
         </tr>
@@ -685,11 +675,7 @@
               <div class="header-text">
                 المقارنات
               </div>
-              <div class="header-icon">
-                <v-icon>
-                  far fa-file-pdf
-                </v-icon>
-              </div>
+              <div class="header-icon" />
             </div>
           </th>
         </tr>
@@ -783,11 +769,7 @@
               <div class="header-text">
                 الغرض من التقييم
               </div>
-              <div class="header-icon">
-                <v-icon>
-                  far fa-file-pdf
-                </v-icon>
-              </div>
+              <div class="header-icon" />
             </div>
           </th>
         </tr>
@@ -832,11 +814,7 @@
               <div class="header-text">
                 فرضیات تقریر التقییم
               </div>
-              <div class="header-icon">
-                <v-icon>
-                  far fa-file-pdf
-                </v-icon>
-              </div>
+              <div class="header-icon" />
             </div>
           </th>
         </tr>
@@ -859,11 +837,7 @@
               <div class="header-text">
                 طریقة التقییم
               </div>
-              <div class="header-icon">
-                <v-icon>
-                  far fa-file-pdf
-                </v-icon>
-              </div>
+              <div class="header-icon" />
             </div>
           </th>
         </tr>
@@ -1112,11 +1086,7 @@
               <div class="header-text">
                 صورة الأقمار الصناعیة
               </div>
-              <div class="header-icon">
-                <v-icon>
-                  far fa-file-pdf
-                </v-icon>
-              </div>
+              <div class="header-icon" />
             </div>
           </th>
         </tr>
@@ -1150,11 +1120,7 @@
               <div class="header-text">
                 صورة المخطط
               </div>
-              <div class="header-icon">
-                <v-icon>
-                  far fa-file-pdf
-                </v-icon>
-              </div>
+              <div class="header-icon" />
             </div>
           </th>
         </tr>
@@ -1179,11 +1145,7 @@
               <div class="header-text">
                 صورة مقربة للموقع
               </div>
-              <div class="header-icon">
-                <v-icon>
-                  far fa-file-pdf
-                </v-icon>
-              </div>
+              <div class="header-icon" />
             </div>
           </th>
           <th colspan="1">
@@ -1191,11 +1153,7 @@
               <div class="header-text">
                 الإحداثیات
               </div>
-              <div class="header-icon">
-                <v-icon>
-                  far fa-file-pdf
-                </v-icon>
-              </div>
+              <div class="header-icon" />
             </div>
           </th>
         </tr>
@@ -1235,11 +1193,7 @@
               <div class="header-text">
                 الصور الفوتوغرافية
               </div>
-              <div class="header-icon">
-                <v-icon>
-                  far fa-file-pdf
-                </v-icon>
-              </div>
+              <div class="header-icon" />
             </div>
           </th>
         </tr>
@@ -1753,7 +1707,7 @@ table thead.diff {
 }
 table thead .header {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   padding: 3px 15px;
 }
 table thead th {

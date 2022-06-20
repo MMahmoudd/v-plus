@@ -12,11 +12,7 @@
               <div class="header-text">
                 العقارات المقارنة
               </div>
-              <div class="header-icon">
-                <v-icon>
-                  far fa-file-pdf
-                </v-icon>
-              </div>
+              <div class="header-icon" />
             </div>
           </th>
         </tr>
@@ -128,11 +124,7 @@
               <div class="header-text">
                 جدول التسويات
               </div>
-              <div class="header-icon">
-                <v-icon>
-                  far fa-file-pdf
-                </v-icon>
-              </div>
+              <div class="header-icon" />
             </div>
           </th>
         </tr>
@@ -309,11 +301,7 @@
               <div class="header-text">
                 طريقة التكلفة
               </div>
-              <div class="header-icon">
-                <v-icon>
-                  far fa-file-pdf
-                </v-icon>
-              </div>
+              <div class="header-icon" />
             </div>
           </th>
         </tr>
@@ -674,11 +662,7 @@
               <div class="header-text">
                 القيمة السوقية بعد الترجيح
               </div>
-              <div class="header-icon">
-                <v-icon>
-                  far fa-file-pdf
-                </v-icon>
-              </div>
+              <div class="header-icon" />
             </div>
           </th>
         </tr>
@@ -847,7 +831,7 @@ table thead.diff {
 }
 table thead .header {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   padding: 8px 15px;
 }
 table thead th {

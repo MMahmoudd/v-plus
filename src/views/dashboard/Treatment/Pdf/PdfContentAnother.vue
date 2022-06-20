@@ -43,11 +43,7 @@
               <div class="header-text">
                 هوية المقيّم المعتمد
               </div>
-              <div class="header-icon">
-                <v-icon>
-                  far fa-file-pdf
-                </v-icon>
-              </div>
+              <div class="header-icon" />
             </div>
           </th>
         </tr>
@@ -71,11 +67,7 @@
               <div class="header-text">
                 نطاق العمل
               </div>
-              <div class="header-icon">
-                <v-icon>
-                  far fa-file-pdf
-                </v-icon>
-              </div>
+              <div class="header-icon" />
             </div>
           </th>
         </tr>
@@ -163,11 +155,7 @@
               <div class="header-text">
                 الأصل محل التقييم
               </div>
-              <div class="header-icon">
-                <v-icon>
-                  far fa-file-pdf
-                </v-icon>
-              </div>
+              <div class="header-icon" />
             </div>
           </th>
         </tr>
@@ -232,11 +220,7 @@
               <div class="header-text">
                 تفاصيل موقع العقار
               </div>
-              <div class="header-icon">
-                <v-icon>
-                  far fa-file-pdf
-                </v-icon>
-              </div>
+              <div class="header-icon" />
             </div>
           </th>
         </tr>
@@ -525,11 +509,7 @@
               <div class="header-text">
                 بيانات المبنى
               </div>
-              <div class="header-icon">
-                <v-icon>
-                  far fa-file-pdf
-                </v-icon>
-              </div>
+              <div class="header-icon" />
             </div>
           </th>
         </tr>
@@ -571,11 +551,7 @@
               <div class="header-text">
                 بيانات الانشاء
               </div>
-              <div class="header-icon">
-                <v-icon>
-                  far fa-file-pdf
-                </v-icon>
-              </div>
+              <div class="header-icon" />
             </div>
           </th>
         </tr>
@@ -620,11 +596,7 @@
               <div class="header-text">
                 تقييم الإنجاز
               </div>
-              <div class="header-icon">
-                <v-icon>
-                  far fa-file-pdf
-                </v-icon>
-              </div>
+              <div class="header-icon" />
             </div>
           </th>
         </tr>
@@ -702,11 +674,7 @@
               <div class="header-text">
                 النتائج
               </div>
-              <div class="header-icon">
-                <v-icon>
-                  far fa-file-pdf
-                </v-icon>
-              </div>
+              <div class="header-icon" />
             </div>
           </th>
         </tr>
@@ -754,11 +722,7 @@
               <div class="header-text">
                 وصف العقار
               </div>
-              <div class="header-icon">
-                <v-icon>
-                  far fa-file-pdf
-                </v-icon>
-              </div>
+              <div class="header-icon" />
             </div>
           </th>
         </tr>
@@ -782,11 +746,7 @@
               <div class="header-text">
                 حدود وأطوال العقار
               </div>
-              <div class="header-icon">
-                <v-icon>
-                  far fa-file-pdf
-                </v-icon>
-              </div>
+              <div class="header-icon" />
             </div>
           </th>
         </tr>
@@ -885,11 +845,7 @@
               <div class="header-text">
                 معلومات رخصة البناء
               </div>
-              <div class="header-icon">
-                <v-icon>
-                  far fa-file-pdf
-                </v-icon>
-              </div>
+              <div class="header-icon" />
             </div>
           </th>
         </tr>
@@ -1003,11 +959,7 @@
               <div class="header-text">
                 المشاركون في إعداد التقرير
               </div>
-              <div class="header-icon">
-                <v-icon>
-                  far fa-file-pdf
-                </v-icon>
-              </div>
+              <div class="header-icon" />
             </div>
           </th>
         </tr>
@@ -1139,11 +1091,7 @@
               <div class="header-text">
                 هذا التقرير تم مراجعته واعتماده من قبل المقيم المعتمد
               </div>
-              <div class="header-icon">
-                <v-icon>
-                  far fa-file-pdf
-                </v-icon>
-              </div>
+              <div class="header-icon" />
             </div>
           </th>
         </tr>
@@ -1228,11 +1176,7 @@
               <div class="header-text">
                 إحداثيات الموقع
               </div>
-              <div class="header-icon">
-                <v-icon>
-                  far fa-file-pdf
-                </v-icon>
-              </div>
+              <div class="header-icon" />
             </div>
           </th>
         </tr>
@@ -1295,11 +1239,7 @@
               <div class="header-text">
                 الصور الفوتوغرافية
               </div>
-              <div class="header-icon">
-                <v-icon>
-                  far fa-file-pdf
-                </v-icon>
-              </div>
+              <div class="header-icon" />
             </div>
           </th>
         </tr>
@@ -1335,11 +1275,7 @@
               <div class="header-text">
                 الملاحق
               </div>
-              <div class="header-icon">
-                <v-icon>
-                  far fa-file-pdf
-                </v-icon>
-              </div>
+              <div class="header-icon" />
             </div>
           </th>
         </tr>
@@ -1453,11 +1389,7 @@
               <div class="header-text">
                 نطاق البحث ومصادر معلومات المقيم
               </div>
-              <div class="header-icon">
-                <v-icon>
-                  far fa-file-pdf
-                </v-icon>
-              </div>
+              <div class="header-icon" />
             </div>
           </th>
         </tr>
@@ -1483,11 +1415,7 @@
               <div class="header-text">
                 القيود على االستخدام والنشر
               </div>
-              <div class="header-icon">
-                <v-icon>
-                  far fa-file-pdf
-                </v-icon>
-              </div>
+              <div class="header-icon" />
             </div>
           </th>
         </tr>
@@ -1511,11 +1439,7 @@
               <div class="header-text">
                 إخلاء المسؤولية
               </div>
-              <div class="header-icon">
-                <v-icon>
-                  far fa-file-pdf
-                </v-icon>
-              </div>
+              <div class="header-icon" />
             </div>
           </th>
         </tr>
@@ -1539,11 +1463,7 @@
               <div class="header-text">
                 الافتراضات والافتراضات الخاصة (إن وجدت)
               </div>
-              <div class="header-icon">
-                <v-icon>
-                  far fa-file-pdf
-                </v-icon>
-              </div>
+              <div class="header-icon" />
             </div>
           </th>
         </tr>
@@ -1567,11 +1487,7 @@
               <div class="header-text">
                 عملة التقييم
               </div>
-              <div class="header-icon">
-                <v-icon>
-                  far fa-file-pdf
-                </v-icon>
-              </div>
+              <div class="header-icon" />
             </div>
           </th>
         </tr>
@@ -1593,11 +1509,7 @@
               <div class="header-text">
                 المعايير المهنية
               </div>
-              <div class="header-icon">
-                <v-icon>
-                  far fa-file-pdf
-                </v-icon>
-              </div>
+              <div class="header-icon" />
             </div>
           </th>
         </tr>
@@ -1626,11 +1538,7 @@
               <div class="header-text">
                 اقرار بالاستقلالية وعدم تضارب المصالح
               </div>
-              <div class="header-icon">
-                <v-icon>
-                  far fa-file-pdf
-                </v-icon>
-              </div>
+              <div class="header-icon" />
             </div>
           </th>
         </tr>
@@ -1877,7 +1785,7 @@ table thead.diff {
 }
 table thead .header {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   padding: 8px 15px;
 }
 table thead th {
