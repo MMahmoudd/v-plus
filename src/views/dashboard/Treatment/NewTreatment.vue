@@ -6,7 +6,7 @@
       class="mx-0 mt-4"
     >
       <h1 class="font-weight-bold">
-        {{ this.$route.query.edit ? `معاملة رقم ${data.transaction_id}` : 'معاملة جديدة' }}
+        {{ this.$route.query.edit || data.transaction_id ? `معاملة رقم ${data.transaction_id}` : 'معاملة جديدة' }}
       </h1>
       <v-chip
         class="ma-2 time-chip"
@@ -39,6 +39,7 @@
                   <input-file
                     v-model="data.instrument_file"
                     label="الصك"
+                    ref="instrument_file"
                     @change="handleChangeInput($event , 'instrument_file')"
                     @delete="handleDeleteInput($event,'instrument_file')"
                   />
@@ -2487,7 +2488,7 @@
         residential_plan_name: '',
         residential_plan_no: '',
         trans_Albulk_num: '',
-        trans_part_num: '123',
+        trans_part_num: '',
         trans_owner_name: '',
         trans_owner_phone: '',
         property_type_id: '',
@@ -2944,6 +2945,7 @@
       handleDeleteInput (index, name) {
         if (Array.isArray(this.data[name])) {
           this.data[name] = this.data[name].filter((v, i) => i !== index)
+          this.$refs[name].$el.querySelector('input').value = ''
         } else {
           this.data[name] = null
         }
@@ -3099,12 +3101,14 @@
           data.participantscommissions = []
           // const { data: addByData } = await UsersServices.fetchOneItem(data.add_by)
           const addByData = this.usersList.find(user => user.id === data.add_by)
+
           data.participatingmembers.push({
             id_number: addByData.membership_no === null ? '_' : addByData.membership_no,
             user_type: addByData.user_type,
             user_id: addByData.id,
             stage: '0',
           })
+
           data.participantscommissions.push({
             id_number: addByData.membership_no === null ? '_' : addByData.membership_no,
             user_type: addByData.user_type,
@@ -3136,42 +3140,47 @@
           })
           // ** get the reviewer_id
           // const { data: reviewerData } = await UsersServices.fetchOneItem(data.reviewer_id)
+
           const reviewerData = this.usersList.find(user => user.id === data.reviewer_id)
-          data.participatingmembers.push({
-            id_number: reviewerData.membership_no === null ? '_' : reviewerData.membership_no,
-            user_type: reviewerData.user_type,
-            user_id: reviewerData.id,
-            stage: '2',
-          })
-          data.participantscommissions.push({
-            id_number: reviewerData.membership_no === null ? '_' : reviewerData.membership_no,
-            user_type: reviewerData.user_type,
-            user_id: reviewerData.id,
-            amount: reviewerData.commission_revision_stage_amount || '',
-            rate: reviewerData.commission_revision_stage_rate || '',
-            other_amount: '',
-            total_amount: '',
-            stage: '2',
-          })
+          if (reviewerData) {
+            data.participatingmembers.push({
+              id_number: reviewerData.membership_no === null ? '_' : reviewerData.membership_no,
+              user_type: reviewerData.user_type,
+              user_id: reviewerData.id,
+              stage: '2',
+            })
+            data.participantscommissions.push({
+              id_number: reviewerData.membership_no === null ? '_' : reviewerData.membership_no,
+              user_type: reviewerData.user_type,
+              user_id: reviewerData.id,
+              amount: reviewerData.commission_revision_stage_amount || '',
+              rate: reviewerData.commission_revision_stage_rate || '',
+              other_amount: '',
+              total_amount: '',
+              stage: '2',
+            })
+          }
           // ** get the approved_id
           // const { data: approvedData } = await UsersServices.fetchOneItem(data.approved_id)
           const approvedData = this.usersList.find(user => user.id === data.approved_id)
-          data.participatingmembers.push({
-            id_number: approvedData.membership_no === null ? '_' : approvedData.membership_no,
-            user_type: approvedData.user_type,
-            user_id: approvedData.id,
-            stage: '3',
-          })
-          data.participantscommissions.push({
-            id_number: approvedData.membership_no === null ? '_' : approvedData.membership_no,
-            user_type: approvedData.user_type,
-            user_id: approvedData.id,
-            amount: approvedData.commission_accreditation_stage_amount || '',
-            rate: approvedData.commission_accreditation_stage_rate || '',
-            other_amount: '',
-            total_amount: '',
-            stage: '3',
-          })
+          if (approvedData) {
+            data.participatingmembers.push({
+              id_number: approvedData.membership_no === null ? '_' : approvedData.membership_no,
+              user_type: approvedData.user_type,
+              user_id: approvedData.id,
+              stage: '3',
+            })
+            data.participantscommissions.push({
+              id_number: approvedData.membership_no === null ? '_' : approvedData.membership_no,
+              user_type: approvedData.user_type,
+              user_id: approvedData.id,
+              amount: approvedData.commission_accreditation_stage_amount || '',
+              rate: approvedData.commission_accreditation_stage_rate || '',
+              other_amount: '',
+              total_amount: '',
+              stage: '3',
+            })
+          }
           // شوف لو في معايير في النظام ، هاتها وحطها
           try {
             const response = await facilityStandards.getAll()
@@ -3208,6 +3217,7 @@
             this.$router.push('/Treatments')
           }, 1500)
         } catch (er) {
+          console.log(er)
           this.errorMessage = er.response.data.error || 'يوجد مشكلة بالبيانات'
           this.errorSnackbar = true
         } finally {

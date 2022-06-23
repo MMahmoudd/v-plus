@@ -199,7 +199,7 @@
           permission: 'تخصيص المعاملة',
           children: [
             {
-              title: 'المعايير',
+              title: 'المعايير المهنية',
               to: '/treatment-settings/standards',
               role: true,
             },

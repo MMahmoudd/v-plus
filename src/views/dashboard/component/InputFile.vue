@@ -63,7 +63,6 @@
           </div>
 
           <input
-            id="input-2396"
             ref="input"
             type="file"
             multiple="multiple"

@@ -33,6 +33,7 @@
     },
     setup (props) {
       const { inputRef, setValue } = useCurrencyInput(props.options)
+
       watch(
         () => props.value, // Vue 2: props.value
         (value) => {

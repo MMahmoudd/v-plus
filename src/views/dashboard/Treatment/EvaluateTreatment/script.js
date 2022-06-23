@@ -170,6 +170,8 @@ westFacadeSetting: [],
       ],
       transCurrencyList: [],
       cityName: '',
+      loadingAddCity: false,
+      loadingAddNeighborhood: false,
       neighborhoodName: '',
       trans_assignment_date: false,
       trans_evaluation_date: false,
@@ -678,9 +680,9 @@ westFacadeSetting: [],
     }),
     computed: {
       safi () {
-        return this.data.cm_contribution_comparative_p_relative_weight +
+        return (this.data.cm_contribution_comparative_p_relative_weight +
         this.data.cm_contribution_comparative_p_relative_weight2 +
-        this.data.cm_contribution_comparative_p_relative_weight3
+        this.data.cm_contribution_comparative_p_relative_weight3) / +this.data.land_area
       },
       dragOptions () {
         return {
@@ -745,6 +747,7 @@ westFacadeSetting: [],
       // تقييم الايجارات
       'data.income_valuation': {
         handler: function () {
+          console.log('hmmmmmm')
           this.data.total_annual_income = this.data.income_valuation?.reduce((p, c) => p + c.total_rent, 0)
           this.data.deduction_losses = this.data.income_valuation?.reduce((p, c) => p + c.deduction_losses_total, 0)
         },
@@ -990,6 +993,31 @@ westFacadeSetting: [],
       this.getUsers()
     },
     methods: {
+      addCity: async function (cityName, regionId) {
+        try {
+          this.loadingAddCity = true
+          await CitesServices.addCity(cityName, regionId)
+          this.getCites()
+          this.cityName = ''
+        } catch (err) {
+
+        } finally {
+          this.loadingAddCity = false
+        }
+      },
+      // add Neighborhood
+      addNeighborhood: async function (neighborhoodName, cityId) {
+        try {
+          this.loadingAddNeighborhood = true
+          await NeighborhoodsServices.addNeighborhood(neighborhoodName, cityId)
+          this.getNeighborhoods()
+          this.neighborhoodName = ''
+        } catch (err) {
+
+        } finally {
+          this.loadingAddNeighborhood = false
+        }
+      },
       /**
        * ? handle change in property details
        */
@@ -1043,6 +1071,9 @@ westFacadeSetting: [],
         const { data } = await TransactionsServices.fetchOneItem(id)
         if (data.trans_professional_standard === '') {
           data.trans_professional_standard = this.data.trans_professional_standard
+        }
+        if (!('cm_cost_total' in data)) {
+          data.cm_cost_total = +data.cm_exchange_value + +data.cm_direct_costs + +data.cm_indirect_costs
         }
         for (const key in data) {
           if (data[key] === null) {
@@ -1532,24 +1563,25 @@ westFacadeSetting: [],
       },
       // سعر البيع بعد التسويات
       sellingAftersettlement: function (n) {
+        //  +this.data.cm_price + (this.data.cm_price * this.data.cm_total_funding_market_adjustments) / 100
         switch (n) {
           case 1:
+            console.log(this.data.cm_total_settlement)
             this.data.cm_selling_p_a_settlement =
             +this.data.cm_price *
-            (this.data.cm_total_settlement / 100) +
-            this.data.cm_price_after_settling_financing_terms
+            (this.data.cm_total_settlement / 100) + +this.data.cm_price
             break
           case 2:
             this.data.cm_selling_p_a_settlement2 =
             +this.data.cm_price_2 *
              (this.data.cm_total_settlement2 / 100) +
-             this.data.cm_price_after_settling_financing_terms2
+             +this.data.cm_price_2
             break
           case 3:
             this.data.cm_selling_p_a_settlement3 =
             +this.data.cm_price_3 *
              (this.data.cm_total_settlement3 / 100) +
-             this.data.cm_price_after_settling_financing_terms3
+             +this.data.cm_price_3
             break
         }
       },
@@ -1569,7 +1601,7 @@ westFacadeSetting: [],
       },
       cm_market_v_comparative_sales_method: function () {
         this.data.cm_market_v_comparative_sales_method =
-        (+this.data.cm_contribution_comparative_p_relative_weight + +this.data.cm_contribution_comparative_p_relative_weight2 + +this.data.cm_contribution_comparative_p_relative_weight3) * +this.data.land_area
+        (+this.data.cm_contribution_comparative_p_relative_weight + +this.data.cm_contribution_comparative_p_relative_weight2 + +this.data.cm_contribution_comparative_p_relative_weight3)
       },
 
       // تقييم الايجارات
@@ -1617,12 +1649,14 @@ westFacadeSetting: [],
         item.final_income = totalRent - deductionLossesTotal
       },
       // change from price ot percent or vice versa (income_valuation)
-      changeType (item) {
+      changeType (item, index) {
+        this.data.income_valuation[index].status = this.data.income_valuation[index].status === 1 ? 2 : 1
+        this.data.income_valuation[index].deduction_losses = ''
+        this.data.income_valuation[index].final_income = ''
+        this.data.income_valuation[index].deduction_losses_total = ''
+        this.nextTick()
         // console.log('status before ', item.status)
-        item.status = item.status === 1 ? 2 : 1
-        item.deduction_losses = ''
-        item.final_income = ''
-        item.deduction_losses_total = ''
+        // item.status = item.status === 1 ? 2 : 1
 
         // console.log('status after', item.status)
       },

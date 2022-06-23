@@ -492,11 +492,12 @@
                           md="3"
                         >
                           <v-btn
-                            :disabled="!data.region_id||!cityName"
+                            :disabled="!data.region_id||!cityName || loadingAddCity"
                             block
                             x-large
                             class="mr-0"
                             color="blue"
+                            :loading="loadingAddCity"
                             @click="addCity(cityName,data.region_id)"
                           >
                             إضافة
@@ -544,7 +545,8 @@
                             block
                             color="blue"
                             class="w-100 mr-0"
-                            :disabled="!data.city_id||!neighborhoodName"
+                            :disabled="!data.city_id||!neighborhoodName || loadingAddNeighborhood"
+                            :loading="loadingAddNeighborhood"
                             @click="addNeighborhood(neighborhoodName,data.city_id)"
                           >
                             إضافة
@@ -3966,7 +3968,7 @@
                                 </thead>
                                 <tbody>
                                   <tr
-                                    v-for="(item) in data.income_valuation"
+                                    v-for="(item, index) in data.income_valuation"
                                     :key="item.id"
                                   >
                                     <td>
@@ -4037,7 +4039,7 @@
                                         position: absolute;
                                         bottom: -14px;
                                         left: 16px;"
-                                        @click="changeType(item)"
+                                        @click="changeType(item, index)"
                                       >
                                         <v-icon>
                                           mdi-swap-horizontal
@@ -4090,7 +4092,7 @@
                                     <v-btn
                                       color="blue"
                                       class="mx-5 my-3"
-                                      @click="data.income_valuation.push({id: $uuid.v4()})"
+                                      @click="data.income_valuation.push({id: $uuid.v4(), status: 1})"
                                     >
                                       +
                                     </v-btn>
@@ -4409,7 +4411,6 @@
                           >
                             <input-numbers
                               v-model="data.total_annual_income"
-                              :options="moneyInputOptions"
                               disabled
                             />
                           </v-col>
@@ -4476,11 +4477,17 @@
                           >
                             <!-- TODO : FIX -->
                             <input-numbers
+                              v-if="data.m_operating_c_expenditures_status === 1"
                               v-model="data.m_operating_c_expenditures"
                               outlined
                               single-line
-                              :options="{...moneyInputOptions, prefix : `${data.m_operating_c_expenditures_status === 1 ? '$' : '%'}`}
-                              "
+                            />
+                            <v-text-field
+                              v-else
+                              v-model="data.m_operating_c_expenditures"
+                              single-line
+                              outlined
+                              prefix="%"
                             />
                             <!-- {{ data.m_operating_c_expenditures_status }} -->
                             <!--change from price ot percent or vice versa-->
@@ -5645,7 +5652,7 @@
                         lg="9"
                         sm="8"
                       >
-                        <v-text-field
+                        <v-textarea
                           v-model="data.trans_internal_notes"
                           label="ملاحظات داخلية"
                           single-line
@@ -5746,7 +5753,7 @@
                         lg="3"
                         sm="4"
                       >
-                        <label class="v-label theme--light font-weight-bold">اخلاء المسئولية</label>
+                        <label class="v-label theme--light font-weight-bold">إخلاء المسؤولية</label>
                       </v-col>
                       <v-col
                         cols="12"
@@ -5755,7 +5762,7 @@
                       >
                         <v-textarea
                           v-model="data.trans_evacuation_responsibility"
-                          label="اخلاء المسئولية"
+                          label="إخلاء المسؤولية"
                           single-line
                           outlined
                         />
@@ -6218,6 +6225,7 @@ img {
 .img-num:focus{
   outline: 0;
 }
+
 #income_valuation thead {
   background: unset;
 }
@@ -6267,5 +6275,8 @@ img {
 .aqar .v-label {
   color:#000;
   font-weight: bold;
+}
+#income_valuation table {
+  border-spacing: 0px 1rem !important;
 }
 </style>

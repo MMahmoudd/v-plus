@@ -20,7 +20,7 @@
               >
                 <label
                   class="d-block mb-3 font-weight-bold"
-                >المعايير</label>
+                >المعايير المهنية</label>
                 <v-textarea
                   v-model="data.content_en"
                   outlined
