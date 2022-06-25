@@ -66,7 +66,7 @@
                   required
                 />
               </v-col>
-              <v-col
+              <!-- <v-col
                 cols="12"
                 sm="6"
                 md="4"
@@ -80,7 +80,7 @@
                   outlined
                   required
                 />
-              </v-col>
+              </v-col> -->
               <v-col
                 cols="12"
                 sm="6"
@@ -192,7 +192,7 @@
                   required
                 />
               </v-col>
-              <v-col
+              <!-- <v-col
                 cols="12"
                 sm="6"
                 md="8"
@@ -206,7 +206,7 @@
                   outlined
                   clearable
                 />
-              </v-col>
+              </v-col> -->
             </v-row>
             <v-spacer />
             <hr>

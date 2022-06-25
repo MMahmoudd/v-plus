@@ -550,6 +550,7 @@
       if (this.$route.params.id) {
         this.fetchOneItem(this.$route.params.id)
       }
+      console.log('this.$route', this.$route)
       this.fetchRoles()
       this.fetchAllItems()
     },

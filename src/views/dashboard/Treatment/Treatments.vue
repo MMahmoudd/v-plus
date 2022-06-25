@@ -401,7 +401,7 @@
                         class="check-label"
                         label="قيد الإعتماد"
                         color="success"
-                        :value="4"
+                        :value="5"
                         hide-details
                       />
                     </div>
@@ -411,7 +411,7 @@
                         class="check-label"
                         label="معتمدة"
                         color="success"
-                        :value="5"
+                        :value="4"
                         hide-details
                       />
                     </div>
@@ -924,8 +924,8 @@
         1: 'مسودة',
         2: 'تحت التقييم',
         3: 'تحت المراجعة',
-        4: 'قيد الاعتماد',
-        5: 'معتمدة',
+        4: 'معتمدة',
+        5: 'قيد الاعتماد',
         6: 'مرسلة',
         7: 'معلقة',
         8: 'ملغية',
@@ -969,17 +969,16 @@
       modal: false,
       menu1: false,
       menu2: false,
-
       // Table
       headers: [
-        { text: 'رقم المعاملة', value: 'transaction_id' },
-        { text: 'اسم العميل', value: 'customer.cs_name' },
-        { text: 'تم التوجيه بواسطة', value: 'addby.name' },
-        { text: 'المقيم', value: 'resident.name' },
-        { text: 'نوع العقار', value: 'propertytype.name' },
-        { text: 'المدينة', value: 'city.name' },
-        { text: 'الحالة', value: 'status' },
-        { text: 'خيارات', value: 'action' },
+        { text: 'رقم المعاملة', value: 'transaction_id', sortable: false },
+        { text: 'اسم العميل', value: 'customer.cs_name', sortable: false },
+        { text: 'تم التوجيه بواسطة', value: 'addby.name', sortable: false },
+        { text: 'المقيم', value: 'resident.name', sortable: false },
+        { text: 'نوع العقار', value: 'propertytype.name', sortable: false },
+        { text: 'المدينة', value: 'city.name', sortable: false },
+        { text: 'الحالة', value: 'status', sortable: false },
+        { text: 'خيارات', value: 'action', sortable: false },
       ],
       itemsTr: [
       ],
@@ -1479,9 +1478,9 @@
               break
             case 3 :
               if (status === 5) {
-                this.$store.dispatch('setTotal', { type: 'approvaed', total: items.total })
-              } else {
                 this.$store.dispatch('setTotal', { type: 'underApproval', total: items.total })
+              } else {
+                this.$store.dispatch('setTotal', { type: 'approvaed', total: items.total })
               }
               break
             case 4:

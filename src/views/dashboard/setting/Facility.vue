@@ -168,7 +168,7 @@
                     md="9"
                   >
                     <v-text-field
-                      v-model="data.Tax_Number"
+                      v-model="data.tax_number"
                       outlined
                       dense
                     />
@@ -185,7 +185,9 @@
                     cols="12"
                     md="9"
                   >
-                    <custom-date v-model="data.Commercial_Registration_date" />
+                    <custom-date
+                      v-model="data.Commercial_Registration_date"
+                    />
                   </v-col>
                 </v-row>
                 <v-row>
