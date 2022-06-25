@@ -6,7 +6,7 @@
       :close-on-content-click="false"
       :return-value.sync="computedDate"
       transition="scale-transition"
-      offset-y
+      offset-x
       min-width="auto"
     >
       <template v-slot:activator="{ on, attrs }">

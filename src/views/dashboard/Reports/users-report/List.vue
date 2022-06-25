@@ -21,7 +21,7 @@
               :close-on-content-click="false"
               :nudge-right="40"
               transition="scale-transition"
-              offset-y
+              offset-x
               min-width="auto"
             >
               <template v-slot:activator="{ on, attrs }">

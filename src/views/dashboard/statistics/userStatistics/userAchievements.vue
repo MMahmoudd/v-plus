@@ -18,7 +18,7 @@
               v-model="searchDates"
               :close-on-content-click="false"
               transition="scale-transition"
-              offset-y
+              offset-x
               min-width="auto"
             >
               <template v-slot:activator="{ on, attrs }">

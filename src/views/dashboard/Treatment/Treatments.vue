@@ -67,7 +67,7 @@
                         v-model="menu1"
                         :close-on-content-click="false"
                         transition="scale-transition"
-                        offset-y
+                        offset-x
                         min-width="auto"
                       >
                         <template v-slot:activator="{ on, attrs }">
@@ -106,7 +106,7 @@
                         v-model="menu2"
                         :close-on-content-click="false"
                         transition="scale-transition"
-                        offset-y
+                        offset-x
                         min-width="auto"
                       >
                         <template v-slot:activator="{ on, attrs }">
