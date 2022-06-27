@@ -20,6 +20,7 @@
           placeholder="YYYY/MM/DD Format"
           hint="YYYY/MM/DD Format"
           v-bind="attrs"
+          @click:clear="handleClear"
           @focus="focus= true"
           @blur="focus=false"
           @input="handleInput"
@@ -63,13 +64,17 @@
     }),
     computed: {
       computedDate () {
-        return new Date(this.value).toLocaleDateString('ar-sa')
+        const copmputed = new Date(this.value).toLocaleDateString('ar-sa')
+        return copmputed.includes('Invalid') ? '' : copmputed
       },
     },
     mounted () {
       this.id = uuid.v4()
     },
     methods: {
+      handleClear () {
+        this.$emit('input', '')
+      },
       handleInput (value) {
         try {
           const m = moment(value, 'iYYYY/iM/iD')

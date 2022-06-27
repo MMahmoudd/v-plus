@@ -1641,13 +1641,16 @@
     },
     async beforeMount () {
       const { data } = await googleMapsService.fetchOneItem()
+      try {
+        loadGmapApi({
+          key: data?.google_maps_key || 'AIzaSyD9w2tU1GEpr4q2ECu-oTuB9ZC3nYOug3Q',
+          libraries: 'places',
+          language: 'ar',
+          region: 'SA',
+        })
+      } catch (err) {
 
-      loadGmapApi({
-        key: data?.google_maps_key || 'AIzaSyD9w2tU1GEpr4q2ECu-oTuB9ZC3nYOug3Q',
-        libraries: 'places',
-        language: 'ar',
-        region: 'SA',
-      })
+      }
     },
     methods: {
       join: function (array) {

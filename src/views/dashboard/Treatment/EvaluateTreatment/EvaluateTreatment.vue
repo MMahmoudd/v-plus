@@ -49,10 +49,21 @@
                       <label class="d-block mb-3 font-weight-bold">الصك</label>
                       <v-row>
                         <v-col
+                          cols="12"
+                          sm="12"
+                        >
+                          <input-file
+                            v-model="data.instrument_file"
+                            label="الصك"
+                            @change="handleChangeInput($event, 'instrument_file')"
+                            @delete="handleDeleteInput($event, 'instrument_file')"
+                          />
+                        </v-col>
+                        <v-col
                           v-for="(f, index) in data.instrument_files"
                           :key="f.id"
                           cols="12"
-                          sm="5"
+                          sm="4"
                         >
                           <div class="pdf-container">
                             <a
@@ -80,6 +91,20 @@
                       sm="6"
                     >
                       <label class="d-block mb-3 font-weight-bold">المخطط</label>
+                      <v-row>
+                        <v-col
+                          cols="12"
+                          sm="12"
+                        >
+                          <input-file
+                            v-model="data.attached_file"
+                            label="المخطط"
+                            :disabled="data.attached_files.length > 0"
+                            @change="handleChangeInput($event, 'attached_file')"
+                            @delete="handleDeleteInput($event, 'attached_file')"
+                          />
+                        </v-col>
+                      </v-row>
                       <div
                         v-if="data.attached_files.length > 0"
                         class="pdf-container"
@@ -96,6 +121,7 @@
                         <v-icon
                           x-small
                           color="red"
+                          @click="deleteFile( data.attached_files[0].id, 'attached_files', index)"
                         >
                           mdi mdi-close-circle
                         </v-icon>
@@ -109,10 +135,21 @@
 
                       <v-row>
                         <v-col
+                          cols="12"
+                          sm="12"
+                        >
+                          <input-file
+                            v-model="data.assignment_letter_file"
+                            label="خطاب التكليف"
+                            @change="handleChangeInput($event, 'assignment_letter_file')"
+                            @delete="handleDeleteInput($event, 'assignment_letter_file')"
+                          />
+                        </v-col>
+                        <v-col
                           v-for="(f, index) in data.assignment_letter_files"
                           :key="f.id"
                           cols="12"
-                          sm="5"
+                          sm="4"
                         >
                           <div class="pdf-container">
                             <a
@@ -142,10 +179,21 @@
                       <label class="d-block mb-3 font-weight-bold">الأرشيف</label>
                       <v-row>
                         <v-col
+                          cols="12"
+                          sm="12"
+                        >
+                          <input-file
+                            v-model="data.schema_file"
+                            label="الأرشيف"
+                            @change="handleChangeInput($event, 'schema_file')"
+                            @delete="handleDeleteInput($event, 'schema_file')"
+                          />
+                        </v-col>
+                        <v-col
                           v-for="(f, index) in data.schema_files"
                           :key="f.id"
                           cols="12"
-                          sm="5"
+                          sm="4"
                         >
                           <div class="pdf-container">
                             <a
@@ -404,6 +452,7 @@
                         label="اسم المنطقة"
                         single-line
                         outlined
+                        @change="handleChangeRegion"
                       />
                     </v-col>
 
@@ -418,11 +467,13 @@
                       <v-autocomplete
                         v-model="data.city_id"
                         :items="updateCitesList"
+                        :loading="city_list_loading"
                         item-text="name"
                         item-value="id"
                         label="اسم المدينة"
                         single-line
                         outlined
+                        @change="handleChangeCity"
                       />
                     </v-col>
 
@@ -435,6 +486,7 @@
                       <v-autocomplete
                         v-model="data.neighborhood_id"
                         :items="updateNeighborhoodsList"
+                        :loading="neighborhood_list_loading"
                         item-text="name"
                         item-value="id"
                         label="اسم الحى"

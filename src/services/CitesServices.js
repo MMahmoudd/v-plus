@@ -12,6 +12,9 @@ export default {
                 }
             })
     },
+    getAllItemsById(id) {
+        return Service.get(`${resource}/get-all-city?region_id=${id}`)
+    },
     addCity(cityName, regionId) {
         return Service.post(`${resource}/cities`, { name: cityName, region_id: regionId }).then((response) => {
             if (response.status === 200) {
