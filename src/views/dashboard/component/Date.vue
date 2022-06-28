@@ -1,14 +1,14 @@
 <template>
   <v-menu
     v-model="status"
-    :close-on-content-click="false"
+    :close-on-content-click="true"
     transition="scale-transition"
     offset-x
     min-width="auto"
   >
     <template v-slot:activator="{ on, attrs }">
       <v-text-field
-        v-model="value"
+        :value="value"
         :class="extraClass"
         prepend-icon="mdi-calendar"
         placeholder="YYYY-MM-DD Format"
@@ -16,12 +16,13 @@
         v-bind="attrs"
         single-line
         outlined
+        @change="inputDate"
         v-on="on"
       />
     </template>
     <v-date-picker
-      v-model="value"
-      @input="inputDate"
+      :value="value"
+      @input="changeDate"
     />
   </v-menu>
 </template>
@@ -35,7 +36,7 @@
       value: {
         type: String,
         default: () => {
-          return (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)
+          return ''
         },
         required: true,
       },
@@ -46,6 +47,7 @@
     },
     data: () => ({
       status: false,
+      innerDate: '',
     }),
     watch: {
       value: {
@@ -69,8 +71,19 @@
       }
     },
     methods: {
+      changeDate (value) {
+        this.$emit('input', value)
+      },
       inputDate (value) {
-        this.$emit('input', format(value, 'yyyy-MM-dd'))
+        this.innerDate = value
+        try {
+          const newValue = new Date(this.innerDate)
+          if (!String(newValue).includes('Invalid')) {
+            this.$emit('input', format(newValue, 'yyyy-MM-dd'))
+          }
+        } catch (err) {
+
+        }
         this.status = false
       },
     },
