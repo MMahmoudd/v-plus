@@ -64,6 +64,7 @@
           </div>
 
           <input
+            class="input-file"
             ref="input"
             type="file"
             multiple="multiple"
@@ -179,5 +180,14 @@
 
 .v-input-disabled .v-label.theme--light {
   color:gray;
+}
+
+.input-file {
+    left: 0 !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    position: absolute !important;
+    max-width: 0 !important;
+    width: 0 !important;
 }
 </style>

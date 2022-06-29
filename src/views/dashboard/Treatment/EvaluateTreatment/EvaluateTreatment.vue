@@ -2480,15 +2480,25 @@
                         />
                       </v-col>
                       <v-col
-                        cols="12"
-                        md="12"
+                        cols="4"
+                        sm="2"
                       >
                         <label
+                          v-if="trans_other_name_status === 'name'"
                           class="d-block mb-3 font-weight-bold"
-                        >أخرى</label>
-                        <v-textarea
-                          name="input-7-1"
-                          hint="Hint text"
+                        > {{ data.trans_other_name || 'أخرى' }}
+                          <v-icon @click="trans_other_name_status = 'field'">mdi-pencil-outline</v-icon></label>
+                        <v-text-field
+                          v-else
+                          v-model="data.trans_other_name"
+                          class="mt-0 pt-0"
+                          hide-details=""
+                          append-icon="mdi-pencil-outline"
+                          @keydown.enter="trans_other_name_status = 'name'"
+                          @click:append="trans_other_name_status = 'name'"
+                        />
+                        <v-text-field
+                          v-model="data.trans_other_value"
                           single-line
                           outlined
                         />
@@ -4676,7 +4686,10 @@
                             cols="12"
                             md="3"
                           >
-                            <label class="v-label theme--light font-weight-bold">
+                            <label
+                              v-if="!isBuildingTypeOther(b.building_type)"
+                              class="v-label theme--light font-weight-bold"
+                            >
                               {{ b.building_type }}
                               <v-btn
                                 v-if="b.building_type === 'دور أول'"
@@ -4700,6 +4713,33 @@
                                   fas fa-minus
                                 </v-icon>
                               </v-btn>
+                            </label>
+                            <label
+                              v-if="isBuildingTypeOther(b.building_type) && building_type_status === 'name'"
+                              class="v-label theme--light font-weight-bold"
+                            >
+                              {{ b.building_type }}
+                              <v-btn
+                                v-if="isBuildingTypeOther(b.building_type)"
+                                color="blue lighten-2"
+                                text
+                                icon
+                                @click="building_type_status = 'field'"
+                              >
+                                <v-icon>mdi-pencil-outline</v-icon>
+                              </v-btn>
+                            </label>
+                            <label
+                              v-if="isBuildingTypeOther(b.building_type) && building_type_status === 'field'"
+                              class="v-label theme--light font-weight-bold"
+                            >
+                              <v-text-field
+                                v-model="b.building_type"
+                                class="mt-0 pt-0"
+                                append-icon="mdi-pencil-outline"
+                                @keydown.enter="building_type_status = 'name'"
+                                @click:append="building_type_status = 'name'"
+                              />
                             </label>
                           </v-col>
                           <v-col

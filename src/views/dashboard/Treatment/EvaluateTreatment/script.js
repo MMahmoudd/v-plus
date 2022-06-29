@@ -77,6 +77,8 @@ import { watchers } from './souqMethods'
       },
     },
     data: () => ({
+      building_type_status: 'name',
+      trans_other_name_status: 'name',
       neighborhood_list_loading: false,
       city_list_loading: false,
       panel: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
@@ -203,6 +205,8 @@ westFacadeSetting: [],
       swimming_pool_show: false,
       storehouse_show: false,
       data: {
+        trans_other_name: '',
+        trans_other_value: '',
         trans_approvition_date: null,
         status: 1,
         statusWhenSuspended: null,
@@ -241,9 +245,9 @@ westFacadeSetting: [],
         trans_value_basis: '',
         value_hypothesis: '',
         trans_assignment_number: '',
-        trans_assignment_date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
-        trans_evaluation_date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
-        trans_inspection_date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+        trans_assignment_date: '',
+        trans_evaluation_date: '',
+        trans_inspection_date: '',
         trans_Report_type: '',
         trans_filing_the_report: '',
         trans_reference_number: '',
@@ -258,13 +262,13 @@ westFacadeSetting: [],
         property_type_id: '',
         property_rating_id: '',
         trans_instrument_num: '',
-        trans_instrument_date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+        trans_instrument_date: '',
         trans_building_permit_number: '',
-        trans_building_permit_date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+        trans_building_permit_date: '',
         trans_construction_age: '',
         trans_lifespan: '',
         trans_retail_record_num: '',
-        trans_retail_record_date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+        trans_retail_record_date: '',
         trans_construction_condition: '',
         trans_occupancy_status: '',
         trans_general_site: '',
@@ -478,7 +482,7 @@ westFacadeSetting: [],
         market_value_weighting_text: '',
         cm_space: '',
         cm_operation_type: '',
-        operation_date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+        operation_date: '',
         cm_price: '',
         cm_type: '',
         cm_mobile_number: '',
@@ -486,7 +490,7 @@ westFacadeSetting: [],
         cm_longitude: '',
         cm_space_2: '',
         cm_operation_type_2: '',
-        operation_date_2: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+        operation_date_2: '',
         cm_price_2: '',
         cm_type_2: '',
         cm_mobile_number_2: '',
@@ -494,7 +498,7 @@ westFacadeSetting: [],
         cm_longitude_2: '',
         cm_space_3: '',
         cm_operation_type_3: '',
-        operation_date_3: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+        operation_date_3: '',
         cm_price_3: '',
         cm_type_3: '',
         cm_mobile_number_3: '',
@@ -1003,6 +1007,24 @@ westFacadeSetting: [],
       this.getUsers()
     },
     methods: {
+      isBuildingTypeOther (string) {
+        if (typeof string === 'string') {
+          if (!string.includes('دور مكرر')) {
+            if (string !== 'دور أول') {
+              if (!['الأرض', 'القبو', 'دور أرضي', 'دور أول', 'الملاحق العلوية', 'الملاحق السفلية', 'الأسوار'].includes(string)) {
+                return true
+              } else {
+                return false
+              }
+            } else {
+              return false
+            }
+          } else {
+            return false
+          }
+        }
+        return false
+      },
       handleChangeInput (files, name) {
         if (name !== 'attached_file') {
           this.data[name].push(...files)
@@ -1138,7 +1160,7 @@ westFacadeSetting: [],
           } else {
             if (data[key] instanceof Date) {
               if (data[key].length > 10) {
-                this.data[key] = (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)
+                this.data[key] = ''
               } else {
                 this.data[key] = data[key]
               }
@@ -1795,6 +1817,8 @@ westFacadeSetting: [],
         this.data.cm_economic_obsolescence_value = (this.data.cm_economic_obsolescence_ratio * this.data.cm_cost_total) / 100
       },
       setDepreciationValue: function (name) {
+        console.log('alert', name)
+        console.log('total', this.data.cm_cost_total)
         this.data[`cm_${name}_value`] = (this.data[`cm_${name}_ratio`] * this.data.cm_cost_total) / 100
       },
 
@@ -1945,7 +1969,7 @@ westFacadeSetting: [],
         let statusWhenSuspended = null
         if (status === 'send' || status === 'approve') {
           if (status === 'approve') {
-            this.data.trans_approvition_date = (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)
+            this.data.trans_approvition_date = ''
           }
           newStatus = this.data.status + 1
         } else if (status === 'suspend') {

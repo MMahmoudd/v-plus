@@ -2351,7 +2351,7 @@
 </template>
 
 <script>
-  import { format } from 'date-fns/esm'
+  // import { format } from 'date-fns/esm'
   import { ServiceFactory } from '../../../services/ServiceFactory'
   // import Swal from 'sweetalert2'
   // import { copyText } from 'vue3-clipboard'
@@ -2500,9 +2500,9 @@
         property_type_id: '',
         property_rating_id: '',
         trans_instrument_num: '',
-        trans_instrument_date: format(Date.now(), 'yyyy-MM-dd HH:mm'),
+        trans_instrument_date: '',
         trans_building_permit_number: '',
-        trans_building_permit_date: format(Date.now(), 'yyyy-MM-dd HH:mm'),
+        trans_building_permit_date: '',
         trans_construction_age: '',
         trans_lifespan: '',
         trans_retail_record_num: '',
