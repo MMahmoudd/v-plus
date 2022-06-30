@@ -1463,8 +1463,7 @@
           const { page } = this.options
           _options.page = page
         }
-        // console.log(options)
-        // const pageNumber = page - 1
+
         const items = await TransactionsServices.getAllItems(_options)
         // console.clear()
         if (this.$route.path === '/') {
@@ -1477,7 +1476,7 @@
               this.$store.dispatch('setTotal', { type: 'underReview', total: items.total })
               break
             case 3 :
-              if (status === 4) {
+              if (status[0] === 4) {
                 this.$store.dispatch('setTotal', { type: 'underApproval', total: items.total })
               } else {
                 this.$store.dispatch('setTotal', { type: 'approvaed', total: items.total })
