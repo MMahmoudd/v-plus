@@ -302,6 +302,7 @@ westFacadeSetting: [],
         trans_elevators: '',
         trans_parking: '',
         trans_children_playground: '',
+        trans_stage: '',
         trans_swimming_pool: '',
         trans_storehouse: '',
         glass_walls: '',
@@ -1232,10 +1233,10 @@ westFacadeSetting: [],
          */
         if (!data.transactions_conditioners || data.transactions_conditioners.length === 0) {
           this.data.transactions_conditioners = [
-            { type: 'مركزي', compound: 0, not_compound: 0 },
-            { type: 'منفصل', compound: 0, not_compound: 0 },
-            { type: 'شباك', compound: 0, not_compound: 0 },
-            { type: 'كونسيلد', compound: 0, not_compound: 0 },
+            { type: 'مركزي', compound: 0, not_compound: 0, status: false },
+            { type: 'منفصل', compound: 0, not_compound: 0, status: false },
+            { type: 'شباك', compound: 0, not_compound: 0, status: false },
+            { type: 'كونسيلد', compound: 0, not_compound: 0, status: false },
           ]
         }
 
@@ -1397,7 +1398,7 @@ westFacadeSetting: [],
       getReportTypes: async function () {
         const { data } = await ReportTypesServices.getAllItems()
         this.staticLists.trans_Report_type = data.data.map(({ id, name }) => ({
-          id, name,
+          id: String(id), name,
         }))
       },
       // فرضية القيمة
@@ -1432,7 +1433,7 @@ westFacadeSetting: [],
       getCurrencyList: async function () {
         const { data } = await EvaluationCurrenciesServices.getAllItems()
         this.transCurrencyList = data.data.map(({ id, name }) => ({
-          id, name,
+          id: String(id), name,
         }))
       },
       // Get Cureent Location

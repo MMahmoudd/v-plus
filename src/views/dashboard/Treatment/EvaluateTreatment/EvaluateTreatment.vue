@@ -1510,6 +1510,7 @@
                         md="4"
                       >
                         <v-checkbox
+                          v-model="t.status"
                           class="check-label"
                           :label="t.type"
                           color="info"
@@ -2460,6 +2461,7 @@
                           class="d-block mb-3 font-weight-bold"
                         >مسرح</label>
                         <v-text-field
+                          v-model="data.trans_stage"
                           label="0"
                           single-line
                           outlined
