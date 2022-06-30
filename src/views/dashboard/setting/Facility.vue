@@ -629,6 +629,7 @@
         if (item.success === true) {
           this.successMessage = 'Successful'
           this.successSnackbar = true
+          this.$router.go('/facility-file')
         } else {
           this.errorMessage('something Error')
           this.errorSnackbar = true

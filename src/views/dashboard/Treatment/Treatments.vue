@@ -401,7 +401,7 @@
                         class="check-label"
                         label="قيد الإعتماد"
                         color="success"
-                        :value="5"
+                        :value="4"
                         hide-details
                       />
                     </div>
@@ -411,7 +411,7 @@
                         class="check-label"
                         label="معتمدة"
                         color="success"
-                        :value="4"
+                        :value="5"
                         hide-details
                       />
                     </div>
@@ -924,8 +924,8 @@
         1: 'مسودة',
         2: 'تحت التقييم',
         3: 'تحت المراجعة',
-        4: 'معتمدة',
-        5: 'قيد الاعتماد',
+        4: 'قيد الاعتماد',
+        5: 'معتمدة',
         6: 'مرسلة',
         7: 'معلقة',
         8: 'ملغية',
@@ -1477,7 +1477,7 @@
               this.$store.dispatch('setTotal', { type: 'underReview', total: items.total })
               break
             case 3 :
-              if (status === 5) {
+              if (status === 4) {
                 this.$store.dispatch('setTotal', { type: 'underApproval', total: items.total })
               } else {
                 this.$store.dispatch('setTotal', { type: 'approvaed', total: items.total })
