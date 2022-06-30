@@ -37,11 +37,11 @@
                   md="6"
                 >
                   <input-file
+                    ref="instrument_file"
                     v-model="data.instrument_file"
                     label="الصك"
-                    ref="instrument_file"
-                    @change="handleChangeInput($event , 'instrument_file')"
-                    @delete="handleDeleteInput($event,'instrument_file')"
+                    @change="handleChangeInput($event, 'instrument_file')"
+                    @delete="handleDeleteInput($event, 'instrument_file')"
                   />
                   <v-chip
                     v-if="this.$route.query.edit && data.instrument_file"
@@ -594,6 +594,7 @@
                     label="اسم المنطقة"
                     single-line
                     outlined
+                    @change="handleChangeRegion"
                   />
                 </v-col>
 
@@ -608,11 +609,13 @@
                   <v-autocomplete
                     v-model="data.city_id"
                     :items="updateCitesList"
+                    :loading="city_list_loading"
                     item-text="name"
                     item-value="id"
                     label="اسم المدينة"
                     single-line
                     outlined
+                    @change="handleChangeCity"
                   />
                 </v-col>
 
@@ -625,6 +628,7 @@
                   <v-autocomplete
                     v-model="data.neighborhood_id"
                     :items="updateNeighborhoodsList"
+                    :loading="neighborhood_list_loading"
                     item-text="name"
                     item-value="id"
                     label="اسم الحى"
@@ -2347,7 +2351,7 @@
 </template>
 
 <script>
-  import { format } from 'date-fns/esm'
+  // import { format } from 'date-fns/esm'
   import { ServiceFactory } from '../../../services/ServiceFactory'
   // import Swal from 'sweetalert2'
   // import { copyText } from 'vue3-clipboard'
@@ -2384,6 +2388,8 @@
       HejriDate,
     },
     data: () => ({
+      neighborhood_list_loading: false,
+      city_list_loading: false,
       errors: [],
       testDate: '',
       imgs_drag_status: {},
@@ -2477,9 +2483,9 @@
         trans_value_basis: '',
         value_hypothesis: '',
         trans_assignment_number: '',
-        trans_assignment_date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
-        trans_evaluation_date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
-        trans_inspection_date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+        trans_assignment_date: '',
+        trans_evaluation_date: '',
+        trans_inspection_date: '',
         trans_Report_type: '',
         trans_filing_the_report: '',
         trans_reference_number: '',
@@ -2494,13 +2500,13 @@
         property_type_id: '',
         property_rating_id: '',
         trans_instrument_num: '',
-        trans_instrument_date: format(Date.now(), 'yyyy-MM-dd HH:mm'),
+        trans_instrument_date: '',
         trans_building_permit_number: '',
-        trans_building_permit_date: format(Date.now(), 'yyyy-MM-dd HH:mm'),
+        trans_building_permit_date: '',
         trans_construction_age: '',
         trans_lifespan: '',
         trans_retail_record_num: '',
-        trans_retail_record_date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+        trans_retail_record_date: '',
         trans_construction_condition: '',
         trans_occupancy_status: '',
         trans_general_site: '',
@@ -2711,7 +2717,7 @@
         market_value_weighting_text: '',
         cm_space: '',
         cm_operation_type: '',
-        operation_date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+        operation_date: '',
         cm_price: '',
         cm_type: '',
         cm_mobile_number: '',
@@ -2719,7 +2725,7 @@
         cm_longitude: '',
         cm_space_2: '',
         cm_operation_type_2: '',
-        operation_date_2: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+        operation_date_2: '',
         cm_price_2: '',
         cm_type_2: '',
         cm_mobile_number_2: '',
@@ -2727,7 +2733,7 @@
         cm_longitude_2: '',
         cm_space_3: '',
         cm_operation_type_3: '',
-        operation_date_3: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+        operation_date_3: '',
         cm_price_3: '',
         cm_type_3: '',
         cm_mobile_number_3: '',
@@ -2842,15 +2848,17 @@
       updateCitesList: function () {
         // const citesList = [];
         const data = this.citesList.filter((city) => {
-          if (city.regionId === this.data.region_id) {
+          if (city.region_id === this.data.region_id) {
             return city
           }
         })
+
+        console.log(data)
         return data
       },
       updateNeighborhoodsList: function () {
         const data = this.neighborhoodsList.filter((neighborhood) => {
-          if (neighborhood.cityId === this.data.city_id) {
+          if (neighborhood.city_id === this.data.city_id) {
             return neighborhood
           }
         })
@@ -2907,11 +2915,41 @@
       this.data.customer_id = +this.$route.query.customer_id || ''
     },
     methods: {
+      async handleChangeCity (id) {
+        this.neighborhood_list_loading = true
+        try {
+          const { data: { data } } = await NeighborhoodsServices.getAllItemsById(id)
+          data.forEach(item => {
+            if (!this.neighborhoodsList.find(neighborhood => neighborhood.id === item.id)) {
+              this.neighborhoodsList.push(item)
+            }
+          })
+        } catch (err) {
+
+        } finally {
+          this.neighborhood_list_loading = false
+        }
+      },
+      async handleChangeRegion (id) {
+        this.city_list_loading = true
+        try {
+          const { data: { data } } = await CitesServices.getAllItemsById(id)
+          data.forEach(item => {
+            if (!this.citesList.find(city => city.id === item.id)) {
+              this.citesList.push(item)
+            }
+          })
+        } catch (err) {
+          console.log(err)
+        } finally {
+          this.city_list_loading = false
+          console.log(this.citesList)
+        }
+      },
       getSamples: async function () {
         const { data } = await SamplesServices.getAllItems()
         this.samplesList = data.filter(sample => sample.status === '1')
       },
-
       // get one item
       fetchOneItem: async function (id) {
         const { data } = await TransactionsServices.fetchOneItem(id)
@@ -2920,6 +2958,13 @@
         this.data.assignment_letter_file = data.media.filter(i => i.collection_name === 'assignment_letter_file')
         this.data.attached_file = data.media.find(i => i.collection_name === 'attached_file')
         this.data.schema_file = data.media.filter(i => i.collection_name === 'schema_file')
+
+        if (this.data.region_id) {
+          this.handleChangeRegion(this.data.region_id)
+        }
+        if (this.data.city_id) {
+          this.handleChangeCity(this.data.city_id)
+        }
       },
 
       // files
@@ -3008,13 +3053,13 @@
       // add city
       addCity: async function (cityName, regionId) {
         await CitesServices.addCity(cityName, regionId)
-        this.getCites()
+        this.handleChangeRegion(regionId)
         this.cityName = ''
       },
       // add Neighborhood
       addNeighborhood: async function (neighborhoodName, cityId) {
         await NeighborhoodsServices.addNeighborhood(neighborhoodName, cityId)
-        this.getNeighborhoods()
+        this.handleChangeCity(cityId)
         this.neighborhoodName = ''
       },
       // EvaluationPurpose
@@ -3037,7 +3082,7 @@
         this.citesList = data.data.map((city) => ({
           id: city.id,
           name: city.name,
-          regionId: city.region_id,
+          region_id: city.region_id,
         }))
       },
       getNeighborhoods: async function () {
@@ -3045,7 +3090,7 @@
         this.neighborhoodsList = data.data.map((neighborhood) => ({
           id: neighborhood.id,
           name: neighborhood.name,
-          cityId: neighborhood.city_id,
+          city_id: neighborhood.city_id,
         }))
       },
       // property ratings

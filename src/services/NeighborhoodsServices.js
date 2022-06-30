@@ -11,6 +11,9 @@ export default {
             }
         })
     },
+    getAllItemsById (id) {
+        return Service.get(`${resource}/get-all-neighborhood?city_id=${id}`)
+    },
     addNeighborhood (neighborhoodName, cityId) {
         return Service.post(`${resource}/neighborhoods`, { name: neighborhoodName, city_id: cityId }).then((response) => {
             if (response.status === 200) {

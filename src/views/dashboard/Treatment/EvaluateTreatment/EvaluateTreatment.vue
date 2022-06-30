@@ -49,10 +49,21 @@
                       <label class="d-block mb-3 font-weight-bold">الصك</label>
                       <v-row>
                         <v-col
+                          cols="12"
+                          sm="12"
+                        >
+                          <input-file
+                            v-model="data.instrument_file"
+                            label="الصك"
+                            @change="handleChangeInput($event, 'instrument_file')"
+                            @delete="handleDeleteInput($event, 'instrument_file')"
+                          />
+                        </v-col>
+                        <v-col
                           v-for="(f, index) in data.instrument_files"
                           :key="f.id"
                           cols="12"
-                          sm="5"
+                          sm="4"
                         >
                           <div class="pdf-container">
                             <a
@@ -80,6 +91,20 @@
                       sm="6"
                     >
                       <label class="d-block mb-3 font-weight-bold">المخطط</label>
+                      <v-row>
+                        <v-col
+                          cols="12"
+                          sm="12"
+                        >
+                          <input-file
+                            v-model="data.attached_file"
+                            label="المخطط"
+                            :disabled="data.attached_files.length > 0"
+                            @change="handleChangeInput($event, 'attached_file')"
+                            @delete="handleDeleteInput($event, 'attached_file')"
+                          />
+                        </v-col>
+                      </v-row>
                       <div
                         v-if="data.attached_files.length > 0"
                         class="pdf-container"
@@ -96,6 +121,7 @@
                         <v-icon
                           x-small
                           color="red"
+                          @click="deleteFile( data.attached_files[0].id, 'attached_files', index)"
                         >
                           mdi mdi-close-circle
                         </v-icon>
@@ -109,10 +135,21 @@
 
                       <v-row>
                         <v-col
+                          cols="12"
+                          sm="12"
+                        >
+                          <input-file
+                            v-model="data.assignment_letter_file"
+                            label="خطاب التكليف"
+                            @change="handleChangeInput($event, 'assignment_letter_file')"
+                            @delete="handleDeleteInput($event, 'assignment_letter_file')"
+                          />
+                        </v-col>
+                        <v-col
                           v-for="(f, index) in data.assignment_letter_files"
                           :key="f.id"
                           cols="12"
-                          sm="5"
+                          sm="4"
                         >
                           <div class="pdf-container">
                             <a
@@ -142,10 +179,21 @@
                       <label class="d-block mb-3 font-weight-bold">الأرشيف</label>
                       <v-row>
                         <v-col
+                          cols="12"
+                          sm="12"
+                        >
+                          <input-file
+                            v-model="data.schema_file"
+                            label="الأرشيف"
+                            @change="handleChangeInput($event, 'schema_file')"
+                            @delete="handleDeleteInput($event, 'schema_file')"
+                          />
+                        </v-col>
+                        <v-col
                           v-for="(f, index) in data.schema_files"
                           :key="f.id"
                           cols="12"
-                          sm="5"
+                          sm="4"
                         >
                           <div class="pdf-container">
                             <a
@@ -404,6 +452,7 @@
                         label="اسم المنطقة"
                         single-line
                         outlined
+                        @change="handleChangeRegion"
                       />
                     </v-col>
 
@@ -418,11 +467,13 @@
                       <v-autocomplete
                         v-model="data.city_id"
                         :items="updateCitesList"
+                        :loading="city_list_loading"
                         item-text="name"
                         item-value="id"
                         label="اسم المدينة"
                         single-line
                         outlined
+                        @change="handleChangeCity"
                       />
                     </v-col>
 
@@ -435,6 +486,7 @@
                       <v-autocomplete
                         v-model="data.neighborhood_id"
                         :items="updateNeighborhoodsList"
+                        :loading="neighborhood_list_loading"
                         item-text="name"
                         item-value="id"
                         label="اسم الحى"
@@ -1458,6 +1510,7 @@
                         md="4"
                       >
                         <v-checkbox
+                          v-model="t.status"
                           class="check-label"
                           :label="t.type"
                           color="info"
@@ -2408,6 +2461,7 @@
                           class="d-block mb-3 font-weight-bold"
                         >مسرح</label>
                         <v-text-field
+                          v-model="data.trans_stage"
                           label="0"
                           single-line
                           outlined
@@ -2428,15 +2482,25 @@
                         />
                       </v-col>
                       <v-col
-                        cols="12"
-                        md="12"
+                        cols="4"
+                        sm="2"
                       >
                         <label
+                          v-if="trans_other_name_status === 'name'"
                           class="d-block mb-3 font-weight-bold"
-                        >أخرى</label>
-                        <v-textarea
-                          name="input-7-1"
-                          hint="Hint text"
+                        > {{ data.trans_other_name || 'أخرى' }}
+                          <v-icon @click="trans_other_name_status = 'field'">mdi-pencil-outline</v-icon></label>
+                        <v-text-field
+                          v-else
+                          v-model="data.trans_other_name"
+                          class="mt-0 pt-0"
+                          hide-details=""
+                          append-icon="mdi-pencil-outline"
+                          @keydown.enter="trans_other_name_status = 'name'"
+                          @click:append="trans_other_name_status = 'name'"
+                        />
+                        <v-text-field
+                          v-model="data.trans_other_value"
                           single-line
                           outlined
                         />
@@ -4624,7 +4688,10 @@
                             cols="12"
                             md="3"
                           >
-                            <label class="v-label theme--light font-weight-bold">
+                            <label
+                              v-if="!isBuildingTypeOther(b.building_type)"
+                              class="v-label theme--light font-weight-bold"
+                            >
                               {{ b.building_type }}
                               <v-btn
                                 v-if="b.building_type === 'دور أول'"
@@ -4648,6 +4715,33 @@
                                   fas fa-minus
                                 </v-icon>
                               </v-btn>
+                            </label>
+                            <label
+                              v-if="isBuildingTypeOther(b.building_type) && building_type_status === 'name'"
+                              class="v-label theme--light font-weight-bold"
+                            >
+                              {{ b.building_type }}
+                              <v-btn
+                                v-if="isBuildingTypeOther(b.building_type)"
+                                color="blue lighten-2"
+                                text
+                                icon
+                                @click="building_type_status = 'field'"
+                              >
+                                <v-icon>mdi-pencil-outline</v-icon>
+                              </v-btn>
+                            </label>
+                            <label
+                              v-if="isBuildingTypeOther(b.building_type) && building_type_status === 'field'"
+                              class="v-label theme--light font-weight-bold"
+                            >
+                              <v-text-field
+                                v-model="b.building_type"
+                                class="mt-0 pt-0"
+                                append-icon="mdi-pencil-outline"
+                                @keydown.enter="building_type_status = 'name'"
+                                @click:append="building_type_status = 'name'"
+                              />
                             </label>
                           </v-col>
                           <v-col

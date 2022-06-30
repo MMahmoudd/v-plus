@@ -618,7 +618,7 @@
                 formData.append(parentKey, data)
               }
             } else {
-              const value = data == null ? '' : data
+              const value = String(data) === 'null' ? '' : data
               formData.append(parentKey, value)
             }
           }

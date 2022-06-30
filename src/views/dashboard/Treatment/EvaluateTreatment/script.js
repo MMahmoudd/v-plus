@@ -4,6 +4,8 @@
   import customDate from '../../../dashboard/component/Date.vue'
   import HejriDate from '../../component/HejriDate.vue'
   import inputNumbers from '../../../dashboard/component/InputNumbers.vue'
+  import inputFile from '../../../dashboard/component/InputFile.vue'
+
   // import TransactionsBar from './TransactionsBar.vue'
   // import Swal from 'sweetalert2'
   // ! TODO : REPLACE IT WITH NATIVE CODE
@@ -63,6 +65,7 @@ import { watchers } from './souqMethods'
       customDate,
       inputNumbers,
       HejriDate,
+      inputFile,
       // TransactionsBar,
     },
     filters: {
@@ -74,6 +77,10 @@ import { watchers } from './souqMethods'
       },
     },
     data: () => ({
+      building_type_status: 'name',
+      trans_other_name_status: 'name',
+      neighborhood_list_loading: false,
+      city_list_loading: false,
       panel: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
       generalLocation: [],
 designSetting: [],
@@ -198,6 +205,8 @@ westFacadeSetting: [],
       swimming_pool_show: false,
       storehouse_show: false,
       data: {
+        trans_other_name: '',
+        trans_other_value: '',
         trans_approvition_date: null,
         status: 1,
         statusWhenSuspended: null,
@@ -224,10 +233,10 @@ westFacadeSetting: [],
         prop_part_num: '',
         transaction_id: '',
         trans_number: '',
-        instrument_file: '',
+        instrument_file: [],
         attached_file: '',
-        schema_file: '',
-        assignment_letter_file: '',
+        schema_file: [],
+        assignment_letter_file: [],
         resident_id: '',
         reviewer_id: '',
         approved_id: '',
@@ -236,9 +245,9 @@ westFacadeSetting: [],
         trans_value_basis: '',
         value_hypothesis: '',
         trans_assignment_number: '',
-        trans_assignment_date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
-        trans_evaluation_date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
-        trans_inspection_date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+        trans_assignment_date: '',
+        trans_evaluation_date: '',
+        trans_inspection_date: '',
         trans_Report_type: '',
         trans_filing_the_report: '',
         trans_reference_number: '',
@@ -253,13 +262,13 @@ westFacadeSetting: [],
         property_type_id: '',
         property_rating_id: '',
         trans_instrument_num: '',
-        trans_instrument_date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+        trans_instrument_date: '',
         trans_building_permit_number: '',
-        trans_building_permit_date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+        trans_building_permit_date: '',
         trans_construction_age: '',
         trans_lifespan: '',
         trans_retail_record_num: '',
-        trans_retail_record_date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+        trans_retail_record_date: '',
         trans_construction_condition: '',
         trans_occupancy_status: '',
         trans_general_site: '',
@@ -293,6 +302,7 @@ westFacadeSetting: [],
         trans_elevators: '',
         trans_parking: '',
         trans_children_playground: '',
+        trans_stage: '',
         trans_swimming_pool: '',
         trans_storehouse: '',
         glass_walls: '',
@@ -349,6 +359,8 @@ westFacadeSetting: [],
         latitude: '',
         longitude: '',
         instrument_files: [],
+        assignment_letter_files: [],
+        schema_files: [],
         coordinate_type: 1,
         property_notes: '',
         property_condition: '',
@@ -471,7 +483,7 @@ westFacadeSetting: [],
         market_value_weighting_text: '',
         cm_space: '',
         cm_operation_type: '',
-        operation_date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+        operation_date: '',
         cm_price: '',
         cm_type: '',
         cm_mobile_number: '',
@@ -479,7 +491,7 @@ westFacadeSetting: [],
         cm_longitude: '',
         cm_space_2: '',
         cm_operation_type_2: '',
-        operation_date_2: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+        operation_date_2: '',
         cm_price_2: '',
         cm_type_2: '',
         cm_mobile_number_2: '',
@@ -487,7 +499,7 @@ westFacadeSetting: [],
         cm_longitude_2: '',
         cm_space_3: '',
         cm_operation_type_3: '',
-        operation_date_3: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+        operation_date_3: '',
         cm_price_3: '',
         cm_type_3: '',
         cm_mobile_number_3: '',
@@ -711,7 +723,7 @@ westFacadeSetting: [],
       updateCitesList: function () {
         // const citesList = [];
         const data = this.citesList.filter((city) => {
-          if (city.regionId === this.data.region_id) {
+          if (city.region_id === this.data.region_id) {
             return city
           }
         })
@@ -719,7 +731,7 @@ westFacadeSetting: [],
       },
       updateNeighborhoodsList: function () {
         const data = this.neighborhoodsList.filter((neighborhood) => {
-          if (neighborhood.cityId === this.data.city_id) {
+          if (neighborhood.city_id === this.data.city_id) {
             return neighborhood
           }
         })
@@ -735,13 +747,16 @@ westFacadeSetting: [],
     },
     async beforeMount () {
       const { data } = await googleMapsService.fetchOneItem()
+      try {
+        loadGmapApi({
+          key: data?.google_maps_key || 'AIzaSyD9w2tU1GEpr4q2ECu-oTuB9ZC3nYOug3Q',
+          libraries: 'places',
+          language: 'ar',
+          region: 'SA',
+        })
+      } catch (err) {
 
-      loadGmapApi({
-        key: data?.google_maps_key || 'AIzaSyD9w2tU1GEpr4q2ECu-oTuB9ZC3nYOug3Q',
-        libraries: 'places',
-        language: 'ar',
-        region: 'SA',
-      })
+      }
     },
     watch: {
       // تقييم الايجارات
@@ -993,11 +1008,74 @@ westFacadeSetting: [],
       this.getUsers()
     },
     methods: {
+      isBuildingTypeOther (string) {
+        if (typeof string === 'string') {
+          if (!string.includes('دور مكرر')) {
+            if (string !== 'دور أول') {
+              if (!['الأرض', 'القبو', 'دور أرضي', 'دور أول', 'الملاحق العلوية', 'الملاحق السفلية', 'الأسوار'].includes(string)) {
+                return true
+              } else {
+                return false
+              }
+            } else {
+              return false
+            }
+          } else {
+            return false
+          }
+        }
+        return false
+      },
+      handleChangeInput (files, name) {
+        if (name !== 'attached_file') {
+          this.data[name].push(...files)
+        } else {
+          this.data[name] = files[0]
+        }
+      },
+      handleDeleteInput (index, name) {
+        if (Array.isArray(this.data[name])) {
+          this.data[name] = this.data[name].filter((v, i) => i !== index)
+          this.$refs[name].$el.querySelector('input').value = ''
+        } else {
+          this.data[name] = null
+        }
+      },
+      async handleChangeCity (id) {
+        this.neighborhood_list_loading = true
+        try {
+          const { data: { data } } = await NeighborhoodsServices.getAllItemsById(id)
+          data.forEach(item => {
+            if (!this.neighborhoodsList.find(neighborhood => neighborhood.id === item.id)) {
+              this.neighborhoodsList.push(item)
+            }
+          })
+        } catch (err) {
+
+        } finally {
+          this.neighborhood_list_loading = false
+        }
+      },
+      async handleChangeRegion (id) {
+        this.city_list_loading = true
+        try {
+          const { data: { data } } = await CitesServices.getAllItemsById(id)
+          data.forEach(item => {
+            if (!this.citesList.find(city => city.id === item.id)) {
+              this.citesList.push(item)
+            }
+          })
+        } catch (err) {
+
+        } finally {
+          this.city_list_loading = false
+        }
+      },
       addCity: async function (cityName, regionId) {
         try {
           this.loadingAddCity = true
           await CitesServices.addCity(cityName, regionId)
-          this.getCites()
+          this.handleChangeRegion(regionId)
           this.cityName = ''
         } catch (err) {
 
@@ -1010,7 +1088,7 @@ westFacadeSetting: [],
         try {
           this.loadingAddNeighborhood = true
           await NeighborhoodsServices.addNeighborhood(neighborhoodName, cityId)
-          this.getNeighborhoods()
+          this.handleChangeCity(cityId)
           this.neighborhoodName = ''
         } catch (err) {
 
@@ -1055,12 +1133,14 @@ westFacadeSetting: [],
         container.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' })
       },
       deleteFile: function (id, name, index) {
+        console.log(id, name, index)
         if (name === 'attached_files') {
           this.data[name] = []
         } else {
           this.data[name].splice(index, 1)
         }
         this.data.files_to_deleted.push(+id)
+        this.$nextTick()
       },
       // move it later
       changeSettlement: function (settlement, space) {
@@ -1081,7 +1161,7 @@ westFacadeSetting: [],
           } else {
             if (data[key] instanceof Date) {
               if (data[key].length > 10) {
-                this.data[key] = (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)
+                this.data[key] = ''
               } else {
                 this.data[key] = data[key]
               }
@@ -1089,6 +1169,13 @@ westFacadeSetting: [],
               this.data[key] = data[key]
             }
           }
+        }
+
+        if (this.data.region_id) {
+          this.handleChangeRegion(this.data.region_id)
+        }
+        if (this.data.city_id) {
+          this.handleChangeCity(this.data.city_id)
         }
 
         // TODO : MOVE TO ANOTHER METHODS FOR READABILTY
@@ -1146,10 +1233,10 @@ westFacadeSetting: [],
          */
         if (!data.transactions_conditioners || data.transactions_conditioners.length === 0) {
           this.data.transactions_conditioners = [
-            { type: 'مركزي', compound: 0, not_compound: 0 },
-            { type: 'منفصل', compound: 0, not_compound: 0 },
-            { type: 'شباك', compound: 0, not_compound: 0 },
-            { type: 'كونسيلد', compound: 0, not_compound: 0 },
+            { type: 'مركزي', compound: 0, not_compound: 0, status: false },
+            { type: 'منفصل', compound: 0, not_compound: 0, status: false },
+            { type: 'شباك', compound: 0, not_compound: 0, status: false },
+            { type: 'كونسيلد', compound: 0, not_compound: 0, status: false },
           ]
         }
 
@@ -1311,7 +1398,7 @@ westFacadeSetting: [],
       getReportTypes: async function () {
         const { data } = await ReportTypesServices.getAllItems()
         this.staticLists.trans_Report_type = data.data.map(({ id, name }) => ({
-          id, name,
+          id: String(id), name,
         }))
       },
       // فرضية القيمة
@@ -1346,7 +1433,7 @@ westFacadeSetting: [],
       getCurrencyList: async function () {
         const { data } = await EvaluationCurrenciesServices.getAllItems()
         this.transCurrencyList = data.data.map(({ id, name }) => ({
-          id, name,
+          id: String(id), name,
         }))
       },
       // Get Cureent Location
@@ -1731,6 +1818,8 @@ westFacadeSetting: [],
         this.data.cm_economic_obsolescence_value = (this.data.cm_economic_obsolescence_ratio * this.data.cm_cost_total) / 100
       },
       setDepreciationValue: function (name) {
+        console.log('alert', name)
+        console.log('total', this.data.cm_cost_total)
         this.data[`cm_${name}_value`] = (this.data[`cm_${name}_ratio`] * this.data.cm_cost_total) / 100
       },
 
@@ -1795,7 +1884,7 @@ westFacadeSetting: [],
         this.citesList = data.data.map((city) => ({
           id: city.id,
           name: city.name,
-          regionId: city.region_id,
+          region_id: city.region_id,
         }))
       },
       getNeighborhoods: async function () {
@@ -1803,7 +1892,7 @@ westFacadeSetting: [],
         this.neighborhoodsList = data.data.map((neighborhood) => ({
           id: neighborhood.id,
           name: neighborhood.name,
-          cityId: neighborhood.city_id,
+          city_id: neighborhood.city_id,
         }))
       },
       // property ratings
@@ -1881,7 +1970,7 @@ westFacadeSetting: [],
         let statusWhenSuspended = null
         if (status === 'send' || status === 'approve') {
           if (status === 'approve') {
-            this.data.trans_approvition_date = (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)
+            this.data.trans_approvition_date = ''
           }
           newStatus = this.data.status + 1
         } else if (status === 'suspend') {
@@ -1896,7 +1985,7 @@ westFacadeSetting: [],
           newStatus = this.data.status - 1
         }
 
-        const formData = { ...this.data, status: newStatus, statusWhenSuspended }
+        // const formData = new FormData()
 
         const successMessage = {
           back: 'تم إرسال المعاملة للمرحلة السابقة',
@@ -1915,6 +2004,23 @@ westFacadeSetting: [],
         // let response
         // const response = TransactionsServices.addOneItem(formData)
         this.buttonsLoading[status] = true
+
+        function buildFormData (formData, data, parentKey) {
+          if (data && typeof data === 'object' && !(data instanceof Date) && !(data instanceof File)) {
+            Object.keys(data).forEach(key => {
+              buildFormData(formData, data[key], parentKey ? `${parentKey}[${key}]` : key)
+            })
+          } else {
+            const value = data == null ? '' : data
+
+            formData.append(parentKey, value)
+          }
+        }
+
+        const formData = new FormData()
+
+        buildFormData(formData, { ...this.data, status: newStatus, statusWhenSuspended })
+
         const response = await TransactionsServices.updateOneItem(this.data.id, formData)
         if (response.success === true) {
           this.successMessage = successMessage[status]
@@ -1926,9 +2032,7 @@ westFacadeSetting: [],
           this.errorMessage = 'يوجد مشكلة في التعديل'
           this.errorSnackbar = true
         }
-        console.log(this.buttonsLoading)
         this.buttonsLoading[status] = false
-        console.log(this.buttonsLoading)
         this.dataLoading = false
       },
       openDialog: function (status) {

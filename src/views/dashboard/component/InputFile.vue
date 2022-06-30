@@ -7,6 +7,7 @@
       v-text-field v-text-field--is-booted
       v-file-input ${imgs_drag_status === 'over' ? 'drop-zone-over': ''}
       ${value ? 'v-input--is-label-active v-input--is-dirty' : ''}
+      ${disabled ? 'v-input-disabled' : ''}
       `
     "
     @click.stop="handleClick"
@@ -63,6 +64,7 @@
           </div>
 
           <input
+            class="input-file"
             ref="input"
             type="file"
             multiple="multiple"
@@ -107,41 +109,57 @@
         type: String,
         default: '',
       },
+      disabled: {
+        type: Boolean,
+        default: false,
+      },
     },
     data: () => ({
       imgs_drag_status: null,
     }),
     methods: {
       handleClick () {
-        this.$refs.input.click()
+        if (!this.disabled) {
+          this.$refs.input.click()
+        }
       },
       handleInputChange () {
-        this.$emit('change', this.$refs.input.files)
+        if (!this.disabled) {
+          this.$emit('change', this.$refs.input.files)
+        }
       },
       handleClickChip (index) {
         this.$emit('delete', index)
       },
       handleDragEnter: function (e) {
-        this.imgs_drag_status = 'enter'
-        e.preventDefault()
-        e.stopPropagation()
+        if (!this.disabled) {
+          this.imgs_drag_status = 'enter'
+          e.preventDefault()
+          e.stopPropagation()
+        }
       },
       handleDragLeave: function (e) {
-        this.imgs_drag_status = 'leave'
-        e.preventDefault()
-        e.stopPropagation()
+        if (!this.disabled) {
+          this.imgs_drag_status = 'leave'
+          e.preventDefault()
+          e.stopPropagation()
+        }
       },
       handleDragOver: function (e) {
-        this.imgs_drag_status = 'over'
-        e.preventDefault()
-        e.stopPropagation()
+        if (!this.disabled) {
+          this.imgs_drag_status = 'over'
+          e.preventDefault()
+          e.stopPropagation()
+        }
       },
       handleDrop: function (e) {
-        this.imgs_drag_status = 'drop'
-        const dataTransfer = e.dataTransfer
-        this.$emit('change', dataTransfer.files)
-        e.preventDefault()
-        e.stopPropagation()
+        if (!this.disabled) {
+          this.imgs_drag_status = 'drop'
+          const dataTransfer = e.dataTransfer
+          this.$emit('change', dataTransfer.files)
+          e.preventDefault()
+          e.stopPropagation()
+        }
       },
     },
   }
@@ -158,5 +176,18 @@
     padding: 3px;
     background: #f1f1f1;
     cursor: pointer;
+}
+
+.v-input-disabled .v-label.theme--light {
+  color:gray;
+}
+
+.input-file {
+    left: 0 !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    position: absolute !important;
+    max-width: 0 !important;
+    width: 0 !important;
 }
 </style>
