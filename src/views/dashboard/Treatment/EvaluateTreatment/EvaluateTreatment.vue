@@ -46,7 +46,14 @@
                       cols="12"
                       sm="6"
                     >
-                      <label class="d-block mb-3 font-weight-bold">الصك</label>
+                      <div class="input-file-label-wrapper">
+                        <label class="mb-3 font-weight-bold">الصك</label>
+                        <v-checkbox
+                          v-model="data.instrument_preview "
+                          label="تحديد كأولية في التقرير"
+                          hide-details=""
+                        />
+                      </div>
                       <v-row>
                         <v-col
                           cols="12"
@@ -90,7 +97,14 @@
                       cols="12"
                       sm="6"
                     >
-                      <label class="d-block mb-3 font-weight-bold">المخطط</label>
+                      <div class="input-file-label-wrapper">
+                        <label class="mb-3 font-weight-bold">المخطط</label>
+                        <v-checkbox
+                          v-model="data.residential_preview"
+                          label="تحديد كأولية في التقرير"
+                          hide-details=""
+                        />
+                      </div>
                       <v-row>
                         <v-col
                           cols="12"
@@ -697,6 +711,25 @@
                     >
                       <label
                         class="d-block mb-3 font-weight-bold"
+                      >الاستخدام الامثل للعقار</label>
+                      <v-autocomplete
+                        v-model="data.best_usage_building"
+                        :items="propRatingsList"
+                        item-text="name"
+                        item-value="id"
+                        label="الاستخدام الامثل للعقار"
+                        single-line
+                        outlined
+                      />
+                    </v-col>
+
+                    <v-col
+                      cols="12"
+                      lg="3"
+                      md="4"
+                    >
+                      <label
+                        class="d-block mb-3 font-weight-bold"
                       >نوع العقار</label>
                       <v-autocomplete
                         v-model="data.property_type_id"
@@ -922,6 +955,30 @@
                         outlined
                       />
                     </v-col>
+                    <v-col
+                      cols="12"
+                      lg="3"
+                      md="4"
+                    >
+                      <label
+                        class="d-block mb-3 font-weight-bold"
+                      >فسح البناء</label>
+                      <v-text-field
+                        v-model="data.building_clearance"
+                        single-line
+                        outlined
+                      />
+                    </v-col>
+                    <v-col
+                      cols="12"
+                      lg="3"
+                      md="4"
+                    >
+                      <label
+                        class="d-block mb-3 font-weight-bold"
+                      >تاريخ فسح البناء</label>
+                      <custom-date v-model="data.building_clearance_date" />
+                    </v-col>
                   </v-row>
                   <v-divider class="my-10" />
                   <!-- {{ isSelfBulding }} -->
@@ -996,6 +1053,21 @@
                         <v-text-field
                           v-model="data.land_area"
                           label="مساحة الأرض"
+                          single-line
+                          outlined
+                        />
+                      </v-col>
+                      <v-col
+                        cols="12"
+                        lg="3"
+                        md="4"
+                      >
+                        <label
+                          class="d-block mb-3 font-weight-bold"
+                        >شكل الأرض</label>
+                        <v-text-field
+                          v-model="data.land_shape"
+                          label="شكل الأرض"
                           single-line
                           outlined
                         />
@@ -2089,6 +2161,20 @@
                           disabled
                         />
                       </v-col>
+                      <v-col
+                        cols="12"
+                        lg="3"
+                        md="4"
+                      >
+                        <label
+                          class="d-block mb-3 font-weight-bold"
+                        >شكل الأرض</label>
+                        <v-text-field
+                          v-model="data.land_shape"
+                          single-line
+                          outlined
+                        />
+                      </v-col>
                     <!-- <v-col
                   cols="12"
                   lg="3"
@@ -2519,6 +2605,29 @@
                   </h2>
                 </v-expansion-panel-header>
                 <v-expansion-panel-content>
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >هل يوجد تشطيبات بالمبني ؟ </label>
+                  <v-radio-group
+                    v-model="data.build_under_finishing"
+                    row
+                  >
+                    <v-radio
+                      label="نعم"
+                      :value="1"
+                    />
+                    <v-radio
+                      color="red"
+                      label="لا"
+                      :value="0"
+                    />
+                  </v-radio-group>
+                  <hr>
+                  <h3
+                    class="d-block mt-3 font-weight-bold"
+                  >
+                    تصنيف مستوى تشطيبات البناء
+                  </h3>
                   <v-radio-group
                     v-model="data.trans_finishing_status_external"
                     row
@@ -2675,6 +2784,19 @@
                       />
                     </v-col>
                   </v-radio-group>
+                  <hr>
+                  <label class="d-block mb-2 mt-5 font-weight-bold text-right">تكلفة التشطيب</label>
+                  <v-col
+                    cols="12"
+                    md="6"
+                    sm="12"
+                  >
+                    <input-numbers
+                      v-model="data.under_finishing_cost"
+                      single-line
+                      outlined
+                    />
+                  </v-col>
                 </v-expansion-panel-content>
               </v-expansion-panel>
 
@@ -5551,6 +5673,25 @@
                   </h2>
                 </v-expansion-panel-header>
                 <v-expansion-panel-content>
+                  <v-dialog
+                    v-model="imageDialog"
+                    eager
+                  >
+                    <v-card>
+                      <v-card-title>
+                        تعديل الصورة
+                      </v-card-title>
+                      <v-card-text>
+                        <div class="preview-image">
+                          <image-cropper
+                            :img-src="currentImageUrl"
+                            @save="onSaveDialog"
+                            @close="onCloseDialog"
+                          />
+                        </div>
+                      </v-card-text>
+                    </v-card>
+                  </v-dialog>
                   <div
                     :class="imgs_drag_status === 'over' ? 'image_over' : '' "
                     dropzone="copy"
@@ -5582,37 +5723,49 @@
                               v-if="image.image"
                               :src="image.image"
                               :class="{'hidden-img': image.status !== '1' }"
+                              @click.prevent="openImageDialog(image)"
                             >
                             <img
                               v-else-if="image.image_url"
                               :src="image.image_url"
                               :class="{'hidden-img': image.status !== '1' }"
+                              @click.prevent="openImageDialog(image)"
                             >
-                            <button
-                              class="remove-img"
-                              @click.prevent="removeImage(image,index)"
-                            >
-                              <v-icon left>
-                                fas fa-trash-alt
-                              </v-icon>
-                            </button>
-                            <button
-                              class="hide-img"
-                              @click.prevent="hideImage(image , index)"
-                            >
-                              <v-icon
-                                v-if="image.status === '1'"
-                                left
+                            <div class="buttons-wrapper">
+                              <button
+                                class="remove-img img-btn"
+                                @click.prevent="removeImage(image,index)"
                               >
-                                far fa-eye
-                              </v-icon>
-                              <v-icon
-                                v-else
-                                left
+                                <v-icon left>
+                                  fas fa-trash-alt
+                                </v-icon>
+                              </button>
+                              <button
+                                class="hide-img img-btn"
+                                @click.prevent="hideImage(image , index)"
                               >
-                                far fa-eye-slash
-                              </v-icon>
-                            </button>
+                                <v-icon
+                                  v-if="image.status === '1'"
+                                  left
+                                >
+                                  far fa-eye
+                                </v-icon>
+                                <v-icon
+                                  v-else
+                                  left
+                                >
+                                  far fa-eye-slash
+                                </v-icon>
+                              </button>
+                              <button
+                                class="download-img img-btn"
+                                @click.prevent="downloadImage(image)"
+                              >
+                                <v-icon>
+                                  far fa-arrow-down
+                                </v-icon>
+                              </button>
+                            </div>
                             <input
                               :value="index + 1"
                               type="text"
@@ -5663,63 +5816,6 @@
                         </v-icon>
                       </div>
                     </div>
-                    <!-- <v-col
-                  v-for="(image,index) in images"
-                  :key="'image'+index"
-                  class="upload-img-container"
-                  cols="12"
-                  sm="6"
-                  md="3"
-                >
-                  <div
-                    v-if="!image.image"
-                  >
-                    <input
-                      type="file"
-                      @change="onFileChange(image, $event)"
-                    >
-                    <v-icon left>
-                      far fa-image
-                    </v-icon>
-                  </div>
-                  <div v-else>
-                    <img
-                      :src="image.image"
-                      :class="{'hidden-img': image.hidden}"
-                    >
-                    <button
-                      class="remove-img"
-                      @click.prevent="removeImage(image,index)"
-                    >
-                      <v-icon left>
-                        fas fa-trash-alt
-                      </v-icon>
-                    </button>
-                    <button
-                      class="hide-img"
-                      @click.prevent="image.hidden = !image.hidden"
-                    >
-                      <v-icon
-                        v-if="!image.hidden"
-                        left
-                      >
-                        far fa-eye
-                      </v-icon>
-                      <v-icon
-                        v-else
-                        left
-                      >
-                        far fa-eye-slash
-                      </v-icon>
-                    </button>
-                    <input
-                      v-model="imageSorting[index]"
-                      type="text"
-                      class="img-num"
-                    >
-                  </div>
-                </v-col>
-              </v-row> -->
                   </div>
                 </v-expansion-panel-content>
               </v-expansion-panel>
@@ -6280,10 +6376,19 @@ img {
 .hidden-img{
   opacity: .4;
 }
-.remove-img{
+
+.buttons-wrapper {
   position: absolute;
   top: 5px;
   left: 5px;
+  display: flex;
+  width: 60%;
+}
+.buttons-wrapper > button {
+  margin-right: 5px;
+}
+
+.buttons-wrapper .img-btn{
   background: #fff;
   border-radius: 5px;
   padding: 4px;
@@ -6293,15 +6398,7 @@ img {
   margin: auto;
   color: #dc3545!important;
 }
-.hide-img{
-  position: absolute;
-  top: 5px;
-  left: 40px;
-  background: #fff;
-  border-radius: 5px;
-  padding: 4px;
-  box-shadow: 0px 2px 7px rgba(0,0,0,.2);
-}
+
 .hide-img i{
   margin: auto;
   color: #3772FF!important;
@@ -6372,5 +6469,17 @@ img {
 }
 #income_valuation table {
   border-spacing: 0px 1rem !important;
+}
+
+.input-file-label-wrapper {
+  display:flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+</style>
+<style>
+.input-file-label-wrapper .v-input--selection-controls {
+  margin-top:0 !important;
+  padding-top:0 !important;
 }
 </style>

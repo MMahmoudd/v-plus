@@ -5,13 +5,12 @@
   import HejriDate from '../../component/HejriDate.vue'
   import inputNumbers from '../../../dashboard/component/InputNumbers.vue'
   import inputFile from '../../../dashboard/component/InputFile.vue'
+ import imageCropper from './components/ImageCropper.vue'
 
   // import TransactionsBar from './TransactionsBar.vue'
   // import Swal from 'sweetalert2'
   // ! TODO : REPLACE IT WITH NATIVE CODE
   import { copyText } from 'vue3-clipboard'
-  // ! TODO : DO YOU NEED THIS ?
-  import { Loader } from '@googlemaps/js-api-loader'
   import { ServiceFactory } from '../../../../services/ServiceFactory'
   import staticLists from '../staticData.json'
   import { uuid } from 'vue-uuid'
@@ -20,11 +19,12 @@
   // TODO : YOU CAN GRAP IT AFTER THE PAGE LOADING
   import draggable from 'vuedraggable'
   import { operationTypeList } from '../staticLists'
-import { watchers } from './souqMethods'
-  const loader = new Loader('AIzaSyACo4RXxzSABqvI3S_Q3_nQ2YIW4HfJuXI')
+
+  import imagesMethods from './imagesMethods'
+  import { watchers } from './souqMethods'
+
   const CustomersService = ServiceFactory.get('Customers')
   const EvaluationPurposeService = ServiceFactory.get('EvaluationPurpose')
-  // ! TODO : change this later
   const UsersServices = ServiceFactory.get('Users')
   const RegionsServices = ServiceFactory.get('Regions')
   const CitesServices = ServiceFactory.get('Cites')
@@ -66,6 +66,7 @@ import { watchers } from './souqMethods'
       inputNumbers,
       HejriDate,
       inputFile,
+      imageCropper,
       // TransactionsBar,
     },
     filters: {
@@ -77,6 +78,9 @@ import { watchers } from './souqMethods'
       },
     },
     data: () => ({
+      currentImageUrl: '',
+      currentImage: '',
+      imageDialog: false,
       building_type_status: 'name',
       trans_other_name_status: 'name',
       neighborhood_list_loading: false,
@@ -205,6 +209,18 @@ westFacadeSetting: [],
       swimming_pool_show: false,
       storehouse_show: false,
       data: {
+        building_clearance: '',
+        building_clearance_date: '',
+        build_under_finishing: ' ',
+        under_finishing_description: '',
+        under_finishing_cost: '',
+        land_shape: '',
+        best_usage_building: '',
+        residential_meter_price: '',
+        commercial_meter_price: '',
+        accreditation_date: '',
+        instrument_preview: false,
+        residential_preview: false,
         trans_other_name: '',
         trans_other_value: '',
         trans_approvition_date: null,
@@ -1008,6 +1024,14 @@ westFacadeSetting: [],
       this.getUsers()
     },
     methods: {
+      /*
+      *
+      *
+      *  images
+      *
+      *
+      */
+      ...imagesMethods,
       isBuildingTypeOther (string) {
         if (typeof string === 'string') {
           if (!string.includes('دور مكرر')) {
@@ -1482,32 +1506,6 @@ westFacadeSetting: [],
         this.center.lng = +this.data.longitude
         this.center.lat = +this.data.latitude
       },
-      // Get Location debendes on 2 inputs
-      getMap: function (x, y) {
-        loader.load().then(function (google) {
-          // Regular Map
-          var center = new google.maps.LatLng(x, y) // Center
-          const mapOptions = {
-            zoom: 13,
-            center: center,
-            mapId: '2bf1cba222371325',
-            scrollwheel: false, // we disable de scroll over the map, it is a really annoing when you scroll through page
-            disableDefaultUI: true, // a way to quickly hide all controls
-            zoomControl: true,
-          }
-          // eslint-disable-next-line no-new
-          var map = new google.maps.Map(
-            document.getElementById('map'),
-            mapOptions
-          )
-          // eslint-disable-next-line no-new
-          new google.maps.Marker({
-            position: center,
-            map,
-            title: 'Hello World!',
-          })
-        })
-      },
       // Copy Lat & Long of map
       doCopy: function () {
         copyText(this.data.latitude + ',' + this.data.longitude, undefined, (error, event) => {
@@ -1525,96 +1523,6 @@ westFacadeSetting: [],
             })
           }
         })
-      },
-     /**
-      *
-      *
-      *  images
-      *
-      *
-      */
-      onFileChange (files) {
-        console.log({ files })
-        if (!files.length) {
-          return
-        }
-        this.createImages(files)
-      },
-      createImages (files) {
-        files.forEach(this.createImage)
-      },
-      createImage (file) {
-        console.log(file)
-        // var image = new Image()
-        const item = { status: '1', image: false, id: uuid.v4(), sort_number: 1, type: 'add' }
-        const images = this.data.images
-        const reader = new FileReader()
-        reader.onload = (e) => {
-          console.log(e.target.result, 'onload')
-          item.image = e.target.result
-          images.push(item)
-          // TODO : Do it in a another function
-          images.sort((a, b) => {
-            if (+a.status === 0 && +b.status === 1) {
-              return 1
-            } else if (+b.status === 0 && +a.status === 1) {
-              return -1
-            }
-            return 0
-          })
-
-          this.data.images = images
-        }
-        reader.readAsDataURL(file)
-      },
-      removeImage: function (item, index) {
-        if (item.image_url) {
-          this.data.images_ids_deleted.push(+item.media_id)
-        }
-        // item.image = false
-        this.data.images.splice(index, 1)
-        // Remove sort of image
-        // this.imageSorting.splice(index, 1)
-      },
-      hideImage: function (image, index) {
-        //  const imageIndex = this.images.findIndex(image => image.id === id)
-        this.data.images[index].status = this.data.images[index].status === '1' ? '0' : '1'
-        // if (this.data.images[index].image_url) {
-        this.data.images[index].type = 'edit'
-        console.log(this.data.images[index])
-        // }
-        // TODO : Do it in a another function
-        this.data.images.sort((a, b) => {
-          if (+a.status === 0 && +b.status === 1) {
-            return 1
-          } else if (+b.status === 0 && +a.status === 1) {
-            return -1
-          }
-          return 0
-        })
-        // this.images.push(this.images.splice(index, 1)[0])
-      },
-      handleDragEnter: function (e) {
-        this.imgs_drag_status = 'enter'
-        e.preventDefault()
-        e.stopPropagation()
-      },
-      handleDragLeave: function (e) {
-        this.imgs_drag_status = 'leave'
-        e.preventDefault()
-        e.stopPropagation()
-      },
-      handleDragOver: function (e) {
-        this.imgs_drag_status = 'over'
-        e.preventDefault()
-        e.stopPropagation()
-      },
-      handleDrop: function (e) {
-        this.imgs_drag_status = 'drop'
-        const dataTransfer = e.dataTransfer
-        this.onFileChange(dataTransfer.files)
-        e.preventDefault()
-        e.stopPropagation()
       },
       /**
        *
@@ -1971,6 +1879,7 @@ westFacadeSetting: [],
         if (status === 'send' || status === 'approve') {
           if (status === 'approve') {
             this.data.trans_approvition_date = ''
+            this.data.accreditation_date = new Date()
           }
           newStatus = this.data.status + 1
         } else if (status === 'suspend') {

@@ -169,13 +169,17 @@
     box-shadow: 0px 0px 1px 1px blue !important;
 }
 .delete-icon {
-    color: #ca3a3a;
+    color: #ab400c;
     font-weight: bold;
-    font-size: 18px;
+    font-size: 15px;
     margin: 2px;
-    padding: 3px;
-    background: #f1f1f1;
+    background: #f1f1f19c;
     cursor: pointer;
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+    line-height: 15px;
+    text-align: center;
 }
 
 .v-input-disabled .v-label.theme--light {

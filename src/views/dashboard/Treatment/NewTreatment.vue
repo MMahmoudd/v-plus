@@ -36,6 +36,14 @@
                   cols="12"
                   md="6"
                 >
+                  <div class="input-file-label-wrapper">
+                    <label class="mb-3 font-weight-bold">الصك</label>
+                    <v-checkbox
+                      v-model="data.instrument_preview "
+                      label="تحديد كأولية في التقرير"
+                      hide-details=""
+                    />
+                  </div>
                   <input-file
                     ref="instrument_file"
                     v-model="data.instrument_file"
@@ -60,6 +68,14 @@
                   cols="12"
                   md="6"
                 >
+                  <div class="input-file-label-wrapper">
+                    <label class="mb-3 font-weight-bold">المخطط</label>
+                    <v-checkbox
+                      v-model="data.residential_preview"
+                      label="تحديد كأولية في التقرير"
+                      hide-details=""
+                    />
+                  </div>
                   <input-file
                     v-model="data.attached_file"
                     label="المخطط"
@@ -83,6 +99,9 @@
                   cols="12"
                   md="6"
                 >
+                  <div class="input-file-label-wrapper">
+                    <label class="mb-3 font-weight-bold">خطاب التكليف</label>
+                  </div>
                   <input-file
                     v-model="data.assignment_letter_file"
                     label="خطاب التكليف"
@@ -104,6 +123,9 @@
                   cols="12"
                   md="6"
                 >
+                  <div class="input-file-label-wrapper">
+                    <label class="mb-3 font-weight-bold">الأرشيف</label>
+                  </div>
                   <input-file
                     v-model="data.schema_file"
                     label="الأرشيف"
@@ -796,6 +818,24 @@
                     outlined
                   />
                 </v-col>
+                <v-col
+                  cols="12"
+                  lg="3"
+                  md="4"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >الاستخدام الامثل للعقار</label>
+                  <v-autocomplete
+                    v-model="data.best_usage_building"
+                    :items="propRatingsList"
+                    item-text="name"
+                    item-value="id"
+                    label="الاستخدام الامثل للعقار"
+                    single-line
+                    outlined
+                  />
+                </v-col>
 
                 <v-col
                   cols="12"
@@ -1018,6 +1058,22 @@
                   <v-text-field
                     v-model="data.land_area"
                     label="0"
+                    single-line
+                    outlined
+                  />
+                </v-col>
+
+                <v-col
+                  cols="12"
+                  lg="3"
+                  md="4"
+                >
+                  <label
+                    class="d-block mb-3 font-weight-bold"
+                  >شكل الأرض</label>
+                  <v-text-field
+                    v-model="data.land_shape"
+                    label="شكل الأرض"
                     single-line
                     outlined
                   />
@@ -2454,6 +2510,18 @@
         8: 'ملغية',
       }),
       data: {
+        building_clearance: '',
+        building_clearance_date: '',
+        build_under_finishing: ' ',
+        under_finishing_description: '',
+        under_finishing_cost: '',
+        land_shape: '',
+        best_usage_building: '',
+        residential_meter_price: '',
+        commercial_meter_price: '',
+        accreditation_date: '',
+        instrument_preview: false,
+        residential_preview: false,
         sample_id: '',
         customer_id: '',
         appraiser_id: 0,
@@ -3187,6 +3255,7 @@
           // const { data: reviewerData } = await UsersServices.fetchOneItem(data.reviewer_id)
 
           const reviewerData = this.usersList.find(user => user.id === data.reviewer_id)
+
           if (reviewerData) {
             data.participatingmembers.push({
               id_number: reviewerData.membership_no === null ? '_' : reviewerData.membership_no,
@@ -3579,5 +3648,16 @@ td{
 .orange-btn{
   background-color: #FDCA40 !important;
   color: #000 !important;
+}
+.input-file-label-wrapper {
+  display:flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+</style>
+<style>
+.input-file-label-wrapper .v-input--selection-controls {
+  margin-top:0 !important;
+  padding-top:0 !important;
 }
 </style>

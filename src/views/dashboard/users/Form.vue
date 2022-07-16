@@ -425,6 +425,39 @@
                   />
                 </v-col>
               </v-row>
+              <v-row>
+                <v-col
+                  cols="12"
+                  sm="4"
+                  md="4"
+                >
+                  <h3>مرحلة الجودة</h3>
+                </v-col>
+                <v-col
+                  cols="12"
+                  sm="4"
+                  md="4"
+                >
+                  <v-text-field
+                    v-model="data.commission_quality_stage_amount"
+                    label="المبلغ"
+                    outlined
+                    required
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  sm="4"
+                  md="4"
+                >
+                  <v-text-field
+                    v-model="data.commission_quality_stage_rate"
+                    label="النسبة"
+                    outlined
+                    required
+                  />
+                </v-col>
+              </v-row>
             </v-row>
             <div class="text-center mt-10">
               <v-btn
@@ -514,6 +547,8 @@
         commission_input_stage_rate: null,
         commission_revision_stage_rate: null,
         commission_revision_stage_amount: null,
+        commission_quality_stage_rate: null,
+        commission_quality_stage_amount: null,
       },
       profile_image: null,
       bank_statement_image: null,
