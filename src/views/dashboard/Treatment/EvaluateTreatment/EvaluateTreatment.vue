@@ -979,6 +979,34 @@
                       >تاريخ فسح البناء</label>
                       <custom-date v-model="data.building_clearance_date" />
                     </v-col>
+                    <v-col
+                      cols="12"
+                      lg="3"
+                      md="4"
+                    >
+                      <label
+                        class="d-block mb-3 font-weight-bold"
+                      >سعر المتر السكني</label>
+                      <input-numbers
+                        v-model="data.residential_meter_price"
+                        single-line
+                        outlined
+                      />
+                    </v-col>
+                    <v-col
+                      cols="12"
+                      lg="3"
+                      md="4"
+                    >
+                      <label
+                        class="d-block mb-3 font-weight-bold"
+                      >سعر المتر التجاري</label>
+                      <input-numbers
+                        v-model="data.commercial_meter_price"
+                        single-line
+                        outlined
+                      />
+                    </v-col>
                   </v-row>
                   <v-divider class="my-10" />
                   <!-- {{ isSelfBulding }} -->
