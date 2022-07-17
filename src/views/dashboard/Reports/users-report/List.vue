@@ -199,6 +199,18 @@
         >
           تنزيل اكسيل
         </v-btn>
+        <v-btn
+          class="mx-1 my-auto"
+          color="green"
+        >
+          <a
+            target="_blank"
+            style="color: white"
+            :href="'https://development.millennium.sa/api/v1/generate-customers-reports-PDF'"
+          >
+            تنزيل PDF
+          </a>
+        </v-btn>
       </v-card-title>
       <v-data-table
         :loading="dataLoading"
@@ -362,6 +374,10 @@
         this.total = items.total
         this.dataLoading = false
       },
+      // async exportPDF () {
+      //   const pdf = await Service.getPDF(this.search)
+      //   console.log('pdf', pdf)
+      // },
       async exportExel () {
         this.loading = true
         import('@/vendor/Export2Excel').then(excel => {

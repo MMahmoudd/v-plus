@@ -23,4 +23,12 @@ export default {
         }
     })
     },
+    getPDF (data) {
+      return Service.get(`${resource}/generate-customers-reports-PDF`)
+      .then((response) => {
+        if (response.status === 200) {
+            return response.data
+        }
+    })
+    },
 }

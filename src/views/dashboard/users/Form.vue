@@ -284,6 +284,38 @@
                   @change="onBank_statement_image"
                 />
               </v-col>
+              <v-col
+                cols="12"
+                sm="5"
+                md="6"
+              >
+                <v-autocomplete
+                  v-model="data.signature_type"
+                  :items="signature_type"
+                  item-text="type"
+                  item-value="id"
+                  label="نوع التوقيع"
+                  outlined
+                  required
+                />
+              </v-col>
+              <v-col
+                v-if="data.signature_type === 1"
+                cols="12"
+                sm="5"
+                md="6"
+              >
+                <v-file-input
+                  show-size
+                  chips
+                  required
+                  outlined
+                  prepend-icon="mdi-camera"
+                  accept="image/png, image/jpeg, image/bmp"
+                  label="ارفاق التوقيع"
+                  @change="signature_type_image"
+                />
+              </v-col>
             </v-row>
             <v-spacer />
             <hr>
@@ -549,10 +581,16 @@
         commission_revision_stage_amount: null,
         commission_quality_stage_rate: null,
         commission_quality_stage_amount: null,
+        signature_type: '',
+        signature: null,
       },
       profile_image: null,
       bank_statement_image: null,
       roles: [],
+      signature_type: [
+        { type: 'توقيع', id: 1 },
+        { type: 'QR كود', id: 0 },
+      ],
       successSnackbar: false,
       errorSnackbar: false,
       timeout: 3000,
@@ -598,6 +636,9 @@
       },
       onBank_statement_image (event) {
         this.bank_statement_image = event
+      },
+      signature_type_image (event) {
+        this.data.signature = event
       },
       async submitForm () {
         /**
