@@ -126,6 +126,7 @@
                       accept="image/png, image/jpeg, image/bmp"
                       @change="onNewFileSelected3"
                     />
+                    <label color="grey lighten-5">يرجي رفع صورة المنشأة بمقاس 400 * 400</label>
                   </v-col>
                 </v-row>
               </v-card>
