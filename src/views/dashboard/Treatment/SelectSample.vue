@@ -172,7 +172,7 @@
         this.sample_id = selectedCustomer.id.sample_id
       },
       action () {
-        this.$router.push({ name: 'UpdateTreatment', query: { sample_id: this.sample_id, customer_id: this.customer_id.id.id } })
+        this.$router.push({ name: 'UpdateTreatment', query: { sample_id: this.sample_id, customer_id: this.customer_id?.id?.id } })
       },
     },
   }

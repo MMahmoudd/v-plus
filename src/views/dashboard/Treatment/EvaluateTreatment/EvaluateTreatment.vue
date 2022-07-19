@@ -97,14 +97,8 @@
                       cols="12"
                       sm="6"
                     >
-                      <div class="input-file-label-wrapper">
-                        <label class="mb-3 font-weight-bold">المخطط</label>
-                        <v-checkbox
-                          v-model="data.residential_preview"
-                          label="تحديد كأولية في التقرير"
-                          hide-details=""
-                        />
-                      </div>
+                      <label class="mb-3 font-weight-bold">المخطط</label>
+
                       <v-row>
                         <v-col
                           cols="12"
@@ -145,7 +139,14 @@
                       cols="12"
                       sm="6"
                     >
-                      <label class="d-block mb-3 font-weight-bold">خطاب التكليف</label>
+                      <div class="input-file-label-wrapper">
+                        <label class="d-block mb-3 font-weight-bold">خطاب التكليف</label>
+                        <v-checkbox
+                          v-model="data.residential_preview"
+                          label="تحديد كأولية في التقرير"
+                          hide-details=""
+                        />
+                      </div>
 
                       <v-row>
                         <v-col
@@ -2573,7 +2574,7 @@
                       >
                         <label
                           class="d-block mb-3 font-weight-bold"
-                        >مسرح</label>
+                        >مسبح</label>
                         <v-text-field
                           v-model="data.trans_stage"
                           label="0"
@@ -2635,7 +2636,7 @@
                 <v-expansion-panel-content>
                   <label
                     class="d-block mb-3 font-weight-bold"
-                  >هل يوجد تشطيبات بالمبني ؟ </label>
+                  >هل العقار به بعض التشطيبات لم تكتمل أو يحتاج لصيانة أو به شقوق ؟ </label>
                   <v-radio-group
                     v-model="data.build_under_finishing"
                     row

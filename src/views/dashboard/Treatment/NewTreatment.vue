@@ -70,11 +70,6 @@
                 >
                   <div class="input-file-label-wrapper">
                     <label class="mb-3 font-weight-bold">المخطط</label>
-                    <v-checkbox
-                      v-model="data.residential_preview"
-                      label="تحديد كأولية في التقرير"
-                      hide-details=""
-                    />
                   </div>
                   <input-file
                     v-model="data.attached_file"
@@ -100,7 +95,12 @@
                   md="6"
                 >
                   <div class="input-file-label-wrapper">
-                    <label class="mb-3 font-weight-bold">خطاب التكليف</label>
+                    <label class="d-block mb-3 font-weight-bold">خطاب التكليف</label>
+                    <v-checkbox
+                      v-model="data.residential_preview"
+                      label="تحديد كأولية في التقرير"
+                      hide-details=""
+                    />
                   </div>
                   <input-file
                     v-model="data.assignment_letter_file"
@@ -162,7 +162,7 @@
                   <v-autocomplete
                     id="resident_id"
                     v-model="data.resident_id"
-                    :error="this.errors.includes('resident_id')"
+                    :error="errors.includes('resident_id')"
                     :items="appraisersList"
                     item-text="name"
                     item-value="id"
@@ -181,7 +181,7 @@
                   <v-autocomplete
                     id="reviewer_id"
                     v-model="data.reviewer_id"
-                    :error="this.errors.includes('reviewer_id')"
+                    :error="errors.includes('reviewer_id')"
                     :items="previewsList"
                     item-text="name"
                     item-value="id"
@@ -200,7 +200,7 @@
                   <v-autocomplete
                     id="approved_id"
                     v-model="data.approved_id"
-                    :error="this.errors.includes('approved_id')"
+                    :error="errors.includes('approved_id')"
                     :items="coordinatorsList"
                     item-text="name"
                     item-value="id"

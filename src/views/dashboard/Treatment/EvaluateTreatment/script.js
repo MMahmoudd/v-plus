@@ -849,6 +849,8 @@ westFacadeSetting: [],
         this.data.cm_total_market_value = (+this.data.cm_method_total + +this.data.cm_cost_total + +this.data.cm_developer_earnings_value) -
 
           (+this.data.cm_depreciation_buildings_value + +this.data.cm_depreciation_s_business_value + +this.data.cm_total_depreciation_value)
+
+          this.data.cm_cost_total = +this.data.cm_exchange_value + +this.data.cm_direct_costs + +this.data.cm_indirect_costs + +this.data.cm_method_total
       },
       'data.cm_cost_total': function () {
         this.data.cm_total_market_value = (+this.data.cm_method_total + +this.data.cm_cost_total + +this.data.cm_developer_earnings_value) -
@@ -1177,7 +1179,7 @@ westFacadeSetting: [],
           data.trans_professional_standard = this.data.trans_professional_standard
         }
         if (!('cm_cost_total' in data)) {
-          data.cm_cost_total = +data.cm_exchange_value + +data.cm_direct_costs + +data.cm_indirect_costs
+          data.cm_cost_total = +data.cm_exchange_value + +data.cm_direct_costs + +data.cm_indirect_costs + +data.cm_method_total
         }
         for (const key in data) {
           if (data[key] === null) {
@@ -1705,7 +1707,7 @@ westFacadeSetting: [],
       },
       // أسلوب التكلفه
       setCostTotal: function () {
-        this.data.cm_cost_total = +this.data.cm_exchange_value + +this.data.cm_direct_costs + +this.data.cm_indirect_costs
+        this.data.cm_cost_total = +this.data.cm_exchange_value + +this.data.cm_direct_costs + +this.data.cm_indirect_costs + +this.data.cm_method_total
         this.setDepreciationValueAndTotal()
       },
       setDepreciationValueAndTotal: function (name) {
