@@ -6,7 +6,7 @@
   >
     <v-card>
       <v-card-title>
-        تقرير العمولات للمتستخدم
+        تقرير العمولات للمستخدم
         <v-spacer />
       </v-card-title>
       <v-data-table

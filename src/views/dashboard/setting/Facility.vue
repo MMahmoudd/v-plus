@@ -94,16 +94,26 @@
                     <v-subheader>ارفاق الختم:</v-subheader>
                   </v-col>
                   <v-col
+                    class="d-flex"
                     cols="12"
                     md="9"
                   >
-                    <v-file-input
-                      outlined
-                      chips
-                      dense
-                      label="إضافة مرفق"
-                      @change="onNewFileSelected2"
-                    />
+                    <div class="w30">
+                      <v-file-input
+                        outlined
+                        chips
+                        dense
+                        label="إضافة مرفق"
+                        @change="onNewFileSelected2"
+                      />
+                    </div>
+                    <div>
+                      <v-img
+                        :src="data.seal_url"
+                        width="50"
+                        height="40"
+                      />
+                    </div>
                   </v-col>
                 </v-row>
                 <v-row>
@@ -335,6 +345,21 @@
                   outlined
                   class="mt-1"
                   placeholder="صفته"
+                />
+              </v-col>
+              <v-col
+                v-if="data.signature.length > 0"
+                cols="12"
+                sm="6"
+                md="3"
+              >
+                <label>
+                  <strong> صورة التوقيع</strong>
+                </label>
+                <v-img
+                  :src="data.signature"
+                  width="100"
+                  height="100"
                 />
               </v-col>
               <v-col
@@ -694,6 +719,9 @@ a{
 .w-300{
   width: 300px;
   margin: auto !important;
+}
+.w30{
+  width: 80%;
 }
 .w-300 .v-input__slot{
   background-color: #f5f5f5 !important;

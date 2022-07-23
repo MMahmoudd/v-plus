@@ -160,7 +160,7 @@
               >
                 <img
                   width="50"
-                  :src="'https://taqeeem.millennium.sa/' + data.image"
+                  :src="data.image"
                   alt="Image"
                 >
               </v-col>
