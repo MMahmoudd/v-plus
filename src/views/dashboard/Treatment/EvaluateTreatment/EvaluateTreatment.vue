@@ -3328,6 +3328,84 @@
                         outlined
                       />
                     </v-col>
+
+                    <v-col
+                      cols="8"
+                      sm="4"
+                      lg="2"
+                    >
+                      <v-checkbox
+                        v-model="data.surroundings_property_other_value"
+                        :true-value="'1'"
+                        :false-value="'0'"
+                        hide-details=""
+                        class="mb-3 pt-0 mt-0 aqar"
+                      >
+                        <template v-slot:label>
+                          <div>
+                            <div v-if="surroundings_property_other_status === 'name' ">
+                              {{ data.surroundings_property_other_name || 'أخرى' }}    <v-icon @click="surroundings_property_other_status = 'field'">
+                                mdi-pencil-outline
+                              </v-icon>
+                            </div>
+
+                            <v-text-field
+                              v-else
+                              v-model="data.surroundings_property_other_name"
+                              class="mt-0 pt-0"
+                              hide-details=""
+                              append-icon="mdi-pencil-outline"
+                              @keydown.enter="surroundings_property_other_status = 'name'"
+                              @click:append="surroundings_property_other_status = 'name'"
+                            />
+                          </div>
+                        </template>
+                      </v-checkbox>
+                      <v-text-field
+                        v-model="data.surroundings_property_other_note"
+                        label="تفاصيل"
+                        single-line
+                        outlined
+                      />
+                    </v-col>
+                    <v-col
+                      cols="4"
+                      sm="2"
+                      lg="1"
+                    >
+                      <label
+                        class="d-block mb-3 font-weight-bold"
+                      >يبعد</label>
+                      <v-text-field
+                        v-model="data.surroundings_property_other_distance"
+                        label=""
+                        single-line
+                        outlined
+                      />
+                    </v-col>
+
+                    <!--
+ <label
+                          v-if="trans_other_name_status === 'name'"
+                          class="d-block mb-3 font-weight-bold"
+                        > {{ data.trans_other_name || 'أخرى' }}
+                          <v-icon @click="trans_other_name_status = 'field'">mdi-pencil-outline</v-icon></label>
+                        <v-text-field
+                          v-else
+                          v-model="data.trans_other_name"
+                          class="mt-0 pt-0"
+                          hide-details=""
+                          append-icon="mdi-pencil-outline"
+                          @keydown.enter="trans_other_name_status = 'name'"
+                          @click:append="trans_other_name_status = 'name'"
+                        />
+                        <v-text-field
+                          v-model="data.trans_other_value"
+                          single-line
+                          outlined
+                        />
+
+                    -->
                   </v-row>
                 </v-expansion-panel-content>
               </v-expansion-panel>
@@ -4116,7 +4194,7 @@
                                     </td>
                                   </tr>
                                   <tr>
-                                    <td><label class="v-label theme--light">صافي متوسط سعر الأرض ( م2/ريال )</label></td>
+                                    <td><label class="v-label theme--light">متوسط سعر المتر</label></td>
                                     <td colspan="3">
                                       <input-numbers
                                         v-model="safi"
@@ -4762,7 +4840,7 @@
                             lg="3"
                             sm="4"
                           >
-                            <label class="v-label theme--light font-weight-bold">معدل الرسملة (أ) عامل شراء السنوات</label>
+                            <label class="v-label theme--light font-weight-bold">معدل الرسملة (I) عامل شراء السنوات</label>
                           </v-col>
                           <v-col
                             cols="12"

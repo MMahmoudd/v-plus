@@ -208,7 +208,12 @@ westFacadeSetting: [],
       childrens_playground_show: false,
       swimming_pool_show: false,
       storehouse_show: false,
+      surroundings_property_other_status: 'name',
       data: {
+        surroundings_property_other_name: '',
+        surroundings_property_other_value: '0',
+        surroundings_property_other_note: '',
+        surroundings_property_other_distance: '',
         building_clearance: '',
         building_clearance_date: '',
         build_under_finishing: ' ',
@@ -846,31 +851,31 @@ westFacadeSetting: [],
 
       // cm_total_market_value
       'data.cm_method_total': function () {
-        this.data.cm_total_market_value = (+this.data.cm_method_total + +this.data.cm_cost_total + +this.data.cm_developer_earnings_value) -
+        this.data.cm_total_market_value = (+this.data.cm_cost_total + +this.data.cm_developer_earnings_value) -
 
           (+this.data.cm_depreciation_buildings_value + +this.data.cm_depreciation_s_business_value + +this.data.cm_total_depreciation_value)
 
           this.data.cm_cost_total = +this.data.cm_exchange_value + +this.data.cm_direct_costs + +this.data.cm_indirect_costs + +this.data.cm_method_total
       },
       'data.cm_cost_total': function () {
-        this.data.cm_total_market_value = (+this.data.cm_method_total + +this.data.cm_cost_total + +this.data.cm_developer_earnings_value) -
+        this.data.cm_total_market_value = (+this.data.cm_cost_total + +this.data.cm_developer_earnings_value) -
 
           (+this.data.cm_depreciation_buildings_value + +this.data.cm_depreciation_s_business_value + +this.data.cm_total_depreciation_value)
       },
       'data.cm_developer_earnings_value': function () {
-        this.data.cm_total_market_value = (+this.data.cm_method_total + +this.data.cm_cost_total + +this.data.cm_developer_earnings_value) -
+        this.data.cm_total_market_value = (+this.data.cm_cost_total + +this.data.cm_developer_earnings_value) -
           (+this.data.cm_depreciation_buildings_value + +this.data.cm_depreciation_s_business_value + +this.data.cm_total_depreciation_value)
       },
       'data.cm_depreciation_buildings_value': function () {
-        this.data.cm_total_market_value = (+this.data.cm_method_total + +this.data.cm_cost_total + +this.data.cm_developer_earnings_value) -
+        this.data.cm_total_market_value = (+this.data.cm_cost_total + +this.data.cm_developer_earnings_value) -
           (+this.data.cm_depreciation_buildings_value + +this.data.cm_depreciation_s_business_value + +this.data.cm_total_depreciation_value)
       },
       'data.cm_depreciation_s_business_value': function () {
-        this.data.cm_total_market_value = (+this.data.cm_method_total + +this.data.cm_cost_total + +this.data.cm_developer_earnings_value) -
+        this.data.cm_total_market_value = (+this.data.cm_cost_total + +this.data.cm_developer_earnings_value) -
           (+this.data.cm_depreciation_buildings_value + +this.data.cm_depreciation_s_business_value + +this.data.cm_total_depreciation_value)
       },
       'data.cm_total_depreciation_value': function () {
-        this.data.cm_total_market_value = (+this.data.cm_method_total + +this.data.cm_cost_total + +this.data.cm_developer_earnings_value) -
+        this.data.cm_total_market_value = (+this.data.cm_cost_total + +this.data.cm_developer_earnings_value) -
           (+this.data.cm_depreciation_buildings_value + +this.data.cm_depreciation_s_business_value + +this.data.cm_total_depreciation_value)
       },
 
@@ -1728,8 +1733,6 @@ westFacadeSetting: [],
         this.data.cm_economic_obsolescence_value = (this.data.cm_economic_obsolescence_ratio * this.data.cm_cost_total) / 100
       },
       setDepreciationValue: function (name) {
-        console.log('alert', name)
-        console.log('total', this.data.cm_cost_total)
         this.data[`cm_${name}_value`] = (this.data[`cm_${name}_ratio`] * this.data.cm_cost_total) / 100
       },
 

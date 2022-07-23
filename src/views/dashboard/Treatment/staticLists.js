@@ -1,8 +1,8 @@
 // eslint-disable-next-line camelcase
 export const operationTypeList = [
     {
-        name: 'رسوم',
-        id: 'رسوم',
+        name: 'سوم',
+        id: 'سوم',
     },
     {
         name: 'بيع',
